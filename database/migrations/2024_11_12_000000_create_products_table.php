@@ -27,9 +27,9 @@ class CreateProductsTable extends Migration
             $table->integer('stock_quantity')->default(10);
             $table->longText('description')->nullable();
             $table->unsignedBigInteger('categorie_id')->nullable();
-            $table->foreign('categorie')->references('id')->on('categories')->onDelete('set null');
+            $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('set null');
             $table->unsignedBigInteger('provider_id')->nullable();
-            $table->foreign('provider')->references('id')->on('providers')->onDelete('set null');
+            $table->foreign('provider_id')->references('id')->on('providers')->onDelete('set null');
             $table->timestamps();
         });
 
