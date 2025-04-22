@@ -21,6 +21,19 @@
                 <input type="text" name="name" class="form-control" placeholder="Nom" value="{{old('name')}}">
             </div>
         </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-7">
+            <div class="form-group">
+                <strong>Catégorie mère:</strong>
+                <select  name="parent" class="form-control" >
+                    <option></option>
+                    @foreach ($categories as  $categorie)
+                    <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
         <div class="col-xs-12 col-sm-12 col-md-7">
             <div class="form-group">
                 <strong>Description:</strong>

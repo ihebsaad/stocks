@@ -38,8 +38,10 @@ class CategoriesController extends Controller
     {
         if (auth()->user()->user_type != 'admin') 
             return  redirect('/home');
+        
+        $categories = Categorie::whereNull('parent')->get();
 
-        return view('categories.create');
+        return view('categories.create',compact('categories'));
     }
     
     /**
@@ -87,7 +89,8 @@ class CategoriesController extends Controller
             return  redirect('/home');
 
         $categorie= Categorie::find($id);
-        return view('categories.edit',compact('categorie'));
+        $categories = Categorie::whereNull('parent')->get();
+        return view('categories.edit',compact('categorie','categories'));
     }
     
     /**

@@ -13,7 +13,8 @@ class Categorie extends Model
 
 	protected $fillable = [
         'name',
-        'description'
+        'parent',
+        'description',
     ];
 
 }

@@ -28,6 +28,7 @@
             <tr>
             <th>No</th>
             <th>Nom</th>
+            <th>Catégorie mère</th>
             <th>Description</th>
             <th class="no-sort"  style="width:20%"  >Action</th>
             </tr>
@@ -36,6 +37,7 @@
 		<tr>
             <td>{!! sprintf('%04d',$categorie->id) !!}</td>
             <td>{{ $categorie->name }}</td>
+            <td>@if($categorie->parent > 0) {{ \App\Models\Categorie::find($categorie->parent)->name ?? '' }}@endif</td>
             <td>{!!nl2br($categorie->description) !!}</td>
             <td>
 			    <a class="btn btn-primary mb-3" href="{{ route('categories.edit',$categorie->id) }}" style="float:left" title="Modifier"><i class="fas fa-edit"></i>  </a>

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/png" href="{{  URL::asset('img/favicon.png') }}">
 
-        <title>Her Group</title>
+        <title>{{ env('APP_NAME') }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -36,8 +36,9 @@
             </div>
 
             <div style="text-align: center; margin-top: 100px;">
+                 
                 <img src="{{ asset('img/logo.png')}}" alt="her group" class="responsive" style="max-width:250px;height:auto;"><br>
-                Logiciel de facturation pour <b>Best Home</b> par <a style="color:#6c70f2;font-weight:bold" href="https:\\www.elinyom.com">Elinyom</a>
+
             </div>
         </div>
 

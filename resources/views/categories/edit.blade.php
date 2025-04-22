@@ -34,6 +34,20 @@
 						</div>
 					</div>
 		
+					<div class="col-xs-12 col-sm-12 col-md-7">
+						<div class="form-group">
+							<strong>Catégorie mère:</strong>
+							<select  name="parent" class="form-control" >
+								<option></option>
+								@foreach ($categories as  $cat)
+								<option value="{{ $cat->id }}" @if ($categorie->parent==$cat->id)
+									selected="selected"
+								@endif  >{{ $cat->name }}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+
 					<div class="col-xs-12 col-sm-12 col-md-12">
 						<div class="form-group">
 							<strong>Description:</strong>
