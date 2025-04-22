@@ -123,7 +123,7 @@
                         @foreach($product->images as $image)
                         <div class="col-6 mb-3">
                             <div class="card {{ $image->is_main ? 'border-primary' : '' }}">
-                                <img src="{{ asset(  'ptoduits/'. $image->path) }}" class="card-img-top" alt="{{ $product->name }}">
+                                <img src="{{ asset(  'produits/'. $image->path) }}" class="card-img-top" alt="{{ $product->name }}">
                                 <div class="card-body p-2">
                                     @if(!$image->is_main)
                                     <form action="{{ route('products.set-main-image', $image->id) }}" method="POST" class="d-inline">
