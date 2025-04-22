@@ -308,9 +308,13 @@ class ProductsController extends Controller
                 foreach ($request->file('file') as $index => $file) {
                     $path = $file->store('produits', 'public');
                     
+                    $name = $file->getClientOriginalName().'_'.date('d_m_Y_H_i').'.'.$file->getClientOriginalExtension();
+                    $path = public_path() . "/produits";
+                    $file->move($path, $name);
+
                     ProductImage::create([
                         'product_id' => $product->id,
-                        'path' => $path,
+                        'path' => $name,
                         'is_main' => $index === 0 // Première image comme image principale
                     ]);
                 }
