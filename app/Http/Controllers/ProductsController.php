@@ -306,7 +306,7 @@ class ProductsController extends Controller
             // Traitement des images
             if ($request->hasFile('file')) {
                 foreach ($request->file('file') as $index => $file) {
-                    $path = $file->store('products', 'public');
+                    $path = $file->store('produits', 'public');
                     
                     ProductImage::create([
                         'product_id' => $product->id,
