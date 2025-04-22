@@ -257,8 +257,8 @@ class ProductsController extends Controller
                 'prix_ht' => $request->prix_ht,
                 'prix_ttc' => $request->prix_ttc,
                 'tva' => $request->tva ?? 19,
-                'categorie' => $request->categorie,
-                'provider' => $request->provider,
+                'categorie_id' => $request->categorie_id,
+                'provider_id' => $request->provider_id,
                 'description' => $request->description,
                 'stock_quantity' => $request->stock_quantity ?? 0,
             ];
