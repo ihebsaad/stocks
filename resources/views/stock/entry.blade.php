@@ -44,9 +44,8 @@
     </div>
 
     <div class="card mt-4">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h4>Produits</h4>
-            <button type="button" class="btn btn-success" id="add-product-btn">
+        <div class="   justify-content-between align-items-center">
+            <button type="button" class="btn btn-success float-right mt-2 mr-2" id="add-product-btn" style="  ">
                 <i class="fas fa-plus"></i> Ajouter un produit
             </button>
         </div>
@@ -67,16 +66,9 @@
 
 <!-- Template pour un élément de produit -->
 <template id="product-item-template">
-    <div class="product-item card mb-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5>Produit</h5>
-            <button type="button" class="btn btn-danger btn-sm remove-product-btn">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>
-        <div class="card-body">
+    <div class="product-item">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <strong>Produit:</strong>
                         <select name="items[INDEX][product_id]" class="form-control product-select" required>
@@ -92,8 +84,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6 variation-container" style="display: none;">
-                    <div class="form-group">
+                <div class="col-md-3 " >
+                    <div class="form-group variation-container" style="display: none;">
                         <strong>Variation:</strong>
                         <select name="items[INDEX][variation_id]" class="form-control variation-select">
                             <option value="">Sélectionner une variation</option>
@@ -101,28 +93,32 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
+ 
+                <div class="col-md-1">
                     <div class="form-group">
-                        <strong>Quantité:</strong>
+                        <strong>Qté:</strong>
                         <input type="number" name="items[INDEX][quantity]" class="form-control item-quantity" min="1" value="1" required>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="form-group">
-                        <strong>Prix d'achat unitaire:</strong>
+                        <strong>Prix d'achat:</strong>
                         <input type="number" name="items[INDEX][prix_achat]" class="form-control item-price" step="0.01" min="0" required>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="form-group">
                         <strong>Sous-total:</strong>
                         <input type="text" class="form-control item-subtotal" readonly>
                     </div>
                 </div>
+                <div class="col-md-1 pt-2">
+                    <button type="button" class="btn btn-danger btn-sm remove-product-btn float-right mt-2 mr-1"   >
+                    <i class="fas fa-trash"></i>
+                </div>
+            </button>
             </div>
-        </div>
+        
     </div>
 </template>
 @endsection

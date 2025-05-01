@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\ProvidersController;
 use App\Http\Controllers\StockEntryController;
 
@@ -27,7 +26,6 @@ Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('
 
 Route::resource('categories', CategoriesController::class);
 Route::resource('users', UsersController::class);
-Route::resource('customers', CustomersController::class);
 Route::resource('providers', ProvidersController::class);
 
 Route::get('/', function () {
@@ -115,7 +113,6 @@ Route::resource('categories', CategoriesController::class);
 Route::resource('users', UsersController::class);
 Route::resource('invoices', InvoicesController::class);
 Route::resource('quotes', QuotesController::class);
-Route::resource('customers', CustomersController::class);
 Route::resource('providers', ProvidersController::class);
 Route::resource('livraisons', LivraisonsController::class);
 
