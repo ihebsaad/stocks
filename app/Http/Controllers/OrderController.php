@@ -74,10 +74,10 @@
                    // $path = $image->storeAs('orders/'.$order->id, $filename, 'public');
 
 
-                    $path = $image->store('orders', 'public');
+                    $path = $image->store('orders_imgs', 'public');
                     
                     $name = $image->getClientOriginalName().'_'.date('d_m_Y_H_i').'.'.$image->getClientOriginalExtension();
-                    $path = public_path() . "/orders";
+                    $path = public_path() . "/orders_imgs";
                     $image->move($path, $name);
                     
                     
