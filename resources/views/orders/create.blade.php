@@ -138,6 +138,8 @@
             // Ajouter les autres champs du formulaire
             var form = $('#orderForm');
             
+            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
             // Append all form inputs to the formData
             var formInputs = form.serializeArray();
             $.each(formInputs, function(i, field) {
