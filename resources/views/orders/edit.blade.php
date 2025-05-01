@@ -324,7 +324,7 @@
                         @if($order->images->count() > 0)
                             @foreach($order->images as $image)
                                 <div class="image-container">
-                                    <img src="{{ asset($orderImage->path) }}" alt="Image de commande" class="img-thumbnail">
+                                    <img src="{{ asset($image->path) }}" alt="Image de commande" class="img-thumbnail">
                                     <span class="image-remove" data-id="{{ $image->id }}" title="Supprimer">×</span>
                                 </div>
                             @endforeach
