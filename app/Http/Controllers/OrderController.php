@@ -18,7 +18,7 @@
     {
         $this->middleware('auth');
     }
-    
+
       /**
        * Affiche la liste des commandes
        */
@@ -47,63 +47,73 @@
       /**
        * Enregistre une nouvelle commande brouillon
        */
-      public function store(Request $request)
-      {
-          $request->validate([
-              'notes' => 'nullable|string',
-              'images.*' => 'nullable|image|max:5120',
-              'redirect_preference' => 'required|in:create_another,finalize'
-          ]);
-          
-          // Enregistrer la préférence de redirection dans la session
-          Session::put('order_redirect_preference', $request->redirect_preference);
-          
-          DB::beginTransaction();
-          try {
-              // Créer la commande brouillon
-              $order = Order::create([
-                  'notes' => $request->notes,
-                  'status' => 'draft'
-              ]);
-              
-              // Gérer les images uploadées
-              if ($request->hasFile('images')) {
-                  foreach ($request->file('images') as $image) {
-                  //    $path = $image->store('orders/' . $order->id, 'public');
-
- 
-                      $path = $image->store('orders', 'public');
+    public function store(Request $request)
+    {
+        $request->validate([
+            'notes' => 'nullable|string',
+            'images.*' => 'nullable|image|max:5120',
+            'redirect_preference' => 'required|in:create_another,finalize'
+        ]);
+        
+        // Enregistrer la préférence de redirection dans la session
+        Session::put('order_redirect_preference', $request->redirect_preference);
+        
+        DB::beginTransaction();
+        try {
+            // Créer la commande brouillon
+            $order = Order::create([
+                'notes' => $request->notes,
+                'status' => 'draft'
+            ]);
+            
+            // Gérer les images uploadées
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    // Store the image with a consistent naming pattern
+                    $filename = time() . '_' . $image->getClientOriginalName();
+                    $path = $image->storeAs('orders/'.$order->id, $filename, 'public');
                     
-                      $name = $image->getClientOriginalName().'_'.date('d_m_Y_H_i').'.'.$image->getClientOriginalExtension();
-                      $path = public_path() . "/orders";
-                      $image->move($path, $name);
-   
-                      OrderImage::create([
-                          'order_id' => $order->id,
-                          'path' => $path
-                      ]);
-                  }
-              }
-              
-              // Enregistrer l'historique du statut initial
-              $order->addStatusHistory(null, 'draft');
-              
-              DB::commit();
-              
-              // Rediriger selon la préférence
-              if ($request->redirect_preference === 'create_another') {
-                  return redirect()->route('orders.create')
-                      ->with('success', 'Commande brouillon créée avec succès');
-              } else {
-                  return redirect()->route('orders.edit', $order)
-                      ->with('success', 'Commande brouillon créée, vous pouvez maintenant la finaliser');
-              }
-              
-          } catch (\Exception $e) {
-              DB::rollBack();
-              return back()->with('error', 'Erreur lors de la création de la commande: ' . $e->getMessage());
-          }
-      }
+                    OrderImage::create([
+                        'order_id' => $order->id,
+                        'path' => $path
+                    ]);
+                }
+            }
+            
+            // Enregistrer l'historique du statut initial
+            $order->addStatusHistory(null, 'draft');
+            
+            DB::commit();
+            
+            // Pour les requêtes AJAX (Dropzone)
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'redirect' => $request->redirect_preference === 'create_another' 
+                        ? route('orders.create') 
+                        : route('orders.edit', $order)
+                ]);
+            }
+            
+            // Pour les requêtes normales
+            if ($request->redirect_preference === 'create_another') {
+                return redirect()->route('orders.create')
+                    ->with('success', 'Commande brouillon créée avec succès');
+            } else {
+                return redirect()->route('orders.edit', $order)
+                    ->with('success', 'Commande brouillon créée, vous pouvez maintenant la finaliser');
+            }
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            if ($request->ajax()) {
+                return response()->json(['error' => 'Erreur lors de la création de la commande: ' . $e->getMessage()], 500);
+            }
+            
+            return back()->with('error', 'Erreur lors de la création de la commande: ' . $e->getMessage());
+        }
+    }
   
       /**
        * Affiche le formulaire d'édition d'une commande

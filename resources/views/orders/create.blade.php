@@ -112,7 +112,7 @@
             acceptedFiles: "image/*",
             addRemoveLinks: true,
             dictRemoveFile: "Supprimer",
-            dictFileTooBig: "Le fichier est trop volumineux (20 Mo). Taille max: 20Mo",
+            dictFileTooBig: "Le fichier est trop volumineux (5 Mo). Taille max: 5Mo",
             dictInvalidFileType: "Type de fichier non autorisé",
             dictCancelUpload: "Annuler",
             dictUploadCanceled: "Upload annulé",
@@ -134,14 +134,15 @@
         });
         
         // Configuration Dropzone pour soumettre le formulaire
-        myDropzone.on("sendingmultiple", function(file, xhr, formData) {
+        myDropzone.on("sendingmultiple", function(files, xhr, formData) {
             // Ajouter les autres champs du formulaire
-            var formElement = document.getElementById('orderForm');
-            var formData = new FormData(formElement);
+            var form = $('#orderForm');
             
-            for (var pair of formData.entries()) {
-                xhr.send(pair[0], pair[1]);
-            }
+            // Append all form inputs to the formData
+            var formInputs = form.serializeArray();
+            $.each(formInputs, function(i, field) {
+                formData.append(field.name, field.value);
+            });
         });
         
         myDropzone.on("successmultiple", function(files, response) {
