@@ -13,6 +13,12 @@
   
   class OrderController extends Controller
   {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
       /**
        * Affiche la liste des commandes
        */

@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class ClientApiController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Recherche de client par téléphone pour Select2
      */
