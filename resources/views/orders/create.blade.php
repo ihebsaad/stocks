@@ -20,7 +20,7 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container-">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
@@ -117,6 +117,11 @@
             dictCancelUpload: "Annuler",
             dictUploadCanceled: "Upload annulé",
             dictMaxFilesExceeded: "Vous ne pouvez pas charger plus de fichiers",
+            paramName: "images", // Important : le nom du champ de fichier
+            // Utiliser le name 'images[]' pour indiquer un tableau de fichiers
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
         
         // Enregistrement du formulaire

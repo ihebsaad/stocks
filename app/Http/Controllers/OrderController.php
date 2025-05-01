@@ -69,17 +69,17 @@
             // Gérer les images uploadées
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    // Store the image with a consistent naming pattern
-                    //$filename = time() . '_' . $image->getClientOriginalName();
-                   // $path = $image->storeAs('orders/'.$order->id, $filename, 'public');
-
+                     //Store the image with a consistent naming pattern
+                    $filename = time() . '_' . $image->getClientOriginalName();
+                    $path = $image->storeAs('orders_imgs/'.$order->id, $filename, 'public');
+/*
 
                     $path = $image->store('orders_imgs', 'public');
                     
                     $name = $image->getClientOriginalName().'_'.date('d_m_Y_H_i').'.'.$image->getClientOriginalExtension();
                     $path = public_path() . "/orders_imgs";
                     $image->move($path, $name);
-                    
+                    */
                     
                     OrderImage::create([
                         'order_id' => $order->id,
