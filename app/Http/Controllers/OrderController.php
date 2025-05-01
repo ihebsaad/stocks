@@ -69,9 +69,31 @@
             // Gérer les images uploadées
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
+
+                // Générer un nom de fichier unique
+                $filename = time() . '_' . $image->getClientOriginalName();
+                
+                // Stocker l'image directement dans le dossier public
+                // Au lieu d'utiliser storage, on utilise le dossier public/uploads qui est toujours accessible
+                $uploadPath = 'uploads/orders/' . $order->id;
+                $fullPath = public_path($uploadPath);
+                
+                // Créer le répertoire s'il n'existe pas
+                if (!file_exists($fullPath)) {
+                    mkdir($fullPath, 0755, true);
+                }
+                
+                // Déplacer le fichier vers le répertoire public
+                $image->move($fullPath, $filename);
+                
+                // Chemin relatif pour l'accès web (important pour l'affichage)
+                $path = $uploadPath . '/' . $filename;
+                    /*
                      //Store the image with a consistent naming pattern
                     $filename = time() . '_' . $image->getClientOriginalName();
                     $path = $image->storeAs('orders_imgs/'.$order->id, $filename, 'public');
+
+*/                    
 /*
 
                     $path = $image->store('orders_imgs', 'public');
