@@ -70,8 +70,16 @@
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     // Store the image with a consistent naming pattern
-                    $filename = time() . '_' . $image->getClientOriginalName();
-                    $path = $image->storeAs('orders/'.$order->id, $filename, 'public');
+                    //$filename = time() . '_' . $image->getClientOriginalName();
+                   // $path = $image->storeAs('orders/'.$order->id, $filename, 'public');
+
+
+                    $path = $image->store('orders', 'public');
+                    
+                    $name = $image->getClientOriginalName().'_'.date('d_m_Y_H_i').'.'.$image->getClientOriginalExtension();
+                    $path = public_path() . "/orders";
+                    $image->move($path, $name);
+                    
                     
                     OrderImage::create([
                         'order_id' => $order->id,
