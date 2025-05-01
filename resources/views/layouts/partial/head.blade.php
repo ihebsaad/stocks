@@ -10,7 +10,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}" value="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'ZA Home') }}</title>
+    <title>{{ config('app.name', 'ZA Home') }} @yield('title') </title>
 	<meta name="app-url" content="{{ env('APP_URL','http://127.0.0.1:8000') }}">
   
     <!-- Fonts -->

@@ -90,8 +90,8 @@
 		<!-- Item -->
 		<div class="col-lg-3 col-md-6">
 			<div class="dashboard-stat color-1">
-				<div class="dashboard-stat-content"><a href="{{route('customers.index')}}">
-						<h4>20</h4> <span>Clients</span>
+				<div class="dashboard-stat-content"><a href="{{route('orders.index')}}">
+						<h4>20</h4> <span>Commandes</span>
 					</a></div>
 				<div class="dashboard-stat-icon"><i class="fas fa-address-card"></i></div>
 			</div>

@@ -109,13 +109,7 @@
                 </a>
               </li>
               @endcan
-              <!--
-              <li class="nav-item">
-                <a href="{{route('customers.index')}}" class="nav-link {{ request()->is('customers') || request()->is('customers/*') ? 'active' : '' }}">
-                  <i class="fas fa-address-card nav-icon text-secondary"></i>
-                  <p>Clients</p>
-                </a>
-              </li>-->
+ 
             </ul>
           </li>
           @can('isAdmin')

@@ -18,6 +18,8 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProvidersController;
 use App\Http\Controllers\StockEntryController;
+use App\Http\Controllers\ClientApiController;
+use App\Http\Controllers\OrderController;
 
 use App\Http\Controllers\HomeController;      
 
@@ -79,7 +81,13 @@ Route::prefix('stock')->name('stock.')->group(function () {
 
 
 
+Route::resource('orders', OrderController::class);
+Route::delete('orders/delete-image/{id}', [OrderController::class, 'deleteImage'])->name('orders.delete-image');
 
+// Routes API pour la gestion des clients
+Route::get('clients/search', [ClientApiController::class, 'search'])->name('clients.search');
+Route::get('clients/{id}/details', [ClientApiController::class, 'getClientDetails'])->name('clients.details');
+Route::get('clients/check-phone', [ClientApiController::class, 'checkPhone'])->name('clients.check-phone');
 
 
 
