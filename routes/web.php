@@ -24,11 +24,12 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\HomeController;      
 
 Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('products.list');
-
+Route::get('/get-orders', [OrderController::class, 'getOrders'])->name('orders.getOrders');
 
 Route::resource('categories', CategoriesController::class);
 Route::resource('users', UsersController::class);
 Route::resource('providers', ProvidersController::class);
+Route::resource('orders', OrderController::class);
 
 Route::get('/', function () {
     return view('welcome');
@@ -53,6 +54,9 @@ Route::post('/activer/{id}', [UsersController::class, 'activer'])->name('activer
 Route::post('/desactiver/{id}', [UsersController::class, 'desactiver'])->name('desactiver');
 
  
+// Routes pour les sociétés de livraison
+Route::get('delivery-companies/get-data', [App\Http\Controllers\DeliveryCompanyController::class, 'getDeliveryCompanies'])->name('delivery-companies.getData');
+Route::resource('delivery-companies', App\Http\Controllers\DeliveryCompanyController::class);
 Route::resource('products', ProductsController::class);
 
 // Routes pour la gestion des images
@@ -81,7 +85,6 @@ Route::prefix('stock')->name('stock.')->group(function () {
 
 
 
-Route::resource('orders', OrderController::class);
 Route::delete('orders/delete-image/{id}', [OrderController::class, 'deleteImage'])->name('orders.delete-image');
 
 // Routes API pour la gestion des clients

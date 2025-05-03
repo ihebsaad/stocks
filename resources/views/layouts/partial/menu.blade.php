@@ -74,8 +74,8 @@
             </ul>
           </li>
 -->
-          <li class="nav-item menu-open {{  request()->is('categories') || request()->is('products')|| request()->is('modeles') || request()->is('categories/*') || request()->is('products/*')   ? 'menu-open' : '' }} ">
-            <a href="#" class="nav-link {{  request()->is('categories') || request()->is('products') || request()->is('categories/*') || request()->is('products/*')   ? 'active' : '' }}">
+          <li class="nav-item menu-open {{  request()->is('products')||    request()->is('products/*')   ? 'menu-open' : '' }} ">
+            <a href="#" class="nav-link {{    request()->is('products') ||   request()->is('products/*')   ? 'active' : '' }}">
               <i class="nav-icon fas fa-store text-white"></i>
               <p>
                 Gestions
@@ -83,7 +83,58 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('orders.create')}}" class="nav-link {{ request()->is('orders/create')  ? 'active' : '' }}">
+                  <i class="fas fa-cart-plus nav-icon text-secondary"></i>
+                  <p>Nouvelle commande</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('orders.index')}}" class="nav-link {{ request()->is('orders')  ? 'active' : '' }}">
+                  <i class="fas fa-shopping-cart nav-icon text-secondary"></i>
+                  <p>Liste des commandes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('products.index')}}" class="nav-link {{ request()->is('products')  ? 'active' : '' }}">
+                  <i class="fas fa-cube nav-icon text-secondary"></i>
+                  <p>Produits</p>
+                </a>
+              </li>
               @can('isAdmin')
+              <li class="nav-item">
+                <a href="{{ route('stock.entries.index') }}" class="nav-link {{ request()->is('stock/*')  ? 'active' : '' }}">
+                  <i class="fas fa-cubes nav-icon text-secondary"></i>
+                  <p>Stocks</p>
+                </a>
+              </li>
+              @endcan
+ 
+            </ul>
+          </li>
+          @can('isAdmin')
+          <li class="nav-item  {{  request()->is('categories/*') || request()->is('providers/*') || request()->is('categories') ||  request()->is('providers') || request()->is('users') || request()->is('delivery-companies') ||  request()->is('delivery-companies.index')    ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{  request()->is('categories/*') || request()->is('providers/*') || request()->is('categories') || request()->is('providers') || request()->is('users') || request()->is('delivery-companies.index') ||  request()->is('delivery-companies')    ? 'active' : '' }}">
+              <i class="nav-icon fas fa-cog text-white"></i>
+              <p>
+                Paramètres
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+
+              <li class="nav-item">
+                <a href="{{route('users.index')}}" class="nav-link {{ request()->is('users/*') ||  request()->is('users')  ? 'active' : '' }}">
+                  <i class="fas fa-users nav-icon text-secondary"></i>
+                  <p>Utilisateurs</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('delivery-companies.index')}}" class="nav-link {{ request()->is('delivery-companies/*') ||  request()->is('delivery-companies')  ? 'active' : '' }}">
+                  <i class="fas fa-truck nav-icon text-secondary"></i>
+                  <p>Sociétés de livraison</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="{{route('providers.index')}}" class="nav-link {{ request()->is('providers') || request()->is('providers/*') ? 'active' : '' }}">
                   <i class="fas fa-building nav-icon text-secondary"></i>
@@ -96,40 +147,6 @@
                   <p>Catégories</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{route('products.index')}}" class="nav-link {{ request()->is('products')  ? 'active' : '' }}">
-                  <i class="fas fa-cube nav-icon text-secondary"></i>
-                  <p>Produits</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('stock.entries.index') }}" class="nav-link {{ request()->is('stock/*')  ? 'active' : '' }}">
-                  <i class="fas fa-cubes nav-icon text-secondary"></i>
-                  <p>Stocks</p>
-                </a>
-              </li>
-              @endcan
- 
-            </ul>
-          </li>
-          @can('isAdmin')
-          <li class="nav-item  {{ request()->is('users') || request()->is('settings') ||  request()->is('settings.index')    ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ request()->is('users') || request()->is('settings.index') ||  request()->is('settings')    ? 'active' : '' }}">
-              <i class="nav-icon fas fa-cog text-white"></i>
-              <p>
-                Paramètres
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="{{route('users.index')}}" class="nav-link {{ request()->is('users.index') ||  request()->is('users')  ? 'active' : '' }}">
-                  <i class="fas fa-users nav-icon text-secondary"></i>
-                  <p>Utilisateurs</p>
-                </a>
-              </li>
-
             </ul>
           </li>
           @endcan

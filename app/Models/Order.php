@@ -11,6 +11,7 @@ class Order extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'client_id',
         'delivery_company_id',
         'service_type',
@@ -22,6 +23,11 @@ class Order extends Model
     protected $casts = [
         'free_delivery' => 'boolean',
     ];
+
+    public function user()
+    {
+       return $this->belongsTo(User::class);
+    }
 
     public function client()
     {

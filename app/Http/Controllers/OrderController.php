@@ -1,52 +1,203 @@
 <?php
   
-  namespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
-  use App\Models\Order;
-  use App\Models\Client;
-  use App\Models\DeliveryCompany;
-  use App\Models\OrderImage;
-  use Illuminate\Http\Request;
-  use Illuminate\Support\Facades\Storage;
-  use Illuminate\Support\Facades\DB;
-  use Illuminate\Support\Facades\Session;
+use App\Models\Order;
+use App\Models\Client;
+use App\Models\DeliveryCompany;
+use App\Models\OrderImage;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
   
-  class OrderController extends Controller
-  {
+class OrderController extends Controller
+{
 
-    public function __construct()
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
+
+    /**
+     * Affiche la liste des commandes
+     */
+    public function index()
     {
-        $this->middleware('auth');
+        $deliveryCompanies = DeliveryCompany::all();
+        $users = User::all();
+        $statusOptions = [
+            'draft' => 'Brouillon',
+            'pending' => 'En attente',
+            'pickup' => 'En ramassage',
+            'no_response' => 'Client ne répond plus',
+            'cancelled' => 'Annulée',
+            'in_delivery' => 'En livraison',
+            'completed' => 'Terminée'
+        ];
+        
+        return view('orders.index', compact('statusOptions', 'deliveryCompanies', 'users'));
     }
 
-      /**
-       * Affiche la liste des commandes
-       */
-      public function index()
-      {
-          $orders = Order::with('client')->latest()->paginate(15);
-          return view('orders.index', compact('orders'));
-      }
-  
-      public function show(Order $order)
-      {
-           return view('orders.show', compact('order'));
-      }
+    /**
+     * Obtenir les données de commandes pour DataTables
+     */
+    public function getOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            $orders = Order::with(['client', 'deliveryCompany', 'user'])->select('orders.*');
 
-      /**
-       * Formulaire de création rapide (brouillon)
-       */
-      public function create()
-      {
-          // Récupérer la préférence de redirection de l'utilisateur depuis la session
-          $redirectPreference = Session::get('order_redirect_preference', 'create_another');
-          
-          return view('orders.create', compact('redirectPreference'));
-      }
-  
-      /**
-       * Enregistre une nouvelle commande brouillon
-       */
+            return DataTables::of($orders)
+                ->addColumn('client_name', function ($order) {
+                    if ($order->client) {
+                        return $order->client->full_name . '<br><small>' . $order->client->phone . '</small>';
+                    }
+                    return '<span class="text-muted">Non défini</span>';
+                })
+                ->addColumn('service_type_formatted', function ($order) {
+                    if ($order->service_type) {
+                        return $order->service_type == 'delivery' ? 'Livraison' : 'Échange';
+                    }
+                    return '<span class="text-muted">-</span>';
+                })
+                ->addColumn('delivery_company_info', function ($order) {
+                    if ($order->deliveryCompany) {
+                        $result = $order->deliveryCompany->name;
+                        if ($order->free_delivery) {
+                            $result .= ' <span class="badge bg-success">Gratuite</span>';
+                        }
+                        return $result;
+                    }
+                    return '<span class="text-muted">-</span>';
+                })
+                ->addColumn('status_formatted', function ($order) {
+                    $statusLabels = [
+                        'draft' => 'Brouillon',
+                        'pending' => 'En attente',
+                        'pickup' => 'En ramassage',
+                        'no_response' => 'Client ne répond plus',
+                        'cancelled' => 'Annulée',
+                        'in_delivery' => 'En livraison',
+                        'completed' => 'Terminée'
+                    ];
+                    
+                    return '<span class="status-badge status-' . $order->status . '">' . 
+                           ($statusLabels[$order->status] ?? $order->status) . 
+                           '</span>';
+                })
+                ->addColumn('created_at_formatted', function ($order) {
+                    $createdInfo = $order->created_at->format('d/m/Y H:i');
+                    if ($order->user) {
+                        $createdInfo .= '<br><small>par ' . $order->user->name . '</small>';
+                    }
+                    return $createdInfo;
+                })
+                ->filter(function ($query) use ($request) {
+                    // Filtre global (recherche dans toutes les colonnes)
+                    if ($request->has('search') && !empty($request->search['value'])) {
+                        $search = $request->search['value'];
+                        $query->where(function($q) use ($search) {
+                            $q->where('id', 'like', "%{$search}%")
+                              ->orWhereHas('client', function($q) use ($search) {
+                                  $q->where('first_name', 'like', "%{$search}%")
+                                    ->orWhere('last_name', 'like', "%{$search}%")
+                                    ->orWhere('phone', 'like', "%{$search}%");
+                              })
+                              ->orWhereHas('deliveryCompany', function($q) use ($search) {
+                                  $q->where('name', 'like', "%{$search}%");
+                              })
+                              ->orWhereHas('user', function($q) use ($search) {
+                                  $q->where('name', 'like', "%{$search}%");
+                              });
+                        });
+                    }
+
+                    // Filtre spécifique par statut
+                    if ($request->has('status') && !empty($request->status)) {
+                        $query->where('status', $request->status);
+                    }
+                    
+                    // Filtre par société de livraison
+                    if ($request->has('delivery_company') && !empty($request->delivery_company)) {
+                        $query->where('delivery_company_id', $request->delivery_company);
+                    }
+                    
+                    // Filtre par utilisateur
+                    if ($request->has('user_id') && !empty($request->user_id)) {
+                        $query->where('user_id', $request->user_id);
+                    }
+                    
+                    // Filtres par colonne individuelle
+                    if ($request->has('columns')) {
+                        foreach ($request->columns as $column) {
+                            if ($column['searchable'] == 'true' && !empty($column['search']['value'])) {
+                                $search = $column['search']['value'];
+                                switch ($column['name']) {
+                                    case 'id':
+                                        $query->where('id', 'like', "%{$search}%");
+                                        break;
+                                    case 'client_name':
+                                        $query->whereHas('client', function($q) use ($search) {
+                                            $q->where('first_name', 'like', "%{$search}%")
+                                              ->orWhere('last_name', 'like', "%{$search}%")
+                                              ->orWhere('phone', 'like', "%{$search}%");
+                                        });
+                                        break;
+                                    case 'service_type_formatted':
+                                        $query->where('service_type', 'like', "%{$search}%");
+                                        break;
+                                    case 'delivery_company_info':
+                                        $query->whereHas('deliveryCompany', function($q) use ($search) {
+                                            $q->where('name', 'like', "%{$search}%");
+                                        });
+                                        break;
+                                    case 'status_formatted':
+                                        $query->where('status', 'like', "%{$search}%");
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                })
+                ->addColumn('action', function ($order) {
+                    $buttons = '';
+                    //$buttons .= '<a href="' . route('orders.show', $order->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
+                    $buttons .= '<a href="' . route('orders.edit', $order->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
+                    $buttons .= '<form action="' . route('orders.destroy', $order->id) . '" method="POST" style="display:inline;" class="mr-1">';
+                    $buttons .= csrf_field();
+                    $buttons .= method_field('DELETE');
+                    $buttons .= '<button type="submit" class="btn btn-sm btn-danger mb-1" title="Supprimer" onclick="return confirm(\'Êtes-vous sûr?\')"><i class="fas fa-trash"></i></button>';
+                    $buttons .= '</form>';
+                    return $buttons;
+                })
+                ->rawColumns(['client_name', 'service_type_formatted', 'delivery_company_info', 'status_formatted', 'created_at_formatted', 'action'])
+                ->make(true);
+        }
+        return abort(404);
+    }
+
+    public function show(Order $order)
+    {
+         return view('orders.show', compact('order'));
+    }
+
+    /**
+     * Formulaire de création rapide (brouillon)
+     */
+    public function create()
+    {
+        // Récupérer la préférence de redirection de l'utilisateur depuis la session
+        $redirectPreference = Session::get('order_redirect_preference', 'create_another');
+        
+        return view('orders.create', compact('redirectPreference'));
+    }
+
+    /**
+     * Enregistre une nouvelle commande brouillon
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -63,7 +214,8 @@
             // Créer la commande brouillon
             $order = Order::create([
                 'notes' => $request->notes,
-                'status' => 'draft'
+                'status' => 'draft',
+                'user_id' => Auth::id() // Ajouter l'utilisateur courant
             ]);
             
             // Gérer les images uploadées
@@ -88,21 +240,7 @@
                 
                 // Chemin relatif pour l'accès web (important pour l'affichage)
                 $path = $uploadPath . '/' . $filename;
-                    /*
-                     //Store the image with a consistent naming pattern
-                    $filename = time() . '_' . $image->getClientOriginalName();
-                    $path = $image->storeAs('orders_imgs/'.$order->id, $filename, 'public');
-
-*/                    
-/*
-
-                    $path = $image->store('orders_imgs', 'public');
-                    
-                    $name = $image->getClientOriginalName().'_'.date('d_m_Y_H_i').'.'.$image->getClientOriginalExtension();
-                    $path = public_path() . "/orders_imgs";
-                    $image->move($path, $name);
-                    */
-                    
+ 
                     OrderImage::create([
                         'order_id' => $order->id,
                         'path' => $path
@@ -144,176 +282,177 @@
             return back()->with('error', 'Erreur lors de la création de la commande: ' . $e->getMessage());
         }
     }
-  
-      /**
-       * Affiche le formulaire d'édition d'une commande
-       */
-      public function edit(Order $order)
-      {
-          $deliveryCompanies = DeliveryCompany::all();
-          $statusOptions = [
-              'draft' => 'Brouillon',
-              'pending' => 'En attente',
-              'pickup' => 'En ramassage',
-              'no_response' => 'Client ne répond plus',
-              'cancelled' => 'Annulée',
-              'in_delivery' => 'En livraison',
-              'completed' => 'Terminée'
-          ];
-          
-          $serviceTypes = [
-              'delivery' => 'Livraison',
-              'exchange' => 'Échange'
-          ];
-          
-          // Liste des délégations de Tunisie (à compléter selon vos besoins)
-          $delegations = [
-              'Tunis',
-              'Ariana',
-              'Ben Arous',
-              'Manouba',
-              'Nabeul',
-              'Zaghouan',
-              'Bizerte',
-              'Béja',
-              'Jendouba',
-              'Le Kef',
-              'Siliana',
-              'Sousse',
-              'Monastir',
-              'Mahdia',
-              'Sfax',
-              'Kairouan',
-              'Kasserine',
-              'Sidi Bouzid',
-              'Gabès',
-              'Medenine',
-              'Tataouine',
-              'Gafsa',
-              'Tozeur',
-              'Kebili'
-          ];
-          
-          return view('orders.edit', compact('order', 'deliveryCompanies', 'statusOptions', 'serviceTypes', 'delegations'));
-      }
-  
-      /**
-       * Mise à jour d'une commande
-       */
-      public function update(Request $request, Order $order)
-      {
-          $request->validate([
-              'client_id' => 'nullable|exists:clients,id',
-              'phone' => 'required|string',
-              'first_name' => 'required|string|max:255',
-              'last_name' => 'required|string|max:255',
-              'city' => 'required|string|max:255',
-              'delegation' => 'required|string|max:255',
-              'address' => 'required|string',
-              'phone2' => 'nullable|string',
-              'postal_code' => 'nullable|string|max:10',
-              'service_type' => 'required|in:delivery,exchange',
-              'delivery_company_id' => 'nullable|exists:delivery_companies,id',
-              'free_delivery' => 'nullable|boolean',
-              'status' => 'required|in:draft,pending,pickup,no_response,cancelled,in_delivery,completed',
-              'status_comment' => 'nullable|string',
-              'notes' => 'nullable|string',
-          ]);
-          
-          DB::beginTransaction();
-          try {
-              // Gestion du client
-              $client = null;
-              if ($request->has('client_id') && $request->client_id) {
-                  // Client existant, mise à jour
-                  $client = Client::findOrFail($request->client_id);
-                  $client->update([
-                      'phone' => $request->phone,
-                      'phone2' => $request->phone2,
-                      'first_name' => $request->first_name,
-                      'last_name' => $request->last_name,
-                      'city' => $request->city,
-                      'delegation' => $request->delegation,
-                      'address' => $request->address,
-                      'postal_code' => $request->postal_code,
-                  ]);
-              } else {
-                  // Nouveau client
-                  $client = Client::create([
-                      'phone' => $request->phone,
-                      'phone2' => $request->phone2,
-                      'first_name' => $request->first_name,
-                      'last_name' => $request->last_name,
-                      'city' => $request->city,
-                      'delegation' => $request->delegation,
-                      'address' => $request->address,
-                      'postal_code' => $request->postal_code,
-                  ]);
-              }
-              
-              // Si le statut a changé, enregistrer dans l'historique
-              $oldStatus = $order->status;
-              if ($oldStatus !== $request->status) {
-                  $order->addStatusHistory($oldStatus, $request->status, $request->status_comment);
-              }
-              
-              // Mise à jour de la commande
-              $order->update([
-                  'client_id' => $client->id,
-                  'service_type' => $request->service_type,
-                  'delivery_company_id' => $request->delivery_company_id,
-                  'free_delivery' => $request->has('free_delivery'),
-                  'status' => $request->status,
-                  'notes' => $request->notes,
-              ]);
-              
-              DB::commit();
-              
-              return redirect()->route('orders.index')
-                  ->with('success', 'Commande mise à jour avec succès');
-                  
-          } catch (\Exception $e) {
-              DB::rollBack();
-              return back()->with('error', 'Erreur lors de la mise à jour de la commande: ' . $e->getMessage());
-          }
-      }
-  
-      /**
-       * Supprime une commande
-       */
-      public function destroy(Order $order)
-      {
-          try {
-              // Supprimer les images associées
-              foreach ($order->images as $image) {
-                  Storage::disk('public')->delete($image->path);
-                  $image->delete();
-              }
-              
-              $order->delete();
-              
-              return redirect()->route('orders.index')
-                  ->with('success', 'Commande supprimée avec succès');
-                  
-          } catch (\Exception $e) {
-              return back()->with('error', 'Erreur lors de la suppression de la commande: ' . $e->getMessage());
-          }
-      }
-      
-      /**
-       * Supprimer une image de commande spécifique
-       */
-      public function deleteImage($id)
-      {
-          $image = OrderImage::findOrFail($id);
-          
-          try {
-              Storage::disk('public')->delete($image->path);
-              $image->delete();
-              
-              return response()->json(['success' => true]);
-          } catch (\Exception $e) {
-              return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
-          }
-      }
-  }
+
+    /**
+     * Affiche le formulaire d'édition d'une commande
+     */
+    public function edit(Order $order)
+    {
+        $deliveryCompanies = DeliveryCompany::all();
+        $statusOptions = [
+            'draft' => 'Brouillon',
+            'pending' => 'En attente',
+            'pickup' => 'En ramassage',
+            'no_response' => 'Client ne répond plus',
+            'cancelled' => 'Annulée',
+            'in_delivery' => 'En livraison',
+            'completed' => 'Terminée'
+        ];
+        
+        $serviceTypes = [
+            'delivery' => 'Livraison',
+            'exchange' => 'Échange'
+        ];
+        
+        // Liste des délégations de Tunisie (à compléter selon vos besoins)
+        $delegations = [
+            'Tunis',
+            'Ariana',
+            'Ben Arous',
+            'Manouba',
+            'Nabeul',
+            'Zaghouan',
+            'Bizerte',
+            'Béja',
+            'Jendouba',
+            'Le Kef',
+            'Siliana',
+            'Sousse',
+            'Monastir',
+            'Mahdia',
+            'Sfax',
+            'Kairouan',
+            'Kasserine',
+            'Sidi Bouzid',
+            'Gabès',
+            'Medenine',
+            'Tataouine',
+            'Gafsa',
+            'Tozeur',
+            'Kebili'
+        ];
+        
+        return view('orders.edit', compact('order', 'deliveryCompanies', 'statusOptions', 'serviceTypes', 'delegations'));
+    }
+
+    /**
+     * Mise à jour d'une commande
+     */
+    public function update(Request $request, Order $order)
+    {
+        $request->validate([
+            'client_id' => 'nullable|exists:clients,id',
+            'phone' => 'required|string',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'delegation' => 'required|string|max:255',
+            'address' => 'required|string',
+            'phone2' => 'nullable|string',
+            'postal_code' => 'nullable|string|max:10',
+            'service_type' => 'required|in:delivery,exchange',
+            'delivery_company_id' => 'nullable|exists:delivery_companies,id',
+            'free_delivery' => 'nullable|boolean',
+            'status' => 'required|in:draft,pending,pickup,no_response,cancelled,in_delivery,completed',
+            'status_comment' => 'nullable|string',
+            'notes' => 'nullable|string',
+        ]);
+        
+        DB::beginTransaction();
+        try {
+            // Gestion du client
+            $client = null;
+            if ($request->has('client_id') && $request->client_id) {
+                // Client existant, mise à jour
+                $client = Client::findOrFail($request->client_id);
+                $client->update([
+                    'phone' => $request->phone,
+                    'phone2' => $request->phone2,
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'city' => $request->city,
+                    'delegation' => $request->delegation,
+                    'address' => $request->address,
+                    'postal_code' => $request->postal_code,
+                ]);
+            } else {
+                // Nouveau client
+                $client = Client::create([
+                    'phone' => $request->phone,
+                    'phone2' => $request->phone2,
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'city' => $request->city,
+                    'delegation' => $request->delegation,
+                    'address' => $request->address,
+                    'postal_code' => $request->postal_code,
+                ]);
+            }
+            
+            // Si le statut a changé, enregistrer dans l'historique
+            $oldStatus = $order->status;
+            if ($oldStatus !== $request->status) {
+                $order->addStatusHistory($oldStatus, $request->status, $request->status_comment);
+            }
+            
+            // Mise à jour de la commande
+            $order->update([
+                'client_id' => $client->id,
+                'service_type' => $request->service_type,
+                'delivery_company_id' => $request->delivery_company_id,
+                'free_delivery' => $request->has('free_delivery'),
+                'status' => $request->status,
+                'notes' => $request->notes,
+                // On ne modifie pas user_id lors d'une mise à jour pour conserver l'utilisateur qui a créé la commande
+            ]);
+            
+            DB::commit();
+            
+            return redirect()->route('orders.index')
+                ->with('success', 'Commande mise à jour avec succès');
+                
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Erreur lors de la mise à jour de la commande: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Supprime une commande
+     */
+    public function destroy(Order $order)
+    {
+        try {
+            // Supprimer les images associées
+            foreach ($order->images as $image) {
+                Storage::disk('public')->delete($image->path);
+                $image->delete();
+            }
+            
+            $order->delete();
+            
+            return redirect()->route('orders.index')
+                ->with('success', 'Commande supprimée avec succès');
+                
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erreur lors de la suppression de la commande: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Supprimer une image de commande spécifique
+     */
+    public function deleteImage($id)
+    {
+        $image = OrderImage::findOrFail($id);
+        
+        try {
+            Storage::disk('public')->delete($image->path);
+            $image->delete();
+            
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+}

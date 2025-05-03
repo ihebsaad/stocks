@@ -25,4 +25,11 @@ class DeliveryCompany extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    // Formatage du prix pour l'affichage
+    public function getFormattedPriceAttribute()
+    {
+        return number_format($this->delivery_price, 3, ',', ' ') . ' DT';
+    }
+
 }

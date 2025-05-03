@@ -3,6 +3,7 @@
 @section('title', 'Gestion des commandes')
 
 @section('styles')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 <style>
     .status-badge {
         display: inline-block;
@@ -21,11 +22,19 @@
     .status-cancelled { background-color: #6c757d; color: white; }
     .status-in_delivery { background-color: #007bff; color: white; }
     .status-completed { background-color: #28a745; color: white; }
+    
+    .filter-row {
+        padding: 10px 0;
+        margin-bottom: 15px;
+    }
+    #orders-table{
+        width:100%;
+    }
 </style>
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container-">
     <div class="row mb-4">
         <div class="col-md-6">
             <h2>Liste des Commandes</h2>
@@ -43,33 +52,39 @@
         </div>
     @endif
     
-    <div class="card">
-        <div class="card-header">
-            <div class="row">
-                <div class="col-md-8">
-                    <form action="{{ route('orders.index') }}" method="GET" class="form-inline">
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Rechercher..." value="{{ request('search') }}">
-                            <select name="status" class="form-control">
-                                <option value="">Tous les statuts</option>
-                                <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Brouillon</option>
-                                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>En attente</option>
-                                <option value="pickup" {{ request('status') == 'pickup' ? 'selected' : '' }}>En ramassage</option>
-                                <option value="no_response" {{ request('status') == 'no_response' ? 'selected' : '' }}>Client ne répond plus</option>
-                                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Annulée</option>
-                                <option value="in_delivery" {{ request('status') == 'in_delivery' ? 'selected' : '' }}>En livraison</option>
-                                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Terminée</option>
-                            </select>
-                            <button type="submit" class="btn btn-outline-secondary">Filtrer</button>
-                        </div>
-                    </form>
+ 
+            <div class="row filter-row">
+                <div class="col-md-3">
+                    <label for="status-filter">Filtrer par statut:</label>
+                    <select id="status-filter" class="form-control">
+                        <option value="">Tous les statuts</option>
+                        @foreach($statusOptions as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="delivery-company-filter">Filtrer par société de livraison:</label>
+                    <select id="delivery-company-filter" class="form-control">
+                        <option value="">Toutes les sociétés</option>
+                        @foreach($deliveryCompanies as $company)
+                            <option value="{{ $company->id }}">{{ $company->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="user-filter">Filtrer par utilisateur:</label>
+                    <select id="user-filter" class="form-control">
+                        <option value="">Tous les utilisateurs</option>
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
-        </div>
-        
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped">
+  
+            <div class="table-responsive-">
+                <table class="table table-bordered table-striped" id="orders-table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -81,86 +96,49 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @if($orders->count() > 0)
-                            @foreach($orders as $order)
-                                <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>
-                                        @if($order->client)
-                                            {{ $order->client->full_name }}<br>
-                                            <small>{{ $order->client->phone }}</small>
-                                        @else
-                                            <span class="text-muted">Non défini</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($order->service_type)
-                                            {{ $order->service_type == 'delivery' ? 'Livraison' : 'Échange' }}
-                                        @else
-                                            <span class="text-muted">-</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($order->deliveryCompany)
-                                            {{ $order->deliveryCompany->name }}
-                                            @if($order->free_delivery)
-                                                <span class="badge bg-success">Gratuite</span>
-                                            @endif
-                                        @else
-                                            <span class="text-muted">-</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <span class="status-badge status-{{ $order->status }}">
-                                            @switch($order->status)
-                                                @case('draft')
-                                                    Brouillon
-                                                    @break
-                                                @case('pending')
-                                                    En attente
-                                                    @break
-                                                @case('pickup')
-                                                    En ramassage
-                                                    @break
-                                                @case('no_response')
-                                                    Client ne répond plus
-                                                    @break
-                                                @case('cancelled')
-                                                    Annulée
-                                                    @break
-                                                @case('in_delivery')
-                                                    En livraison
-                                                    @break
-                                                @case('completed')
-                                                    Terminée
-                                                    @break
-                                                @default
-                                                    {{ $order->status }}
-                                            @endswitch
-                                        </span>
-                                    </td>
-                                    <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
-                                    <td>
-                                        <a href="{{ route('orders.edit', $order->id) }}" class="btn btn-sm btn-primary">
-                                            <i class="fas fa-edit"></i> Modifier
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="7" class="text-center">Aucune commande trouvée</td>
-                            </tr>
-                        @endif
-                    </tbody>
                 </table>
-            </div>
-            
-            <div class="d-flex justify-content-center mt-4">
-                {{ $orders->appends(request()->query())->links() }}
             </div>
         </div>
     </div>
-</div>
+@endsection
+
+@section('footer-scripts')
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<script>
+$(function() {
+    let table = $('#orders-table').DataTable({
+        processing: true,
+        serverSide: true,
+        type: 'GET',
+        dataType: "json", 
+        ajax: {
+            url: "{{ route('orders.getOrders') }}",
+            data: function(d) {
+                d.status = $('#status-filter').val();
+                d.delivery_company = $('#delivery-company-filter').val();
+                d.user_id = $('#user-filter').val();
+            }
+        },
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'client_name', name: 'client_name' },
+            { data: 'service_type_formatted', name: 'service_type_formatted' },
+            { data: 'delivery_company_info', name: 'delivery_company_info' },
+            { data: 'status_formatted', name: 'status_formatted' },
+            { data: 'created_at_formatted', name: 'created_at' },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
+        ],
+        order: [[0, 'desc']],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/fr-FR.json'
+        }
+    });
+    
+    // Appliquer les filtres lorsque les valeurs changent
+    $('#status-filter, #delivery-company-filter , #user-filter').change(function() {
+        table.draw();
+    });
+});
+</script>
 @endsection

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class ClientApiController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -19,17 +18,29 @@ class ClientApiController extends Controller
     public function search(Request $request)
     {
         $term = $request->input('q');
-        $clients = Client::where('phone', 'like', "%{$term}%")
-            ->orWhere('phone2', 'like', "%{$term}%")
-            ->orWhere('first_name', 'like', "%{$term}%")
-            ->orWhere('last_name', 'like', "%{$term}%")
-            ->get(['id', 'phone', 'first_name', 'last_name']);
+        $type = $request->input('type');
+        
+        $query = Client::query();
+        
+        // Si type=phone, limiter la recherche au numéro de téléphone
+        if ($type === 'phone') {
+            $query->where('phone', 'like', "%{$term}%")
+                  ->orWhere('phone2', 'like', "%{$term}%");
+        } else {
+            // Sinon, recherche normale (téléphone, nom, prénom)
+            $query->where('phone', 'like', "%{$term}%")
+                  ->orWhere('phone2', 'like', "%{$term}%")
+                  ->orWhere('first_name', 'like', "%{$term}%")
+                  ->orWhere('last_name', 'like', "%{$term}%");
+        }
+        
+        $clients = $query->get();
             
         $formatted = $clients->map(function ($client) {
             return [
                 'id' => $client->id,
                 'text' => "{$client->phone} - {$client->first_name} {$client->last_name}",
-                // Inclure les détails du client pour autocomplétion
+                // Inclure tous les détails du client pour autocomplétion
                 'client_details' => [
                     'phone' => $client->phone,
                     'phone2' => $client->phone2,
@@ -42,7 +53,7 @@ class ClientApiController extends Controller
                 ]
             ];
         });
-        
+            
         return response()->json(['results' => $formatted]);
     }
     
@@ -52,7 +63,7 @@ class ClientApiController extends Controller
     public function getClientDetails($id)
     {
         $client = Client::findOrFail($id);
-        
+            
         return response()->json([
             'success' => true,
             'client' => $client
@@ -61,19 +72,21 @@ class ClientApiController extends Controller
     
     /**
      * Vérifier si un numéro de téléphone existe déjà
+     * Amélioré pour retourner tous les champs du client
      */
     public function checkPhone(Request $request)
     {
         $phone = $request->input('phone');
+        // Recherche exacte par téléphone
         $client = Client::where('phone', $phone)->first();
-        
+            
         if ($client) {
             return response()->json([
                 'exists' => true,
                 'client' => $client
             ]);
         }
-        
+            
         return response()->json(['exists' => false]);
     }
 }

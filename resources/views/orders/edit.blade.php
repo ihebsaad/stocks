@@ -3,7 +3,10 @@
 @section('title', 'Modifier la commande #' . $order->id)
 
 @section('styles')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<!--<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />-->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+
 <style>
     .status-history {
         max-height: 200px;
@@ -57,6 +60,95 @@
         line-height: 20px;
         cursor: pointer;
     }
+
+        
+    .status-history {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 15px;
+    }
+
+    .timeline-item:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background-color: #e0e0e0;
+    }
+
+    .timeline-item:after {
+        content: '';
+        position: absolute;
+        left: -4px;
+        top: 0;
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        background-color: #007bff;
+    }
+
+    .order-images img {
+        max-height: 150px;
+        margin: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 3px;
+        cursor: pointer; /* Indiquer que l'image est cliquable */
+        transition: transform 0.2s; /* Animation au survol */
+    }
+
+    .order-images img:hover {
+        transform: scale(1.05); /* Légère augmentation de taille au survol */
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .image-remove {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: rgba(255, 0, 0, 0.7);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+    /* Pour indiquer que les card-header sont cliquables */
+    .card-header {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .card-header:hover {
+        background-color: #f8f9fa;
+    }
+
+    /* Masquer le bloc de sélection du client */
+    #client_search_container {
+        display: none;
+    }
+    .float-end{
+        position: absolute;
+        top:10px;
+        right:10px;
+
+    }
 </style>
 @endsection
 
@@ -103,31 +195,24 @@
                                 <h6 class="mb-0">Information Client</h6>
                             </div>
                             <div class="card-body">
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="client_search">Rechercher client par téléphone</label>
-                                        <select id="client_search" class="form-control select2">
-                                            <option value="">Rechercher un client existant ou créer un nouveau</option>
-                                            @if($order->client)
-                                                <option value="{{ $order->client->id }}" selected>
-                                                    {{ $order->client->phone }} - {{ $order->client->first_name }} {{ $order->client->last_name }}
+                                <input type="hidden" name="client_id" id="client_id" value="{{ $order->client->id ?? '' }}">                               
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <label for="phone">Téléphone *</label>
+                                        <select name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror" required>
+                                            @if(old('phone', $order->client->phone ?? ''))
+                                                <option value="{{ old('phone', $order->client->phone ?? '') }}" selected>
+                                                    {{ old('phone', $order->client->phone ?? '') }}
                                                 </option>
                                             @endif
                                         </select>
-                                        <input type="hidden" name="client_id" id="client_id" value="{{ $order->client->id ?? '' }}">
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="phone">Téléphone *</label>
-                                        <input type="text" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror" required 
-                                            value="{{ old('phone', $order->client->phone ?? '') }}">
                                         @error('phone')
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
+                                        <!-- Champ hidden pour conserver la compatibilité avec la validation -->
+                                        <input type="hidden" name="phone_hidden" id="phone_hidden">
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-3">
                                         <label for="phone2">Téléphone 2</label>
                                         <input type="text" name="phone2" id="phone2" class="form-control @error('phone2') is-invalid @enderror"
                                             value="{{ old('phone2', $order->client->phone2 ?? '') }}">
@@ -135,10 +220,8 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
+ 
+                                    <div class="col-md-3 col-sm-6 mb-3">
                                         <label for="first_name">Prénom *</label>
                                         <input type="text" name="first_name" id="first_name" class="form-control @error('first_name') is-invalid @enderror" required
                                             value="{{ old('first_name', $order->client->first_name ?? '') }}">
@@ -146,7 +229,7 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-3">
                                         <label for="last_name">Nom *</label>
                                         <input type="text" name="last_name" id="last_name" class="form-control @error('last_name') is-invalid @enderror" required
                                             value="{{ old('last_name', $order->client->last_name ?? '') }}">
@@ -154,10 +237,8 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
+
+                                    <div class="col-md-3 col-sm-6 mb-3">
                                         <label for="city">Ville *</label>
                                         <input type="text" name="city" id="city" class="form-control @error('city') is-invalid @enderror" required
                                             value="{{ old('city', $order->client->city ?? '') }}">
@@ -165,7 +246,7 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-3">
                                         <label for="delegation">Délégation *</label>
                                         <select name="delegation" id="delegation" class="form-control @error('delegation') is-invalid @enderror" required>
                                             <option value="">Sélectionner...</option>
@@ -179,10 +260,8 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-8 mb-3">
+
+                                    <div class="col-md-4 col-sm-6 mb-3">
                                         <label for="address">Adresse *</label>
                                         <input type="text" name="address" id="address" class="form-control @error('address') is-invalid @enderror" required
                                             value="{{ old('address', $order->client->address ?? '') }}">
@@ -190,7 +269,7 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-2 col-sm-6 mb-3">
                                         <label for="postal_code">Code postal</label>
                                         <input type="text" name="postal_code" id="postal_code" class="form-control @error('postal_code') is-invalid @enderror"
                                             value="{{ old('postal_code', $order->client->postal_code ?? '') }}">
@@ -209,7 +288,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-3">
                                         <label for="service_type">Service *</label>
                                         <select name="service_type" id="service_type" class="form-control @error('service_type') is-invalid @enderror" required>
                                             <option value="">Sélectionner...</option>
@@ -223,7 +302,7 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-3">
                                         <label for="delivery_company_id">Société de livraison</label>
                                         <select name="delivery_company_id" id="delivery_company_id" class="form-control @error('delivery_company_id') is-invalid @enderror">
                                             <option value="">Sélectionner...</option>
@@ -239,17 +318,8 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="free_delivery" id="free_delivery" class="form-check-input" 
-                                                {{ old('free_delivery', $order->free_delivery) ? 'checked' : '' }}>
-                                            <label for="free_delivery" class="form-check-label">Livraison gratuite</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
+
+                                    <div class="col-md-3 col-sm-6 mb-3">
                                         <label for="status">Statut *</label>
                                         <select name="status" id="status" class="form-control @error('status') is-invalid @enderror" required>
                                             @foreach($statusOptions as $value => $label)
@@ -261,6 +331,14 @@
                                         @error('status')
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <div class="form-check mt-2 float-right">
+                                            <input type="checkbox" name="free_delivery" id="free_delivery" class="form-check-input" value="1"
+                                                {{ old('free_delivery', $order->free_delivery) ? 'checked' : '' }}>
+                                            <label for="free_delivery" class="form-check-label">Livraison gratuite</label>
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -276,20 +354,6 @@
                             </div>
                         </div>
                         
-                        <!-- Section Notes -->
-                        <div class="card mb-4">
-                            <div class="card-header bg-light">
-                                <h6 class="mb-0">Notes</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <textarea name="notes" id="notes" class="form-control @error('notes') is-invalid @enderror" rows="3">{{ old('notes', $order->notes) }}</textarea>
-                                    @error('notes')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
                         
                         <div class="form-group mt-4">
                             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
@@ -314,12 +378,13 @@
         
         <!-- Sidebar -->
         <div class="col-md-4">
+            @if($order->images->count() > 0)
             <!-- Images -->
             <div class="card mb-4">
-                <div class="card-header">
-                    <h5>Images</h5>
+                <div class="card-header bg-light">
+                    <h6 mb-0>Images</h6>
                 </div>
-                <div class="card-body">
+                <div class="card-body"  @if($order->images->count()== 0) style="display: none;" @endif>
                     <div class="order-images">
                         @if($order->images->count() > 0)
                             @foreach($order->images as $image)
@@ -334,11 +399,26 @@
                     </div>
                 </div>
             </div>
+            @endif
+            <!-- Section Notes -->
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">Notes</h6>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <textarea name="notes" id="notes" class="form-control @error('notes') is-invalid @enderror" rows="3">{{ old('notes', $order->notes) }}</textarea>
+                            @error('notes')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                    </div>
+                </div>
+            </div>
             
             <!-- Historique des statuts -->
             <div class="card">
-                <div class="card-header">
-                    <h5>Historique des statuts</h5>
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">Historique des statuts</h6>
                 </div>
                 <div class="card-body">
                     <div class="status-history">
@@ -377,12 +457,13 @@
   
   $(function () {
     // Summernote
-    $('#notes').summernote()
+    $('#notes').summernote();
   });
   
 </script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    /*
     $(document).ready(function() {
         // Initialisation de Select2
         $('.select2').select2({
@@ -455,10 +536,125 @@
             }
         });
         
-        // Supprimer une image
-        $('.image-remove').on('click', function() {
-            var imageId = $(this).data('id');
-            var container = $(this).parent();
+
+    });
+*/
+
+$(document).ready(function() {
+ 
+    var currentPhone = '{{ old("phone", $order->client->phone ?? "") }}';
+    $('#phone').replaceWith('<input type="text" name="phone" id="phone" class="form-control @error("phone") is-invalid @enderror" required value="' + currentPhone + '">');
+    
+    // Ajouter jQuery UI autocomplete au champ téléphone
+    $('#phone').autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: '{{ route("clients.search") }}',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    q: request.term,
+                    type: 'phone'
+                },
+                success: function(data) {
+                    // Transformer le format des résultats pour autocomplete
+                    var results = $.map(data.results, function(item) {
+                        return {
+                            label: item.text,
+                            value: item.text.split(' - ')[0], // Extraire juste le numéro de téléphone
+                            client_id: item.id,
+                            client_details: item.client_details
+                        };
+                    });
+                    response(results);
+                }
+            });
+        },
+        minLength: 3,
+        select: function(event, ui) {
+            // Quand un client est sélectionné, remplir les autres champs
+            if (ui.item && ui.item.client_details) {
+                $('#client_id').val(ui.item.client_id);
+                $('#phone2').val(ui.item.client_details.phone2);
+                $('#first_name').val(ui.item.client_details.first_name);
+                $('#last_name').val(ui.item.client_details.last_name);
+                $('#city').val(ui.item.client_details.city);
+                $('#delegation').val(ui.item.client_details.delegation);
+                $('#address').val(ui.item.client_details.address);
+                $('#postal_code').val(ui.item.client_details.postal_code);
+            }
+        }
+    }).autocomplete("instance")._renderItem = function(ul, item) {
+        // Personnaliser l'apparence des suggestions
+        return $("<li>")
+            .append("<div>" + item.label + "</div>")
+            .appendTo(ul);
+    };
+    
+    // Recherche par téléphone quand on quitte le champ
+    $('#phone').on('blur', function() {
+        var phone = $(this).val();
+        if (phone.length >= 8 && !$('#client_id').val()) {
+            $.ajax({
+                url: '{{ route("clients.check-phone") }}',
+                type: 'GET',
+                data: { phone: phone },
+                success: function(response) {
+                    if (response.exists) {
+                        // Remplir tous les champs avec les informations du client
+                        $('#client_id').val(response.client.id);
+                        $('#phone2').val(response.client.phone2);
+                        $('#first_name').val(response.client.first_name);
+                        $('#last_name').val(response.client.last_name);
+                        $('#city').val(response.client.city);
+                        $('#delegation').val(response.client.delegation);
+                        $('#address').val(response.client.address);
+                        $('#postal_code').val(response.client.postal_code);
+                    }
+                }
+            });
+        }
+    });
+    // 3. Cliquer sur une image pour l'afficher en grand dans une modal
+    // Ajouter une modal au document
+    $('body').append(`
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">Image de commande</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="" id="modalImage" class="img-fluid" alt="Image agrandie">
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+    
+    // Rendre les images cliquables
+    $('.order-images img').css('cursor', 'pointer').on('click', function() {
+        var imgSrc = $(this).attr('src');
+        $('#modalImage').attr('src', imgSrc);
+        var imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+        imageModal.show();
+    });
+    
+    // 4. Rendre les card-header cliquables pour ouvrir/fermer card-body
+    $('.card-header').css('cursor', 'pointer').on('click', function() {
+        $(this).next('.card-body').slideToggle();
+    });
+    
+    // Option: Ajouter une petite icône pour indiquer que c'est cliquable
+    $('.card-header').append('<i class="fas fa-chevron-down float-end"></i>');
+    $('.card-header').on('click', function() {
+        $(this).find('.fa-chevron-down, .fa-chevron-up').toggleClass('fa-chevron-down fa-chevron-up');
+    });
+
+    $('.image-remove').on('click', function() {
+        var imageId = $(this).data('id');
+        var container = $(this).parent();
             
             if (confirm('Êtes-vous sûr de vouloir supprimer cette image?')) {
                 $.ajax({
@@ -477,7 +673,10 @@
                     }
                 });
             }
-        });
     });
+});
+
+  
+        
 </script>
 @endsection
