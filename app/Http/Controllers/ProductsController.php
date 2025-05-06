@@ -17,6 +17,12 @@ use Yajra\DataTables\DataTables;
 
 class ProductsController extends Controller
 {
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    } 
+
     /**
      * Afficher la liste des produits
      */
@@ -37,10 +43,10 @@ class ProductsController extends Controller
                     return $product->reference;
                 })
                 ->addColumn('provider_name', function ($product) {
-                    return optional($product->provider)->company ?? 'N/A';
+                    return optional($product->provider_id)->company ?? 'N/A';
                 })
                 ->addColumn('category_name', function ($product) {
-                    return optional($product->categorie)->name ?? 'N/A';
+                    return optional($product->categorie_id)->name ?? 'N/A';
                 })
                 ->addColumn('prix_ttc', function ($product) {
                     return $product->prix_ttc;

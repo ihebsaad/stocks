@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class StockEntryController extends Controller
 {
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    } 
+    
     /**
      * Afficher la page d'entrée de stock
      */
