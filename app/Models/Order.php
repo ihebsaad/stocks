@@ -44,6 +44,11 @@ class Order extends Model
         return $this->hasMany(OrderImage::class);
     }
 
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     public function statusHistory()
     {
         return $this->hasMany(OrderStatusHistory::class);

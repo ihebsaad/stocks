@@ -353,8 +353,127 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
+                                                
+                        <!-- Section Produits -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Produits de la commande</h6>
+                                <button type="button" class="btn btn-success btn-sm" id="add-product-btn">
+                                    <i class="fas fa-plus"></i> Ajouter un produit
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div id="products-container">
+                                    <!-- Les produits seront ajoutés ici dynamiquement -->
+                                    @if(count($order->items) > 0)
+                                        @foreach($order->items as $index => $item)
+                                        <div class="product-item mb-3">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <strong>Produit:</strong>
+                                                        <select name="items[{{ $index }}][product_id]" class="form-control product-select" required>
+                                                            <option value="">Sélectionner un produit</option>
+                                                            @foreach($products as $product)
+                                                                <option value="{{ $product->id }}" 
+                                                                        data-type="{{ $product->type }}" 
+                                                                        data-price="{{ $product->prix_ttc }}"
+                                                                        data-stock="{{ $product->stock_quantity }}"
+                                                                        data-has-variations="{{ $product->variations->count() > 0 ? 'true' : 'false' }}"
+                                                                        {{ $item->product_id == $product->id ? 'selected' : '' }}>
+                                                                    {{ $product->name }} ({{ $product->reference }})
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group variation-container" style="{{ $item->variation_id ? '' : 'display: none;' }}">
+                                                        <strong>Variation:</strong>
+                                                        <select name="items[{{ $index }}][variation_id]" class="form-control variation-select">
+                                                            <option value="">Sélectionner une variation</option>
+                                                            @if($item->variation_id)
+                                                                @foreach($products->find($item->product_id)->variations as $variation)
+                                                                    <option value="{{ $variation->id }}" 
+                                                                            data-price="{{ $variation->prix_ttc }}"
+                                                                            data-stock="{{ $variation->stock_quantity }}"
+                                                                            {{ $item->variation_id == $variation->id ? 'selected' : '' }}>
+                                                                        {{ $variation->reference }}
+                                                                        @if($variation->attributeValues)
+                                                                            ({{ $variation->attributeValues->pluck('value')->join(' - ') }})
+                                                                        @endif
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group">
+                                                        <strong>Qté:</strong>
+                                                        <input type="number" name="items[{{ $index }}][quantity]" class="form-control item-quantity" 
+                                                            min="1" value="{{ $item->quantity }}" required>
+                                                        <small class="text-muted stock-info">Stock: <span class="available-stock">{{ $item->variation_id ? $item->variation->stock_quantity : $item->product->stock_quantity }}</span></small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <strong>Prix unitaire:</strong>
+                                                        <input type="number" name="items[{{ $index }}][unit_price]" class="form-control item-price" 
+                                                            step="0.01" min="0" value="{{ $item->unit_price }}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <strong>Sous-total:</strong>
+                                                        <input type="text" class="form-control item-subtotal" value="{{ number_format($item->unit_price * $item->quantity, 2) }} TND" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1 pt-2">
+                                                    <button type="button" class="btn btn-danger btn-sm remove-product-btn float-right mt-4">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                                
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="discount">Remise (TND):</label>
+                                            <input type="number" name="discount" id="discount" class="form-control" step="0.01" min="0" 
+                                                value="{{ old('discount', $order->discount ?? 0) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card bg-light">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Sous-total:</span>
+                                                    <span id="subtotal-amount">0.00 TND</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Remise:</span>
+                                                    <span id="discount-amount">0.00 TND</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Livraison:</span>
+                                                    <span id="delivery-amount">0.00 TND</span>
+                                                </div>
+                                                <hr>
+                                                <div class="d-flex justify-content-between">
+                                                    <strong>Total:</strong>
+                                                    <strong id="total-amount">0.00 TND</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group mt-4">
                             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                             <a href="{{ route('orders.index') }}" class="btn btn-secondary">Annuler</a>
@@ -374,6 +493,65 @@
                     </form>
                 </div>
             </div>
+
+
+            <!-- Template pour un élément de produit -->
+            <template id="product-item-template">
+                <div class="product-item mb-3">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <strong>Produit:</strong>
+                                <select name="items[INDEX][product_id]" class="form-control product-select" required>
+                                    <option value="">Sélectionner un produit</option>
+                                    @foreach($products as $product)
+                                        <option value="{{ $product->id }}" 
+                                                data-type="{{ $product->type }}" 
+                                                data-price="{{ $product->prix_ttc }}"
+                                                data-stock="{{ $product->stock_quantity }}"
+                                                data-has-variations="{{ $product->variations->count() > 0 ? 'true' : 'false' }}">
+                                            {{ $product->name }} ({{ $product->reference }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group variation-container" style="display: none;">
+                                <strong>Variation:</strong>
+                                <select name="items[INDEX][variation_id]" class="form-control variation-select">
+                                    <option value="">Sélectionner une variation</option>
+                                    <!-- Les variations seront chargées dynamiquement -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <strong>Qté:</strong>
+                                <input type="number" name="items[INDEX][quantity]" class="form-control item-quantity" min="1" value="1" required>
+                                <small class="text-muted stock-info">Stock: <span class="available-stock">0</span></small>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <strong>Prix unitaire:</strong>
+                                <input type="number" name="items[INDEX][unit_price]" class="form-control item-price" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <strong>Sous-total:</strong>
+                                <input type="text" class="form-control item-subtotal" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-1 pt-2">
+                            <button type="button" class="btn btn-danger btn-sm remove-product-btn float-right mt-4">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
         
         <!-- Sidebar -->
@@ -463,82 +641,12 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    /*
-    $(document).ready(function() {
-        // Initialisation de Select2
-        $('.select2').select2({
-            placeholder: 'Rechercher un client par téléphone, prénom ou nom',
-            minimumInputLength: 2,
-            ajax: {
-                url: '{{ route("clients.search") }}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        q: params.term
-                    };
-                },
-                processResults: function(data) {
-                    return {
-                        results: data.results
-                    };
-                },
-                cache: true
-            }
-        });
-        
-        // Remplir les informations client lorsque sélectionné
-        $('#client_search').on('select2:select', function(e) {
-            var data = e.params.data;
-            $('#client_id').val(data.id);
-            
-            if (data.client_details) {
-                var client = data.client_details;
-                $('#phone').val(client.phone);
-                $('#phone2').val(client.phone2);
-                $('#first_name').val(client.first_name);
-                $('#last_name').val(client.last_name);
-                $('#city').val(client.city);
-                $('#delegation').val(client.delegation);
-                $('#address').val(client.address);
-                $('#postal_code').val(client.postal_code);
-            }
-        });
-        
-        // Recherche client par téléphone
-        $('#phone').on('blur', function() {
-            var phone = $(this).val();
-            if (phone.length >= 8) {
-                $.ajax({
-                    url: '{{ route("clients.check-phone") }}',
-                    type: 'GET',
-                    data: { phone: phone },
-                    success: function(response) {
-                        if (response.exists) {
-                            // Remplir les champs avec les informations du client
-                            $('#client_id').val(response.client.id);
-                            $('#phone2').val(response.client.phone2);
-                            $('#first_name').val(response.client.first_name);
-                            $('#last_name').val(response.client.last_name);
-                            $('#city').val(response.client.city);
-                            $('#delegation').val(response.client.delegation);
-                            $('#address').val(response.client.address);
-                            $('#postal_code').val(response.client.postal_code);
-                            
-                            // Notification
-                            alert('Client existant trouvé et informations remplies.');
-                        } else {
-                            // Réinitialiser l'ID client pour créer un nouveau
-                            $('#client_id').val('');
-                        }
-                    }
-                });
-            }
-        });
-        
+     
+// Stockage des produits
+const products = @json($products);
 
-    });
-*/
+// Compteur pour les indices d'éléments
+let itemIndex = {{ count($order->items ?? []) }};
 
 $(document).ready(function() {
  
@@ -674,9 +782,219 @@ $(document).ready(function() {
                 });
             }
     });
-});
 
-  
+
+// Si aucun produit n'est présent, en ajouter un par défaut
+if ($('.product-item').length === 0) {
+        addProductItem();
+    }
+    
+    // Gestionnaire pour le bouton "Ajouter un produit"
+    $('#add-product-btn').click(function() {
+        addProductItem();
+    });
+    
+    // Gestionnaire pour les boutons de suppression d'un produit (délégation d'événement)
+    $('#products-container').on('click', '.remove-product-btn', function() {
+        $(this).closest('.product-item').remove();
+        updateTotals();
+    });
+    
+    // Gestionnaire pour la sélection de produit (délégation d'événement)
+    $('#products-container').on('change', '.product-select', function() {
+        const productId = $(this).val();
+        const itemContainer = $(this).closest('.product-item');
+        const variationContainer = itemContainer.find('.variation-container');
+        const variationSelect = itemContainer.find('.variation-select');
+        const priceInput = itemContainer.find('.item-price');
+        const quantityInput = itemContainer.find('.item-quantity');
+        const stockInfo = itemContainer.find('.available-stock');
+        
+        if (!productId) {
+            // Réinitialiser les champs si aucun produit n'est sélectionné
+            variationContainer.hide();
+            variationSelect.empty().append('<option value="">Sélectionner une variation</option>');
+            priceInput.val('');
+            stockInfo.text('0');
+            updateItemSubtotal(itemContainer);
+            return;
+        }
+        
+        const productOption = $(this).find('option:selected');
+        const productType = productOption.data('type');
+        const productPrice = productOption.data('price');
+        const productStock = productOption.data('stock');
+        const hasVariations = productOption.data('has-variations') === true;
+        
+        // Mettre à jour le prix
+        priceInput.val(productPrice || '');
+        
+        // Mettre à jour l'info de stock et limiter la quantité max
+        stockInfo.text(productStock);
+        quantityInput.attr('max', productStock);
+        
+        // Gérer les variations si c'est un produit variable
+        if (productType == 1 && hasVariations) {
+            loadVariations(productId, variationSelect);
+            variationContainer.show();
+        } else {
+            variationContainer.hide();
+            variationSelect.empty().append('<option value="">Sélectionner une variation</option>');
+        }
+        
+        updateItemSubtotal(itemContainer);
+    });
+    
+    // Gestionnaire pour la sélection de variation
+    $('#products-container').on('change', '.variation-select', function() {
+        const variationId = $(this).val();
+        const itemContainer = $(this).closest('.product-item');
+        const priceInput = itemContainer.find('.item-price');
+        const quantityInput = itemContainer.find('.item-quantity');
+        const stockInfo = itemContainer.find('.available-stock');
+        
+        if (variationId) {
+            // Trouver le produit et la variation
+            const productId = itemContainer.find('.product-select').val();
+            const product = products.find(p => p.id == productId);
+            const variation = product.variations.find(v => v.id == variationId);
+            
+            if (variation) {
+                // Mettre à jour le prix et les informations de stock
+                priceInput.val(variation.prix_ttc || product.prix_ttc || '');
+                stockInfo.text(variation.stock_quantity);
+                quantityInput.attr('max', variation.stock_quantity);
+                
+                // Si la quantité actuelle dépasse le stock disponible, ajuster
+                if (parseInt(quantityInput.val()) > variation.stock_quantity) {
+                    quantityInput.val(variation.stock_quantity);
+                }
+            }
+        }
+        
+        updateItemSubtotal(itemContainer);
+    });
+    
+    // Gestionnaire pour les changements de quantité et de prix
+    $('#products-container').on('input', '.item-quantity, .item-price', function() {
+        const itemContainer = $(this).closest('.product-item');
+        
+        // Vérifier que la quantité ne dépasse pas le stock disponible
+        if ($(this).hasClass('item-quantity')) {
+            const maxStock = parseInt(itemContainer.find('.available-stock').text());
+            const currentQty = parseInt($(this).val());
+            
+            if (currentQty > maxStock) {
+                alert(`Attention: Stock disponible insuffisant (${maxStock} unités disponibles)`);
+                $(this).val(maxStock);
+            }
+        }
+        
+        updateItemSubtotal(itemContainer);
+    });
+    
+    // Écouter les changements sur la remise et la livraison
+    $('#discount, #delivery_company_id, #free_delivery').on('change input', function() {
+        updateTotals();
+    });
+    
+    // Initialiser les totaux au chargement
+    updateTotals();
+
+
+
+}); //document ready
+
+  // Fonction pour ajouter un élément de produit
+function addProductItem() {
+    const template = document.getElementById('product-item-template').innerHTML;
+    const newItem = template.replace(/INDEX/g, itemIndex);
+    
+    $('#products-container').append(newItem);
+    itemIndex++;
+}
+
+// Fonction pour charger les variations d'un produit
+function loadVariations(productId, selectElement) {
+    const product = products.find(p => p.id == productId);
+    
+    if (!product || !product.variations || product.variations.length === 0) {
+        selectElement.empty().append('<option value="">Aucune variation disponible</option>');
+        return;
+    }
+    
+    selectElement.empty().append('<option value="">Sélectionner une variation</option>');
+    
+    product.variations.forEach(variation => {
+        // Créer un nom lisible pour la variation basé sur ses attributs
+        let variationName = variation.reference;
+        
+        if (variation.attribute_values && variation.attribute_values.length > 0) {
+            const attributeValues = variation.attribute_values.map(av => av.value || av.name).join(' - ');
+            if (attributeValues) {
+                variationName += ' (' + attributeValues + ')';
+            }
+        }
+        
+        selectElement.append(`
+            <option value="${variation.id}" 
+                    data-price="${variation.prix_ttc || product.prix_ttc || ''}"
+                    data-stock="${variation.stock_quantity}">
+                ${variationName}
+            </option>
+        `);
+    });
+}
+
+// Fonction pour mettre à jour le sous-total d'un élément
+function updateItemSubtotal(itemContainer) {
+    const quantity = parseFloat(itemContainer.find('.item-quantity').val()) || 0;
+    const price = parseFloat(itemContainer.find('.item-price').val()) || 0;
+    const subtotal = quantity * price;
+    
+    itemContainer.find('.item-subtotal').val(subtotal.toFixed(2) + ' TND');
+    
+    updateTotals();
+}
+
+// Fonction pour mettre à jour tous les totaux de la commande
+function updateTotals() {
+    let subtotal = 0;
+    
+    // Calculer le sous-total des produits
+    $('.product-item').each(function() {
+        const quantity = parseFloat($(this).find('.item-quantity').val()) || 0;
+        const price = parseFloat($(this).find('.item-price').val()) || 0;
+        subtotal += quantity * price;
+    });
+    
+    // Récupérer la remise
+    const discount = parseFloat($('#discount').val()) || 0;
+    
+    // Calculer les frais de livraison
+    let deliveryCost = 0;
+    if (!$('#free_delivery').is(':checked')) {
+        const deliveryCompanySelect = $('#delivery_company_id');
+        if (deliveryCompanySelect.val()) {
+            const selectedOption = deliveryCompanySelect.find('option:selected');
+            deliveryCost = parseFloat(selectedOption.data('price')) || 0;
+        }
+    }
+    
+    // Calculer le total final
+    const total = subtotal - discount + deliveryCost;
+    
+    // Mettre à jour les affichages
+    $('#subtotal-amount').text(subtotal.toFixed(2) + ' TND');
+    $('#discount-amount').text(discount.toFixed(2) + ' TND');
+    $('#delivery-amount').text(deliveryCost.toFixed(2) + ' TND');
+    $('#total-amount').text(total.toFixed(2) + ' TND');
+    
+    // Mettre à jour le champ caché pour le total si nécessaire
+    if ($('#total').length) {
+        $('#total').val(total.toFixed(2));
+    }
+}
         
 </script>
 @endsection

@@ -7,6 +7,9 @@ use App\Models\Client;
 use App\Models\DeliveryCompany;
 use App\Models\OrderImage;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Variation;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -331,8 +334,16 @@ class OrderController extends Controller
             'Tozeur',
             'Kebili'
         ];
+
+        $products = Product::with([
+            'variations' => function ($query) {
+                $query->with('attributeValues.attribute');
+            }
+        ])->get();
+
+        $items= $order->items()->get();
         
-        return view('orders.edit', compact('order', 'deliveryCompanies', 'statusOptions', 'serviceTypes', 'delegations'));
+        return view('orders.edit', compact('order', 'deliveryCompanies', 'statusOptions', 'serviceTypes', 'delegations','items','products'));
     }
 
     /**
@@ -356,6 +367,12 @@ class OrderController extends Controller
             'status' => 'required|in:draft,pending,pickup,no_response,cancelled,in_delivery,completed',
             'status_comment' => 'nullable|string',
             'notes' => 'nullable|string',
+            'items' => 'required|array',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.variation_id' => 'nullable|exists:variations,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.unit_price' => 'required|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0',
         ]);
         
         DB::beginTransaction();
@@ -389,6 +406,24 @@ class OrderController extends Controller
                 ]);
             }
             
+
+            // Calculer le total des produits et les frais de livraison
+            $subtotal = 0;
+            foreach ($request->items as $item) {
+                $subtotal += $item['quantity'] * $item['unit_price'];
+            }
+
+            $deliveryCost = 0;
+            if (!$request->has('free_delivery') && $request->delivery_company_id) {
+                $deliveryCompany = DeliveryCompany::find($request->delivery_company_id);
+                if ($deliveryCompany) {
+                    $deliveryCost = $deliveryCompany->delivery_price;
+                }
+            }
+
+            $discount = $request->discount ?? 0;
+            $total = $subtotal - $discount + $deliveryCost;
+
             // Si le statut a changé, enregistrer dans l'historique
             $oldStatus = $order->status;
             if ($oldStatus !== $request->status) {
@@ -403,8 +438,35 @@ class OrderController extends Controller
                 'free_delivery' => $request->has('free_delivery'),
                 'status' => $request->status,
                 'notes' => $request->notes,
-                // On ne modifie pas user_id lors d'une mise à jour pour conserver l'utilisateur qui a créé la commande
+                'subtotal' => $subtotal,
+                'discount' => $discount,
+                'delivery_cost' => $deliveryCost,
+                'total' => $total,
             ]);
+
+
+            // Restaurer les stocks des produits actuels avant de les supprimer
+            foreach ($order->items as $item) {
+                $this->restoreStockQuantity($item);
+            }
+            
+            // Supprimer les éléments actuels de la commande
+            $order->items()->delete();
+            
+            // Ajouter les nouveaux éléments
+            foreach ($request->items as $itemData) {
+                $orderItem = OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $itemData['product_id'],
+                    'variation_id' => $itemData['variation_id'] ?? null,
+                    'quantity' => $itemData['quantity'],
+                    'unit_price' => $itemData['unit_price'],
+                    'subtotal' => $itemData['quantity'] * $itemData['unit_price'],
+                ]);
+            
+                // Déduire du stock
+                $this->deductFromStock($orderItem);
+            }            
             
             DB::commit();
             
@@ -455,4 +517,49 @@ class OrderController extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
+
+
+    /**
+     * Déduire la quantité du stock
+     */
+    private function deductFromStock(OrderItem $item)
+    {
+        if ($item->variation_id) {
+            $variation = Variation::findOrFail($item->variation_id);
+            if ($variation->stock_quantity < $item->quantity) {
+                throw new \Exception("Stock insuffisant pour la variation {$variation->reference}");
+            }
+            $variation->stock_quantity -= $item->quantity;
+            $variation->save();
+        } else {
+            $product = Product::findOrFail($item->product_id);
+            if ($product->stock_quantity < $item->quantity) {
+                throw new \Exception("Stock insuffisant pour le produit {$product->name}");
+            }
+            $product->stock_quantity -= $item->quantity;
+            $product->save();
+        }
+    }
+
+    /**
+     * Restaurer la quantité au stock
+     */
+    private function restoreStockQuantity(OrderItem $item)
+    {
+        if ($item->variation_id) {
+            $variation = Variation::find($item->variation_id);
+            if ($variation) {
+                $variation->stock_quantity += $item->quantity;
+                $variation->save();
+            }
+        } else {
+            $product = Product::find($item->product_id);
+            if ($product) {
+                $product->stock_quantity += $item->quantity;
+                $product->save();
+            }
+        }
+    }
+
+
 }
