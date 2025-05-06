@@ -155,7 +155,7 @@
                     $(cell).addClass('bg-warning');
                 }
             });
-        });
+        });  
         /*
         $('#mytable').on('draw.dt', function() {
             $('tbody tr').each(function() {
