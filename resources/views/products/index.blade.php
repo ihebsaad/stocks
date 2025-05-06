@@ -137,18 +137,27 @@
                 });
             }
         });
+ 
         $('#mytable').on('draw.dt', function() {
-            $('tbody tr').each(function() {
-                var qty = parseFloat($(this).find('td:eq(5)').text()); // index de la colonne stock_quantity
-                var minQty = parseFloat($(this).data('min-qty')); // vous devez ajouter data-min-qty à votre TR
+        // Parcourir chaque ligne
+        $('tbody tr').each(function() {
+                var $row = $(this);
+                var minQty = parseFloat($row.data('min-qty')); // Récupérer min_qty du data-attribut
+                var $qtyCell = $row.find('td.stock-quantity'); // Ciblez la cellule qté
                 
-                if (minQty > 0 && minQty >= qty) {
-                    $(this).find('td:eq(5)').addClass('bg-danger');
-                } else if (minQty > 0 && (qty - minQty) < 6) {
-                    $(this).find('td:eq(5)').addClass('bg-warning');
+                if (isNaN(minQty)) return; // Si min_qty n'est pas défini, ignorer
+                
+                var qty = parseFloat($qtyCell.text());
+                
+                if (minQty > 0 && qty <= minQty) {
+                    $qtyCell.addClass('bg-danger');
+                } 
+                else if (minQty > 0 && (qty - minQty) < 6) {
+                    $qtyCell.addClass('bg-warning');
                 }
             });
         });
+
  /*
         // Exemple pour ajouter un filtre externe
         $('#filter-provider').on('keyup', function() {
