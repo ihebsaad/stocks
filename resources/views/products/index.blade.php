@@ -105,7 +105,20 @@
                     searchable: false
                 },
                 { data: 'prix_ttc', name: 'prix_ttc', orderable: true, searchable: true },
-                { data: 'stock_quantity', name: 'stock_quantity', orderable: true, searchable: true },
+                //{ data: 'stock_quantity', name: 'stock_quantity', orderable: true, searchable: true },
+                { 
+                    data: 'stock_quantity',
+                    render: function(data, type, row) {
+                        var qty = parseFloat(data);
+                        var minQty = parseFloat(row.min_qty);
+                        var className = '';
+                        
+                        if (minQty > 0 && minQty >= qty) className = 'bg-danger';
+                        else if (minQty > 0 && (qty - minQty) < 6) className = 'bg-warning';
+                        
+                        return '<span class="' + className + '">' + data + '</span>';
+                    }
+                },
                 { 
                     data: 'description', 
                     name: 'description',
@@ -137,6 +150,7 @@
                 });
             }
         });
+        /*
         $('#mytable').on('draw.dt', function() {
             $('tbody tr').each(function() {
                 var qty = parseFloat($(this).find('td:eq(5)').text()); // index de la colonne stock_quantity
@@ -148,7 +162,7 @@
                     $(this).find('td:eq(5)').addClass('bg-warning');
                 }
             });
-        });
+        });*/
  /*
         // Exemple pour ajouter un filtre externe
         $('#filter-provider').on('keyup', function() {
