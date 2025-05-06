@@ -105,20 +105,7 @@
                     searchable: false
                 },
                 { data: 'prix_ttc', name: 'prix_ttc', orderable: true, searchable: true },
-                //{ data: 'stock_quantity', name: 'stock_quantity', orderable: true, searchable: true },
-                { 
-                    data: 'stock_quantity',
-                    render: function(data, type, row) {
-                        var qty = parseFloat(data);
-                        var minQty = parseFloat(row.min_qty);
-                        var className = '';
-                        
-                        if (minQty > 0 && minQty >= qty) className = 'bg-danger';
-                        else if (minQty > 0 && (qty - minQty) < 6) className = 'bg-warning';
-                        
-                        return '<span class="' + className + '">' + data + '</span>';
-                    }
-                },
+                { data: 'stock_quantity', name: 'stock_quantity', orderable: true, searchable: true },
                 { 
                     data: 'description', 
                     name: 'description',
@@ -149,6 +136,25 @@
                     }
                 });
             }
+        });
+
+        $('#mytable').on('draw.dt', function() {
+            var table = $(this).DataTable();
+            
+            // Cibler toutes les cellules de la colonne "stock_quantity"
+            table.column('stock_quantity:name').nodes().each(function(cell, index) {
+                var rowData = table.row($(cell).parent()).data(); // Données de la ligne
+                var qty = parseFloat($(cell).text());
+                var minQty = parseFloat(rowData.min_qty); // Supposant que min_qty est dans les données
+                
+                $(cell).removeClass('bg-danger bg-warning'); // Réinitialiser
+                
+                if (minQty > 0 && minQty >= qty) {
+                    $(cell).addClass('bg-danger');
+                } else if (minQty > 0 && (qty - minQty) < 6) {
+                    $(cell).addClass('bg-warning');
+                }
+            });
         });
         /*
         $('#mytable').on('draw.dt', function() {
