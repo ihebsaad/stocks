@@ -358,7 +358,7 @@
                         <div class="card mb-4">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Produits de la commande</h6>
-                                <button type="button" class="btn btn-success btn-sm" id="add-product-btn" syle="cursor:cell!important">
+                                <button type="button" class="btn btn-success btn-sm" id="add-product-btn">
                                     <i class="fas fa-plus"></i> Ajouter un produit
                                 </button>
                             </div>
@@ -750,7 +750,7 @@ $(document).ready(function() {
     });
     
     // 4. Rendre les card-header cliquables pour ouvrir/fermer card-body
-    $('.card-header').css('cursor', 'pointer').on('click', function() {
+    $('.card-header :not(.btn)').css('cursor', 'pointer').on('click', function() {
         $(this).next('.card-body').slideToggle();
     });
     
