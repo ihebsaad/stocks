@@ -749,9 +749,11 @@ $(document).ready(function() {
         imageModal.show();
     });
     
-    // 4. Rendre les card-header cliquables pour ouvrir/fermer card-body
-    $('.card-header :not(.btn)').css('cursor', 'pointer').on('click', function() {
-        $(this).next('.card-body').slideToggle();
+    $('.card-header').css('cursor', 'pointer').on('click', function(e) {
+        // Vérifier si l'élément cliqué ou un de ses parents est un bouton
+        if (!$(e.target).closest('.btn').length) {
+            $(this).next('.card-body').slideToggle();
+        }
     });
     
     // Option: Ajouter une petite icône pour indiquer que c'est cliquable
