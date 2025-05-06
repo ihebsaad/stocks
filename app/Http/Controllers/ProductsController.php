@@ -57,11 +57,17 @@ class ProductsController extends Controller
                     }
                 })
                 ->addColumn('stock_quantity', function ($product) {
-                        $qty= StockEntryItem::where('product_id', $product->id)->sum('quantity');
-                        $qty+=$product->stock_quantity;
+                    $qty = StockEntryItem::where('product_id', $product->id)->sum('quantity');
+                    $qty += $product->stock_quantity;
                     
-                    return $qty;
-
+                    $class = '';
+                    if ($product->min_qty > 0 && $product->min_qty >= $qty) {
+                        $class = 'bg-danger';
+                    } elseif ($product->min_qty > 0 && ($qty - $product->min_qty) < 6) {
+                        $class = 'bg-warning';
+                    }
+                    
+                    return '<span class="'.$class.'">'.$qty.'</span>';
                 })
                 ->editColumn('description', function ($product) {
                     return nl2br($product->description);
@@ -136,7 +142,7 @@ class ProductsController extends Controller
                     $buttons .= '</form>';
                     return $buttons;
                 })
-                ->rawColumns(['action', 'description'])
+                ->rawColumns(['action', 'description','stock_quantity'])
                 ->make(true);
         }
         return abort(404);
