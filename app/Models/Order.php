@@ -18,6 +18,10 @@ class Order extends Model
         'status',
         'notes',
         'free_delivery',
+        'subtotal',
+        'discount',
+        'delivery_cost',
+        'total',
     ];
 
     protected $casts = [
