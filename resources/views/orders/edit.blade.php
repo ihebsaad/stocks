@@ -5,7 +5,8 @@
 @section('styles')
 <!--<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />-->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
+<link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
 <style>
     .status-history {
@@ -502,7 +503,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <strong>Produit:</strong>
-                                <select name="items[INDEX][product_id]" class="form-control product-select" required>
+                                <select name="items[INDEX][product_id]" class="form-control product-select select2" required>
                                     <option value="">Sélectionner un produit</option>
                                     @foreach($products as $product)
                                         <option value="{{ $product->id }}" 
@@ -519,7 +520,7 @@
                         <div class="col-md-3">
                             <div class="form-group variation-container" style="display: none;">
                                 <strong>Variation:</strong>
-                                <select name="items[INDEX][variation_id]" class="form-control variation-select">
+                                <select name="items[INDEX][variation_id]" class="form-control variation-select select2">
                                     <option value="">Sélectionner une variation</option>
                                     <!-- Les variations seront chargées dynamiquement -->
                                 </select>
@@ -649,6 +650,8 @@ const products = @json($products);
 let itemIndex = {{ count($order->items ?? []) }};
 
 $(document).ready(function() {
+ 
+    $('.select2').select2();
  
     var currentPhone = '{{ old("phone", $order->client->phone ?? "") }}';
     $('#phone').replaceWith('<input type="text" name="phone" id="phone" class="form-control @error("phone") is-invalid @enderror" required value="' + currentPhone + '">');
