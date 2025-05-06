@@ -140,7 +140,7 @@
         $('#mytable').on('draw.dt', function() {
             $('tbody tr').each(function() {
                 var qty = parseFloat($(this).find('td:eq(5)').text()); // index de la colonne stock_quantity
-                var minQty = parseFloat($(this).data('min-qty'); // vous devez ajouter data-min-qty à votre TR
+                var minQty = parseFloat($(this).data('min-qty')); // vous devez ajouter data-min-qty à votre TR
                 
                 if (minQty > 0 && minQty >= qty) {
                     $(this).find('td:eq(5)').addClass('bg-danger');
