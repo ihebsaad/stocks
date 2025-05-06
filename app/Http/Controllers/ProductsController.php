@@ -135,7 +135,8 @@ class ProductsController extends Controller
                 })
                 ->addColumn('action', function ($product) {
                     $buttons = '';
-                    $buttons .= '<a class="btn btn-sm btn-primary mr-2 mb-1" href="' . route('products.show', $product->id) . '"><i class="fas fa-eye"></i></a>';
+                    $buttons .= '<a class="btn btn-sm btn-secondary mr-2 mb-1" href="' . route('products.show', $product->id) . '"><i class="fas fa-eye"></i></a>';
+                    $buttons .= '<a class="btn btn-sm btn-primary mr-2 mb-1" href="' . route('products.edit', $product->id) . '"><i class="fas fa-pen"></i></a>';
                     if($product->type==0){
                         $buttons .= '<form action="'. route('products.duplicate', $product->id) .'" method="POST" style="display:inline;" class="mr-2 ml-2">';
                         $buttons .= csrf_field();
