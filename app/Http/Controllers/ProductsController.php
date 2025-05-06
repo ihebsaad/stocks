@@ -60,14 +60,22 @@ class ProductsController extends Controller
                     $qty = StockEntryItem::where('product_id', $product->id)->sum('quantity');
                     $qty += $product->stock_quantity;
                     
-                    $class = '';
+                    return $qty;
+                })
+                ->filterColumn('stock_quantity', function($query, $keyword) {
+                    $query->whereRaw("(stock_quantity + (SELECT COALESCE(SUM(quantity), 0) FROM stock_entry_items WHERE stock_entry_items.product_id = products.id)) like ?", ["%{$keyword}%"]);
+                })
+                ->setRowClass(function ($product) {
+                    $qty = StockEntryItem::where('product_id', $product->id)->sum('quantity');
+                    $qty += $product->stock_quantity;
+                    
                     if ($product->min_qty > 0 && $product->min_qty >= $qty) {
-                        $class = 'bg-danger';
+                        return 'bg-danger';
                     } elseif ($product->min_qty > 0 && ($qty - $product->min_qty) < 6) {
-                        $class = 'bg-warning';
+                        return 'bg-warning';
                     }
                     
-                    return '<span class="'.$class.'">'.$qty.'</span>';
+                    return '';
                 })
                 ->editColumn('description', function ($product) {
                     return nl2br($product->description);
