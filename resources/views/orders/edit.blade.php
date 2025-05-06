@@ -358,7 +358,7 @@
                         <div class="card mb-4">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Produits de la commande</h6>
-                                <button type="button" class="btn btn-success btn-sm" id="add-product-btn">
+                                <button type="button" class="btn btn-success btn-sm" id="add-product-btn" syle="cursor:cell!important">
                                     <i class="fas fa-plus"></i> Ajouter un produit
                                 </button>
                             </div>
