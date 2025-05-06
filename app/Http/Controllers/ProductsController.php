@@ -43,10 +43,10 @@ class ProductsController extends Controller
                     return $product->reference;
                 })
                 ->addColumn('provider_name', function ($product) {
-                    return $product->provider()->company ?? 'N/A';
+                    return $product->provider->company ?? 'N/A';
                 })
                 ->addColumn('category_name', function ($product) {
-                    return $product->categorie()->name ?? 'N/A';
+                    return $product->categorie->name ?? 'N/A';
                 })
                 ->addColumn('prix_ttc', function ($product) {
                     return $product->prix_ttc;
