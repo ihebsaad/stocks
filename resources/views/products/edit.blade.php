@@ -421,7 +421,7 @@
             return;
         }
 
-        let variations = [];
+        let newVariations = [];
         
         if (hasColors && hasDimensions) {
             // Générer toutes les combinaisons possibles de couleurs et dimensions
@@ -430,7 +430,7 @@
             
             selectedColors.forEach(color => {
                 selectedDimensions.forEach(dimension => {
-                    variations.push({
+                    newVariations.push({
                         color: { id: color.id, name: color.text },
                         dimension: { id: dimension.id, name: dimension.text }
                     });
@@ -440,7 +440,7 @@
             // Générer variations par couleur uniquement
             const selectedColors = $('#colors').select2('data');
             selectedColors.forEach(color => {
-                variations.push({
+                newVariations.push({
                     color: { id: color.id, name: color.text },
                     dimension: null
                 });
@@ -449,23 +449,124 @@
             // Générer variations par dimension uniquement
             const selectedDimensions = $('#dimensions').select2('data');
             selectedDimensions.forEach(dimension => {
-                variations.push({
+                newVariations.push({
                     color: null,
                     dimension: { id: dimension.id, name: dimension.text }
                 });
             });
         }
 
+        // Si le conteneur de variations est vide ou si l'option "remplacer" est cochée,
+        // remplacer toutes les variations
         if (replaceVariations || document.getElementById('variations_list').children.length === 0) {
-            // Afficher les variations dans le conteneur
-            renderVariations(variations);
+            renderVariations(newVariations);
         } else {
-            // Confirmer avant de remplacer les variations existantes
-            if (confirm('Voulez-vous remplacer les variations existantes ?')) {
-                renderVariations(variations);
-                document.getElementById('replace_variations').checked = true;
-            }
+            // Ajouter uniquement les nouvelles variations sans demander confirmation
+            addNewVariations(newVariations);
         }
+    }
+
+    // Nouvelle fonction pour ajouter uniquement les variations manquantes
+    function addNewVariations(newVariations) {
+        const container = document.getElementById('variations_list');
+        const existingVariationsCount = container.children.length;
+        let ref = $("#reference").val();
+        let prix_achat = $("#prix_achat").val();
+        let prix_ht = $("#prix_ht").val();
+        let prix_ttc = $("#prix_ttc").val();
+        
+        // Collecter les combinaisons existantes pour éviter les doublons
+        const existingCombinations = [];
+        const existingVariationCards = container.querySelectorAll('.card');
+        
+        existingVariationCards.forEach(card => {
+            const colorInput = card.querySelector('input[name*="[color_id]"]');
+            const dimensionInput = card.querySelector('input[name*="[dimension_id]"]');
+            
+            if (colorInput && dimensionInput) {
+                existingCombinations.push({
+                    colorId: colorInput.value,
+                    dimensionId: dimensionInput.value
+                });
+            }
+        });
+        
+        // Filtrer pour ne garder que les nouvelles combinaisons
+        const uniqueNewVariations = newVariations.filter(variation => {
+            const colorId = variation.color ? variation.color.id : '';
+            const dimensionId = variation.dimension ? variation.dimension.id : '';
+            
+            // Vérifier si cette combinaison existe déjà
+            return !existingCombinations.some(combo => 
+                combo.colorId === colorId && combo.dimensionId === dimensionId
+            );
+        });
+        
+        // Ajouter uniquement les nouvelles variations
+        uniqueNewVariations.forEach((variation, i) => {
+            const index = existingVariationsCount + i; // Commencer à partir du dernier index
+            
+            let variationName = '';
+            if (variation.color && variation.dimension) {
+                variationName = `${variation.color.name}-${variation.dimension.name}`;
+            } else if (variation.color) {
+                variationName = variation.color.name;
+            } else if (variation.dimension) {
+                variationName = variation.dimension.name;
+            }
+
+            const variationCard = document.createElement('div');
+            variationCard.className = 'card mb-3';
+            variationCard.innerHTML = `
+                <div class="card-header">
+                    <h5>Variation: ${variationName}</h5>
+                </div>
+                <div class="card-body">
+                    <input type="hidden" name="variations[${index}][color_id]" value="${variation.color ? variation.color.id : ''}">
+                    <input type="hidden" name="variations[${index}][dimension_id]" value="${variation.dimension ? variation.dimension.id : ''}">
+                    
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Référence:</label>
+                                <input type="text" name="variations[${index}][reference]" value="${ref}-${variationName}" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Prix d'achat:</label>
+                                <input type="number" name="variations[${index}][prix_achat]" class="form-control" step="0.01" min="0" value="${prix_achat}">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Prix HT:</label>
+                                <input type="number" name="variations[${index}][prix_ht]" class="form-control variation-prix-ht" value="${prix_ht}" step="0.01" min="0" required
+                                    onchange="calculateVariationTTC(${index})">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Prix TTC:</label>
+                                <input type="number" name="variations[${index}][prix_ttc]" class="form-control variation-prix-ttc" value="${prix_ttc}" step="0.01" min="0" required
+                                    onchange="calculateVariationHT(${index})">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Stock:</label>
+                                <input type="number" name="variations[${index}][stock_quantity]" class="form-control" min="0" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(variationCard);
+        });
+
+        // Afficher le conteneur de variations s'il n'est pas déjà visible
+        document.getElementById('variations_container').style.display = 'block';
     }
 
     function renderVariations(variations) {
