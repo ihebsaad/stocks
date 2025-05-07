@@ -90,7 +90,7 @@ class OrderController extends Controller
                     $last_comment=OrderStatusHistory::where('order_id', $order->id)->orderBy('id','desc')->first()->comment ?? '';
                     return '<span class="status-badge status-' . $order->status . '">' . 
                            ($statusLabels[$order->status] ?? $order->status) . 
-                           '</span>  <small>'.$last_comment.'</small>';
+                           '</span><br><small>'.$last_comment.'</small>';
                 })
                 ->addColumn('created_at_formatted', function ($order) {
                     $createdInfo = $order->created_at->format('d/m/Y H:i');
