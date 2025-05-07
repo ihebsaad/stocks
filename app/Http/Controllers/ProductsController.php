@@ -49,7 +49,12 @@ class ProductsController extends Controller
                     return $product->categorie->name ?? 'N/A';
                 })
                 ->addColumn('prix_ttc', function ($product) {
-                    return $product->prix_ttc;
+                    if($product->type==1){
+                        $variation= Variation::where('product_id', $product->id)->get();
+                        return  $variation->prix_ttc;
+                    }else{
+                        return $product->prix_ttc;
+                    }
                 })
                 ->addColumn('name', function ($product) {
                     return $product->name;
@@ -57,9 +62,9 @@ class ProductsController extends Controller
                 ->addColumn('type', function ($product) {
                     if($product->type==1){
                         $variations= Variation::where('product_id', $product->id)->count();
-                        return 'Var ('.$variations.')';
+                        return 'Variable ('.$variations.')';
                     }else{
-                        return 'Simp';
+                        return 'Simple';
                     }
                 })
                 ->addColumn('stock_quantity', function ($product) {

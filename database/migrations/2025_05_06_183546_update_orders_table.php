@@ -15,10 +15,10 @@ class UpdateOrdersTable extends Migration
     {
         //
         Schema::table('orders', function (Blueprint $table) {
-            $table->decimal('subtotal', 10, 2);
-            $table->decimal('discount', 10, 2);
-            $table->decimal('delivery_cost', 10, 2);
-            $table->decimal('total', 10, 2);
+            $table->decimal('subtotal', 10, 2)->default(0);
+            $table->decimal('discount', 10, 2)->default(0);
+            $table->decimal('delivery_cost', 10, 2)->default(0);
+            $table->decimal('total', 10, 2)->default(0);
         });
     }
 
