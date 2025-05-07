@@ -386,7 +386,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-1 col-md-3">
+                                                <div class="col-lg-2 col-md-3">
                                                     <div class="form-group">
                                                         <strong>Qté:</strong>
                                                         <input type="number" name="items[{{ $index }}][quantity]" class="form-control item-quantity" 
@@ -401,9 +401,9 @@
                                                             step="0.01" min="0" value="{{ $item->unit_price }}" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-2 col-md-3">
+                                                <div class="col-lg-1 col-md-3">
                                                     <div class="form-group">
-                                                        <strong>Sous-total:</strong>
+                                                        <strong>Tot:</strong>
                                                         <input type="text" class="form-control item-subtotal" value="{{ number_format($item->unit_price * $item->quantity, 2) }} TND" readonly>
                                                     </div>
                                                 </div>
