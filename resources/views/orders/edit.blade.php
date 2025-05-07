@@ -396,7 +396,7 @@
                                                 </div>
                                                 <div class="col-lg-2 col-md-3">
                                                     <div class="form-group">
-                                                        <strong>Prix unitaire:</strong>
+                                                        <strong>Prix U:</strong>
                                                         <input type="number" name="items[{{ $index }}][unit_price]" class="form-control item-price" 
                                                             step="0.01" min="0" value="{{ $item->unit_price }}" required>
                                                     </div>
@@ -512,7 +512,7 @@
                         </div>
                         <div class="col-lg-2 col-sm-3">
                             <div class="form-group">
-                                <strong>Prix unitaire:</strong>
+                                <strong>Prix U:</strong>
                                 <input type="number" name="items[INDEX][unit_price]" class="form-control item-price" step="0.01" min="0" required>
                             </div>
                         </div>
