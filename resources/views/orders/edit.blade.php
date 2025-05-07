@@ -36,31 +36,7 @@
         border-radius: 50%;
         background-color: #007bff;
     }
-    .order-images img {
-        /*max-height: 150px;*/
-        max-width:400px;
-        margin: 5px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 3px;
-    }
-    .image-container {
-        position: relative;
-        display: inline-block;
-    }
-    .image-remove {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background: rgba(255, 0, 0, 0.7);
-        color: white;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        text-align: center;
-        line-height: 20px;
-        cursor: pointer;
-    }
+   
 
         
     .status-history {
@@ -96,7 +72,8 @@
     }
 
     .order-images img {
-        max-height: 150px;
+        /*max-height: 150px;*/
+        max-width:400px;
         margin: 5px;
         border: 1px solid #ddd;
         border-radius: 4px;
