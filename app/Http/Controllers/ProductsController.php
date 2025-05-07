@@ -51,9 +51,9 @@ class ProductsController extends Controller
                 ->addColumn('prix_ttc', function ($product) {
                     if($product->type==1){
                         $variation= Variation::where('product_id', $product->id)->first();
-                        return  $variation->prix_ttc;
+                        return  $variation->prix_ttc ?? 0;
                     }else{
-                        return $product->prix_ttc;
+                        return $product->prix_ttc ?? 0;
                     }
                 })
                 ->addColumn('name', function ($product) {
