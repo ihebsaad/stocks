@@ -127,6 +127,9 @@
         right:10px;
 
     }
+    #discount{
+        max-width:200px;
+    }
 </style>
 @endsection
 
