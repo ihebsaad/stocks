@@ -37,7 +37,8 @@
         background-color: #007bff;
     }
     .order-images img {
-        max-height: 150px;
+        /*max-height: 150px;*/
+        max-width:400px;
         margin: 5px;
         border: 1px solid #ddd;
         border-radius: 4px;
