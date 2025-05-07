@@ -477,7 +477,7 @@
             <template id="product-item-template">
                 <div class="product-item mb-3">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <strong>Produit:</strong>
                                 <select name="items[INDEX][product_id]" class="form-control product-select" required>
@@ -494,7 +494,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3 col-sm-6">
                             <div class="form-group variation-container" style="display: none;">
                                 <strong>Variation:</strong>
                                 <select name="items[INDEX][variation_id]" class="form-control variation-select">
@@ -503,26 +503,26 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-lg-2 col-sm-3">
                             <div class="form-group">
                                 <strong>Qté:</strong>
                                 <input type="number" name="items[INDEX][quantity]" class="form-control item-quantity" min="1" value="1" required>
                                 <small class="text-muted stock-info">Stock: <span class="available-stock">0</span></small>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-lg-2 col-sm-3">
                             <div class="form-group">
                                 <strong>Prix unitaire:</strong>
                                 <input type="number" name="items[INDEX][unit_price]" class="form-control item-price" step="0.01" min="0" required>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-lg-1 col-sm-3">
                             <div class="form-group">
-                                <strong>Sous-total:</strong>
+                                <strong>Tot:</strong>
                                 <input type="text" class="form-control item-subtotal" readonly>
                             </div>
                         </div>
-                        <div class="col-md-1 pt-2">
+                        <div class="col-lg-1 col-sm-3 pt-2">
                             <button type="button" class="btn btn-danger btn-sm remove-product-btn float-right mt-4">
                                 <i class="fas fa-trash"></i>
                             </button>
