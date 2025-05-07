@@ -130,6 +130,11 @@
     #discount{
         max-width:150px;
     }
+    .item-subtotal{
+        font-size:10px;
+        padding:2px 2px;
+    }
+
 </style>
 @endsection
 
