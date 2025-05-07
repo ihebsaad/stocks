@@ -347,7 +347,7 @@
                                         @foreach($order->items as $index => $item)
                                         <div class="product-item mb-3">
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-lg-3 col-sm-6">
                                                     <div class="form-group">
                                                         <strong>Produit:</strong>
                                                         <select name="items[{{ $index }}][product_id]" class="form-control product-select" required>
@@ -365,7 +365,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-lg-3 col-sm-6">
                                                     <div class="form-group variation-container" style="{{ $item->variation_id ? '' : 'display: none;' }}">
                                                         <strong>Variation:</strong>
                                                         <select name="items[{{ $index }}][variation_id]" class="form-control variation-select">
@@ -386,7 +386,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1">
+                                                <div class="col-lg-1 col-sm-3">
                                                     <div class="form-group">
                                                         <strong>Qté:</strong>
                                                         <input type="number" name="items[{{ $index }}][quantity]" class="form-control item-quantity" 
@@ -394,20 +394,20 @@
                                                         <small class="text-muted stock-info">Stock: <span class="available-stock">{{ $item->variation_id ? $item->variation->stock_quantity : $item->product->stock_quantity }}</span></small>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-lg-2 col-sm-3">
                                                     <div class="form-group">
                                                         <strong>Prix unitaire:</strong>
                                                         <input type="number" name="items[{{ $index }}][unit_price]" class="form-control item-price" 
                                                             step="0.01" min="0" value="{{ $item->unit_price }}" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-lg-2 col-sm-3">
                                                     <div class="form-group">
                                                         <strong>Sous-total:</strong>
                                                         <input type="text" class="form-control item-subtotal" value="{{ number_format($item->unit_price * $item->quantity, 2) }} TND" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1 pt-2">
+                                                <div class="col-lg-1 col-sm-3 pt-2">
                                                     <button type="button" class="btn btn-danger btn-sm remove-product-btn float-right mt-4">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
