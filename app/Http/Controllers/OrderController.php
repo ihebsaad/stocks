@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Variation;
 use App\Models\OrderItem;
+use App\Models\OrderStatusHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -86,10 +87,10 @@ class OrderController extends Controller
                         'in_delivery' => 'En livraison',
                         'completed' => 'Terminée'
                     ];
-                    
+                    $last_comment=OrderStatusHistory::where('order_id', $order->id)->orderBy('id','desc')->first()->comment ?? '';
                     return '<span class="status-badge status-' . $order->status . '">' . 
                            ($statusLabels[$order->status] ?? $order->status) . 
-                           '</span>';
+                           '</span>  <small>'.$last_comment.'</small>';
                 })
                 ->addColumn('created_at_formatted', function ($order) {
                     $createdInfo = $order->created_at->format('d/m/Y H:i');
