@@ -99,7 +99,7 @@
 		@can('isAdmin')
 		<!-- Item -->
 		<div class="col-lg-3 col-md-6">
-			<div class="dashboard-stat color-2">
+			<div class="dashboard-stat color-3">
 				<div class="dashboard-stat-content"><a href="{{route('products.index')}}">
 						<h4>{{$produits}}</h4> <span>Produits</span>
 					</a></div>
