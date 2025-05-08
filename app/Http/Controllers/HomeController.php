@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\Customer;
 use App\Models\Item;
-use App\Models\Quote;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Reglement;
 use Carbon\Carbon;
@@ -32,8 +32,10 @@ class HomeController extends Controller
     public function index(Request $request)
     {
          
+        $commandes=Order::count();
+        $produits=Product::count();
 
-        return view('home');
+        return view('home',compact('commandes','produits'));
  
     }
 

@@ -91,7 +91,7 @@
 		<div class="col-lg-3 col-md-6">
 			<div class="dashboard-stat color-1">
 				<div class="dashboard-stat-content"><a href="{{route('orders.index')}}">
-						<h4>20</h4> <span>Commandes</span>
+						<h4>{{$commandes}}</h4> <span>Commandes</span>
 					</a></div>
 				<div class="dashboard-stat-icon"><i class="fas fa-address-card"></i></div>
 			</div>
@@ -101,14 +101,14 @@
 		<div class="col-lg-3 col-md-6">
 			<div class="dashboard-stat color-2">
 				<div class="dashboard-stat-content"><a href="{{route('products.index')}}">
-						<h4>50</h4> <span>Produits</span>
+						<h4>{{$produits}}</h4> <span>Produits</span>
 					</a></div>
 				<div class="dashboard-stat-icon"><i class="fas fa-cubes"></i></div>
 			</div>
 		</div>
 		@endcan
 
-		<!-- Item -->
+		<!--   
 		<div class="col-lg-3 col-md-6">
 			<div class="dashboard-stat color-3">
 				<div class="dashboard-stat-content"><a href="{{route('quotes.index')}}">
@@ -118,8 +118,7 @@
 			</div>
 		</div>
 		@can('isAdmin')
-		<!-- Item -->
-		<div class="col-lg-3 col-md-6">
+ 		<div class="col-lg-3 col-md-6">
 			<div class="dashboard-stat color-4">
 				<div class="dashboard-stat-content"><a href="{{route('invoices.index')}}">
 						<h4>100</h4> <span>Factures</span>
@@ -128,6 +127,7 @@
 			</div>
 		</div>
 		@endcan
+	-->
 	</div>
 
    
