@@ -31,11 +31,11 @@
                     </div>
                     <div class="col-md-6">
                         <strong>Catégorie:</strong>
-                        {{ $product->category ? $product->category->name : 'Non définie' }}
+                        {{ $product->categorie->name ??  'Non définie' }}
                     </div>
                     <div class="col-md-6">
                         <strong>Fournisseur:</strong>
-                        {{ $product->provider ? $product->provider->company : 'Non défini' }}
+                        {{  $product->provider->company ?? 'Non défini' }}
                     </div>
                     <div class="col-md-6">
                         <strong>Quantité minimum:</strong>

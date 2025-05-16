@@ -110,7 +110,7 @@
 
 		<!--   
 		<div class="col-lg-3 col-md-6">
-			<div class="dashboard-stat color-3">
+			<div class="dashboard-stat color-2">
 				<div class="dashboard-stat-content"><a href="{{route('quotes.index')}}">
 						<h4>100</h4> <span>Devis</span>
 					</a></div>
