@@ -111,7 +111,7 @@
 		<!--   
 		<div class="col-lg-3 col-md-6">
 			<div class="dashboard-stat color-2">
-				<div class="dashboard-stat-content"><a href="{{route('quotes.index')}}">
+				<div class="dashboard-stat-content"><a href="#">
 						<h4>100</h4> <span>Devis</span>
 					</a></div>
 				<div class="dashboard-stat-icon"><i class="fas fa-file-invoice"></i></div>
@@ -120,7 +120,7 @@
 		@can('isAdmin')
  		<div class="col-lg-3 col-md-6">
 			<div class="dashboard-stat color-4">
-				<div class="dashboard-stat-content"><a href="{{route('invoices.index')}}">
+				<div class="dashboard-stat-content"><a href="#">
 						<h4>100</h4> <span>Factures</span>
 					</a></div>
 				<div class="dashboard-stat-icon"><i class="fas fa-file-invoice-dollar"></i></div>
