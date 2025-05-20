@@ -22,6 +22,7 @@ use App\Http\Controllers\ClientApiController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\API\DeliveryController;
 
+use App\Http\Controllers\ParcelController;      
 use App\Http\Controllers\HomeController;      
 
 Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('products.list');
@@ -105,7 +106,9 @@ Route::prefix('delivery/{company}')->group(function () {
 Route::resource('providers', ProvidersController::class);
 Route::resource('users', UsersController::class);
 
+Route::post('/parcels/{order}', [ParcelController::class, 'store'])->name('parcels.store');
 
+Route::get('/invoices-by-product/{productId}', [HomeController::class, 'getInvoicesByProduct'])->name('invoices.by.product');
 
 /*
  
@@ -195,6 +198,5 @@ Route::get('/calendar', [LivraisonsController::class, 'calendar'])->name('calend
  
 Route::get('/colors', [ColorController::class, 'index'])->name('colors.index');
 */
-Route::get('/invoices-by-product/{productId}', [HomeController::class, 'getInvoicesByProduct'])->name('invoices.by.product');
 
  
