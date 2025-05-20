@@ -57,6 +57,12 @@
     .card-header:hover {
         background-color: #f8f9fa;
     }
+	.card-header .float-end{
+        position: absolute;
+        top:10px;
+        right:10px;
+
+    }
 	</style>
 
   	@yield('styles')

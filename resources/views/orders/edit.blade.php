@@ -107,26 +107,13 @@
         z-index: 10;
     }
 
-    /* Pour indiquer que les card-header sont cliquables */
-    .card-header {
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
 
-    .card-header:hover {
-        background-color: #f8f9fa;
-    }
 
     /* Masquer le bloc de sélection du client */
     #client_search_container {
         display: none;
     }
-    .float-end{
-        position: absolute;
-        top:10px;
-        right:10px;
 
-    }
     #discount{
         max-width:150px;
     }
