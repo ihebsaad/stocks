@@ -154,6 +154,7 @@
             </div>
         </div>
     </div>
+    <div class="col-md-8">
     <!-- Ajout de la section entrées de stock -->
         <div class="card mt-8">
             <div class="card-header">
@@ -228,7 +229,6 @@
             </div>
         </div>
         @endif  
-
-
+    </div>
 </div>
 @endsection
