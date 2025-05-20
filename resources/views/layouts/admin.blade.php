@@ -20,7 +20,6 @@
 
 	    @if ($errors->any())
 		<div class="alert alert-danger">
-			<strong>Whoops! </strong> Il y a eu des problèmes avec vos entrées.<br><br>
 			<ul>
 				@foreach ($errors->all() as $error)
 					<li>{{ $error }}</li>
@@ -29,6 +28,17 @@
 		</div>
 		@endif
 
+		@if (session('success'))
+			<div class="alert alert-success">
+				{{ session('success') }}
+			</div>
+		@endif
+		
+		@if (session('error'))
+			<div class="alert alert-danger">
+				{{ session('error') }}
+			</div>
+		@endif
 		@yield('content')
 
 

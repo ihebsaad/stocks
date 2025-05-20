@@ -138,18 +138,7 @@
         </div>
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-    
+   
     <div class="row">
         <!-- Informations sur la commande -->
         <div class="col-md-8">
@@ -163,9 +152,8 @@
                         @method('PUT')
                         
                         @if($order->parcel)
-                            <div class="alert alert-success mt-3">
-                                <strong>Colis envoyé !</strong><br>
-                                Référence : {{ $order->parcel->reference }}<br>
+                            <div class="">
+                                <strong>Colis envoyé !</strong> Référence : {{ $order->parcel->reference }}<br>
                                 <a href="{{ $order->parcel->tracking_url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
                                     Voir le bordereau
                                 </a>
