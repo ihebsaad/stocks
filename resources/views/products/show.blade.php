@@ -112,82 +112,6 @@
         @endif
     </div>
 
-
-    <!-- Ajout de la section entrées de stock -->
-        <div class="card mt-4">
-            <div class="card-header">
-                <h4>Historique des entrées de stock</h4>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Référence</th>
-                                <th>Quantité</th>
-                                <th>Prix d'achat</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if($stockEntries->count() > 0)
-                                @foreach($stockEntries as $item)
-                                <tr>
-                                    <td>{{ $item->stockEntry->date->format('d/m/Y') }}</td>
-                                    <td>{{ $item->stockEntry->reference }}</td>
-                                    <td>{{ $item->quantity }}</td>
-                                    <td>{{ number_format($item->prix_achat, 2) }} Dt</td>
-                                    <td>{{ $item->stockEntry->description ?? '-' }}</td>
-                                </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="5" class="text-center">Aucune entrée de stock pour ce produit.</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        @if($product->isVariable() && $stockEntries->where('variation_id', '!=', null)->count() > 0)
-        <div class="card mt-4">
-            <div class="card-header">
-                <h4>Historique des entrées de stock par variation</h4>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Référence</th>
-                                <th>Variation</th>
-                                <th>Quantité</th>
-                                <th>Prix d'achat</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($stockEntries->where('variation_id', '!=', null) as $item)
-                            <tr>
-                                <td>{{ $item->stockEntry->date->format('d/m/Y') }}</td>
-                                <td>{{ $item->stockEntry->reference }}</td>
-                                <td>{{ $item->variation ? $item->variation->getFormattedName() : '-' }}</td>
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ number_format($item->prix_achat, 2) }} Dt</td>
-                                <td>{{ $item->stockEntry->description ?? '-' }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        @endif  
-              
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
@@ -230,5 +154,81 @@
             </div>
         </div>
     </div>
+    <!-- Ajout de la section entrées de stock -->
+        <div class="card mt-8">
+            <div class="card-header">
+                <h4>Historique des entrées de stock</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Référence</th>
+                                <th>Quantité</th>
+                                <th>Prix d'achat</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if($stockEntries->count() > 0)
+                                @foreach($stockEntries as $item)
+                                <tr>
+                                    <td>{{ $item->stockEntry->date->format('d/m/Y') }}</td>
+                                    <td>{{ $item->stockEntry->reference }}</td>
+                                    <td>{{ $item->quantity }}</td>
+                                    <td>{{ number_format($item->prix_achat, 2) }} Dt</td>
+                                    <td>{{ $item->stockEntry->description ?? '-' }}</td>
+                                </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="5" class="text-center">Aucune entrée de stock pour ce produit.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        @if($product->isVariable() && $stockEntries->where('variation_id', '!=', null)->count() > 0)
+        <div class="card mt-8">
+            <div class="card-header">
+                <h4>Historique des entrées de stock par variation</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Référence</th>
+                                <th>Variation</th>
+                                <th>Quantité</th>
+                                <th>Prix d'achat</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($stockEntries->where('variation_id', '!=', null) as $item)
+                            <tr>
+                                <td>{{ $item->stockEntry->date->format('d/m/Y') }}</td>
+                                <td>{{ $item->stockEntry->reference }}</td>
+                                <td>{{ $item->variation ? $item->variation->getFormattedName() : '-' }}</td>
+                                <td>{{ $item->quantity }}</td>
+                                <td>{{ number_format($item->prix_achat, 2) }} Dt</td>
+                                <td>{{ $item->stockEntry->description ?? '-' }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @endif  
+
+
 </div>
 @endsection
