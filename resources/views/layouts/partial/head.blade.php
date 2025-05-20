@@ -48,7 +48,15 @@
 	<link rel="stylesheet" type="text/css"    href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 	<style>
- 
+     /* Pour indiquer que les card-header sont cliquables */
+    .card-header {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .card-header:hover {
+        background-color: #f8f9fa;
+    }
 	</style>
 
   	@yield('styles')
