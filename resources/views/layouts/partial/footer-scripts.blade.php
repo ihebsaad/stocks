@@ -81,6 +81,19 @@
             }
                     toastr.warning("{{ session('warning') }}");
             @endif
+
+    $('.card-header').css('cursor', 'pointer').on('click', function(e) {
+        // Vérifier si l'élément cliqué ou un de ses parents est un bouton
+        if (!$(e.target).closest('.btn').length) {
+            $(this).next('.card-body').slideToggle();
+        }
+    });
+    
+    // Option: Ajouter une petite icône pour indiquer que c'est cliquable
+    $('.card-header').append('<i class="fas fa-chevron-down float-end"></i>');
+    $('.card-header').on('click', function() {
+        $(this).find('.fa-chevron-down, .fa-chevron-up').toggleClass('fa-chevron-down fa-chevron-up');
+    });
 </script>
 
 @yield('footer-scripts')
