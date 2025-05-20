@@ -15,6 +15,11 @@ class DeliveryCompany extends Model
         'delivery_price',
         'manager_name',
         'phone',
+        'api_url_dev',
+        'api_url_prod',
+        'code_api',
+        'cle_api',
+        'is_active',
     ];
 
     protected $casts = [

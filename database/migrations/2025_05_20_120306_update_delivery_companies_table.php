@@ -14,7 +14,7 @@ class UpdateDeliveryCompaniesTable extends Migration
     public function up()
     {
         //
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('delivery_companies', function (Blueprint $table) {
             $table->string('api_url_dev');
             $table->string('api_url_prod');
             $table->string('code_api');
@@ -32,7 +32,7 @@ class UpdateDeliveryCompaniesTable extends Migration
     public function down()
     {
         //
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('delivery_companies', function (Blueprint $table) {
             $table->dropColumn('api_url_dev');
             $table->dropColumn('api_url_prod');
             $table->dropColumn('code_api');
