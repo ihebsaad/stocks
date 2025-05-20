@@ -41,6 +41,9 @@ class ParcelController extends Controller
 
 
         if (isset($apiResponse['reference'])) {
+
+            // mise a jour statut ici
+
             $parcel->update([
                 'status' => 'envoyé',
                 'reference' => $apiResponse['reference'],

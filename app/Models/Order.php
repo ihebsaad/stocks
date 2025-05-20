@@ -53,6 +53,12 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    
+    public function parcel()
+    {
+        return $this->hasOne(Parcel::class);
+    }
+
     public function statusHistory()
     {
         return $this->hasMany(OrderStatusHistory::class);
