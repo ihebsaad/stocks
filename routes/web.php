@@ -20,6 +20,7 @@ use App\Http\Controllers\ProvidersController;
 use App\Http\Controllers\StockEntryController;
 use App\Http\Controllers\ClientApiController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\API\DeliveryController;
 
 use App\Http\Controllers\HomeController;      
 
@@ -95,11 +96,18 @@ Route::get('clients/check-phone', [ClientApiController::class, 'checkPhone'])->n
 
 
 
+Route::prefix('delivery/{company}')->group(function () {
+    Route::get('/list', [DeliveryController::class, 'list']);
+    Route::get('/get/{barcode}', [DeliveryController::class, 'get']);
+    Route::post('/create', [DeliveryController::class, 'create']);
+});
+
+Route::resource('providers', ProvidersController::class);
+Route::resource('users', UsersController::class);
 
 
 
-
-
+/*
  
  use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\QuotesController;
@@ -121,19 +129,17 @@ Route::get('/quotes/list', [QuotesController::class, 'getQuotes'])->name('quotes
 Route::get('/invoices-data', [InvoicesController::class, 'getInvoices'])->name('invoices.data');
 
 Route::resource('categories', CategoriesController::class);
-Route::resource('users', UsersController::class);
 Route::resource('invoices', InvoicesController::class);
 Route::resource('quotes', QuotesController::class);
-Route::resource('providers', ProvidersController::class);
 Route::resource('livraisons', LivraisonsController::class);
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Settings
 Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
@@ -148,7 +154,7 @@ Route::get('/loginAs/{id}', [UsersController::class, 'loginAs'])->name('loginAs'
 Route::post('/users/ajoutimage',[UsersController::class, 'ajoutimage'])->name('users.ajoutimage');
 Route::post('/activer/{id}', [UsersController::class, 'activer'])->name('activer');
 Route::post('/desactiver/{id}', [UsersController::class, 'desactiver'])->name('desactiver');
-
+/*
 //Signature
 Route::get('signatures', [App\Http\Controllers\SignaturePadController::class, 'index']);
 Route::get('signature/{quote_id}', [App\Http\Controllers\SignaturePadController::class, 'signature'])->name('signature');
@@ -186,10 +192,9 @@ Route::post('/update_totals',[LivraisonsController::class, 'update_totals'])->na
 Route::get('/livraisons/add/{customer_id}', [LivraisonsController::class, 'add'])->name('livraisons.add');
 Route::get('/livraisons/edit_men/{id}', [LivraisonsController::class, 'edit_men'])->name('livraisons.edit_men');
 Route::get('/calendar', [LivraisonsController::class, 'calendar'])->name('calendar');
-
-  
+ 
 Route::get('/colors', [ColorController::class, 'index'])->name('colors.index');
-
+*/
 Route::get('/invoices-by-product/{productId}', [HomeController::class, 'getInvoicesByProduct'])->name('invoices.by.product');
 
  
