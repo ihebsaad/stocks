@@ -175,6 +175,16 @@
                         @csrf
                         @method('PUT')
                         
+                        @if($order->parcel)
+                            <div class="alert alert-success mt-3">
+                                <strong>Colis envoyé !</strong><br>
+                                Référence : {{ $order->parcel->reference }}<br>
+                                <a href="{{ $order->parcel->tracking_url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                    Voir le bordereau
+                                </a>
+                            </div>
+                        @endif
+
                         <!-- Section Client -->
                         <div class="card mb-4">
                             <div class="card-header bg-light">
@@ -474,8 +484,9 @@
                     </form>
                     <form method="POST" action="{{ route('parcels.store', $order->id) }}">
                         @csrf
-                        <button type="submit" class="btn btn-warning mt-3 float-end" style="display:none">Créer et envoyer colis</button>
+                        <button type="submit" class="btn btn-success float-right" style="display:none">Créer et envoyer colis</button>
                     </form>
+
                     <form id="delete-form" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display: none;">
                         @csrf
                         @method('DELETE')

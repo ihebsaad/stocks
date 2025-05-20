@@ -39,13 +39,19 @@ class ParcelController extends Controller
         $deliveryService = new DeliveryService($deliveryCompany);
         $apiResponse = $deliveryService->createParcel($parcel->toArray());
 
-        // Traitement de la réponse
-        if (isset($apiResponse['success']) && $apiResponse['success']) {
-            $parcel->status = 'envoyé';
-            $parcel->save();
-            return back()->with('success', 'Colis créé et envoyé à la société de livraison.');
+
+        if (isset($apiResponse['reference'])) {
+            $parcel->update([
+                'status' => 'envoyé',
+                'reference' => $apiResponse['reference'],
+                'tracking_url' => $apiResponse['url'] ?? null,
+                'api_message' => $apiResponse['message'] ?? null,
+            ]);
+
+            return back()->with('success', 'Colis créé et envoyé avec succès. Réf: ' . $parcel->reference);
         } else {
             return back()->with('error', 'Erreur API: ' . json_encode($apiResponse));
         }
+
     }
 }
