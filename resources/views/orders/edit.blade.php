@@ -153,9 +153,8 @@
                         
                         @if($order->parcel)
                             <div class="">
-                                <strong>Colis envoyé !</strong> Référence : {{ $order->parcel->reference }}<br>
                                 <a href="{{ $order->parcel->tracking_url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
-                                    Voir le bordereau
+                                    Colis envoyé avec référence : {{ $order->parcel->reference }}
                                 </a>
                             </div>
                         @endif
