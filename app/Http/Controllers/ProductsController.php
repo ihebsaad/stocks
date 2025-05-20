@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\StockEntryItem;
+use App\Models\StockEntry;
 use App\Models\Variation;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
@@ -351,7 +352,29 @@ class ProductsController extends Controller
     public function show(Product $product)
     {
         $product->load(['categorie', 'provider', 'variations.attributeValues.attribute', 'images']);
-        return view('products.show', compact('product'));
+
+        $stockEntries = StockEntryItem::with('stockEntry')
+        ->where('product_id', $product->id)
+        ->whereNull('variation_id')  // Pour les produits simples
+        ->orderBy('created_at', 'desc')
+        ->get();
+    
+        // Pour les produits variables, on peut aussi récupérer les entrées de stock par variation
+        if ($product->isVariable()) {
+            // Récupérer les IDs des variations de ce produit
+            $variationIds = $product->variations->pluck('id')->toArray();
+            
+            // Récupérer les entrées de stock pour les variations de ce produit
+            $variationStockEntries = StockEntryItem::with('stockEntry', 'variation')
+                ->whereIn('variation_id', $variationIds)
+                ->orderBy('created_at', 'desc')
+                ->get();
+                
+            // Fusionner avec les entrées générales du produit
+            $stockEntries = $stockEntries->concat($variationStockEntries);
+        }
+
+        return view('products.show', compact('product','stockEntries'));
     }
     public function edit($id)
     {
