@@ -32,6 +32,7 @@ Route::resource('categories', CategoriesController::class);
 Route::resource('users', UsersController::class);
 Route::resource('providers', ProvidersController::class);
 Route::resource('orders', OrderController::class);
+Route::resource('parcels', ParcelController::class);
 
 Route::get('/', function () {
     return view('welcome');
