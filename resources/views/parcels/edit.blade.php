@@ -61,9 +61,14 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="gov_l" class="form-label">Gouvernorat *</label>
-                        <input type="text" name="gov_l" id="gov_l" class="form-control @error('gov_l') is-invalid @enderror"
-                               value="{{ old('gov_l', $parcel->gov_l) }}" required>
                         @error('gov_l')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <select  name="gov_l" id="gov_l" class="form-control @error('gov_l') is-invalid @enderror"  required>
+                            @foreach($delegations as $delegation)
+                                <option value="{{ $delegation }}"{{ $parcel->gov_l == $delegation ? 'selected' : '' }}>
+                                    {{ $delegation }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="col-md-8">
