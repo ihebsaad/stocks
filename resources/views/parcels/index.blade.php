@@ -75,7 +75,7 @@ $(function() {
         type: 'GET',
         dataType: "json", 
         ajax: {
-            url: "{{ route('parcels.getParcel') }}",
+            url: "{{ route('parcels.getParcels') }}",
         },
         columns: [
             { data: 'reference', name: 'reference' },
