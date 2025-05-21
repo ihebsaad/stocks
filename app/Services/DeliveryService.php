@@ -45,6 +45,17 @@ class DeliveryService
 
         return $this->postRequest($data);
     }
+ 
+
+    public function deleteParcel($codeBarre)
+    {
+        return $this->postRequest([
+            'action' => 'delete',
+            'code_api' => $this->company->code_api,
+            'cle_api' => $this->company->cle_api,
+            'code_barre' => $codeBarre,
+        ]);
+    }
 
     protected function postRequest(array $params)
     {

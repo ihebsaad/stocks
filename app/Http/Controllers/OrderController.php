@@ -445,12 +445,12 @@ class OrderController extends Controller
                 'total' => $total,
             ]);
 
-
+            /*
             // Restaurer les stocks des produits actuels avant de les supprimer
             foreach ($order->items as $item) {
                 $this->restoreStockQuantity($item);
             }
-            
+            */
             // Supprimer les éléments actuels de la commande
             $order->items()->delete();
             
@@ -466,7 +466,7 @@ class OrderController extends Controller
                 ]);
             
                 // Déduire du stock
-                $this->deductFromStock($orderItem);
+                //$this->deductFromStock($orderItem);
             }            
             
             DB::commit();
@@ -520,47 +520,6 @@ class OrderController extends Controller
     }
 
 
-    /**
-     * Déduire la quantité du stock
-     */
-    private function deductFromStock(OrderItem $item)
-    {
-        if ($item->variation_id) {
-            $variation = Variation::findOrFail($item->variation_id);
-            if ($variation->stock_quantity < $item->quantity) {
-                throw new \Exception("Stock insuffisant pour la variation {$variation->reference}");
-            }
-            $variation->stock_quantity -= $item->quantity;
-            $variation->save();
-        } else {
-            $product = Product::findOrFail($item->product_id);
-            if ($product->stock_quantity < $item->quantity) {
-                throw new \Exception("Stock insuffisant pour le produit {$product->name}");
-            }
-            $product->stock_quantity -= $item->quantity;
-            $product->save();
-        }
-    }
-
-    /**
-     * Restaurer la quantité au stock
-     */
-    private function restoreStockQuantity(OrderItem $item)
-    {
-        if ($item->variation_id) {
-            $variation = Variation::find($item->variation_id);
-            if ($variation) {
-                $variation->stock_quantity += $item->quantity;
-                $variation->save();
-            }
-        } else {
-            $product = Product::find($item->product_id);
-            if ($product) {
-                $product->stock_quantity += $item->quantity;
-                $product->save();
-            }
-        }
-    }
 
 
 }

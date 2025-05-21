@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Parcel;
-use App\Models\DeliveryCompany;
-use App\Models\OrderStatusHistory;
+use App\Models\Product;
+use App\Models\Variation;
+use App\Models\OrderItem;
 use App\Services\DeliveryService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -169,9 +170,62 @@ class ParcelController extends Controller
 
     }
 
-    
-    public function destroy(Parcel $parcel)
+        public function destroy(Parcel $parcel)
     {
+        $deliveryCompany = $parcel->company;
+        $deliveryService = new DeliveryService($deliveryCompany);
 
+        $response = $deliveryService->deleteParcel($parcel->reference);
+
+        if (isset($response['message'])) {
+            $parcel->delete();
+            return back()->with('success', 'Colis supprimé avec succès.');
+        } else {
+            return back()->with('error', 'Erreur lors de la suppression: ' . json_encode($response));
+        }
+    }
+
+
+    
+    /**
+     * Déduire la quantité du stock
+     */
+    private function deductFromStock(OrderItem $item)
+    {
+        if ($item->variation_id) {
+            $variation = Variation::findOrFail($item->variation_id);
+            if ($variation->stock_quantity < $item->quantity) {
+                throw new \Exception("Stock insuffisant pour la variation {$variation->reference}");
+            }
+            $variation->stock_quantity -= $item->quantity;
+            $variation->save();
+        } else {
+            $product = Product::findOrFail($item->product_id);
+            if ($product->stock_quantity < $item->quantity) {
+                throw new \Exception("Stock insuffisant pour le produit {$product->name}");
+            }
+            $product->stock_quantity -= $item->quantity;
+            $product->save();
+        }
+    }
+
+    /**
+     * Restaurer la quantité au stock
+     */
+    private function restoreStockQuantity(OrderItem $item)
+    {
+        if ($item->variation_id) {
+            $variation = Variation::find($item->variation_id);
+            if ($variation) {
+                $variation->stock_quantity += $item->quantity;
+                $variation->save();
+            }
+        } else {
+            $product = Product::find($item->product_id);
+            if ($product) {
+                $product->stock_quantity += $item->quantity;
+                $product->save();
+            }
+        }
     }
 }
