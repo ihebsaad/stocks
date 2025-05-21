@@ -28,6 +28,10 @@ class ParcelController extends Controller
             return back()->with('error', 'Aucune société de livraison sélectionnée.');
         }
 
+        if (Parcel::where('order_id',$order->id)->exists()) {
+            return back()->with('error', 'Colis existe déja !');
+        }
+
         // Créer l'enregistrement local Parcel
         $parcel = Parcel::create([
             'order_id' => $order->id,
@@ -178,14 +182,20 @@ class ParcelController extends Controller
             'service' => 'required',
         ]);
 
-        $parcel->update($validated);
 
         $deliveryService = new DeliveryService($parcel->company);
         $response = $deliveryService->updateParcel(array_merge($validated, [
             'code_barre' => $parcel->reference,
         ]));
 
-            return redirect()->route('orders.show', $parcel->order_id)->with('success', 'Colis modifié avec succès.');
+        if (isset($response['message'])) {
+            $parcel->update($validated);
+            return redirect()->route('parcels.index')->with('success', 'Colis modifié avec succès.');
+        } else {
+            return back()->with('error', 'Erreur lors de la mise à jour : ' . json_encode($response));
+        }
+
+            
     }
    
     public function destroy(Parcel $parcel)
