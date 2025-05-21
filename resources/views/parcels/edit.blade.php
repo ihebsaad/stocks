@@ -9,7 +9,7 @@
             <h2>Modifier le colis</h2>
         </div>
         <div class="col-md-6 text-end">
-            <a href="{{ route('orders.show', $parcel->order_id) }}" class="btn btn-secondary">
+            <a href="{{ route('orders.edit', $parcel->order_id) }}" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Retour à la commande
             </a>
         </div>
@@ -81,7 +81,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="cod" class="form-label">Montant COD *</label>
+                        <label for="cod" class="form-label"> COD *</label>
                         <input type="text" name="cod" id="cod" class="form-control @error('cod') is-invalid @enderror"
                                value="{{ old('cod', $parcel->cod) }}" required>
                         @error('cod')<div class="invalid-feedback">{{ $message }}</div>@enderror
