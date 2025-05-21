@@ -24,7 +24,7 @@ class ParcelController extends Controller
     {
         $client = $order->client;
         $deliveryCompany = DeliveryCompany::find($order->delivery_company_id);
-
+        dd($deliveryCompany);
         if (!$deliveryCompany) {
             return back()->with('error', 'Aucune société de livraison sélectionnée.');
         }
