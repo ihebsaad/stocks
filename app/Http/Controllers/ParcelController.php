@@ -89,7 +89,10 @@ class ParcelController extends Controller
                     return '<span class="text-muted">Non défini</span>';
                 })
                 ->addColumn('status', function ($parcel) {
-                    return '<span class="badge bg-info">' . ($parcel->dernier_etat   .' ('.$parcel->date_dernier_etat->format('d/m/Y H:i').') ' ?? '-') . '</span>';
+                    if($parcel->dernier_etat!='')
+                        return '<span class="badge bg-info">' . ($parcel->dernier_etat   .' ('.$parcel->date_dernier_etat->format('d/m/Y H:i').') ' ?? '-') . '</span>';
+
+                    return '<span class="text-muted">-</span>';
                 })
                 ->addColumn('delivery_company', function ($parcel) {
                     return $parcel->company ? $parcel->company->name : '<span class="text-muted">-</span>';
