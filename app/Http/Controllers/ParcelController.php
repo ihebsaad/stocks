@@ -164,7 +164,33 @@ class ParcelController extends Controller
 
     public function edit(Parcel $parcel)
     {
-        return view('parcels.edit', compact('parcel'));
+        $delegations = [
+            'Tunis',
+            'Ariana',
+            'Ben Arous',
+            'Manouba',
+            'Nabeul',
+            'Zaghouan',
+            'Bizerte',
+            'Béja',
+            'Jendouba',
+            'Le Kef',
+            'Siliana',
+            'Sousse',
+            'Monastir',
+            'Mahdia',
+            'Sfax',
+            'Kairouan',
+            'Kasserine',
+            'Sidi Bouzid',
+            'Gabès',
+            'Medenine',
+            'Tataouine',
+            'Gafsa',
+            'Tozeur',
+            'Kebili'
+        ];
+        return view('parcels.edit', compact('parcel','delegations'));
     }
 
     public function update(Request $request, Parcel $parcel)
