@@ -8,7 +8,6 @@ use App\Models\Product;
 use App\Models\Variation;
 use App\Models\OrderItem;
 use App\Services\DeliveryService;
-use App\Models\DeliveryCompany;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -23,8 +22,8 @@ class ParcelController extends Controller
     public function store(Order $order)
     {
         $client = $order->client;
-        $deliveryCompany = DeliveryCompany::find($order->delivery_company_id);
-        dd($order);
+        $deliveryCompany = $order->deliveryCompany;
+
         if (!$deliveryCompany) {
             return back()->with('error', 'Aucune société de livraison sélectionnée.');
         }
@@ -32,7 +31,7 @@ class ParcelController extends Controller
         // Créer l'enregistrement local Parcel
         $parcel = Parcel::create([
             'order_id' => $order->id,
-            'delivery_company_id' => $order->delivery_company_id,
+            'delivery_company_id' => $deliveryCompany->id,
             'tel_l' => $client->phone,
             'tel2_l' => $client->phone2,
             'nom_client' => $client->first_name . ' ' . $client->last_name,
@@ -46,7 +45,7 @@ class ParcelController extends Controller
         ]);
 
         // Envoyer à l'API
-        $deliveryService = new DeliveryService($deliveryCompany->name);
+        $deliveryService = new DeliveryService($deliveryCompany);
         $apiResponse = $deliveryService->createParcel($parcel->toArray());
 
 
