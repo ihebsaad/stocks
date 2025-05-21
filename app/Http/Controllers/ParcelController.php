@@ -64,6 +64,10 @@ class ParcelController extends Controller
                 'api_message' => $apiResponse['message'] ?? null,
             ]);
 
+            foreach ($parcel->order->items as $item) {
+                $this->deductFromStock($item);
+            }
+
             return back()->with('success', 'Colis créé et envoyé avec succès. Réf: ' . $parcel->reference);
         } else {
             return back()->with('error', 'Erreur API: ' . json_encode($apiResponse));
@@ -232,7 +236,13 @@ class ParcelController extends Controller
         $response = $deliveryService->deleteParcel($parcel->reference);
 
         if (isset($response['message'])) {
+
+            foreach ($parcel->order->items as $item) {
+                $this->restoreStockQuantity($item);
+            }
+
             $parcel->delete();
+
             return back()->with('success', 'Colis supprimé avec succès.');
         } else {
             return back()->with('error', 'Erreur lors de la suppression: ' . json_encode($response));
