@@ -122,6 +122,10 @@
         padding:2px 2px;
     }
 
+    .btn-danger{
+        position: absolute;
+        top:6px;right:6px;
+    }
 </style>
 @endsection
 

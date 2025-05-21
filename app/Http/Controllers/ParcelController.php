@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Variation;
 use App\Models\OrderItem;
 use App\Services\DeliveryService;
+use App\Models\DeliveryCompany;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -22,7 +23,7 @@ class ParcelController extends Controller
     public function store(Order $order)
     {
         $client = $order->client;
-        $deliveryCompany = $order->deliveryCompany;
+        $deliveryCompany = DeliveryCompany::find($order->delivery_company_id);
 
         if (!$deliveryCompany) {
             return back()->with('error', 'Aucune société de livraison sélectionnée.');
@@ -31,7 +32,7 @@ class ParcelController extends Controller
         // Créer l'enregistrement local Parcel
         $parcel = Parcel::create([
             'order_id' => $order->id,
-            'delivery_company_id' => $deliveryCompany->id,
+            'delivery_company_id' => $order->delivery_company_id,
             'tel_l' => $client->phone,
             'tel2_l' => $client->phone2,
             'nom_client' => $client->first_name . ' ' . $client->last_name,
@@ -45,7 +46,7 @@ class ParcelController extends Controller
         ]);
 
         // Envoyer à l'API
-        $deliveryService = new DeliveryService($deliveryCompany);
+        $deliveryService = new DeliveryService($deliveryCompany->name);
         $apiResponse = $deliveryService->createParcel($parcel->toArray());
 
 
@@ -158,19 +159,37 @@ class ParcelController extends Controller
 
     }
 
-    
-    public function update(Parcel $parcel)
-    {
-
-    }
-
-    
     public function edit(Parcel $parcel)
     {
-
+        return view('parcels.edit', compact('parcel'));
     }
 
-        public function destroy(Parcel $parcel)
+    public function update(Request $request, Parcel $parcel)
+    {
+        $validated = $request->validate([
+           'tel_l' => 'required',
+           'tel2_l' => 'nullable',
+           'nom_client' => 'required',
+            'gov_l' => 'required',
+            'adresse_l' => 'required',
+            'cod' => 'required',
+            'libelle' => 'nullable',
+            'nb_piece' => 'nullable',
+            'remarque' => 'nullable',
+            'service' => 'required',
+        ]);
+
+        $parcel->update($validated);
+
+        $deliveryService = new DeliveryService($parcel->company);
+        $response = $deliveryService->updateParcel(array_merge($validated, [
+            'code_barre' => $parcel->reference,
+        ]));
+
+            return redirect()->route('orders.show', $parcel->order_id)->with('success', 'Colis modifié avec succès.');
+    }
+   
+    public function destroy(Parcel $parcel)
     {
         $deliveryCompany = $parcel->company;
         $deliveryService = new DeliveryService($deliveryCompany);
