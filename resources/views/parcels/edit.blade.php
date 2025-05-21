@@ -118,8 +118,8 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('orders.show', $parcel->order_id) }}" class="btn btn-secondary">Annuler</a>
                     <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Mettre à jour</button>
+                    <a href="{{ route('parcels.index') }}" class="btn btn-secondary">Annuler</a>
                 </div>
             </form>
         </div>
