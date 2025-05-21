@@ -46,6 +46,14 @@ class DeliveryService
         return $this->postRequest($data);
     }
  
+    public function updateParcel(array $data)
+    {
+        return $this->postRequest(array_merge([
+            'action' => 'update',
+            'code_api' => $this->company->code_api,
+            'cle_api' => $this->company->cle_api,
+        ], $data));
+    }
 
     public function deleteParcel($codeBarre)
     {
