@@ -107,6 +107,8 @@ Route::resource('providers', ProvidersController::class);
 Route::resource('users', UsersController::class);
 
 Route::post('/parcels/{order}', [ParcelController::class, 'store'])->name('parcels.store');
+Route::get('/parcels/get', [ParcelController::class, 'getParcels'])->name('parcels.get');
+Route::get('/parcels', [ParcelController::class, 'index'])->name('parcels.index');
 
 Route::get('/invoices-by-product/{productId}', [HomeController::class, 'getInvoicesByProduct'])->name('invoices.by.product');
 

@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Parcel;
 use App\Models\DeliveryCompany;
+use App\Models\OrderStatusHistory;
 use App\Services\DeliveryService;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ParcelController extends Controller
 {
+
+    public function index()
+    {
+        return view('parcels.index');
+    }
+
     public function store(Order $order)
     {
         $client = $order->client;
@@ -26,12 +34,12 @@ class ParcelController extends Controller
             'tel_l' => $client->phone,
             'tel2_l' => $client->phone2,
             'nom_client' => $client->first_name . ' ' . $client->last_name,
-            'gov_l' => $client->city,
-            'adresse_l' => $client->address,
-            'cod' => $order->total,
+            'gov_l' => $client->delegation,
+            'adresse_l' => $client->city . ' '.$client->address. ' '.$client->postal_code,
+            'cod' => 1,//$order->total,
             'libelle' => $order->items->first()->product->name ?? 'Commande',
             'nb_piece' => $order->items->count(),
-            'remarque' => $order->status_comment,
+            'remarque' => $order->notes,
             'service' => $order->service_type,
         ]);
 
@@ -57,4 +65,143 @@ class ParcelController extends Controller
         }
 
     }
+
+
+    public function getParcels(Request $request)
+    {
+        if ($request->ajax()) {
+            $parcels = Parcel::with(['order.client', 'company'])->select('parcels.*');
+
+            return DataTables::of($parcels)
+                ->addColumn('reference', function ($parcel) {
+                    return $parcel->reference ?? '<span class="text-muted">#'.$parcel->id.'</span>';
+                })
+                ->addColumn('created_at_formatted', function ($parcel) {
+                    $createdInfo = $parcel->created_at->format('d/m/Y H:i');
+                    
+                    return $createdInfo;
+                })
+                ->addColumn('client', function ($parcel) {
+                    if ($parcel->order && $parcel->order->client) {
+                        $client = $parcel->order->client;
+                        return $client->full_name . '<br><small>' . $client->phone . '</small>';
+                    }
+                    return '<span class="text-muted">Non défini</span>';
+                })
+                ->addColumn('status', function ($parcel) {
+                    return '<span class="badge bg-info">' . ($parcel->dernier_etat   .' ('.$parcel->date_dernier_etat->format('d/m/Y H:i').') ' ?? '-') . '</span>';
+                })
+                ->addColumn('delivery_company', function ($parcel) {
+                    return $parcel->company ? $parcel->company->name : '<span class="text-muted">-</span>';
+                })
+                ->addColumn('service_type', function ($parcel) {
+                    if ($parcel->service) {
+                        return $parcel->service ;
+                    }
+                    return '<span class="text-muted">-</span>';
+                })
+                ->addColumn('order_id', function ($parcel) {
+                    return '<a target="_blank" href="'.route('orders.edit', $parcel->order_id).'">#'.$parcel->order_id.' </a>'  ;
+                })
+                ->addColumn('dernier_etat', function ($parcel) {
+                    return $parcel->dernier_etat ? $parcel->dernier_etat . '<br><small>' . $parcel->date_dernier_etat . '</small>' : '<span class="text-muted">-</span>';
+                })
+                ->addColumn('action', function ($parcel) {
+                    $buttons = '';
+                    $buttons .= '<a href="' . route('parcels.edit', $parcel->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
+                    $buttons .= '<form action="' . route('parcels.destroy', $parcel->id) . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Confirmer la suppression ?\')">';
+                    $buttons .= csrf_field();
+                    $buttons .= method_field('DELETE');
+                    $buttons .= '<button type="submit" class="btn btn-sm btn-danger mb-1" title="Supprimer"><i class="fas fa-trash"></i></button>';
+                    $buttons .= '</form>';
+                    return $buttons;
+                })
+                ->rawColumns(['reference', 'client', 'status', 'delivery_company', 'dernier_etat','order_id', 'action'])
+                ->filter(function ($query) use ($request) {
+                    if ($request->has('search') && !empty($request->search['value'])) {
+                        $search = $request->search['value'];
+                        $query->where(function($q) use ($search) {
+                            $q->where('reference', 'like', "%{$search}%")
+                            ->orWhere('status', 'like', "%{$search}%")
+                            ->orWhereHas('order.client', function($q) use ($search) {
+                                $q->where('first_name', 'like', "%{$search}%")
+                                    ->orWhere('last_name', 'like', "%{$search}%")
+                                    ->orWhere('phone', 'like', "%{$search}%");
+                            })
+                            ->orWhereHas('company', function($q) use ($search) {
+                                $q->where('name', 'like', "%{$search}%");
+                            });
+                        });
+                    }
+
+                    if ($request->has('status') && !empty($request->status)) {
+                        $query->where('status', $request->status);
+                    }
+
+                    if ($request->has('delivery_company_id') && !empty($request->delivery_company_id)) {
+                        $query->where('delivery_company_id', $request->delivery_company_id);
+                    }
+                })
+                ->make(true);
+        }
+    }
+    
+ /*
+    public function getParcels(Request $request)
+    {
+        if ($request->ajax()) {
+            $parcels = Parcel::with(['order', 'deliveryCompany'])->select('parcels.*');
+
+            return DataTables::of($parcels)
+                ->addColumn('reference', function ($parcel) {
+                    return $parcel->reference ?? '#'.$parcel->id ;                    
+                })
+                ->addColumn('client_name', function ($parcel) {
+                    if ($parcel->order->client) {
+                        return $parcel->order->client->full_name . '<br><small>' . $parcel->order->client->phone . '</small>';
+                    }
+                    return '<span class="text-muted">Non défini</span>';
+                })
+                ->addColumn('service_type_formatted', function ($order) {
+                    if ($order->service_type) {
+                        return $order->service_type == 'delivery' ? 'Livraison' : 'Échange';
+                    }
+                    return '<span class="text-muted">-</span>';
+                })
+                ->addColumn('delivery_company_info', function ($parcel) {
+                    if ($parcel->delivery_company_id) {
+                        $result = $parcel->order->deliveryCompany->name;
+                        if ($parcel->order->free_delivery) {
+                            $result .= ' <span class="badge bg-success">Gratuite</span>';
+                        }
+                        return $result;
+                    }
+                    return '<span class="text-muted">-</span>';
+                })
+                ->addColumn('status_formatted', function ($parcel) {
+                    return $parcel->dernier_etat.' ('.$parcel->dernier_etat->format('d/m/Y H:i').') ';
+                })
+                ->addColumn('created_at_formatted', function ($parcel) {
+                    $createdInfo = $parcel->created_at->format('d/m/Y H:i');
+                    
+                    return $createdInfo;
+                })
+ 
+                ->addColumn('action', function ($parcel) {
+                    $buttons = '';
+                    //$buttons .= '<a href="' . route('orders.show', $order->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
+                    $buttons .= '<a href="' . route('orders.edit', $parcel->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
+                    $buttons .= '<form action="' . route('orders.destroy', $parcel->id) . '" method="POST" style="display:inline;" class="mr-1">';
+                    $buttons .= csrf_field();
+                    $buttons .= method_field('DELETE');
+                    $buttons .= '<button type="submit" class="btn btn-sm btn-danger mb-1" title="Supprimer" onclick="return confirm(\'Êtes-vous sûr?\')"><i class="fas fa-trash"></i></button>';
+                    $buttons .= '</form>';
+                    return $buttons;
+                })
+                ->rawColumns(['client_name', 'service_type_formatted', 'delivery_company_info', 'status_formatted', 'created_at_formatted', 'action'])
+                ->make(true);
+        }
+        return abort(404);
+    }
+        */
 }
