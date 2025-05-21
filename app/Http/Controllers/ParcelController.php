@@ -70,7 +70,7 @@ class ParcelController extends Controller
     public function getParcels(Request $request)
     {
         if ($request->ajax()) {
-            $parcels = Parcel::with(['order.client', 'company'])->select('parcels.*');
+            $parcels = Parcel::with(['order.client', 'company'])->select('parcels.*')->orderBy('parcels.id','desc');
 
             return DataTables::of($parcels)
                 ->addColumn('reference', function ($parcel) {
@@ -99,7 +99,7 @@ class ParcelController extends Controller
                 })
                 ->addColumn('service_type', function ($parcel) {
                     if ($parcel->service) {
-                        return $parcel->service ;
+                        return $parcel->service == 'delivery' ? 'Livraison' : 'Échange' ;
                     }
                     return '<span class="text-muted">-</span>';
                 })
