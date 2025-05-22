@@ -80,6 +80,86 @@
                         </div>
                     </div>
                 </div>
+                <hr class="my-4">
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input @error('is_active') is-invalid @enderror" id="is_active" name="is_active" value="1" {{ old('is_active', $deliveryCompany->is_active) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="is_active">
+                                    Société active
+                                </label>
+                                @error('is_active')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <small class="form-text text-muted">Cochez cette case pour activer la société de livraison</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Configuration API -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h5 class="text-primary mb-3">
+                            <i class="fas fa-cog"></i> Configuration API
+                        </h5>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="api_url_prod" class="form-label">URL API Production</label>
+                            <input type="url" class="form-control @error('api_url_prod') is-invalid @enderror" id="api_url_prod" name="api_url_prod" value="{{ old('api_url_prod', $deliveryCompany->api_url_prod) }}" placeholder="https://api.exemple.com">
+                            @error('api_url_prod')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">URL de l'API en environnement de production</small>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="api_url_dev" class="form-label">URL API Développement</label>
+                            <input type="url" class="form-control @error('api_url_dev') is-invalid @enderror" id="api_url_dev" name="api_url_dev" value="{{ old('api_url_dev', $deliveryCompany->api_url_dev) }}" placeholder="https://dev-api.exemple.com">
+                            @error('api_url_dev')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">URL de l'API en environnement de développement</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="code_api" class="form-label">Code API</label>
+                            <input type="text" class="form-control @error('code_api') is-invalid @enderror" id="code_api" name="code_api" value="{{ old('code_api', $deliveryCompany->code_api) }}" placeholder="CODE_API_123">
+                            @error('code_api')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">Code d'identification pour l'API</small>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cle_api" class="form-label">Clé API</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control @error('cle_api') is-invalid @enderror" id="cle_api" name="cle_api" value="{{ old('cle_api', $deliveryCompany->cle_api) }}" placeholder="Clé secrète de l'API">
+                                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('cle_api')">
+                                    <i class="fas fa-eye" id="toggleIcon"></i>
+                                </button>
+                                @error('cle_api')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <small class="form-text text-muted">Clé secrète pour l'authentification API</small>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="row mt-4">
                     <div class="col-12">

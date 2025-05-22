@@ -103,6 +103,7 @@ class DeliveryCompanyController extends Controller
     /**
      * Mise à jour d'une société de livraison
      */
+
     public function update(Request $request, DeliveryCompany $deliveryCompany)
     {
         $request->validate([
@@ -110,6 +111,11 @@ class DeliveryCompanyController extends Controller
             'delivery_price' => 'required|numeric|min:0',
             'manager_name' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
+            'is_active' => 'nullable|boolean',
+            'api_url_prod' => 'nullable|url|max:500',
+            'api_url_dev' => 'nullable|url|max:500',
+            'code_api' => 'nullable|string|max:100',
+            'cle_api' => 'nullable|string|max:255',
         ]);
 
         DB::beginTransaction();
@@ -119,6 +125,11 @@ class DeliveryCompanyController extends Controller
                 'delivery_price' => $request->delivery_price,
                 'manager_name' => $request->manager_name,
                 'phone' => $request->phone,
+                'is_active' => $request->has('is_active') ? 1 : 0,
+                'api_url_prod' => $request->api_url_prod,
+                'api_url_dev' => $request->api_url_dev,
+                'code_api' => $request->code_api,
+                'cle_api' => $request->cle_api,
             ]);
 
             DB::commit();
