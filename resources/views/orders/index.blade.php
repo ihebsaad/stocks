@@ -44,14 +44,7 @@
                 <i class="fas fa-plus"></i> Nouvelle commande
             </a>
         </div>
-    </div>
-    
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    
+    </div>  
  
             <div class="row filter-row">
                 <div class="col-md-3">

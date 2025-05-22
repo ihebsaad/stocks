@@ -460,7 +460,7 @@
                     </form>
                     <form method="POST" action="{{ route('parcels.store', $order->id) }}">
                         @csrf
-                        <button type="submit" class="btn btn-success float-right" style="display:none">Créer et envoyer colis</button>
+                        <button type="submit" class="btn btn-success float-right" >Créer et envoyer colis</button>
                     </form>
 
                     <form id="delete-form" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display: none;">

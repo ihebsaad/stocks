@@ -41,7 +41,7 @@ class ParcelController extends Controller
             'nom_client' => $client->first_name . ' ' . $client->last_name,
             'gov_l' => $client->delegation,
             'adresse_l' => $client->city . ' '.$client->address. ' '.$client->postal_code,
-            'cod' => 1,//$order->total,
+            'cod' => $order->total,
             'libelle' => $order->items->first()->product->name ?? 'Commande',
             'nb_piece' => $order->items->count(),
             'remarque' => $order->notes,

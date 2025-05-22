@@ -75,7 +75,7 @@
           </li>
 -->
           <li class="nav-item menu-open {{  request()->is('products')||    request()->is('products/*')   ? 'menu-open' : '' }} ">
-            <a href="#" class="nav-link {{    request()->is('products') ||   request()->is('products/*')   ? 'active' : '' }}">
+            <a href="#" class="nav-link {{    request()->is('products') ||   request()->is('products/*') || request()->is('orders') ||   request()->is('orders/*') || request()->is('parcels') ||   request()->is('parcels/*')   ? 'active' : '' }}">
               <i class="nav-icon fas fa-store text-white"></i>
               <p>
                 Gestions
@@ -93,6 +93,12 @@
                 <a href="{{route('orders.index')}}" class="nav-link {{ request()->is('orders')  ? 'active' : '' }}">
                   <i class="fas fa-shopping-cart nav-icon text-secondary"></i>
                   <p>Liste des commandes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('parcels.index')}}" class="nav-link {{ request()->is('parcels')  ? 'active' : '' }}">
+                  <i class="fas fa-truck nav-icon text-secondary"></i>
+                  <p>Liste des colis</p>
                 </a>
               </li>
               <li class="nav-item">
