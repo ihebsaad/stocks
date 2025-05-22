@@ -43,3 +43,5 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 }
+//* * * * * cd /chemin/vers/ton-projet && php artisan schedule:run >> /dev/null 2>&1
+//php artisan parcels:sync-statuses
