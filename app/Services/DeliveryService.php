@@ -111,7 +111,7 @@ class DeliveryService
 
                 OrderStatusHistory::create([
                     'order_id'   => $parcel->order_id,
-                    'user_id'    => auth()->id() ?? null,
+                    'user_id'    =>  null,//api
                     'old_status' => $old,
                     'new_status' => $etat,
                     'comment'    => 'Mise à jour automatique via API ' . $this->company->name,

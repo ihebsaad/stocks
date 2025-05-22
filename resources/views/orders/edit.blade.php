@@ -589,7 +589,7 @@
                                     @if($history->comment)
                                         <div>{{ $history->comment }}</div>
                                     @endif
-                                    <div class="small">par {{ $history->user->name ?? 'Système' }}</div>
+                                    <div class="small">par {{ $history->user->name ?? 'API' }}</div>
                                 </div>
                             @endforeach
                         @else
