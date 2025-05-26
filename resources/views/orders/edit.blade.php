@@ -458,7 +458,7 @@
                             </button>
                         </div>
                     </form>
-                    @if($order->delivery_company_id > 1 && count($order->items()->get()->count())>0)
+                    @if($order->delivery_company_id > 1 &&  isset($order->items) )
                     <form method="POST" action="{{ route('parcels.store', $order->id) }}">
                         @csrf
                         <button type="submit" class="btn btn-success float-right" >Créer et envoyer colis</button>
