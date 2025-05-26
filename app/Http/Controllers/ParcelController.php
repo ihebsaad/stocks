@@ -92,10 +92,11 @@ class ParcelController extends Controller
                 })
                 ->addColumn('created_at_formatted', function ($parcel) {
                     $createdInfo='';
-                    if($this->validateDate($parcel->created_at))
-                    $createdInfo = $parcel->created_at->format('d/m/Y H:i');
+                    //if($this->validateDate($parcel->created_at))
+                    //$createdInfo = $parcel->created_at->format('d/m/Y H:i');
                     
-                    return $createdInfo;
+                   // return $createdInfo;
+                   return $parcel->created_at;
                 })
                 ->addColumn('client', function ($parcel) {
                     if ($parcel->order && $parcel->order->client) {
