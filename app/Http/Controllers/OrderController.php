@@ -63,7 +63,7 @@ class OrderController extends Controller
                 })
                 ->addColumn('service_type_formatted', function ($order) {
                     if ($order->service_type) {
-                        return $order->service_type == 'delivery' ? 'Livraison' : 'Échange';
+                        return $order->service_type == 'Livraison' ? 'Livraison' : 'Échange';
                     }
                     return '<span class="text-muted">-</span>';
                 })
