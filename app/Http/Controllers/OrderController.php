@@ -362,7 +362,7 @@ class OrderController extends Controller
             'address' => 'required|string',
             'phone2' => 'nullable|string',
             'postal_code' => 'nullable|string|max:10',
-            'service_type' => 'required|in:delivery,exchange',
+            'service_type' => 'required|in:Livraison,Echange',
             'delivery_company_id' => 'nullable|exists:delivery_companies,id',
             'free_delivery' => 'nullable|boolean',
             'status' => 'required|in:draft,pending,pickup,no_response,cancelled,in_delivery,completed',
