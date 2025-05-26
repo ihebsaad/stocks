@@ -304,8 +304,8 @@ class OrderController extends Controller
         ];
         
         $serviceTypes = [
-            'delivery' => 'Livraison',
-            'exchange' => 'Échange'
+            'Livraison' => 'Livraison',
+            'Echange' => 'Échange'
         ];
         
         // Liste des délégations de Tunisie (à compléter selon vos besoins)
