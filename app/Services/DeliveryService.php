@@ -49,7 +49,7 @@ class DeliveryService
         ], $data);
         
         $data = $this->mapParcelFields($data);
-        //dd($data);
+        dd($data);
         return $this->postRequest($data);
     }
 
