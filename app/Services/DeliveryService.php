@@ -46,8 +46,9 @@ class DeliveryService
             'code_api' => $this->company->code_api,
             'cle_api' => $this->company->cle_api,
         ], $data);
-
+        
         $data = $this->mapParcelFields($data);
+        dd($data);
         return $this->postRequest($data);
     }
 
