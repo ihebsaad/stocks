@@ -48,7 +48,7 @@ class DeliveryService
         ], $data);
 
         $data = $this->mapParcelFields($data);
-
+        dd($data);
         return $this->postRequest($data);
     }
 
