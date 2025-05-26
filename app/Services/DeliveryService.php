@@ -15,7 +15,8 @@ class DeliveryService
     public function __construct(DeliveryCompany $company)
     {
         $this->company = $company;
-        $this->baseUrl = app()->environment('production') ? $company->api_url_prod : $company->api_url_dev;
+        //$this->baseUrl = app()->environment('production') ? $company->api_url_prod : $company->api_url_dev;
+        $this->baseUrl =  $company->api_url_prod ;
     }
 
     public function listParcels()
@@ -48,7 +49,7 @@ class DeliveryService
         ], $data);
         
         $data = $this->mapParcelFields($data);
-        dd($data);
+        //dd($data);
         return $this->postRequest($data);
     }
 
