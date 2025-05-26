@@ -16,6 +16,7 @@ class AddReferenceToParcelsTable extends Migration
         Schema::table('parcels', function (Blueprint $table) {
             $table->string('reference')->nullable();
             $table->string('tracking_url')->nullable();
+            $table->string('ville_cl')->nullable();
             $table->text('api_message')->nullable();
             $table->text('dernier_etat')->nullable();
             $table->text('date_dernier_etat')->nullable();
