@@ -86,6 +86,8 @@ class ParcelController extends Controller
                     return $parcel->reference ?? '<span class="text-muted">#'.$parcel->id.'</span>';
                 })
                 ->addColumn('created_at_formatted', function ($parcel) {
+                    $createdInfo='';
+                    if($parcel->created_at!='')
                     $createdInfo = $parcel->created_at->format('d/m/Y H:i');
                     
                     return $createdInfo;
