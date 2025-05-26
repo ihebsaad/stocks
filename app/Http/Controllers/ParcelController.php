@@ -92,11 +92,10 @@ class ParcelController extends Controller
                 })
                 ->addColumn('created_at_formatted', function ($parcel) {
                     $createdInfo='';
-                    //if($this->validateDate($parcel->created_at))
-                    //$createdInfo = $parcel->created_at->format('d/m/Y H:i');
+                    if($this->validateDate($parcel->created_at))
+                    $createdInfo = $parcel->created_at->format('d/m/Y H:i');
                     
-                   // return $createdInfo;
-                   return $parcel->created_at;
+                    return $createdInfo;
                 })
                 ->addColumn('client', function ($parcel) {
                     if ($parcel->order && $parcel->order->client) {
@@ -106,7 +105,7 @@ class ParcelController extends Controller
                     return '<span class="text-muted">Non défini</span>';
                 })
                 ->addColumn('status', function ($parcel) {
-                    if($parcel->dernier_etat!='')
+                    if($this->validateDate($parcel->date_dernier_etat))
                         return '<span class="badge bg-info">' . ($parcel->dernier_etat   .' ('.$parcel->date_dernier_etat->format('d/m/Y H:i').') ' ?? '-') . '</span>';
 
                     return '<span class="text-muted">-</span>';
