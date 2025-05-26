@@ -27,11 +27,11 @@ class ParcelController extends Controller
         if (!$deliveryCompany) {
             return back()->with('error', 'Aucune société de livraison sélectionnée.');
         }
-
+/*
         if (Parcel::where('order_id',$order->id)->exists()) {
             return back()->with('error', 'Colis existe déja !');
         }
-
+*/
         // Créer l'enregistrement local Parcel
         $parcel = Parcel::create([
             'order_id' => $order->id,
