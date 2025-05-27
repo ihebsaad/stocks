@@ -89,7 +89,7 @@ class OrderController extends Controller
     {
         if ($request->ajax()) {
             $orders = Order::with(['client', 'deliveryCompany', 'user'])
-                ->whereDoesntHave('parcel') // Commandes sans colis
+                ->doesntHave('parcel')   // Commandes sans colis
                 ->select('orders.*');
 
             return $this->buildDataTable($orders, $request);
@@ -104,7 +104,7 @@ class OrderController extends Controller
     {
         if ($request->ajax()) {
             $orders = Order::with(['client', 'deliveryCompany', 'user', 'parcel'])
-                ->whereHas('parcel') // Commandes avec colis
+                ->has('parcel')  // Commandes avec colis
                 ->select('orders.*');
 
             return $this->buildDataTable($orders, $request, true);

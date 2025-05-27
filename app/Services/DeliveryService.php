@@ -118,7 +118,7 @@ class DeliveryService
 
             return;
         }
-/*
+
         // 🔁 Toutes les autres sociétés → API /list
         $response = $this->postRequest([
             'action' => 'list',
@@ -152,7 +152,7 @@ class DeliveryService
                 ]);
             }
         }
-            */
+            
     }
 
 

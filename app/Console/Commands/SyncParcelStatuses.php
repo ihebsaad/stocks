@@ -31,3 +31,7 @@ class SyncParcelStatuses extends Command
         $this->info('🎉 Synchronisation terminée.');
     }
 }
+
+
+//* * * * * cd /chemin/vers/ton-projet && php artisan schedule:run >> /dev/null 2>&1
+//php artisan parcels:sync-statuses
