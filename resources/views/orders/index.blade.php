@@ -127,7 +127,7 @@ $(function() {
             url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/fr-FR.json'
         }
     });
-    /*
+    
     // cacher les commandes ayant coli
     table.on('draw', function () {
         $('#orders-table tbody tr').each(function () {
@@ -136,7 +136,7 @@ $(function() {
             }
         });
     });
-    */
+    
     // Appliquer les filtres lorsque les valeurs changent
     $('#status-filter, #delivery-company-filter , #user-filter').change(function() {
         table.draw();
