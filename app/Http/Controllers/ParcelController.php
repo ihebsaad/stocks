@@ -112,7 +112,7 @@ class ParcelController extends Controller
                     return '<span class="text-muted">-</span>';
                 })
                 ->addColumn('delivery_company', function ($parcel) {
-                    return $parcel->company ? $parcel->company->name : '<span class="text-muted">-</span>';
+                    return $parcel->company ? ucfirst($parcel->company->name) : '<span class="text-muted">-</span>';
                 })
                 ->addColumn('service_type', function ($parcel) {
                     if ($parcel->service) {
