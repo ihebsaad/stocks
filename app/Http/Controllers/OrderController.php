@@ -256,6 +256,19 @@ class OrderController extends Controller
                 }
             }
         })
+
+        ->addColumn('action', function ($order) {
+                    $buttons = '';
+                    //$buttons .= '<a href="' . route('orders.show', $order->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
+                    $buttons .= '<a href="' . route('orders.edit', $order->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
+                    $buttons .= '<form action="' . route('orders.destroy', $order->id) . '" method="POST" style="display:inline;" class="mr-1">';
+                    $buttons .= csrf_field();
+                    $buttons .= method_field('DELETE');
+                    $buttons .= '<button type="submit" class="btn btn-sm btn-danger mb-1" title="Supprimer" onclick="return confirm(\'Êtes-vous sûr?\')"><i class="fas fa-trash"></i></button>';
+                    $buttons .= '</form>';
+                    return $buttons;
+        });
+/*
         ->addColumn('action', function ($order) use ($isArchive) {
             $buttons = '';
             
@@ -277,7 +290,7 @@ class OrderController extends Controller
             
             return $buttons;
         });
-
+*/
         $rawColumns = ['client_name', 'service_type_formatted', 'delivery_company_info', 'status_formatted', 'created_at_formatted', 'action'];
         
         if ($isArchive) {
