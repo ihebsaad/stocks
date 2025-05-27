@@ -68,7 +68,7 @@ class OrderController extends Controller
 
     public function archives()
     {
-                $deliveryCompanies = DeliveryCompany::all();
+        $deliveryCompanies = DeliveryCompany::all();
         $users = User::all();
         $statusOptions = [
             'draft' => 'Brouillon',
