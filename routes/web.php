@@ -115,7 +115,6 @@ Route::prefix('delivery/{company}')->group(function () {
 Route::resource('providers', ProvidersController::class);
 Route::resource('users', UsersController::class);
 
-#Route::post('/parcels/{order}', [ParcelController::class, 'store'])->name('parcels.store');
 Route::get('/getparcels', [ParcelController::class, 'getParcels'])->name('parcels.getParcels');
 #Route::get('/parcels', [ParcelController::class, 'index'])->name('parcels.index');
 Route::delete('/parcels/{parcel}', [ParcelController::class, 'destroy'])->name('parcels.destroy');
