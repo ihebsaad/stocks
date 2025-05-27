@@ -110,6 +110,46 @@ class OrderController extends Controller
     }
 */
 
+    public function getCurrentOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            // Debug: Vérifier les relations
+            \Log::info('=== DEBUG getCurrentOrders ===');
+            
+            // Test 1: Toutes les commandes
+            $allOrders = Order::count();
+            \Log::info('Total orders: ' . $allOrders);
+            
+            // Test 2: Commandes avec colis
+            $ordersWithParcel = Order::has('parcel')->count();
+            \Log::info('Orders with parcel: ' . $ordersWithParcel);
+            
+            // Test 3: Commandes sans colis
+            $ordersWithoutParcel = Order::doesntHave('parcel')->count();
+            \Log::info('Orders without parcel: ' . $ordersWithoutParcel);
+            
+            // Test 4: Vérification de la relation avec JOIN
+            $ordersWithParcelJoin = Order::leftJoin('parcels', 'orders.id', '=', 'parcels.order_id')
+                ->whereNotNull('parcels.id')
+                ->count();
+            \Log::info('Orders with parcel (JOIN): ' . $ordersWithParcelJoin);
+            
+            $ordersWithoutParcelJoin = Order::leftJoin('parcels', 'orders.id', '=', 'parcels.order_id')
+                ->whereNull('parcels.id')
+                ->count();
+            \Log::info('Orders without parcel (JOIN): ' . $ordersWithoutParcelJoin);
+            
+            // Utilisation de la méthode JOIN pour être sûr
+            $orders = Order::with(['client', 'deliveryCompany', 'user'])
+                ->leftJoin('parcels', 'orders.id', '=', 'parcels.order_id')
+                ->whereNull('parcels.id')
+                ->select('orders.*');
+
+            return $this->buildDataTable($orders, $request);
+        }
+        return abort(404);
+    }
+/*
         public function getCurrentOrders(Request $request)
     {
         if ($request->ajax()) {
@@ -122,7 +162,7 @@ class OrderController extends Controller
         }
         return abort(404);
     }
- 
+ */
     /**
      * API pour récupérer les archives (avec colis)
      */
