@@ -115,8 +115,7 @@ class OrderController extends Controller
     {
         if ($request->ajax()) {
             $orders = Order::with(['client', 'deliveryCompany', 'user'])
-                ->leftJoin('parcels', 'orders.id', '=', 'parcels.order_id')
-                ->whereNull('parcels.id')
+                ->whereDoesntHave('parcel') // Commandes sans colis
                 ->select('orders.*');
 
             return $this->buildDataTable($orders, $request, false);

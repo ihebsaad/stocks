@@ -56,7 +56,7 @@ class Order extends Model
     
     public function parcel()
     {
-        return $this->hasOne(Parcel::class);
+        return $this->hasOne(Parcel::class, 'order_id', 'id');
     }
 
     public function statusHistory()
