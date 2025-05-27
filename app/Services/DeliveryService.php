@@ -86,11 +86,44 @@ class DeliveryService
 
     public function syncParcelStatuses()
     {
+        if (strtolower($this->company->name) === 'droppex') {
+            // 🎯 Droppex → pas de /list, on doit faire un get par colis
+            $parcels = Parcel::where('delivery_company_id', $this->company->id)
+                        ->whereNotNull('reference')->get();
+
+            foreach ($parcels as $parcel) {
+                $data = $this->getParcel($parcel->reference);
+
+                $etat = $data['dernier_etat'] ?? null;
+                $date = $data['date_dernier_etat'] ?? null;
+
+                if (!$etat || !$date) continue;
+
+                if ($parcel->dernier_etat !== $etat || $parcel->date_dernier_etat !== $date) {
+                    $old = $parcel->dernier_etat;
+                    $parcel->update([
+                        'dernier_etat' => $etat,
+                        'date_dernier_etat' => $date,
+                    ]);
+
+                    OrderStatusHistory::create([
+                        'order_id'   => $parcel->order_id,
+                        'user_id'    => auth()->id() ?? null,
+                        'old_status' => $old,
+                        'new_status' => $etat,
+                        'comment'    => 'MàJ automatique (Droppex)',
+                    ]);
+                }
+            }
+
+            return;
+        }
+/*
+        // 🔁 Toutes les autres sociétés → API /list
         $response = $this->postRequest([
             'action' => 'list',
             'code_api' => $this->company->code_api,
             'cle_api' => $this->company->cle_api,
-            'id'=> $this->company->code_api,
         ]);
 
         foreach ($response as $item) {
@@ -112,13 +145,14 @@ class DeliveryService
 
                 OrderStatusHistory::create([
                     'order_id'   => $parcel->order_id,
-                    'user_id'    =>  null,//api
+                    'user_id'    => auth()->id() ?? null,
                     'old_status' => $old,
                     'new_status' => $etat,
-                    'comment'    => 'Mise à jour automatique via API ' . $this->company->name,
+                    'comment'    => 'MàJ automatique via API ' . $this->company->name,
                 ]);
             }
         }
+            */
     }
 
 
