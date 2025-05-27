@@ -85,6 +85,7 @@
                             <th>Service</th>
                             <th>Société de livraison</th>
                             <th>Statut</th>
+                            <th>Colis</th>
                             <th>Date de création</th>
                             <th>Actions</th>
                         </tr>
@@ -119,6 +120,7 @@ $(function() {
             { data: 'service_type_formatted', name: 'service_type_formatted' },
             { data: 'delivery_company_info', name: 'delivery_company_info' },
             { data: 'status_formatted', name: 'status_formatted' },
+            { data: 'parcel_info', name: 'parcel_info', orderable: false, searchable: false},
             { data: 'created_at_formatted', name: 'created_at' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ],
