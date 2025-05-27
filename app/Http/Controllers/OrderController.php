@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Variation;
 use App\Models\OrderItem;
 use App\Models\OrderStatusHistory;
+use App\Models\Parcel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -131,10 +132,14 @@ class OrderController extends Controller
     {
         $dataTable = DataTables::of($orders)
             ->addColumn('client_name', function ($order) {
-                if ($order->client) {
-                    return $order->client->full_name . '<br><small>' . $order->client->phone . '</small>';
+                $class="";
+                if(Parcel::where('order_id',$order->id)->exists()){
+                    $class="hidden";
                 }
-                return '<span class="text-muted">Non défini</span>';
+                if ($order->client) {
+                    return '<div class="'.$class.'">'.$order->client->full_name . '<br><small>' . $order->client->phone . '</small></div>';
+                }
+                return '<div class="'.$class.'"><span class="text-muted">Non défini</span></div>';
             })
             ->addColumn('service_type_formatted', function ($order) {
                 if ($order->service_type) {
