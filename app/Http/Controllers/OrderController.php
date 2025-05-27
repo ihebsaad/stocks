@@ -82,9 +82,8 @@ class OrderController extends Controller
 
         return view('orders.archives', compact('statusOptions', 'deliveryCompanies', 'users'));
     }
-    /**
-     * API pour récupérer les commandes en cours
-     */
+
+    /*
     public function getCurrentOrders(Request $request)
     {
         if ($request->ajax()) {
@@ -97,9 +96,7 @@ class OrderController extends Controller
         return abort(404);
     }
 
-    /**
-     * API pour récupérer les archives
-     */
+
     public function getArchivedOrders(Request $request)
     {
         if ($request->ajax()) {
@@ -111,6 +108,36 @@ class OrderController extends Controller
         }
         return abort(404);
     }
+*/
+
+        public function getCurrentOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            $orders = Order::with(['client', 'deliveryCompany', 'user'])
+                ->leftJoin('parcels', 'orders.id', '=', 'parcels.order_id')
+                ->whereNull('parcels.id')
+                ->select('orders.*');
+
+            return $this->buildDataTable($orders, $request, false);
+        }
+        return abort(404);
+    }
+
+    /**
+     * API pour récupérer les archives (avec colis)
+     */
+    public function getArchivedOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            $orders = Order::with(['client', 'deliveryCompany', 'user', 'parcel'])
+                ->join('parcels', 'orders.id', '=', 'parcels.order_id')
+                ->select('orders.*');
+
+            return $this->buildDataTable($orders, $request, true);
+        }
+        return abort(404);
+    }
+
 
     /**
      * Méthode originale - maintenant pour toutes les commandes
