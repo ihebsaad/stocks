@@ -90,9 +90,15 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('orders.index')}}" class="nav-link {{ request()->is('orders')  ? 'active' : '' }}">
+                <a href="{{route('orders.current')}}" class="nav-link {{ request()->is('current')  ? 'active' : '' }}">
                   <i class="fas fa-shopping-cart nav-icon text-secondary"></i>
-                  <p>Liste des commandes</p>
+                  <p>Commandes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('orders.current')}}" class="nav-link {{ request()->is('current')  ? 'active' : '' }}">
+                  <i class="fas fa-shopping-cart nav-icon text-secondary"></i>
+                  <p>Archive de commandes</p>
                 </a>
               </li>
               <li class="nav-item">

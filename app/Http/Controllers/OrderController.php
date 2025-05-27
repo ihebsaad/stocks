@@ -46,141 +46,221 @@ class OrderController extends Controller
         return view('orders.index', compact('statusOptions', 'deliveryCompanies', 'users'));
     }
 
+/**
+     * Page des archives (commandes avec colis)
+     */
+    public function current()
+    {
+        return view('orders.archives');
+    }
+    
+    public function archives()
+    {
+        return view('orders.archives');
+    }
     /**
-     * Obtenir les données de commandes pour DataTables
+     * API pour récupérer les commandes en cours
+     */
+    public function getCurrentOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            $orders = Order::with(['client', 'deliveryCompany', 'user'])
+                ->whereDoesntHave('parcel') // Commandes sans colis
+                ->select('orders.*');
+
+            return $this->buildDataTable($orders, $request);
+        }
+        return abort(404);
+    }
+
+    /**
+     * API pour récupérer les archives
+     */
+    public function getArchivedOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            $orders = Order::with(['client', 'deliveryCompany', 'user', 'parcel'])
+                ->whereHas('parcel') // Commandes avec colis
+                ->select('orders.*');
+
+            return $this->buildDataTable($orders, $request, true);
+        }
+        return abort(404);
+    }
+
+    /**
+     * Méthode originale - maintenant pour toutes les commandes
      */
     public function getOrders(Request $request)
     {
         if ($request->ajax()) {
             $orders = Order::with(['client', 'deliveryCompany', 'user'])->select('orders.*');
-
-            return DataTables::of($orders)
-                ->addColumn('client_name', function ($order) {
-                    if ($order->client) {
-                        return $order->client->full_name . '<br><small>' . $order->client->phone . '</small>';
-                    }
-                    return '<span class="text-muted">Non défini</span>';
-                })
-                ->addColumn('service_type_formatted', function ($order) {
-                    if ($order->service_type) {
-                        return $order->service_type == 'Livraison' ? 'Livraison' : 'Échange';
-                    }
-                    return '<span class="text-muted">-</span>';
-                })
-                ->addColumn('delivery_company_info', function ($order) {
-                    if ($order->deliveryCompany) {
-                        $result = $order->deliveryCompany->name;
-                        if ($order->free_delivery) {
-                            $result .= ' <span class="badge bg-success">Gratuite</span>';
-                        }
-                        return $result;
-                    }
-                    return '<span class="text-muted">-</span>';
-                })
-                ->addColumn('status_formatted', function ($order) {
-                    $statusLabels = [
-                        'draft' => 'Brouillon',
-                        'pending' => 'En attente',
-                        'pickup' => 'En ramassage',
-                        'no_response' => 'Client ne répond plus',
-                        'cancelled' => 'Annulée',
-                        'in_delivery' => 'En livraison',
-                        'completed' => 'Terminée'
-                    ];
-                    $last_comment=OrderStatusHistory::where('order_id', $order->id)->orderBy('id','desc')->first()->comment ?? '';
-                    return '<span class="status-badge status-' . $order->status . '">' . 
-                           ($statusLabels[$order->status] ?? $order->status) . 
-                           '</span><br><small>'.$last_comment.'</small>';
-                })
-                ->addColumn('created_at_formatted', function ($order) {
-                    $createdInfo = $order->created_at->format('d/m/Y H:i');
-                    if ($order->user) {
-                        $createdInfo .= '<br><small>par ' . $order->user->name . '</small>';
-                    }
-                    return $createdInfo;
-                })
-                ->filter(function ($query) use ($request) {
-                    // Filtre global (recherche dans toutes les colonnes)
-                    if ($request->has('search') && !empty($request->search['value'])) {
-                        $search = $request->search['value'];
-                        $query->where(function($q) use ($search) {
-                            $q->where('id', 'like', "%{$search}%")
-                              ->orWhereHas('client', function($q) use ($search) {
-                                  $q->where('first_name', 'like', "%{$search}%")
-                                    ->orWhere('last_name', 'like', "%{$search}%")
-                                    ->orWhere('phone', 'like', "%{$search}%");
-                              })
-                              ->orWhereHas('deliveryCompany', function($q) use ($search) {
-                                  $q->where('name', 'like', "%{$search}%");
-                              })
-                              ->orWhereHas('user', function($q) use ($search) {
-                                  $q->where('name', 'like', "%{$search}%");
-                              });
-                        });
-                    }
-
-                    // Filtre spécifique par statut
-                    if ($request->has('status') && !empty($request->status)) {
-                        $query->where('status', $request->status);
-                    }
-                    
-                    // Filtre par société de livraison
-                    if ($request->has('delivery_company') && !empty($request->delivery_company)) {
-                        $query->where('delivery_company_id', $request->delivery_company);
-                    }
-                    
-                    // Filtre par utilisateur
-                    if ($request->has('user_id') && !empty($request->user_id)) {
-                        $query->where('user_id', $request->user_id);
-                    }
-                    
-                    // Filtres par colonne individuelle
-                    if ($request->has('columns')) {
-                        foreach ($request->columns as $column) {
-                            if ($column['searchable'] == 'true' && !empty($column['search']['value'])) {
-                                $search = $column['search']['value'];
-                                switch ($column['name']) {
-                                    case 'id':
-                                        $query->where('id', 'like', "%{$search}%");
-                                        break;
-                                    case 'client_name':
-                                        $query->whereHas('client', function($q) use ($search) {
-                                            $q->where('first_name', 'like', "%{$search}%")
-                                              ->orWhere('last_name', 'like', "%{$search}%")
-                                              ->orWhere('phone', 'like', "%{$search}%");
-                                        });
-                                        break;
-                                    case 'service_type_formatted':
-                                        $query->where('service_type', 'like', "%{$search}%");
-                                        break;
-                                    case 'delivery_company_info':
-                                        $query->whereHas('deliveryCompany', function($q) use ($search) {
-                                            $q->where('name', 'like', "%{$search}%");
-                                        });
-                                        break;
-                                    case 'status_formatted':
-                                        $query->where('status', 'like', "%{$search}%");
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                })
-                ->addColumn('action', function ($order) {
-                    $buttons = '';
-                    //$buttons .= '<a href="' . route('orders.show', $order->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
-                    $buttons .= '<a href="' . route('orders.edit', $order->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
-                    $buttons .= '<form action="' . route('orders.destroy', $order->id) . '" method="POST" style="display:inline;" class="mr-1">';
-                    $buttons .= csrf_field();
-                    $buttons .= method_field('DELETE');
-                    $buttons .= '<button type="submit" class="btn btn-sm btn-danger mb-1" title="Supprimer" onclick="return confirm(\'Êtes-vous sûr?\')"><i class="fas fa-trash"></i></button>';
-                    $buttons .= '</form>';
-                    return $buttons;
-                })
-                ->rawColumns(['client_name', 'service_type_formatted', 'delivery_company_info', 'status_formatted', 'created_at_formatted', 'action'])
-                ->make(true);
+            return $this->buildDataTable($orders, $request);
         }
         return abort(404);
+    }
+
+    /**
+     * Méthode commune pour construire le DataTable
+     */
+    private function buildDataTable($orders, Request $request, $isArchive = false)
+    {
+        $dataTable = DataTables::of($orders)
+            ->addColumn('client_name', function ($order) {
+                if ($order->client) {
+                    return $order->client->full_name . '<br><small>' . $order->client->phone . '</small>';
+                }
+                return '<span class="text-muted">Non défini</span>';
+            })
+            ->addColumn('service_type_formatted', function ($order) {
+                if ($order->service_type) {
+                    return $order->service_type == 'Livraison' ? 'Livraison' : 'Échange';
+                }
+                return '<span class="text-muted">-</span>';
+            })
+            ->addColumn('delivery_company_info', function ($order) {
+                if ($order->deliveryCompany) {
+                    $result = $order->deliveryCompany->name;
+                    if ($order->free_delivery) {
+                        $result .= ' <span class="badge bg-success">Gratuite</span>';
+                    }
+                    return $result;
+                }
+                return '<span class="text-muted">-</span>';
+            })
+            ->addColumn('status_formatted', function ($order) {
+                $statusLabels = [
+                    'draft' => 'Brouillon',
+                    'pending' => 'En attente',
+                    'pickup' => 'En ramassage',
+                    'no_response' => 'Client ne répond plus',
+                    'cancelled' => 'Annulée',
+                    'in_delivery' => 'En livraison',
+                    'completed' => 'Terminée'
+                ];
+                $last_comment = OrderStatusHistory::where('order_id', $order->id)
+                    ->orderBy('id', 'desc')
+                    ->first()
+                    ->comment ?? '';
+                return '<span class="status-badge status-' . $order->status . '">' . 
+                       ($statusLabels[$order->status] ?? $order->status) . 
+                       '</span><br><small>'.$last_comment.'</small>';
+            })
+            ->addColumn('created_at_formatted', function ($order) {
+                $createdInfo = $order->created_at->format('d/m/Y H:i');
+                if ($order->user) {
+                    $createdInfo .= '<br><small>par ' . $order->user->name . '</small>';
+                }
+                return $createdInfo;
+            });
+
+        // Ajouter la colonne parcel pour les archives
+        if ($isArchive) {
+            $dataTable->addColumn('parcel_info', function ($order) {
+                if ($order->parcel) {
+                    return '<strong>' . $order->parcel->tracking_number . '</strong><br>' .
+                           '<small>Créé le ' . $order->parcel->created_at->format('d/m/Y') . '</small>';
+                }
+                return '<span class="text-muted">-</span>';
+            });
+        }
+
+        $dataTable->filter(function ($query) use ($request) {
+            // Filtre global (recherche dans toutes les colonnes)
+            if ($request->has('search') && !empty($request->search['value'])) {
+                $search = $request->search['value'];
+                $query->where(function($q) use ($search) {
+                    $q->where('id', 'like', "%{$search}%")
+                      ->orWhereHas('client', function($q) use ($search) {
+                          $q->where('first_name', 'like', "%{$search}%")
+                            ->orWhere('last_name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                      })
+                      ->orWhereHas('deliveryCompany', function($q) use ($search) {
+                          $q->where('name', 'like', "%{$search}%");
+                      })
+                      ->orWhereHas('user', function($q) use ($search) {
+                          $q->where('name', 'like', "%{$search}%");
+                      });
+                });
+            }
+
+            // Filtre spécifique par statut
+            if ($request->has('status') && !empty($request->status)) {
+                $query->where('status', $request->status);
+            }
+            
+            // Filtre par société de livraison
+            if ($request->has('delivery_company') && !empty($request->delivery_company)) {
+                $query->where('delivery_company_id', $request->delivery_company);
+            }
+            
+            // Filtre par utilisateur
+            if ($request->has('user_id') && !empty($request->user_id)) {
+                $query->where('user_id', $request->user_id);
+            }
+            
+            // Filtres par colonne individuelle
+            if ($request->has('columns')) {
+                foreach ($request->columns as $column) {
+                    if ($column['searchable'] == 'true' && !empty($column['search']['value'])) {
+                        $search = $column['search']['value'];
+                        switch ($column['name']) {
+                            case 'id':
+                                $query->where('id', 'like', "%{$search}%");
+                                break;
+                            case 'client_name':
+                                $query->whereHas('client', function($q) use ($search) {
+                                    $q->where('first_name', 'like', "%{$search}%")
+                                      ->orWhere('last_name', 'like', "%{$search}%")
+                                      ->orWhere('phone', 'like', "%{$search}%");
+                                });
+                                break;
+                            case 'service_type_formatted':
+                                $query->where('service_type', 'like', "%{$search}%");
+                                break;
+                            case 'delivery_company_info':
+                                $query->whereHas('deliveryCompany', function($q) use ($search) {
+                                    $q->where('name', 'like', "%{$search}%");
+                                });
+                                break;
+                            case 'status_formatted':
+                                $query->where('status', 'like', "%{$search}%");
+                                break;
+                        }
+                    }
+                }
+            }
+        })
+        ->addColumn('action', function ($order) use ($isArchive) {
+            $buttons = '';
+            
+            if (!$isArchive) {
+                // Actions pour les commandes en cours
+                $buttons .= '<a href="' . route('orders.edit', $order->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
+                $buttons .= '<form action="' . route('orders.destroy', $order->id) . '" method="POST" style="display:inline;" class="mr-1">';
+                $buttons .= csrf_field();
+                $buttons .= method_field('DELETE');
+                $buttons .= '<button type="submit" class="btn btn-sm btn-danger mb-1" title="Supprimer" onclick="return confirm(\'Êtes-vous sûr?\')"><i class="fas fa-trash"></i></button>';
+                $buttons .= '</form>';
+            } else {
+                // Actions pour les archives (consultation uniquement)
+                $buttons .= '<a href="' . route('orders.show', $order->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
+                if ($order->parcel) {
+                    $buttons .= '<a href="' . route('parcels.show', $order->parcel->id) . '" class="btn btn-sm btn-success mr-1 mb-1" title="Voir le colis"><i class="fas fa-box"></i></a>';
+                }
+            }
+            
+            return $buttons;
+        });
+
+        $rawColumns = ['client_name', 'service_type_formatted', 'delivery_company_info', 'status_formatted', 'created_at_formatted', 'action'];
+        
+        if ($isArchive) {
+            $rawColumns[] = 'parcel_info';
+        }
+
+        return $dataTable->rawColumns($rawColumns)->make(true);
     }
 
     public function show(Order $order)

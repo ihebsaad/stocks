@@ -26,7 +26,15 @@ use App\Http\Controllers\ParcelController;
 use App\Http\Controllers\HomeController;      
 
 Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('products.list');
+
+
 Route::get('/get-orders', [OrderController::class, 'getOrders'])->name('orders.getOrders');
+// Nouvelles routes pour les commandes en cours et archives
+Route::get('/orders-current', [OrderController::class, 'current'])->name('orders.current');
+Route::get('/orders-archives', [OrderController::class, 'archives'])->name('orders.archives');
+Route::get('/get-current-orders', [OrderController::class, 'getCurrentOrders'])->name('orders.getCurrentOrders');
+Route::get('/get-archived-orders', [OrderController::class, 'getArchivedOrders'])->name('orders.getArchivedOrders');
+
 
 Route::resource('categories', CategoriesController::class);
 Route::resource('users', UsersController::class);
