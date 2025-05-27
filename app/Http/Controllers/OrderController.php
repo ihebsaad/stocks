@@ -120,6 +120,11 @@ class OrderController extends Controller
     {
         if ($request->ajax()) {
             $orders = Order::with(['client', 'deliveryCompany', 'user'])->select('orders.*');
+
+            $orders = $orders->filter(function($order) {
+                return !Parcel::where('order_id', $order->id)->exists();
+            });
+
             return $this->buildDataTable($orders, $request);
         }
         return abort(404);
