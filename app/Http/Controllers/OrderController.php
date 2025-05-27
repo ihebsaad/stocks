@@ -130,6 +130,12 @@ class OrderController extends Controller
      */
     private function buildDataTable($orders, Request $request, $isArchive = false)
     {
+        if(!$isArchive ){
+        // ➤ Filtrer pour exclure les commandes ayant un parcel
+        $orders = $orders->filter(function($order) {
+            return !Parcel::where('order_id', $order->id)->exists();
+        });
+        }
         $dataTable = DataTables::of($orders)
             ->addColumn('client_name', function ($order) {
                 $class="";
