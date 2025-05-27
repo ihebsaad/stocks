@@ -19,7 +19,7 @@ class ParcelController extends Controller
         return view('parcels.index');
     }
 
-    public function store(Order $order)
+    public function save(Order $order)
     {
         $client = $order->client;
         $deliveryCompany = $order->deliveryCompany;
@@ -168,7 +168,11 @@ class ParcelController extends Controller
      
 
  
-    
+        
+    public function store(Parcel $parcel)
+    {
+
+    }
     public function show(Parcel $parcel)
     {
 
