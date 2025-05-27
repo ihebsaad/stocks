@@ -51,12 +51,36 @@ class OrderController extends Controller
      */
     public function current()
     {
-        return view('orders.archives');
+        $deliveryCompanies = DeliveryCompany::all();
+        $users = User::all();
+        $statusOptions = [
+            'draft' => 'Brouillon',
+            'pending' => 'En attente',
+            'pickup' => 'En ramassage',
+            'no_response' => 'Client ne répond plus',
+            'cancelled' => 'Annulée',
+            'in_delivery' => 'En livraison',
+            'completed' => 'Terminée'
+        ];
+
+        return view('orders.archives', compact('statusOptions', 'deliveryCompanies', 'users'));
     }
-    
+
     public function archives()
     {
-        return view('orders.archives');
+                $deliveryCompanies = DeliveryCompany::all();
+        $users = User::all();
+        $statusOptions = [
+            'draft' => 'Brouillon',
+            'pending' => 'En attente',
+            'pickup' => 'En ramassage',
+            'no_response' => 'Client ne répond plus',
+            'cancelled' => 'Annulée',
+            'in_delivery' => 'En livraison',
+            'completed' => 'Terminée'
+        ];
+
+        return view('orders.archives', compact('statusOptions', 'deliveryCompanies', 'users'));
     }
     /**
      * API pour récupérer les commandes en cours
