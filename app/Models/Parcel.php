@@ -17,7 +17,8 @@ class Parcel extends Model
 		return $this->belongsTo(DeliveryCompany::class, 'delivery_company_id'); 
 	}
 	
-    public function order() {
-		return $this->belongsTo(Order::class); 
-	}
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
 }
