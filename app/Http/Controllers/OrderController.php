@@ -110,8 +110,8 @@ class OrderController extends Controller
     }
 */
  
- 
-        public function getCurrentOrders(Request $request)
+ /*
+    public function getCurrentOrders(Request $request)
     {
         if ($request->ajax()) {
             $orders = Order::with(['client', 'deliveryCompany', 'user'])
@@ -122,7 +122,24 @@ class OrderController extends Controller
         }
         return abort(404);
     }
-  
+  */
+
+
+      public function getCurrentOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            $orders = Order::with(['client', 'deliveryCompany', 'user'])
+                ->whereNotExists(function ($query) {
+                    $query->select(\DB::raw(1))
+                          ->from('parcels')
+                          ->whereRaw('parcels.order_id = orders.id');
+                })
+                ->select('orders.*');
+
+            return $this->buildDataTable($orders, $request);
+        }
+        return abort(404);
+    }
     /**
      * API pour récupérer les archives (avec colis)
      */
