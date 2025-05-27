@@ -82,14 +82,13 @@ class OrderController extends Controller
 
         return view('orders.archives', compact('statusOptions', 'deliveryCompanies', 'users'));
     }
-    /**
-     * API pour récupérer les commandes en cours
-     */
+
+    /*
     public function getCurrentOrders(Request $request)
     {
         if ($request->ajax()) {
             $orders = Order::with(['client', 'deliveryCompany', 'user'])
-                ->whereDoesntHave('parcel') // Commandes sans colis
+                ->doesntHave('parcel')   // Commandes sans colis
                 ->select('orders.*');
 
             return $this->buildDataTable($orders, $request);
@@ -97,20 +96,48 @@ class OrderController extends Controller
         return abort(404);
     }
 
-    /**
-     * API pour récupérer les archives
-     */
+
     public function getArchivedOrders(Request $request)
     {
         if ($request->ajax()) {
             $orders = Order::with(['client', 'deliveryCompany', 'user', 'parcel'])
-                ->whereHas('parcel') // Commandes avec colis
+                ->has('parcel')  // Commandes avec colis
                 ->select('orders.*');
 
             return $this->buildDataTable($orders, $request, true);
         }
         return abort(404);
     }
+*/
+ 
+ 
+    public function getCurrentOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            $orders = Order::with(['client', 'deliveryCompany', 'user'])
+                ->whereDoesntHave('parcel') // Commandes sans colis
+                ->select('orders.*');
+
+            return $this->buildDataTable($orders, $request, false, filterType: 'current');
+        }
+        return abort(404);
+    }
+  
+    /**
+     * API pour récupérer les archives (avec colis)
+     */
+    public function getArchivedOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            $orders = Order::with(['client', 'deliveryCompany', 'user', 'parcel'])
+                ->join('parcels', 'orders.id', '=', 'parcels.order_id')
+                ->select('orders.*');
+
+            return $this->buildDataTable($orders, $request, true, 'archive');
+        }
+        return abort(404);
+    }
+
 
     /**
      * Méthode originale - maintenant pour toutes les commandes
@@ -127,9 +154,27 @@ class OrderController extends Controller
     /**
      * Méthode commune pour construire le DataTable
      */
-    private function buildDataTable($orders, Request $request, $isArchive = false)
+    private function buildDataTable($orders, Request $request, $isArchive = false, $filterType = null)
     {
         $dataTable = DataTables::of($orders)
+                    ->filter(function ($query) use ($filterType) {
+                // Filtrer selon le type demandé
+                if ($filterType === 'current') {
+                    // Commandes sans colis
+                    $query->whereNotExists(function ($subQuery) {
+                        $subQuery->select(\DB::raw(1))
+                                ->from('parcels')
+                                ->whereRaw('parcels.order_id = orders.id');
+                    });
+                } elseif ($filterType === 'archive') {
+                    // Commandes avec colis
+                    $query->whereExists(function ($subQuery) {
+                        $subQuery->select(\DB::raw(1))
+                                ->from('parcels')
+                                ->whereRaw('parcels.order_id = orders.id');
+                    });
+                }
+            })
             ->addColumn('client_name', function ($order) {
                 if ($order->client) {
                     return $order->client->full_name . '<br><small>' . $order->client->phone . '</small>';
