@@ -122,7 +122,7 @@ class OrderController extends Controller
         }
         return abort(404);
     }
-
+ 
     /**
      * API pour récupérer les archives (avec colis)
      */
