@@ -112,7 +112,7 @@ class DeliveryService
                         'user_id'    => auth()->id() ?? null,
                         'old_status' => $old,
                         'new_status' => $etat,
-                        'comment'    => 'MàJ automatique (Droppex)',
+                        'comment'    => 'MàJ via API',
                     ]);
                 }
             }
@@ -150,7 +150,7 @@ class DeliveryService
                     'user_id'    => auth()->id() ?? null,
                     'old_status' => $old,
                     'new_status' => $etat,
-                    'comment'    => 'MàJ automatique via API ' . $this->company->name,
+                    'comment'    => 'MàJ via API ' . $this->company->name,
                 ]);
             }
         }
