@@ -86,7 +86,7 @@ class DeliveryService
 
     public function syncParcelStatuses()
     {
-        /*
+        
         if (strtolower($this->company->name) === 'droppex') {
             // 🎯 Droppex → pas de /list, on doit faire un get par colis
             $parcels = Parcel::where('delivery_company_id', $this->company->id)
@@ -119,7 +119,7 @@ class DeliveryService
 
             return;
         }
-*/
+
         // 🔁 Toutes les autres sociétés → API /list
         $response = $this->postRequest([
             'action' => 'list',
