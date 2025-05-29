@@ -93,7 +93,7 @@ class ParcelController extends Controller
 
             return DataTables::of($parcels)
                 ->addColumn('reference', function ($parcel) {
-                    return $parcel->reference ?? '<span class="text-muted">#'.$parcel->id.'</span>';
+                    return '<a "href="' . route('parcels.show', $parcel->id) . '">'.$parcel->reference ?? '<span class="text-muted">#'.$parcel->id.'</span>'.'</a>' ;
                 })
                 ->addColumn('created_at_formatted', function ($parcel) {
                     //$createdInfo=$parcel->created_at;
@@ -135,7 +135,7 @@ class ParcelController extends Controller
                 })
                 ->addColumn('action', function ($parcel) {
                     $buttons = '';
-                    $buttons .= '<a href="' . route('parcels.edit', $parcel->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
+                     $buttons .= '<a href="' . route('parcels.edit', $parcel->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
                     $buttons .= '<form action="' . route('parcels.destroy', $parcel->id) . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Confirmer la suppression ?\')">';
                     $buttons .= csrf_field();
                     $buttons .= method_field('DELETE');
