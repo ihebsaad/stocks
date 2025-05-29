@@ -157,7 +157,7 @@
                         
                         @if($order->parcel && $order->parcel->reference)
                             <div class="">
-                                Colis #{{$parcel->id}}   : <a href="{{ route('parcels.show', $parcel->id) }}" target="_blank" class="btn btn-sm btn-outline-primary mb-2">{{ $order->parcel->reference }}</a>
+                                Colis #{{$order->parcel->id}}   : <a href="{{ route('parcels.show', $order->parcel->id) }}" target="_blank" class="btn btn-sm btn-outline-primary mb-2">{{ $order->parcel->reference }}</a>
                             </div>
                         @endif
 
