@@ -157,7 +157,7 @@
                         
                         @if($order->parcel && $order->parcel->reference)
                             <div class="">
-                                Colis envoyé avec référence : <a href="{{ $order->parcel->tracking_url }}" target="_blank" class="btn btn-sm btn-outline-primary mb-2">{{ $order->parcel->reference }}</a>
+                                Colis #{{$parcel->id}}   : <a href="{{ route('parcels.show', $parcel->id) }}" target="_blank" class="btn btn-sm btn-outline-primary mb-2">{{ $order->parcel->reference }}</a>
                             </div>
                         @endif
 
