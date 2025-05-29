@@ -25,18 +25,19 @@
             max-width: 100%;
         }
         
-        /* Header avec logo et titre */
+        /* Header compact */
         .header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border-bottom: 2px solid #01322e;
-            padding-bottom: 8px;
+            padding-bottom: 5px;
         }
         
         .logo {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             background-color: #01322e;
             color: white;
             display: flex;
@@ -44,88 +45,94 @@
             justify-content: center;
             font-weight: bold;
             font-size: 12px;
-            border-radius: 5px;
-            margin-right: 15px;
+            border-radius: 3px;
+        }
+        
+        .document-title {
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
         }
         
         .document-title h1 {
             color: #01322e;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             margin-bottom: 2px;
         }
         
         .document-subtitle {
             color: #666;
-            font-size: 9px;
+            font-size: 8px;
         }
         
-        /* Section référence + code-barres sur la même ligne */
-        .reference-barcode-row {
+        /* Section référence et code-barres */
+        .reference-barcode {
             display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .reference-section {
-            flex: 1;
             border: 1px solid #01322e;
-            padding: 8px;
+            margin-bottom: 8px;
             background: #f8f9fa;
         }
         
-        .reference-section .section-title {
+        .reference-left {
+            flex: 1;
+            padding: 8px;
+            border-right: 1px solid #01322e;
+        }
+        
+        .ref-label {
             color: #01322e;
             font-weight: bold;
             font-size: 9px;
-            margin-bottom: 5px;
         }
         
         .ref-value {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
-            margin-bottom: 3px;
+            margin: 2px 0;
         }
         
         .date-sys {
-            font-size: 8px;
+            font-size: 7px;
             color: #666;
         }
         
-        .barcode-section {
-            width: 100px;
-            border: 1px solid #01322e;
-            padding: 8px;
+        .barcode-right {
+            width: 80px;
+            padding: 5px;
             text-align: center;
-            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
-        .barcode-section .section-title {
+        .barcode-title {
+            font-size: 7px;
             color: #01322e;
             font-weight: bold;
-            font-size: 9px;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
         
-        .barcode-container {
-            margin-bottom: 5px;
+        .barcode-svg {
+            width: 100%;
+            height: 30px;
+            margin-bottom: 2px;
         }
         
         .barcode-text {
-            font-size: 7px;
+            font-size: 6px;
             color: #333;
             font-family: monospace;
         }
         
-        /* Expéditeur et Transporteur sur la même ligne */
-        .expediteur-transporteur-row {
+        /* Sections en ligne */
+        .info-sections {
             display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 5px;
+            margin-bottom: 8px;
         }
         
-        .expediteur-section,
-        .transporteur-section {
+        .info-section {
             flex: 1;
             border: 1px solid #01322e;
             background: white;
@@ -134,19 +141,19 @@
         .section-header {
             background: #01322e;
             color: white;
-            padding: 5px 8px;
+            padding: 3px 6px;
             font-weight: bold;
             font-size: 9px;
             text-align: center;
         }
         
         .section-content {
-            padding: 8px;
+            padding: 6px;
         }
         
         .info-line {
             display: flex;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             font-size: 8px;
         }
         
@@ -166,18 +173,18 @@
             word-break: break-word;
         }
         
-        /* Transporteur avec badge centré */
-        .transporteur-content {
-            padding: 15px 8px;
+        /* Transporteur centré */
+        .transporteur-section {
             text-align: center;
+            padding: 15px 6px;
         }
         
         .company-badge {
             display: inline-block;
-            padding: 8px 15px;
-            border-radius: 15px;
+            padding: 6px 12px;
+            border-radius: 12px;
             font-weight: bold;
-            font-size: 11px;
+            font-size: 10px;
             color: white;
             text-transform: uppercase;
         }
@@ -191,15 +198,15 @@
         /* Section client pleine largeur */
         .client-section {
             border: 1px solid #01322e;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             background: white;
         }
         
         .client-content {
-            padding: 8px;
+            padding: 6px;
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
         
         .client-col {
@@ -207,19 +214,19 @@
             min-width: 45%;
         }
         
-        /* Remarque conditionnelle */
+        /* Remarque si existe */
         .remarque-section {
             border: 2px solid #dc3545;
             background: #fff5f5;
-            margin-bottom: 10px;
-            padding: 8px;
+            margin-bottom: 8px;
+            padding: 6px;
         }
         
         .remarque-title {
             color: #dc3545;
             font-weight: bold;
             font-size: 9px;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         
         .remarque-text {
@@ -228,18 +235,18 @@
             font-weight: bold;
         }
         
-        /* Tableau des articles */
+        /* Tableau compact */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 8px;
         }
         
         .items-table th,
         .items-table td {
             border: 1px solid #01322e;
-            padding: 4px;
+            padding: 3px;
             text-align: center;
         }
         
@@ -280,51 +287,14 @@
             vertical-align: super;
         }
         
-        /* Footer */
+        /* Footer minimal */
         .footer {
             text-align: center;
             font-size: 7px;
             color: #666;
-            margin-top: 8px;
+            margin-top: 5px;
             padding-top: 5px;
             border-top: 1px solid #ddd;
-        }
-        
-        /* Styles pour le code-barres simple */
-        .simple-barcode {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 35px;
-            background: #f8f9fa;
-            border: 1px dashed #01322e;
-            margin-bottom: 5px;
-        }
-        
-        .barcode-lines {
-            display: flex;
-            align-items: center;
-            height: 25px;
-        }
-        
-        .bar {
-            background: #000;
-            margin: 0 1px;
-        }
-        
-        .bar-thick {
-            width: 3px;
-            height: 25px;
-        }
-        
-        .bar-thin {
-            width: 1px;
-            height: 25px;
-        }
-        
-        .bar-medium {
-            width: 2px;
-            height: 25px;
         }
     </style>
 </head>
@@ -339,42 +309,42 @@
             </div>
         </div>
         
-        <!-- Référence + Code-barres sur la même ligne -->
-        <div class="reference-barcode-row">
-            <div class="reference-section">
-                <div class="section-title">Référence +</div>
+         <!-- Référence + Code-barres -->
+        <div class="reference-barcode">
+            <div class="reference-left">
+                <div class="ref-label">Référence :</div>
                 <div class="ref-value">{{ $parcel->reference }}</div>
                 <div class="date-sys">date syst: {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
             </div>
-            <div class="barcode-section">
-                <div class="section-title">code à barre généré</div>
-                <div class="barcode-container">
-                    <!-- Code-barres simple avec CSS -->
-                    <div class="simple-barcode">
-                        <div class="barcode-lines">
-                            @php
-                                // Génération simple de barres basée sur la référence
-                                $reference = $parcel->reference;
-                                $seed = crc32($reference);
-                                srand($seed);
-                            @endphp
-                            @for($i = 0; $i < 20; $i++)
-                                @php
-                                    $random = rand(1, 3);
-                                    $class = $random == 1 ? 'bar-thin' : ($random == 2 ? 'bar-medium' : 'bar-thick');
-                                @endphp
-                                <div class="bar {{ $class }}"></div>
-                            @endfor
-                        </div>
-                    </div>
-                </div>
+            <div class="barcode-right">
+                <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Code-barres Code128 généré pour la référence -->
+                    @php
+                        $reference = $parcel->reference;
+                        $bars = '';
+                        // Simulation simple de code-barres - Vous pouvez utiliser une vraie lib comme picqer/php-barcode-generator
+                        for($i = 0; $i < strlen($reference); $i++) {
+                            $char = ord($reference[$i]);
+                            $pattern = ($char % 4) + 1;
+                            for($j = 0; $j < $pattern; $j++) {
+                                $bars .= '1';
+                            }
+                            $bars .= '0';
+                        }
+                    @endphp
+                    @for($i = 0; $i < strlen($bars); $i++)
+                        @if($bars[$i] == '1')
+                            <rect x="{{ $i * 1.2 }}" y="0" width="1" height="30" fill="#000"/>
+                        @endif
+                    @endfor
+                </svg>
                 <div class="barcode-text">{{ $parcel->reference }}</div>
             </div>
         </div>
         
-        <!-- Expéditeur et Transporteur sur la même ligne -->
-        <div class="expediteur-transporteur-row">
-            <div class="expediteur-section">
+        <!-- Expéditeur + Transporteur -->
+        <div class="info-sections">
+            <div class="info-section">
                 <div class="section-header">Expéditeur</div>
                 <div class="section-content">
                     <div class="info-line">
@@ -396,9 +366,9 @@
                 </div>
             </div>
             
-            <div class="transporteur-section">
+            <div class="info-section">
                 <div class="section-header">Transporteur</div>
-                <div class="transporteur-content">
+                <div class="transporteur-section">
                     <span class="company-badge bg-{{ $parcel->company->id }}">
                         {{ strtoupper($parcel->company->name) }}
                     </span>
@@ -406,7 +376,7 @@
             </div>
         </div>
         
-        <!-- Section Client -->
+        <!-- Client -->
         <div class="client-section">
             <div class="section-header">Client</div>
             <div class="client-content">
@@ -443,7 +413,7 @@
             </div>
         </div>
         
-        <!-- Remarque (conditionnelle) -->
+        <!-- Remarque seulement si elle existe -->
         @if($parcel->remarque)
         <div class="remarque-section">
             <div class="remarque-title">Remarque</div>
@@ -488,7 +458,7 @@
             </tbody>
         </table>
         
-        <!-- Footer -->
+        <!-- Footer minimal -->
         <div class="footer">
             BL généré le {{ now()->format('d/m/Y H:i') }} - Z&A Home
         </div>
