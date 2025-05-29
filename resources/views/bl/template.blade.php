@@ -311,7 +311,7 @@
         <table class="text-center">
             <tr>
                 <td>
-                    <img src="{{ asset('img/logo.png')}}" style="width:60px" /><br>
+                    <img src="{{ asset('img/logo.png')}}" style="width:70px" /><br>
                     <b>zahome.tn<b>
                 </td>
                 <td>
@@ -415,9 +415,13 @@
                         <div class="info-line">
                             <span class="info-label">Tél:</span>
                             <span class="info-value">{{ $parcel->tel_l }}</span>
-                            <span class="info-value">{{ $parcel->tel2_l }}</span>
                         </div>
                     </td>
+                    <td>
+                        <div class="info-line">
+                            <span class="info-value">{{ $parcel->tel2_l ?? 50123456}}</span>
+                        </div>
+                    </td>                    
                     <td>
                         <div class="info-line">
                             <span class="info-label">Ville:</span>
@@ -438,7 +442,7 @@
                             <span class="info-value">{{ $parcel->adresse_l }}</span>
                         </div>
                     </td>
-                    <td colspan="2">
+                    <td colspan="3">
                         @if($parcel->remarque!='')
                         <div class="info-line">
                             <span class="info-label">Remarque:</span>
