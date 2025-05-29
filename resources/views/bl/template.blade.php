@@ -349,7 +349,7 @@
                                     </td>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label">Adr:</span>
+                                            <span class="info-label">Adresse:</span>
                                             <span class="info-value">Ksibet médiouni</span>
                                         </div>
                                     </td>
