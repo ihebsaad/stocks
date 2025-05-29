@@ -458,7 +458,7 @@
                             </button>
                         </div>
                     </form>
-                    @if($order->delivery_company_id > 1 &&  isset($order->items) )
+                    @if($order->delivery_company_id > 1 &&  isset($order->items) && ! $order->parcel )
                     <form method="POST" action="{{ route('parcels.save', $order->id) }}">
                         @csrf
                         <button type="submit" class="btn btn-success float-right" >Créer et envoyer colis</button>
@@ -591,7 +591,7 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <textarea name="notes" id="notes" class="form-control @error('notes') is-invalid @enderror" rows="3">{{ old('notes', $order->notes) }}</textarea>
+                        <textarea name="notes" id="notes" placeholder="Remarques de la commande" class="form-control @error('notes') is-invalid @enderror" rows="3">{{ old('notes', $order->notes) }}</textarea>
                             @error('notes')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
