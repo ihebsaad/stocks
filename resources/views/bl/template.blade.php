@@ -197,7 +197,7 @@
         
         /* Section client pleine largeur */
         .client-section {
-            border: 1px solid #01322e;
+            border: 1px solid #3f5367;
             margin-bottom: 8px;
             background: white;
         }
@@ -422,7 +422,7 @@
         <!-- Client -->
 
         <div class="client-section">
-        <div class="section-header">Client</div>
+        <div class="section-header" style="background-color: #3f5367">Client</div>
             <table>
                 <tr>
                     <td>
