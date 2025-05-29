@@ -16,7 +16,7 @@
         --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     }
-
+/*
     body {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
@@ -31,7 +31,7 @@
         overflow: hidden;
         box-shadow: var(--shadow-lg);
     }
-
+*/
     .header-section {
         background: linear-gradient(135deg, #00a69c 0%, #003936 100%);
         color: white;
