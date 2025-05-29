@@ -421,10 +421,12 @@
                         </div>
                     </td>
                     <td>
+                        @if($parcel->tel2_l!='')
                         <div class="info-line">
                             <span class="info-label">Tél2:</span>
                             <span class="info-value">{{ $parcel->tel2_l }}</span>
                         </div>
+                        @endif
                     </td>                    
                     <td>
                         <div class="info-line">
