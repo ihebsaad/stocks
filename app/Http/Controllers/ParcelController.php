@@ -50,7 +50,7 @@ class ParcelController extends Controller
             'nb_piece' => $order->items->count(),
             'remarque' => $order->notes,
             'service' => $order->service_type,
-            'ville_cl' => $client->city,
+            'ville_cl' => $client->city ?? '',
         ]);
 
         // Envoyer à l'API

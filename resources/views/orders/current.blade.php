@@ -15,6 +15,11 @@
         vertical-align: baseline;
         border-radius: 0.25rem;
     }
+    .bg-1{ background-color: #0da598; color: white;   }
+    .bg-2{ background-color: #ef6f28; color: white;   }
+    .bg-3{ background-color: #227ac2; color: white;   }
+    .bg-4{ background-color: #6c757d; color: white;   }
+    .bg-5{ background-color: #fd9883; color: white;   }
     .status-draft { background-color: #6c757d; color: white; }
     .status-pending { background-color: #ffc107; color: black; }
     .status-production { background-color: #17a2b8; color: white; }

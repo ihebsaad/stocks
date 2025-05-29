@@ -149,7 +149,7 @@ class OrderController extends Controller
             })
             ->addColumn('delivery_company_info', function ($order) {
                 if ($order->deliveryCompany) {
-                    $result = $order->deliveryCompany->name;
+                    $result =  '<span class="badge bg-'.$order->deliveryCompany->id.'">'.$order->deliveryCompany->name.'</span> ' ;
                     if ($order->free_delivery) {
                         $result .= ' <span class="badge bg-success">Gratuite</span>';
                     }
