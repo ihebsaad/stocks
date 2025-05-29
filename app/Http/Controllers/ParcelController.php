@@ -123,7 +123,7 @@ class ParcelController extends Controller
                 })
                 ->addColumn('service_type', function ($parcel) {
                     if ($parcel->service) {
-                        return $parcel->service == 'Livraison' ? 'Livraison' : 'Échange' ;
+                        return $parcel->service == 'Livraison' ? '<b>Livraison</b>' : '<i>Échange</i>' ;
                     }
                     return '<span class="text-muted">-</span>';
                 })
