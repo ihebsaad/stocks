@@ -129,11 +129,9 @@
         .info-sections {
             gap: 5px;
             margin-bottom: 8px;
-            width:100%;
         }
         
         .info-section {
-            width: 50%;
             border: 1px solid #01322e;
             background: white;
         }
@@ -343,38 +341,43 @@
         </div>
         
         <!-- Expéditeur + Transporteur -->
-        <div class="info-sections">
-            <div class="info-section">
-                <div class="section-header">Expéditeur</div>
-                <div class="section-content">
-                    <div class="info-line">
-                        <span class="info-label">Nom:</span>
-                        <span class="info-value">Z&A Home</span>
+        <table class="items-table">
+            <tr>
+                <td>
+                    <div class="info-section">
+                        <div class="section-header">Expéditeur</div>
+                        <div class="section-content">
+                            <div class="info-line">
+                                <span class="info-label">Nom:</span>
+                                <span class="info-value">Z&A Home</span>
+                            </div>
+                            <div class="info-line">
+                                <span class="info-label">Adr:</span>
+                                <span class="info-value">Ksibet médiouni</span>
+                            </div>
+                            <div class="info-line">
+                                <span class="info-label">Tél:</span>
+                                <span class="info-value">55 969 997</span>
+                            </div>
+                            <div class="info-line">
+                                <span class="info-label">MF:</span>
+                                <span class="info-value">1768373/Z/P/M/000</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-line">
-                        <span class="info-label">Adr:</span>
-                        <span class="info-value">Ksibet médiouni</span>
+                </td>
+                <td>
+                    <div class="info-section">
+                        <div class="section-header">Transporteur</div>
+                        <div class="transporteur-section">
+                            <span class="company-badge bg-{{ $parcel->company->id }}">
+                                {{ strtoupper($parcel->company->name) }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="info-line">
-                        <span class="info-label">Tél:</span>
-                        <span class="info-value">55 969 997</span>
-                    </div>
-                    <div class="info-line">
-                        <span class="info-label">MF:</span>
-                        <span class="info-value">1768373/Z/P/M/000</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="info-section">
-                <div class="section-header">Transporteur</div>
-                <div class="transporteur-section">
-                    <span class="company-badge bg-{{ $parcel->company->id }}">
-                        {{ strtoupper($parcel->company->name) }}
-                    </span>
-                </div>
-            </div>
-        </div>
+                </td>
+            </tr>
+        </table>
         
         <!-- Client -->
         <div class="client-section">
@@ -446,15 +449,9 @@
                 </tr>
                 @endforeach
                 <tr class="total-row">
-                    <td colspan="3" style="text-align: right;">TOTAL:</td>
+                    <td colspan="3" style="text-align: right;">COD:</td>
                     <td class="amount">{{ number_format($total, 2) }} <span class="currency">TND</span></td>
                 </tr>
-                @if($parcel->cod > 0)
-                <tr class="cod-row">
-                    <td colspan="3" style="text-align: right;">COD:</td>
-                    <td class="amount">{{ number_format($parcel->cod, 2) }} <span class="currency">TND</span></td>
-                </tr>
-                @endif
             </tbody>
         </table>
         
