@@ -127,7 +127,7 @@
         
         /* Sections en ligne */
         .info-sections {
-            display: block;
+            display: inline-block;
             gap: 5px;
             margin-bottom: 8px;
         }
