@@ -25,19 +25,18 @@
             max-width: 100%;
         }
         
-        /* Header compact */
+        /* Header avec logo et titre */
         .header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             border-bottom: 2px solid #01322e;
-            padding-bottom: 5px;
+            padding-bottom: 8px;
         }
         
         .logo {
-            width: 35px;
-            height: 35px;
+            width: 40px;
+            height: 40px;
             background-color: #01322e;
             color: white;
             display: flex;
@@ -45,94 +44,88 @@
             justify-content: center;
             font-weight: bold;
             font-size: 12px;
-            border-radius: 3px;
-        }
-        
-        .document-title {
-            text-align: center;
-            flex: 1;
-            margin: 0 10px;
+            border-radius: 5px;
+            margin-right: 15px;
         }
         
         .document-title h1 {
             color: #01322e;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
             margin-bottom: 2px;
         }
         
         .document-subtitle {
             color: #666;
-            font-size: 8px;
-        }
-        
-        /* Section référence et code-barres */
-        .reference-barcode {
-            display: flex;
-            border: 1px solid #01322e;
-            margin-bottom: 8px;
-            background: #f8f9fa;
-        }
-        
-        .reference-left {
-            flex: 1;
-            padding: 8px;
-            border-right: 1px solid #01322e;
-        }
-        
-        .ref-label {
-            color: #01322e;
-            font-weight: bold;
             font-size: 9px;
         }
         
-        .ref-value {
-            font-size: 12px;
+        /* Section référence + code-barres sur la même ligne */
+        .reference-barcode-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .reference-section {
+            flex: 1;
+            border: 1px solid #01322e;
+            padding: 8px;
+            background: #f8f9fa;
+        }
+        
+        .reference-section .section-title {
+            color: #01322e;
             font-weight: bold;
-            margin: 2px 0;
+            font-size: 9px;
+            margin-bottom: 5px;
+        }
+        
+        .ref-value {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 3px;
         }
         
         .date-sys {
-            font-size: 7px;
+            font-size: 8px;
             color: #666;
         }
         
-        .barcode-right {
-            width: 80px;
-            padding: 5px;
+        .barcode-section {
+            width: 100px;
+            border: 1px solid #01322e;
+            padding: 8px;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            background: white;
         }
         
-        .barcode-title {
-            font-size: 7px;
+        .barcode-section .section-title {
             color: #01322e;
             font-weight: bold;
-            margin-bottom: 2px;
+            font-size: 9px;
+            margin-bottom: 5px;
         }
         
-        .barcode-svg {
-            width: 100%;
-            height: 30px;
-            margin-bottom: 2px;
+        .barcode-container {
+            margin-bottom: 5px;
         }
         
         .barcode-text {
-            font-size: 6px;
+            font-size: 7px;
             color: #333;
             font-family: monospace;
         }
         
-        /* Sections en ligne */
-        .info-sections {
+        /* Expéditeur et Transporteur sur la même ligne */
+        .expediteur-transporteur-row {
             display: flex;
-            gap: 5px;
-            margin-bottom: 8px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
         
-        .info-section {
+        .expediteur-section,
+        .transporteur-section {
             flex: 1;
             border: 1px solid #01322e;
             background: white;
@@ -141,19 +134,19 @@
         .section-header {
             background: #01322e;
             color: white;
-            padding: 3px 6px;
+            padding: 5px 8px;
             font-weight: bold;
             font-size: 9px;
             text-align: center;
         }
         
         .section-content {
-            padding: 6px;
+            padding: 8px;
         }
         
         .info-line {
             display: flex;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             font-size: 8px;
         }
         
@@ -173,18 +166,18 @@
             word-break: break-word;
         }
         
-        /* Transporteur centré */
-        .transporteur-section {
+        /* Transporteur avec badge centré */
+        .transporteur-content {
+            padding: 15px 8px;
             text-align: center;
-            padding: 15px 6px;
         }
         
         .company-badge {
             display: inline-block;
-            padding: 6px 12px;
-            border-radius: 12px;
+            padding: 8px 15px;
+            border-radius: 15px;
             font-weight: bold;
-            font-size: 10px;
+            font-size: 11px;
             color: white;
             text-transform: uppercase;
         }
@@ -198,15 +191,15 @@
         /* Section client pleine largeur */
         .client-section {
             border: 1px solid #01322e;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             background: white;
         }
         
         .client-content {
-            padding: 6px;
+            padding: 8px;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
         }
         
         .client-col {
@@ -214,19 +207,19 @@
             min-width: 45%;
         }
         
-        /* Remarque si existe */
+        /* Remarque conditionnelle */
         .remarque-section {
             border: 2px solid #dc3545;
             background: #fff5f5;
-            margin-bottom: 8px;
-            padding: 6px;
+            margin-bottom: 10px;
+            padding: 8px;
         }
         
         .remarque-title {
             color: #dc3545;
             font-weight: bold;
             font-size: 9px;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
         
         .remarque-text {
@@ -235,18 +228,18 @@
             font-weight: bold;
         }
         
-        /* Tableau compact */
+        /* Tableau des articles */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 8px;
         }
         
         .items-table th,
         .items-table td {
             border: 1px solid #01322e;
-            padding: 3px;
+            padding: 4px;
             text-align: center;
         }
         
@@ -287,14 +280,51 @@
             vertical-align: super;
         }
         
-        /* Footer minimal */
+        /* Footer */
         .footer {
             text-align: center;
             font-size: 7px;
             color: #666;
-            margin-top: 5px;
+            margin-top: 8px;
             padding-top: 5px;
             border-top: 1px solid #ddd;
+        }
+        
+        /* Styles pour le code-barres simple */
+        .simple-barcode {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 35px;
+            background: #f8f9fa;
+            border: 1px dashed #01322e;
+            margin-bottom: 5px;
+        }
+        
+        .barcode-lines {
+            display: flex;
+            align-items: center;
+            height: 25px;
+        }
+        
+        .bar {
+            background: #000;
+            margin: 0 1px;
+        }
+        
+        .bar-thick {
+            width: 3px;
+            height: 25px;
+        }
+        
+        .bar-thin {
+            width: 1px;
+            height: 25px;
+        }
+        
+        .bar-medium {
+            width: 2px;
+            height: 25px;
         }
     </style>
 </head>
@@ -309,42 +339,42 @@
             </div>
         </div>
         
-         <!-- Référence + Code-barres -->
-        <div class="reference-barcode">
-            <div class="reference-left">
-                <div class="ref-label">Référence :</div>
+        <!-- Référence + Code-barres sur la même ligne -->
+        <div class="reference-barcode-row">
+            <div class="reference-section">
+                <div class="section-title">Référence +</div>
                 <div class="ref-value">{{ $parcel->reference }}</div>
                 <div class="date-sys">date syst: {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
             </div>
-            <div class="barcode-right">
-                <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Code-barres Code128 généré pour la référence -->
-                    @php
-                        $reference = $parcel->reference;
-                        $bars = '';
-                        // Simulation simple de code-barres - Vous pouvez utiliser une vraie lib comme picqer/php-barcode-generator
-                        for($i = 0; $i < strlen($reference); $i++) {
-                            $char = ord($reference[$i]);
-                            $pattern = ($char % 4) + 1;
-                            for($j = 0; $j < $pattern; $j++) {
-                                $bars .= '1';
-                            }
-                            $bars .= '0';
-                        }
-                    @endphp
-                    @for($i = 0; $i < strlen($bars); $i++)
-                        @if($bars[$i] == '1')
-                            <rect x="{{ $i * 1.2 }}" y="0" width="1" height="30" fill="#000"/>
-                        @endif
-                    @endfor
-                </svg>
+            <div class="barcode-section">
+                <div class="section-title">code à barre généré</div>
+                <div class="barcode-container">
+                    <!-- Code-barres simple avec CSS -->
+                    <div class="simple-barcode">
+                        <div class="barcode-lines">
+                            @php
+                                // Génération simple de barres basée sur la référence
+                                $reference = $parcel->reference;
+                                $seed = crc32($reference);
+                                srand($seed);
+                            @endphp
+                            @for($i = 0; $i < 20; $i++)
+                                @php
+                                    $random = rand(1, 3);
+                                    $class = $random == 1 ? 'bar-thin' : ($random == 2 ? 'bar-medium' : 'bar-thick');
+                                @endphp
+                                <div class="bar {{ $class }}"></div>
+                            @endfor
+                        </div>
+                    </div>
+                </div>
                 <div class="barcode-text">{{ $parcel->reference }}</div>
             </div>
         </div>
         
-        <!-- Expéditeur + Transporteur -->
-        <div class="info-sections">
-            <div class="info-section">
+        <!-- Expéditeur et Transporteur sur la même ligne -->
+        <div class="expediteur-transporteur-row">
+            <div class="expediteur-section">
                 <div class="section-header">Expéditeur</div>
                 <div class="section-content">
                     <div class="info-line">
@@ -366,18 +396,17 @@
                 </div>
             </div>
             
-            <div class="info-section">
+            <div class="transporteur-section">
                 <div class="section-header">Transporteur</div>
-                <div class="transporteur-section">
+                <div class="transporteur-content">
                     <span class="company-badge bg-{{ $parcel->company->id }}">
                         {{ strtoupper($parcel->company->name) }}
-                        Adresse : 
                     </span>
                 </div>
             </div>
         </div>
         
-        <!-- Client -->
+        <!-- Section Client -->
         <div class="client-section">
             <div class="section-header">Client</div>
             <div class="client-content">
@@ -414,7 +443,7 @@
             </div>
         </div>
         
-        <!-- Remarque seulement si elle existe -->
+        <!-- Remarque (conditionnelle) -->
         @if($parcel->remarque)
         <div class="remarque-section">
             <div class="remarque-title">Remarque</div>
@@ -459,7 +488,7 @@
             </tbody>
         </table>
         
-        <!-- Footer minimal -->
+        <!-- Footer -->
         <div class="footer">
             BL généré le {{ now()->format('d/m/Y H:i') }} - Z&A Home
         </div>

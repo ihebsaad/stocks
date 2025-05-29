@@ -305,7 +305,7 @@
         box-shadow: var(--shadow-md);
         color: white;
         text-decoration: none;
-        background: linear-gradient(135deg, #003936 0%, #00a69c 100%);
+        background: linear-gradient(135deg, #096b89 0%, #62d1f3 100%);
     }
     
     .d-flex.gap-2 {
