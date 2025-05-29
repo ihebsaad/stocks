@@ -192,7 +192,7 @@ class ParcelController extends Controller
         $pdf = Pdf::loadView('bl.template', compact('parcel', 'expediteur'));
         
         // Configurer le PDF
-        $pdf->setPaper('A4', 'portrait');
+        $pdf->setPaper('A5', 'portrait');
         
         // Retourner le PDF
         return $pdf->stream('BL-' . $parcel->reference . '.pdf');
