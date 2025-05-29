@@ -38,7 +38,7 @@
                 @method('PUT')
                 
                 <div class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="name" class="form-label">Nom de la société <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $deliveryCompany->name) }}" required>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="delivery_price" class="form-label">Prix de livraison (DT) <span class="text-danger">*</span></label>
                             <input type="number" step="0.001" min="0" class="form-control @error('delivery_price') is-invalid @enderror" id="delivery_price" name="delivery_price" value="{{ old('delivery_price', $deliveryCompany->delivery_price) }}" required>
@@ -57,10 +57,8 @@
                             @enderror
                         </div>
                     </div>
-                </div>
-                
-                <div class="row mb-3">
-                    <div class="col-md-6">
+
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="manager_name" class="form-label">Nom du responsable</label>
                             <input type="text" class="form-control @error('manager_name') is-invalid @enderror" id="manager_name" name="manager_name" value="{{ old('manager_name', $deliveryCompany->manager_name) }}">
@@ -68,12 +66,26 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
+                    </div>                    
+                </div>
+                
+                <div class="row mb-3">
+
                     
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="phone" class="form-label">Téléphone</label>
                             <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $deliveryCompany->phone) }}">
+                            @error('phone')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Adresse</label>
+                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="phone" value="{{ old('address', $deliveryCompany->address) }}">
                             @error('phone')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

@@ -15,6 +15,7 @@ class DeliveryCompany extends Model
         'delivery_price',
         'manager_name',
         'phone',
+        'address',
         'api_url_dev',
         'api_url_prod',
         'code_api',

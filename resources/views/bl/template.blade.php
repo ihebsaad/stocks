@@ -475,7 +475,7 @@
                     <th class="designation">DESIGNATION</th>
                     <th>PU</th>
                     <th>QTE</th>
-                    <th>TOT</th>
+                    <th>TOTAL</th>
                 </tr>
             </thead>
             <tbody>

@@ -15,6 +15,7 @@ class UpdateDeliveryCompaniesTable extends Migration
     {
         //
         Schema::table('delivery_companies', function (Blueprint $table) {
+            $table->string('address')->nullable();
             $table->string('api_url_dev');
             $table->string('api_url_prod');
             $table->string('code_api');
@@ -33,6 +34,7 @@ class UpdateDeliveryCompaniesTable extends Migration
     {
         //
         Schema::table('delivery_companies', function (Blueprint $table) {
+            $table->dropColumn('address');
             $table->dropColumn('api_url_dev');
             $table->dropColumn('api_url_prod');
             $table->dropColumn('code_api');
