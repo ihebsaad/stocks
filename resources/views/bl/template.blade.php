@@ -123,6 +123,7 @@
             /*font-size: 6px;
             color: #333;*/
             font-family: monospace;
+            font-size:15px;
         }
         
         /* Sections en ligne */
