@@ -174,7 +174,7 @@
         /* Transporteur centré */
         .transporteur-section {
             text-align: center;
-            padding: 15px 6px;
+            /*padding: 15px 6px;*/
         }
         
         .company-badge {
