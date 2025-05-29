@@ -287,7 +287,7 @@
 
 
     .btn-bl {
-        background: linear-gradient(135deg, #01322e 0%, #0da598 100%);
+        background: linear-gradient(135deg, #62d1f3 0%, #096b89 100%);
         border: none;
         color: white;
         padding: 0.75rem 1.5rem;
