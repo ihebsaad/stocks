@@ -20,7 +20,7 @@ class ParcelController extends Controller
     
     public function index()
     {
-        return view('parcels.index');
+        return view(view: 'parcels.index');
     }
 
     public function store(Order $order)
@@ -178,6 +178,9 @@ class ParcelController extends Controller
   
     public function show(Parcel $parcel)
     {
+        $client = $parcel->order->client;
+        $historiques= $parcel->order->statusHistory->sortByDesc('created_at')->get();
+        return view('parcels.show', compact('parcel','client','historiques'));
 
     }
 
