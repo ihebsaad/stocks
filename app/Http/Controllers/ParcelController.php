@@ -10,6 +10,7 @@ use App\Models\OrderItem;
 use App\Services\DeliveryService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ParcelController extends Controller
 {
@@ -174,7 +175,28 @@ class ParcelController extends Controller
     }
      
 
- 
+     public function generateBL($parcelId)
+    {
+        // Récupérer le colis avec ses relations
+        $parcel = Parcel::with(['company', 'order.items.product'])->findOrFail($parcelId);
+        
+        // Données de l'expéditeur
+        $expediteur = [
+            'nom' => 'Z&A Home',
+            'adresse' => 'Ksibet médiouni',
+            'telephone' => '55 969 997',
+            'mf' => '1768373/Z/P/M/000'
+        ];
+        
+        // Générer le PDF
+        $pdf = Pdf::loadView('bl.template', compact('parcel', 'expediteur'));
+        
+        // Configurer le PDF
+        $pdf->setPaper('A4', 'portrait');
+        
+        // Retourner le PDF
+        return $pdf->stream('BL-' . $parcel->reference . '.pdf');
+    }
   
     public function show(Parcel $parcel)
     {

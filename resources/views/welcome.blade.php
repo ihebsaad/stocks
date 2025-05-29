@@ -37,7 +37,7 @@
 
             <div style="text-align: center; margin-top: 100px;">
                  
-                <img src="{{ asset('img/logo.png')}}" alt="her group" class="responsive" style="max-width:250px;height:auto;"><br>
+                <img src="{{ asset('img/logo.png')}}" alt=" " class="responsive" style="max-width:250px;height:auto;"><br>
 
             </div>
         </div>

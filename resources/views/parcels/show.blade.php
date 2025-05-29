@@ -284,6 +284,33 @@
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
+
+
+        .btn-bl {
+        background: linear-gradient(135deg, #01322e 0%, #0da598 100%);
+        border: none;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-bl:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        color: white;
+        text-decoration: none;
+        background: linear-gradient(135deg, #003936 0%, #00a69c 100%);
+    }
+    
+    .d-flex.gap-2 {
+        gap: 0.5rem;
+    }
 </style>
 
 @section('content')

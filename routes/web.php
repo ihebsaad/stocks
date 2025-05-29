@@ -120,7 +120,7 @@ Route::get('/getparcels', [ParcelController::class, 'getParcels'])->name('parcel
 Route::delete('/parcels/{parcel}', [ParcelController::class, 'destroy'])->name('parcels.destroy');
 Route::post('/parcels/{order}', [ParcelController::class, 'store'])->name('parcels.store');
 #Route::get('/parcels/{parcel}/details', [ParcelController::class, 'show'])->name('parcels.details');
-
+Route::get('/parcel/{id}/bl', [ParcelController::class, 'generateBL'])->name('parcel.bl');
 Route::get('/invoices-by-product/{productId}', [HomeController::class, 'getInvoicesByProduct'])->name('invoices.by.product');
 
 /*
