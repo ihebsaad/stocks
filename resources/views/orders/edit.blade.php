@@ -339,7 +339,7 @@
                                     <!-- Les produits seront ajoutés ici dynamiquement -->
                                     @if(count($order->items) > 0)
                                         @foreach($order->items as $index => $item)
-                                        <div class="product-item mb-1">
+                                        <div class="product-item">
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-6">
                                                     <div class="form-group">
@@ -474,7 +474,7 @@
 
             <!-- Template pour un élément de produit -->
             <template id="product-item-template">
-                <div class="product-item mb-1">
+                <div class="product-item">
                     <div class="row">
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
