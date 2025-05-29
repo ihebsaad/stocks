@@ -344,7 +344,7 @@
         <table style="width:100%">
             <tr>
                 <td style="width:50%">
-                    <div class="info-section">
+                    <div class="info-section-">
                         <div class="section-header">Expéditeur</div>
                         <div class="section-content">
                             <div class="info-line">
@@ -367,7 +367,7 @@
                     </div>
                 </td>
                 <td style="width:50%">
-                    <div class="info-section">
+                    <div class="info-section-">
                         <div class="section-header">Transporteur</div>
                         <div class="transporteur-section">
                             <span class="company-badge bg-{{ $parcel->company->id }}">
