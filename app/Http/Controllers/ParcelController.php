@@ -143,7 +143,7 @@ class ParcelController extends Controller
                     $buttons .= '</form>';
                     return $buttons;
                 })
-                ->rawColumns(['reference', 'client', 'status', 'delivery_company', 'dernier_etat','order_id', 'action'])
+                ->rawColumns(['reference', 'client', 'status', 'delivery_company','service_type', 'dernier_etat','order_id', 'action'])
                 ->filter(function ($query) use ($request) {
                     if ($request->has('search') && !empty($request->search['value'])) {
                         $search = $request->search['value'];
