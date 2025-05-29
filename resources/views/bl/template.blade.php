@@ -294,6 +294,9 @@
             padding-top: 5px;
             border-top: 1px solid #ddd;
         }
+        table{
+            width:100%;
+        }
     </style>
 </head>
 <body>
@@ -341,53 +344,74 @@
         </div>
         
         <!-- Expéditeur + Transporteur -->
-        <table style="width:100%">
+        <table  >
             <tr>
-                <td style="width:50%">
-                    <div class="info-section-">
-                        <div class="section-header">Expéditeur</div>
+                <td >
+                    <div class="section-header">Expéditeur</div>
                         <div class="section-content">
-                            <div class="info-line">
-                                <span class="info-label">Nom:</span>
-                                <span class="info-value">Z&A Home</span>
-                            </div>
-                            <div class="info-line">
-                                <span class="info-label">Adr:</span>
-                                <span class="info-value">Ksibet médiouni</span>
-                            </div>
-                            <div class="info-line">
-                                <span class="info-label">Tél:</span>
-                                <span class="info-value">55 969 997</span>
-                            </div>
-                            <div class="info-line">
-                                <span class="info-label">MF:</span>
-                                <span class="info-value">1768373/Z/P/M/000</span>
-                            </div>
-                        </div>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="info-line">
+                                        <span class="info-label">Nom:</span>
+                                        <span class="info-value">Z&A Home</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="info-line">
+                                        <span class="info-label">Adr:</span>
+                                        <span class="info-value">Ksibet médiouni</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="info-line">
+                                        <span class="info-label">Tél:</span>
+                                        <span class="info-value">55 969 997</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="info-line">
+                                        <span class="info-label">MF:</span>
+                                        <span class="info-value">1768373/Z/P/M/000</span>
+                                    </div>
+                                </td>
+                            </tr>
                     </div>
                 </td>
-                <td style="width:50%">
-                    <div class="info-section-">
+                <td >
                         <div class="section-header">Transporteur</div>
-                        <div class="transporteur-section">
-                            <span class="company-badge bg-{{ $parcel->company->id }}">
-                                {{ strtoupper($parcel->company->name) }}
-                            </span>
-                        </div>
-                        
-                        <div class="info-line">
-                            <span class="info-label">Tél:</span>
-                            <span class="info-value">{{$parcel->company->phone}}</span>
-                        </div>
-                        <div class="info-line">
-                            <span class="info-label">Adr:</span>
-                            <span class="info-value">{{$parcel->company->phone}}</span>
-                        </div>
-                        <div class="info-line">
-                            <span class="info-label">MF:</span>
-                            <span class="info-value">{{$parcel->company->phone}}</span>
-                        </div>
-                    </div>
+                        <table>
+                            <tr rowspan="3">
+                                <td>
+                                    <div class="transporteur-section">
+                                        <span class="company-badge bg-{{ $parcel->company->id }}">
+                                            {{ strtoupper($parcel->company->name) }}
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="info-line">
+                                        <span class="info-label">Tél:</span>
+                                        <span class="info-value">{{$parcel->company->phone}}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="info-line">
+                                        <span class="info-label">Adr:</span>
+                                        <span class="info-value">{{$parcel->company->phone}}</span>
+                                    </div>
+                                    <td><td>
+                                    <div class="info-line">
+                                        <span class="info-label">MF:</span>
+                                        <span class="info-value">{{$parcel->company->phone}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                 </td>
             </tr>
         </table>
