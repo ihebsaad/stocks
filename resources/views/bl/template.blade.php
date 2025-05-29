@@ -380,6 +380,7 @@
                                                 {{ strtoupper($parcel->company->name) }}
                                             </span>
                                         </div>
+                                        <br>
                                     </td>
                                     <td class="text-right">
                                         <div class="info-line">
