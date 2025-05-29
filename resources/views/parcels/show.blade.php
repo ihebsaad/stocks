@@ -65,7 +65,7 @@
     }
 
     .content-section {
-        padding: 2rem;
+        padding: 10px;
     }
 
     .info-card {
