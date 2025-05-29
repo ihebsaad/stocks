@@ -303,19 +303,18 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="logo">LOGO</div>
+        <img src="{{ asset('img/logo.png')}}" style="width:100px" />
+        <b>zahome.tn<b>
             <div class="document-title">
-                <h1>Bon de livraison BL</h1>
-                <div class="document-subtitle">id colis</div>
+                <h1>BL {{ $parcel->id}}</h1>
             </div>
         </div>
         
          <!-- Référence + Code-barres -->
         <div class="reference-barcode">
             <div class="reference-left">
-                <div class="ref-label">Référence :</div>
                 <div class="ref-value">{{ $parcel->reference }}</div>
-                <div class="date-sys">date syst: {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
+                <div class="date-sys">Date : {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
             </div>
             <div class="barcode-right">
                 <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg">
@@ -406,7 +405,7 @@
                                 <tr>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label">Adr:</span>
+                                            <span class="info-label">Adresse:</span>
                                             <span class="info-value">{{$parcel->company->phone}}</span>
                                         </div>
                                     </td>
