@@ -359,6 +359,15 @@
                         </span>
                         <span class="info-value">{{ $parcel->adresse_l }}</span>
                     </div>
+                    @if($parcel->remarque)
+                    <div class="info-row">
+                        <span class="info-label">
+                            <i class="fas fa-comment"></i>
+                            Remarque
+                        </span>
+                        <span class="info-value">{{ $parcel->remarque }}</span>
+                    </div>
+                    @endif
                 </div>
             </div>
 
@@ -410,15 +419,6 @@
                             {!! $parcel->service == 'Livraison' ? '<strong>Livraison</strong>' : '<em>Échange</em>' !!}
                         </span>
                     </div>
-                    @if($parcel->remarque)
-                    <div class="info-row">
-                        <span class="info-label">
-                            <i class="fas fa-comment"></i>
-                            Remarque
-                        </span>
-                        <span class="info-value">{{ $parcel->remarque }}</span>
-                    </div>
-                    @endif
                     <table class="table table-striped mt-4" style="width:100%;text-align:center">
                         <tr><th>DESIGNATION</th><th>PU</th><th>QTE</th><th>TOT</th></tr>
                         @foreach($parcel->order->items as $index => $item)
