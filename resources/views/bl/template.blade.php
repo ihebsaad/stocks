@@ -120,8 +120,8 @@
         }
         
         .barcode-text {
-            font-size: 6px;
-            color: #333;
+            /*font-size: 6px;
+            color: #333;*/
             font-family: monospace;
         }
         
@@ -334,15 +334,11 @@
                         <!-- Code-barres simple avec CSS -->
                         <div class="simple-barcode">
                             <div class="barcode-lines">
-                                @php
-                                    // Génération simple de barres basée sur la référence
-                                    echo $barcode;
-                                @endphp
- 
+                                    {{ $barcode}}
                             </div>
                         </div>
                     </div>
-                    <div class="barcode-text">{{ $parcel->reference }}..</div>
+                    <div class="barcode-text">{{ $parcel->reference }}</div>
                 </div>
                 </td>
             </tr>
