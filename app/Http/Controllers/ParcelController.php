@@ -31,11 +31,7 @@ class ParcelController extends Controller
         if (!$deliveryCompany) {
             return back()->with('error', 'Aucune société de livraison sélectionnée.');
         }
-/*
-        if (Parcel::where('order_id',$order->id)->exists()) {
-            return back()->with('error', 'Colis existe déja !');
-        }
-*/
+
         // Créer l'enregistrement local Parcel
         $parcel = Parcel::create([
             'order_id' => $order->id,
@@ -53,29 +49,33 @@ class ParcelController extends Controller
             'ville_cl' => $client->city ?? '',
         ]);
 
-        // Envoyer à l'API
-        $deliveryService = new DeliveryService($deliveryCompany);
-        $apiResponse = $deliveryService->createParcel($parcel->toArray());
+        if($parcel->id>0){ 
+            // Envoyer à l'API
+            $deliveryService = new DeliveryService($deliveryCompany);
+            $apiResponse = $deliveryService->createParcel($parcel->toArray());
 
+            if (isset($apiResponse['reference'])) {
 
-        if (isset($apiResponse['reference'])) {
+                // mise a jour statut ici
 
-            // mise a jour statut ici
+                $parcel->update([
+                    'status' => 'envoyé',
+                    'reference' => $apiResponse['reference'],
+                    'tracking_url' => $apiResponse['url'] ?? null,
+                    'api_message' => $apiResponse['message'] ?? null,
+                ]);
 
-            $parcel->update([
-                'status' => 'envoyé',
-                'reference' => $apiResponse['reference'],
-                'tracking_url' => $apiResponse['url'] ?? null,
-                'api_message' => $apiResponse['message'] ?? null,
-            ]);
+                foreach ($parcel->order->items as $item) {
+                    $this->deductFromStock($item);
+                }
 
-            foreach ($parcel->order->items as $item) {
-                $this->deductFromStock($item);
+                return back()->with('success', 'Colis créé et envoyé avec succès. Réf: ' . $parcel->reference);
+            } else {
+                return back()->with('error', 'Erreur API: ' . json_encode($apiResponse));
             }
 
-            return back()->with('success', 'Colis créé et envoyé avec succès. Réf: ' . $parcel->reference);
-        } else {
-            return back()->with('error', 'Erreur API: ' . json_encode($apiResponse));
+        }else{
+            return back()->with('error', 'Erreur lors de création de colis ' );
         }
 
     }
