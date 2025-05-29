@@ -399,6 +399,8 @@
                                         <span class="info-value">{{$parcel->company->phone}}</span>
                                     </div>
                                 </td>
+                            </tr>
+                            <tr>
                                 <td>
                                     <div class="info-line">
                                         <span class="info-label">Adr:</span>
