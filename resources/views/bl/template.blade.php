@@ -93,7 +93,7 @@
         }
         
         .date-sys {
-            font-size: 7px;
+            font-size: 8px;
             color: #666;
         }
         
@@ -331,7 +331,7 @@
                     </div>
                 </div>-->
                 <div class="barcode-section">
-                    <div class="barcode-container">
+                    <div class="barcode-container barcode-right">
                         <!-- Code-barres simple avec CSS -->
                         <div class="simple-barcode">
                             <div class="barcode-lines">
