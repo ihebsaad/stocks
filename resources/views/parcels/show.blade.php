@@ -408,7 +408,7 @@
                             <i class="fas fa-money-bill-wave"></i>
                             COD
                         </span>
-                        <span class="info-value cod-amount">{{ $parcel->cod }} <sup>TND</sup></span>
+                        <span class="info-value cod-amount">{{ $parcel->cod }}</span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">
