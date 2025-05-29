@@ -15,6 +15,69 @@
     .bg-3{ background-color: #227ac2; color: white;   }
     .bg-4{ background-color: #6c757d; color: white;   }
     .bg-5{ background-color: #fd9883; color: white;   }
+
+        .status-history {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    .timeline-item {
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 15px;
+    }
+    .timeline-item:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background-color: #e0e0e0;
+    }
+    .timeline-item:after {
+        content: '';
+        position: absolute;
+        left: -4px;
+        top: 0;
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        background-color: #007bff;
+    }
+   
+
+        
+    .status-history {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 15px;
+    }
+
+    .timeline-item:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background-color: #e0e0e0;
+    }
+
+    .timeline-item:after {
+        content: '';
+        position: absolute;
+        left: -4px;
+        top: 0;
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        background-color: #007bff;
+    }
 </style>
 
 @section('content')
