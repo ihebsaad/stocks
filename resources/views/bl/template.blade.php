@@ -129,11 +129,10 @@
         .info-sections {
             gap: 5px;
             margin-bottom: 8px;
+            width:100%;
         }
         
         .info-section {
-                        display: inline-block;
-
             width: 50%;
             border: 1px solid #01322e;
             background: white;
