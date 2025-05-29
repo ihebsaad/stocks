@@ -118,7 +118,7 @@ Route::resource('users', UsersController::class);
 Route::get('/getparcels', [ParcelController::class, 'getParcels'])->name('parcels.getParcels');
 #Route::get('/parcels', [ParcelController::class, 'index'])->name('parcels.index');
 Route::delete('/parcels/{parcel}', [ParcelController::class, 'destroy'])->name('parcels.destroy');
-Route::post('/parcels/{order}', [ParcelController::class, 'store'])->name('parcels.save');
+Route::post('/parcels/{order}', [ParcelController::class, 'store'])->name('parcels.store');
 
 Route::get('/invoices-by-product/{productId}', [HomeController::class, 'getInvoicesByProduct'])->name('invoices.by.product');
 
