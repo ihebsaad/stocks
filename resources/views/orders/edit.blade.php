@@ -146,7 +146,7 @@
     <div class="row">
         <!-- Informations sur la commande -->
         <div class="col-md-8">
-            <div class="card mb-4">
+            <div class="card mb-1">
                 <div class="card-header">
                     <h5>Détails de la commande</h5>
                 </div>
@@ -162,7 +162,7 @@
                         @endif
 
                         <!-- Section Client -->
-                        <div class="card mb-4">
+                        <div class="card mb-1">
                             <div class="card-header bg-light">
                                 <h6 class="mb-0">Information Client</h6>
                             </div>
@@ -254,7 +254,7 @@
                         </div>
                         
                         <!-- Section Livraison et Statut -->
-                        <div class="card mb-4">
+                        <div class="card mb-1">
                             <div class="card-header bg-light">
                                 <h6 class="mb-0">Livraison et Statut</h6>
                             </div>
@@ -327,7 +327,7 @@
                         </div>
                                                 
                         <!-- Section Produits -->
-                        <div class="card mb-4">
+                        <div class="card mb-1">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Produits de la commande</h6>
                                 <button type="button" class="btn btn-success btn-sm" id="add-product-btn">
@@ -458,7 +458,7 @@
                             </button>
                         </div>
                     </form>
-                    @if($order->delivery_company_id > 1 &&  isset($order->items) && ! $order->parcel )
+                    @if($order->delivery_company_id > 1 &&  isset($order->items) )
                     <form method="POST" action="{{ route('parcels.save', $order->id) }}">
                         @csrf
                         <button type="submit" class="btn btn-success float-right" >Créer et envoyer colis</button>
@@ -535,7 +535,7 @@
         <div class="col-md-4">
             @if($order->images->count() > 0)
             <!-- Images -->
-            <div class="card mb-4">
+            <div class="card mb-1">
                 <div class="card-header bg-light">
                     <h6 mb-0>Images</h6>
                 </div>
@@ -585,13 +585,13 @@
                 </div>
             </div>
             <!-- Section Notes -->
-            <div class="card mb-4">
+            <div class="card mb-1">
                 <div class="card-header bg-light">
                     <h6 class="mb-0">Notes</h6>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <textarea name="notes" id="notes" placeholder="Remarques de la commande" class="form-control @error('notes') is-invalid @enderror" rows="3">{{ old('notes', $order->notes) }}</textarea>
+                        <textarea name="notes" id="notes" class="form-control @error('notes') is-invalid @enderror" rows="3">{{ old('notes', $order->notes) }}</textarea>
                             @error('notes')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
