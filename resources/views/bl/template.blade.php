@@ -99,7 +99,7 @@
         
         .barcode-right {
             width: 80px;
-            padding: 5px;
+            padding: 5px 10px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -124,6 +124,7 @@
             color: #333;*/
             font-family: monospace;
             font-size:15px;
+            font-weight: bold;
         }
         
         /* Sections en ligne */
