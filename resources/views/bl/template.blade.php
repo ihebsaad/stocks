@@ -475,13 +475,7 @@
                     </td>
                 </tr>
             </table>
-            <!-- Remarque seulement si elle existe -->
-            @if($parcel->remarque)
-            <div class="remarque-section">
-                <div class="remarque-title">Remarque</div>
-                <div class="remarque-text">{{ $parcel->remarque }}</div>
-            </div>
-            @endif
+ 
         </div>
         
         
