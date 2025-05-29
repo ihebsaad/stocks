@@ -115,10 +115,10 @@ class ParcelController extends Controller
 
                     return '<span class="text-muted">-</span>';
                 })
-                ->addColumn('delivery_company', function ($order) {
-                    if ($order->deliveryCompany) {
-                        $result =  '<span class="badge bg-'.$order->deliveryCompany->id.'">'.ucfirst($order->deliveryCompany->name).'</span> ' ;
-                        if ($order->free_delivery) {
+                ->addColumn('delivery_company', function ($parcel) {
+                    if ($parcel->order->deliveryCompany) {
+                        $result =  '<span class="badge bg-'.$parcel->order->deliveryCompany->id.'">'.ucfirst($parcel->order->deliveryCompany->name).'</span> ' ;
+                        if ($parcel->order->free_delivery) {
                             $result .= ' <span class="badge bg-success">Gratuite</span>';
                         }
                         return $result;
