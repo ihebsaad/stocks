@@ -127,13 +127,13 @@
         
         /* Sections en ligne */
         .info-sections {
-            display: flex;
+            display: block;
             gap: 5px;
             margin-bottom: 8px;
         }
         
         .info-section {
-            flex: 1 0 50%;
+            width: 50%;
             border: 1px solid #01322e;
             background: white;
         }
