@@ -84,9 +84,9 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="phone" class="form-label">Adresse</label>
-                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="phone" value="{{ old('address', $deliveryCompany->address) }}">
-                            @error('phone')
+                            <label for="address" class="form-label">Adresse</label>
+                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="{{ old('address', $deliveryCompany->address) }}">
+                            @error('address')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
