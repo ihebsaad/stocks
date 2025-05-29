@@ -132,7 +132,7 @@
 @section('content')
 <div class="container-">
     <div class="row">
-        <div class="col-md-12 mb-3">
+        <div class="col-md-12 mb-1">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Modifier la commande #{{ $order->id }}</h2>
                 <div>
@@ -169,7 +169,7 @@
                             <div class="card-body">
                                 <input type="hidden" name="client_id" id="client_id" value="{{ $order->client->id ?? '' }}">                               
                                 <div class="row">
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-1">
                                         <label for="phone">Téléphone *</label>
                                         <select name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror" required>
                                             @if(old('phone', $order->client->phone ?? ''))
@@ -184,7 +184,7 @@
                                         <!-- Champ hidden pour conserver la compatibilité avec la validation -->
                                         <input type="hidden" name="phone_hidden" id="phone_hidden">
                                     </div>
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-1">
                                         <label for="phone2">Téléphone 2</label>
                                         <input type="text" name="phone2" id="phone2" class="form-control @error('phone2') is-invalid @enderror"
                                             value="{{ old('phone2', $order->client->phone2 ?? '') }}">
@@ -193,7 +193,7 @@
                                         @enderror
                                     </div>
  
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-1">
                                         <label for="first_name">Prénom *</label>
                                         <input type="text" name="first_name" id="first_name" class="form-control @error('first_name') is-invalid @enderror" required
                                             value="{{ old('first_name', $order->client->first_name ?? '') }}">
@@ -201,7 +201,7 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-1">
                                         <label for="last_name">Nom *</label>
                                         <input type="text" name="last_name" id="last_name" class="form-control @error('last_name') is-invalid @enderror" required
                                             value="{{ old('last_name', $order->client->last_name ?? '') }}">
@@ -210,7 +210,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-1">
                                         <label for="city">Ville *</label>
                                         <input type="text" name="city" id="city" class="form-control @error('city') is-invalid @enderror" required
                                             value="{{ old('city', $order->client->city ?? '') }}">
@@ -218,7 +218,7 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-1">
                                         <label for="delegation">Délégation *</label>
                                         <select name="delegation" id="delegation" class="form-control @error('delegation') is-invalid @enderror" required>
                                             <option value="">Sélectionner...</option>
@@ -233,7 +233,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-4 col-sm-6 mb-3">
+                                    <div class="col-md-4 col-sm-6 mb-1">
                                         <label for="address">Adresse *</label>
                                         <input type="text" name="address" id="address" class="form-control @error('address') is-invalid @enderror" required
                                             value="{{ old('address', $order->client->address ?? '') }}">
@@ -241,7 +241,7 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="col-md-2 col-sm-6 mb-3">
+                                    <div class="col-md-2 col-sm-6 mb-1">
                                         <label for="postal_code">Code postal</label>
                                         <input type="text" name="postal_code" id="postal_code" class="form-control @error('postal_code') is-invalid @enderror"
                                             value="{{ old('postal_code', $order->client->postal_code ?? '') }}">
@@ -260,7 +260,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-1">
                                         <label for="service_type">Service *</label>
                                         <select name="service_type" id="service_type" class="form-control @error('service_type') is-invalid @enderror" required>
                                             <option value="">Sélectionner...</option>
@@ -274,7 +274,7 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-1">
                                         <label for="delivery_company_id">Société de livraison</label>
                                         <select name="delivery_company_id" id="delivery_company_id" class="form-control @error('delivery_company_id') is-invalid @enderror">
                                             <option value="">Sélectionner...</option>
@@ -291,7 +291,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-1">
                                         <label for="status">Statut *</label>
                                         <select name="status" id="status" class="form-control @error('status') is-invalid @enderror" required>
                                             @foreach($statusOptions as $value => $label)
@@ -305,7 +305,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-1">
                                         <div class="form-check mt-2 float-right">
                                             <input type="checkbox" name="free_delivery" id="free_delivery" class="form-check-input" value="1"
                                                 {{ old('free_delivery', $order->free_delivery) ? 'checked' : '' }}>
@@ -315,7 +315,7 @@
                                 </div>
                                 
                                 <div class="row">
-                                    <div class="col-md-12 mb-3">
+                                    <div class="col-md-12 mb-1">
                                         <label for="status_comment">Commentaire sur le changement de statut</label>
                                         <textarea name="status_comment" id="status_comment" class="form-control @error('status_comment') is-invalid @enderror" rows="2">{{ old('status_comment') }}</textarea>
                                         @error('status_comment')
@@ -339,7 +339,7 @@
                                     <!-- Les produits seront ajoutés ici dynamiquement -->
                                     @if(count($order->items) > 0)
                                         @foreach($order->items as $index => $item)
-                                        <div class="product-item mb-3">
+                                        <div class="product-item mb-1">
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-6">
                                                     <div class="form-group">
@@ -474,7 +474,7 @@
 
             <!-- Template pour un élément de produit -->
             <template id="product-item-template">
-                <div class="product-item mb-3">
+                <div class="product-item mb-1">
                     <div class="row">
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
@@ -539,7 +539,7 @@
                 <div class="card-header bg-light">
                     <h6 mb-0>Images</h6>
                 </div>
-                <div class="card-body"  @if($order->images->count()== 0) style="display: none;" @endif>
+                <div class="card-body"  @if($order->images->count()== 0 || $order->parcel) style="display: none;" @endif>
                     <div class="order-images">
                         @if($order->images->count() > 0)
                             @foreach($order->images as $image)
@@ -555,21 +555,6 @@
                 </div>
             </div>
             @endif
-            <!-- Section Notes -->
-            <div class="card mb-4">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0">Notes</h6>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <textarea name="notes" id="notes" class="form-control @error('notes') is-invalid @enderror" rows="3">{{ old('notes', $order->notes) }}</textarea>
-                            @error('notes')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                    </div>
-                </div>
-            </div>
-            
             <!-- Historique des statuts -->
             <div class="card">
                 <div class="card-header bg-light">
@@ -599,6 +584,22 @@
                     </div>
                 </div>
             </div>
+            <!-- Section Notes -->
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">Notes</h6>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <textarea name="notes" id="notes" class="form-control @error('notes') is-invalid @enderror" rows="3">{{ old('notes', $order->notes) }}</textarea>
+                            @error('notes')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                    </div>
+                </div>
+            </div>
+            
+
         </div>
     </div>
 </div>
@@ -606,16 +607,7 @@
 
 
 @section('footer-scripts')
-<script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}" ></script>
-
-<script>
-  
-  $(function () {
-    // Summernote
-    $('#notes').summernote();
-  });
-  
-</script>
+ 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
      

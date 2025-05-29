@@ -36,12 +36,12 @@ class OrderController extends Controller
         $users = User::all();
         $statusOptions = [
             'draft' => 'Brouillon',
-            'pending' => 'En attente',
-            'pickup' => 'En ramassage',
+            'pending' => 'Rupture de stock',
+            'production' => 'En production',
+            'confirmed' => 'Confirmée',
             'no_response' => 'Client ne répond plus',
+            'not_available' => 'Client injoignable',
             'cancelled' => 'Annulée',
-            'in_delivery' => 'En livraison',
-            'completed' => 'Terminée'
         ];
         
         return view('orders.index', compact('statusOptions', 'deliveryCompanies', 'users'));
@@ -56,12 +56,12 @@ class OrderController extends Controller
         $users = User::all();
         $statusOptions = [
             'draft' => 'Brouillon',
-            'pending' => 'En attente',
-            'pickup' => 'En ramassage',
+            'pending' => 'Rupture de stock',
+            'production' => 'En production',
+            'confirmed' => 'Confirmée',
             'no_response' => 'Client ne répond plus',
+            'not_available' => 'Client injoignable',
             'cancelled' => 'Annulée',
-            'in_delivery' => 'En livraison',
-            'completed' => 'Terminée'
         ];
 
         return view('orders.archives', compact('statusOptions', 'deliveryCompanies', 'users'));
@@ -73,12 +73,12 @@ class OrderController extends Controller
         $users = User::all();
         $statusOptions = [
             'draft' => 'Brouillon',
-            'pending' => 'En attente',
-            'pickup' => 'En ramassage',
+            'pending' => 'Rupture de stock',
+            'production' => 'En production',
+            'confirmed' => 'Confirmée',
             'no_response' => 'Client ne répond plus',
+            'not_available' => 'Client injoignable',
             'cancelled' => 'Annulée',
-            'in_delivery' => 'En livraison',
-            'completed' => 'Terminée'
         ];
 
         return view('orders.archives', compact('statusOptions', 'deliveryCompanies', 'users'));
@@ -160,12 +160,12 @@ class OrderController extends Controller
             ->addColumn('status_formatted', function ($order) {
                 $statusLabels = [
                     'draft' => 'Brouillon',
-                    'pending' => 'En attente',
-                    'pickup' => 'En ramassage',
+                    'pending' => 'Rupture de stock',
+                    'production' => 'En production',
+                    'confirmed' => 'Confirmée',
                     'no_response' => 'Client ne répond plus',
+                    'not_available' => 'Client injoignable',
                     'cancelled' => 'Annulée',
-                    'in_delivery' => 'En livraison',
-                    'completed' => 'Terminée'
                 ];
                 $last_comment = OrderStatusHistory::where('order_id', $order->id)
                     ->orderBy('id', 'desc')
@@ -417,12 +417,12 @@ class OrderController extends Controller
         $deliveryCompanies = DeliveryCompany::all();
         $statusOptions = [
             'draft' => 'Brouillon',
-            'pending' => 'En attente',
-            'pickup' => 'En ramassage',
+            'pending' => 'Rupture de stock',
+            'production' => 'En production',
+            'confirmed' => 'Confirmée',
             'no_response' => 'Client ne répond plus',
+            'not_available' => 'Client injoignable',
             'cancelled' => 'Annulée',
-            'in_delivery' => 'En livraison',
-            'completed' => 'Terminée'
         ];
         
         $serviceTypes = [
@@ -487,7 +487,7 @@ class OrderController extends Controller
             'service_type' => 'required|in:Livraison,Echange',
             'delivery_company_id' => 'nullable|exists:delivery_companies,id',
             'free_delivery' => 'nullable|boolean',
-            'status' => 'required|in:draft,pending,pickup,no_response,cancelled,in_delivery,completed',
+            'status' => 'required|in:draft,pending,production,no_response,cancelled,confirmed,not_available',
             'status_comment' => 'nullable|string',
             'notes' => 'nullable|string',
             'items' => 'required|array',

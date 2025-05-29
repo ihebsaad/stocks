@@ -17,11 +17,11 @@
     }
     .status-draft { background-color: #6c757d; color: white; }
     .status-pending { background-color: #ffc107; color: black; }
-    .status-pickup { background-color: #17a2b8; color: white; }
+    .status-production { background-color: #17a2b8; color: white; }
     .status-no_response { background-color: #dc3545; color: white; }
-    .status-cancelled { background-color: #6c757d; color: white; }
-    .status-in_delivery { background-color: #007bff; color: white; }
-    .status-completed { background-color: #28a745; color: white; }
+    .status-not_available { background-color: #ee7631; color: white; }
+    .status-cancelled { background-color: #141414; color: white; }
+    .status-confirmed,.status-completed  { background-color: #28a745; color: white; }
     
     .filter-row {
         padding: 10px 0;
