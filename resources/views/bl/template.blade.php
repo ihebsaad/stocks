@@ -133,7 +133,7 @@
         }
         
         .info-section {
-            flex: 1;
+            flex: 1 0 50%;
             border: 1px solid #01322e;
             background: white;
         }
