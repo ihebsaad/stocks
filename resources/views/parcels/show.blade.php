@@ -365,7 +365,7 @@
                             <i class="fas fa-comment"></i>
                             Remarque
                         </span>
-                        <span class="info-value">{{ $parcel->remarque }}</span>
+                        <span class="info-value text-danger">{{ $parcel->remarque }}</span>
                     </div>
                     @endif
                 </div>
