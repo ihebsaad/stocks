@@ -330,7 +330,6 @@
                     </div>
                 </div>-->
                 <div class="barcode-section">
-                    <div class="section-title">code à barre généré</div>
                     <div class="barcode-container">
                         <!-- Code-barres simple avec CSS -->
                         <div class="simple-barcode">
@@ -338,8 +337,8 @@
                                 @php
                                     // Génération simple de barres basée sur la référence
                                     $reference = $parcel->reference;
-                                    $seed = crc32($reference);
-                                    srand($seed);
+                                    echo DNS1D::getBarcodeSVG($reference, 'PHARMA2T');
+
                                 @endphp
                                 @for($i = 0; $i < 20; $i++)
                                     @php
