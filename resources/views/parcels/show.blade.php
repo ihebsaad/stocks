@@ -419,7 +419,7 @@
                         <span class="info-value">{{ $parcel->remarque }}</span>
                     </div>
                     @endif
-                    <table class="table table-striped mt-2" style="width:100%;text-align:center">
+                    <table class="table table-striped mt-4" style="width:100%;text-align:center">
                         <tr><th>DESIGNATION</th><th>PU</th><th>QTE</th><th>TOT</th></tr>
                         @foreach($parcel->order->items as $index => $item)
                         <tr><td>{{$item->product->name}} </td><td>{{$item->unit_price}}</td><td>{{$item->quantity}}</td><td>{{ number_format($item->unit_price * $item->quantity, 2) }} <sup>TND</sup></td></tr>
