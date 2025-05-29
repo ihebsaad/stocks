@@ -331,7 +331,7 @@
                         <div class="ref-value">{{ $parcel->reference }}</div>
                     </div>
                 </div>-->
-                <div class="barcode-section">
+                <div class="barcode-section" style="padding-right:10px">
                     <div class="barcode-container barcode-right">
                         <!-- Code-barres simple avec CSS -->
                         <div class="simple-barcode">
