@@ -297,12 +297,18 @@
         table{
             width:100%;
         }
+        .text-center{
+            text-align:center;
+        }
+        .text-right{
+            text-align:right;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Header -->
-        <table>
+        <table class="text-center">
             <tr>
                 <td>
                     <img src="{{ asset('img/logo.png')}}" style="width:100px" /><br>
@@ -367,7 +373,7 @@
                     <div class="section-header">Transporteur</div>
                         <div class="section-content">
                             <table>
-                                <tr rowspan="3">
+                                <tr >
                                     <td>
                                         <div class="transporteur-section">
                                             <span class="company-badge bg-{{ $parcel->company->id }}">
@@ -375,29 +381,19 @@
                                             </span>
                                         </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>
+                                    <td class="text-right">
                                         <div class="info-line">
                                             <span class="info-label">Tél:</span>
                                             <span class="info-value">{{$parcel->company->phone}}</span>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
                                         <div class="info-line">
                                             <span class="info-label">Adresse:</span>
                                             <span class="info-value">{{$parcel->company->phone}}</span>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
                                         <div class="info-line">
                                             <span class="info-label">MF:</span>
                                             <span class="info-value">{{$parcel->company->phone}}</span>
-                                        </div>
+                                        </div>                                        
                                     </td>
                                 </tr>
                             </table>
