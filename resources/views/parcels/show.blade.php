@@ -239,6 +239,10 @@
         top: 0.4em; 
     }
 
+    .content{
+        padding-top:0px!important;
+        padding-bottom:0px!important;
+    }
     @media (max-width: 768px) {
         .main-container {
             margin: 1rem;
