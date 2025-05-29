@@ -391,7 +391,7 @@
                                         </div>
                                         <div class="info-line">
                                             <span class="info-label">Adresse:</span>
-                                            <span class="info-value">{{$parcel->company->phone}}</span>
+                                            <span class="info-value">{{$parcel->company->address}}</span>
                                         </div>                                      
                                     </td>
                                 </tr>
