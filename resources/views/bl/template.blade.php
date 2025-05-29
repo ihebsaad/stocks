@@ -341,7 +341,7 @@
         </div>
         
         <!-- Expéditeur + Transporteur -->
-        <table class="items-table">
+        <table >
             <tr>
                 <td>
                     <div class="info-section">
