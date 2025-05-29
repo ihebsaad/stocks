@@ -303,6 +303,9 @@
         .text-right{
             text-align:right;
         }
+        .transporteur,.expediteur{
+            min-height: 150px;
+        }
     </style>
 </head>
 <body>
@@ -335,7 +338,7 @@
             <tr>
                 <td style="width:50%">
                     <div class="section-header">Expéditeur</div>
-                        <div class="section-content">
+                        <div class="section-content expediteur">
                             <table>
                                 <tr>
                                     <td>
@@ -371,7 +374,7 @@
                 </td>
                 <td style="width:50%" >
                     <div class="section-header">Transporteur</div>
-                        <div class="section-content">
+                        <div class="section-content transporteur">
                             <table>
                                 <tr >
                                     <td>
@@ -380,7 +383,6 @@
                                                 {{ strtoupper($parcel->company->name) }}
                                             </span>
                                         </div>
-                                        <br>
                                     </td>
                                     <td class="text-right">
                                         <div class="info-line">
