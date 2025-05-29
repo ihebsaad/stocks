@@ -334,7 +334,11 @@
                         <!-- Code-barres simple avec CSS -->
                         <div class="simple-barcode">
                             <div class="barcode-lines">
-                                    {{ $barcode}}
+                                @php
+                                    // Génération simple de barres basée sur la référence
+                                    echo $barcode;
+                                @endphp
+ 
                             </div>
                         </div>
                     </div>
