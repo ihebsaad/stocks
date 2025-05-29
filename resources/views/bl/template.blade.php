@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bon de Livraison - {{ $parcel->reference }}</title>
+    <title>BL - {{ $parcel->reference }}</title>
     <style>
         * {
             margin: 0;
@@ -12,169 +12,179 @@
         }
         
         body {
-            font-family: 'Arial', sans-serif;
-            font-size: 12px;
-            line-height: 1.4;
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            line-height: 1.2;
             color: #333;
+            width: 148mm; /* A5 width */
+            margin: 0 auto;
         }
         
         .container {
+            padding: 8px;
             max-width: 100%;
-            margin: 0 auto;
-            padding: 20px;
         }
         
-        /* Header avec logo et titre */
+        /* Header compact */
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #01322e;
-            padding-bottom: 20px;
-        }
-        
-        .logo-section {
-            flex: 1;
+            align-items: center;
+            margin-bottom: 8px;
+            border-bottom: 2px solid #01322e;
+            padding-bottom: 5px;
         }
         
         .logo {
-            width: 80px;
-            height: 80px;
+            width: 35px;
+            height: 35px;
             background-color: #01322e;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 20px;
-            margin-bottom: 10px;
+            font-size: 12px;
+            border-radius: 3px;
         }
         
         .document-title {
-            text-align: right;
+            text-align: center;
             flex: 1;
+            margin: 0 10px;
         }
         
         .document-title h1 {
             color: #01322e;
-            font-size: 24px;
+            font-size: 14px;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
         
         .document-subtitle {
             color: #666;
-            font-size: 14px;
+            font-size: 8px;
         }
         
-        /* Section de référence et code-barres */
-        .reference-section {
-            background-color: #f8f9fa;
-            border: 2px solid #01322e;
-            padding: 15px;
-            margin-bottom: 20px;
+        /* Section référence et code-barres */
+        .reference-barcode {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .reference-info {
-            flex: 1;
-        }
-        
-        .reference-label {
-            color: #01322e;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .reference-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .date-system {
-            font-size: 11px;
-            color: #666;
-            margin-top: 5px;
-        }
-        
-        .barcode-section {
-            text-align: center;
-            flex: 1;
-        }
-        
-        .barcode {
-            font-family: 'Courier New', monospace;
-            font-size: 20px;
-            letter-spacing: 2px;
-            color: #01322e;
-            margin-bottom: 5px;
-        }
-        
-        .barcode-lines {
-            height: 40px;
-            background: repeating-linear-gradient(
-                90deg,
-                #000 0px,
-                #000 2px,
-                #fff 2px,
-                #fff 4px
-            );
-            margin-bottom: 5px;
-        }
-        
-        /* Sections principales */
-        .main-sections {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            gap: 20px;
-        }
-        
-        .section {
-            flex: 1;
-            border: 2px solid #01322e;
-            padding: 15px;
-            background-color: #fff;
-        }
-        
-        .section-title {
-            background-color: #01322e;
-            color: white;
-            padding: 8px 12px;
-            margin: -15px -15px 15px -15px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        
-        .info-row {
+            border: 1px solid #01322e;
             margin-bottom: 8px;
+            background: #f8f9fa;
+        }
+        
+        .reference-left {
+            flex: 1;
+            padding: 8px;
+            border-right: 1px solid #01322e;
+        }
+        
+        .ref-label {
+            color: #01322e;
+            font-weight: bold;
+            font-size: 9px;
+        }
+        
+        .ref-value {
+            font-size: 12px;
+            font-weight: bold;
+            margin: 2px 0;
+        }
+        
+        .date-sys {
+            font-size: 7px;
+            color: #666;
+        }
+        
+        .barcode-right {
+            width: 80px;
+            padding: 5px;
+            text-align: center;
             display: flex;
-            align-items: flex-start;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .barcode-title {
+            font-size: 7px;
+            color: #01322e;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .barcode-svg {
+            width: 100%;
+            height: 30px;
+            margin-bottom: 2px;
+        }
+        
+        .barcode-text {
+            font-size: 6px;
+            color: #333;
+            font-family: monospace;
+        }
+        
+        /* Sections en ligne */
+        .info-sections {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+        
+        .info-section {
+            flex: 1;
+            border: 1px solid #01322e;
+            background: white;
+        }
+        
+        .section-header {
+            background: #01322e;
+            color: white;
+            padding: 3px 6px;
+            font-weight: bold;
+            font-size: 9px;
+            text-align: center;
+        }
+        
+        .section-content {
+            padding: 6px;
+        }
+        
+        .info-line {
+            display: flex;
+            margin-bottom: 3px;
+            font-size: 8px;
+        }
+        
+        .info-line:last-child {
+            margin-bottom: 0;
         }
         
         .info-label {
             font-weight: bold;
             color: #01322e;
-            min-width: 80px;
-            margin-right: 10px;
+            min-width: 35px;
+            margin-right: 5px;
         }
         
         .info-value {
             flex: 1;
-            color: #333;
+            word-break: break-word;
         }
         
-        /* Badge transporteur */
+        /* Transporteur centré */
+        .transporteur-section {
+            text-align: center;
+            padding: 15px 6px;
+        }
+        
         .company-badge {
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 15px;
+            padding: 6px 12px;
+            border-radius: 12px;
             font-weight: bold;
-            font-size: 11px;
+            font-size: 10px;
             color: white;
             text-transform: uppercase;
         }
@@ -185,95 +195,106 @@
         .bg-4 { background-color: #6c757d; }
         .bg-5 { background-color: #fd9883; }
         
-        /* Remarque */
+        /* Section client pleine largeur */
+        .client-section {
+            border: 1px solid #01322e;
+            margin-bottom: 8px;
+            background: white;
+        }
+        
+        .client-content {
+            padding: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .client-col {
+            flex: 1;
+            min-width: 45%;
+        }
+        
+        /* Remarque si existe */
         .remarque-section {
-            margin-bottom: 20px;
+            border: 2px solid #dc3545;
+            background: #fff5f5;
+            margin-bottom: 8px;
+            padding: 6px;
         }
         
         .remarque-title {
-            color: #01322e;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        
-        .remarque-content {
-            border: 2px solid #dc3545;
-            background-color: #fff5f5;
-            padding: 10px;
             color: #dc3545;
             font-weight: bold;
-            min-height: 40px;
+            font-size: 9px;
+            margin-bottom: 3px;
         }
         
-        /* Tableau des articles */
+        .remarque-text {
+            color: #dc3545;
+            font-size: 8px;
+            font-weight: bold;
+        }
+        
+        /* Tableau compact */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            border: 2px solid #01322e;
-        }
-        
-        .items-table thead {
-            background-color: #01322e;
-            color: white;
+            margin-bottom: 8px;
+            font-size: 8px;
         }
         
         .items-table th,
         .items-table td {
             border: 1px solid #01322e;
-            padding: 8px;
+            padding: 3px;
             text-align: center;
         }
         
         .items-table th {
+            background: #01322e;
+            color: white;
             font-weight: bold;
-            text-transform: uppercase;
+            font-size: 8px;
+        }
+        
+        .items-table .designation {
+            text-align: left;
+            max-width: 60px;
+            word-break: break-word;
         }
         
         .items-table tbody tr:nth-child(even) {
-            background-color: #f8f9fa;
+            background: #f8f9fa;
         }
         
         .total-row {
-            background-color: #e8f5e8;
+            background: #e8f5e8 !important;
             font-weight: bold;
         }
         
-        /* Montant COD */
-        .cod-amount {
-            font-size: 16px;
+        .cod-row {
+            background: #fff3cd !important;
+            color: #856404;
             font-weight: bold;
-            color: #059669;
+        }
+        
+        .amount {
+            font-weight: bold;
         }
         
         .currency {
-            font-size: 10px;
+            font-size: 6px;
             vertical-align: super;
         }
         
-        /* Footer */
+        /* Footer minimal */
         .footer {
-            margin-top: 40px;
-            border-top: 2px solid #01322e;
-            padding-top: 15px;
             text-align: center;
+            font-size: 7px;
             color: #666;
-            font-size: 10px;
-        }
-        
-        /* Responsive pour PDF */
-        @media print {
-            .container {
-                padding: 10px;
-            }
-            
-            .main-sections {
-                flex-direction: column;
-            }
-            
-            .section {
-                margin-bottom: 20px;
-            }
+            margin-top: 5px;
+            padding-top: 5px;
+            border-top: 1px solid #ddd;
         }
     </style>
 </head>
@@ -281,110 +302,105 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="logo-section">
-                <div class="logo">LOGO</div>
-            </div>
+            <div class="logo">LOGO</div>
             <div class="document-title">
                 <h1>Bon de livraison BL</h1>
                 <div class="document-subtitle">id colis</div>
             </div>
         </div>
         
-        <!-- Référence et Code-barres -->
-        <div class="reference-section">
-            <div class="reference-info">
-                <div class="reference-label">Référence :</div>
-                <div class="reference-value">{{ $parcel->reference }}</div>
-                <div class="date-system">
-                    date syst: {{ $parcel->created_at->format('d/m/Y H:i') }}
-                </div>
+        <!-- Référence + Code-barres -->
+        <div class="reference-barcode">
+            <div class="reference-left">
+                <div class="ref-label">Référence :</div>
+                <div class="ref-value">{{ $parcel->reference }}</div>
+                <div class="date-sys">Création: {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
             </div>
-            <div class="barcode-section">
-                <div style="font-weight: bold; margin-bottom: 5px;">code à barre</div>
-                <div style="font-weight: bold; margin-bottom: 5px;">généré</div>
-                <div class="barcode-lines"></div>
+            <div class="barcode-right">
+                <div style="width: 100%; height: 30px; display: flex; align-items: center; justify-content: center;">
+                    {!! $barcode !!}
+                </div>
+                <div class="barcode-text">{{ $parcel->reference }}</div>
             </div>
         </div>
         
-        <!-- Sections principales -->
-        <div class="main-sections">
-            <!-- Expéditeur -->
-            <div class="section">
-                <div class="section-title">Expéditeur</div>
-                <div class="info-row">
-                    <span class="info-label">Nom:</span>
-                    <span class="info-value">{{ $expediteur['nom'] }}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Adresse:</span>
-                    <span class="info-value">{{ $expediteur['adresse'] }}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Tél:</span>
-                    <span class="info-value">{{ $expediteur['telephone'] }}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">MF:</span>
-                    <span class="info-value">{{ $expediteur['mf'] }}</span>
+        <!-- Expéditeur + Transporteur -->
+        <div class="info-sections">
+            <div class="info-section">
+                <div class="section-header">Expéditeur</div>
+                <div class="section-content">
+                    <div class="info-line">
+                        <span class="info-label">Nom:</span>
+                        <span class="info-value">Z&A Home</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-label">Adr:</span>
+                        <span class="info-value">Ksibet médiouni</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-label">Tél:</span>
+                        <span class="info-value">55 969 997</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-label">MF:</span>
+                        <span class="info-value">1768373/Z/P/M/000</span>
+                    </div>
                 </div>
             </div>
             
-            <!-- Transporteur -->
-            <div class="section">
-                <div class="section-title">Transporteur</div>
-                <div style="text-align: center; padding: 20px;">
+            <div class="info-section">
+                <div class="section-header">Transporteur</div>
+                <div class="transporteur-section">
                     <span class="company-badge bg-{{ $parcel->company->id }}">
                         {{ strtoupper($parcel->company->name) }}
+                        Adresse : 
                     </span>
                 </div>
             </div>
         </div>
         
         <!-- Client -->
-        <div class="section" style="margin-bottom: 20px;">
-            <div class="section-title">Client</div>
-            <div class="info-row">
-                <span class="info-label">Nom:</span>
-                <span class="info-value">{{ $parcel->nom_client }}</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Tél:</span>
-                <span class="info-value">{{ $parcel->tel_l }}</span>
-            </div>
-            @if($parcel->tel2_l)
-            <div class="info-row">
-                <span class="info-label">Tél 2:</span>
-                <span class="info-value">{{ $parcel->tel2_l }}</span>
-            </div>
-            @endif
-            <div class="info-row">
-                <span class="info-label">Ville:</span>
-                <span class="info-value">{{ $parcel->ville_cl }}</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Délégation:</span>
-                <span class="info-value">{{ $parcel->gov_l }}</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Adresse:</span>
-                <span class="info-value">{{ $parcel->adresse_l }}</span>
+        <div class="client-section">
+            <div class="section-header">Client</div>
+            <div class="client-content">
+                <div class="client-col">
+                    <div class="info-line">
+                        <span class="info-label">Nom:</span>
+                        <span class="info-value">{{ $parcel->nom_client }}</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-label">Tél:</span>
+                        <span class="info-value">{{ $parcel->tel_l }}</span>
+                    </div>
+                    @if($parcel->tel2_l)
+                    <div class="info-line">
+                        <span class="info-label">Tél2:</span>
+                        <span class="info-value">{{ $parcel->tel2_l }}</span>
+                    </div>
+                    @endif
+                </div>
+                <div class="client-col">
+                    <div class="info-line">
+                        <span class="info-label">Ville:</span>
+                        <span class="info-value">{{ $parcel->ville_cl }}</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-label">Dél:</span>
+                        <span class="info-value">{{ $parcel->gov_l }}</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-label">Adr:</span>
+                        <span class="info-value">{{ $parcel->adresse_l }}</span>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <!-- Remarque -->
+        <!-- Remarque seulement si elle existe -->
         @if($parcel->remarque)
         <div class="remarque-section">
             <div class="remarque-title">Remarque</div>
-            <div class="remarque-content">
-                {{ $parcel->remarque }}
-            </div>
-        </div>
-        @else
-        <div class="remarque-section">
-            <div class="remarque-title">Remarque</div>
-            <div class="remarque-content" style="border-color: #ddd; background-color: #f8f9fa; color: #666;">
-                <!-- Espace pour remarques -->
-            </div>
+            <div class="remarque-text">{{ $parcel->remarque }}</div>
         </div>
         @endif
         
@@ -392,9 +408,9 @@
         <table class="items-table">
             <thead>
                 <tr>
-                    <th>DÉSIGNATION</th>
+                    <th class="designation">DESIGNATION</th>
                     <th>PU</th>
-                    <th>QTÉ</th>
+                    <th>QTE</th>
                     <th>TOT</th>
                 </tr>
             </thead>
@@ -406,33 +422,28 @@
                     $total += $itemTotal;
                 @endphp
                 <tr>
-                    <td style="text-align: left;">{{ $item->product->name }}</td>
+                    <td class="designation">{{ $item->product->name }}</td>
                     <td>{{ number_format($item->unit_price, 2) }}</td>
                     <td>{{ $item->quantity }}</td>
-                    <td>{{ number_format($itemTotal, 2) }} <span class="currency">TND</span></td>
+                    <td class="amount">{{ number_format($itemTotal, 2) }} <span class="currency">TND</span></td>
                 </tr>
                 @endforeach
                 <tr class="total-row">
-                    <td colspan="3" style="text-align: right; font-weight: bold;">TOTAL:</td>
-                    <td style="font-weight: bold;">
-                        <span class="cod-amount">{{ number_format($total, 2) }} <span class="currency">TND</span></span>
-                    </td>
+                    <td colspan="3" style="text-align: right;">TOTAL:</td>
+                    <td class="amount">{{ number_format($total, 2) }} <span class="currency">TND</span></td>
                 </tr>
                 @if($parcel->cod > 0)
-                <tr style="background-color: #fff3cd; color: #856404;">
-                    <td colspan="3" style="text-align: right; font-weight: bold;">COD À COLLECTER:</td>
-                    <td style="font-weight: bold;">
-                        <span class="cod-amount" style="color: #856404;">{{ number_format($parcel->cod, 2) }} <span class="currency">TND</span></span>
-                    </td>
+                <tr class="cod-row">
+                    <td colspan="3" style="text-align: right;">COD:</td>
+                    <td class="amount">{{ number_format($parcel->cod, 2) }} <span class="currency">TND</span></td>
                 </tr>
                 @endif
             </tbody>
         </table>
         
-        <!-- Footer -->
+        <!-- Footer minimal -->
         <div class="footer">
-            <p>Bon de livraison généré le {{ now()->format('d/m/Y à H:i') }}</p>
-            <p>{{ $expediteur['nom'] }} - {{ $expediteur['adresse'] }} - Tél: {{ $expediteur['telephone'] }}</p>
+            BL généré le {{ now()->format('d/m/Y H:i') }} - Z&A Home
         </div>
     </div>
 </body>

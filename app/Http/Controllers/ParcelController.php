@@ -11,6 +11,7 @@ use App\Services\DeliveryService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Picqer\Barcode\BarcodeGeneratorSVG;
 
 class ParcelController extends Controller
 {
@@ -175,7 +176,7 @@ class ParcelController extends Controller
     }
      
 
-     public function generateBL($parcelId)
+    public function generateBL($parcelId)
     {
         // Récupérer le colis avec ses relations
         $parcel = Parcel::with(['company', 'order.items.product'])->findOrFail($parcelId);
@@ -188,10 +189,14 @@ class ParcelController extends Controller
             'mf' => '1768373/Z/P/M/000'
         ];
         
-        // Générer le PDF
-        $pdf = Pdf::loadView('bl.template', compact('parcel', 'expediteur'));
+        // Générer le code-barres SVG
+        $generator = new BarcodeGeneratorSVG();
+        $barcode = $generator->getBarcode($parcel->reference, $generator::TYPE_CODE_128);
         
-        // Configurer le PDF
+        // Générer le PDF
+        $pdf = Pdf::loadView('bl.template', compact('parcel', 'expediteur', 'barcode'));
+        
+        // Configurer le PDF pour format ticket (A5)
         $pdf->setPaper('A5', 'portrait');
         
         // Retourner le PDF
