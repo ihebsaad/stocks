@@ -400,49 +400,63 @@
         </table>
         
         <!-- Client -->
+
         <div class="client-section">
-            <div class="section-header">Client</div>
-            <div class="client-content">
-                <div class="client-col">
-                    <div class="info-line">
-                        <span class="info-label">Nom:</span>
-                        <span class="info-value">{{ $parcel->nom_client }}</span>
-                    </div>
-                    <div class="info-line">
-                        <span class="info-label">Tél:</span>
-                        <span class="info-value">{{ $parcel->tel_l }}</span>
-                    </div>
-                    @if($parcel->tel2_l)
-                    <div class="info-line">
-                        <span class="info-label">Tél2:</span>
-                        <span class="info-value">{{ $parcel->tel2_l }}</span>
-                    </div>
-                    @endif
-                </div>
-                <div class="client-col">
-                    <div class="info-line">
-                        <span class="info-label">Ville:</span>
-                        <span class="info-value">{{ $parcel->ville_cl }}</span>
-                    </div>
-                    <div class="info-line">
-                        <span class="info-label">Dél:</span>
-                        <span class="info-value">{{ $parcel->gov_l }}</span>
-                    </div>
-                    <div class="info-line">
-                        <span class="info-label">Adr:</span>
-                        <span class="info-value">{{ $parcel->adresse_l }}</span>
-                    </div>
-                </div>
+        <div class="section-header">Client</div>
+            <table>
+                <tr>
+                    <td>
+                        <div class="info-line">
+                            <span class="info-label">Nom:</span>
+                            <span class="info-value">{{ $parcel->nom_client }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="info-line">
+                            <span class="info-label">Tél:</span>
+                            <span class="info-value">{{ $parcel->tel_l }}</span>
+                            <span class="info-value">{{ $parcel->tel2_l }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="info-line">
+                            <span class="info-label">Ville:</span>
+                            <span class="info-value">{{ $parcel->ville_cl }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="info-line">
+                            <span class="info-label">Délégation:</span>
+                            <span class="info-value">{{ $parcel->gov_l }}</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="info-line">
+                            <span class="info-label">Adresse:</span>
+                            <span class="info-value">{{ $parcel->adresse_l }}</span>
+                        </div>
+                    </td>
+                    <td colspan="2">
+                        @if($parcel->remarque!='')
+                        <div class="info-line">
+                            <span class="info-label">Remarque:</span>
+                            <span class="info-value" style="color: #d03132;font-weight:bold">{{$parcel->remarque}}</span>
+                        </div>
+                        @endif
+                    </td>
+                </tr>
+            </table>
+            <!-- Remarque seulement si elle existe -->
+            @if($parcel->remarque)
+            <div class="remarque-section">
+                <div class="remarque-title">Remarque</div>
+                <div class="remarque-text">{{ $parcel->remarque }}</div>
             </div>
+            @endif
         </div>
         
-        <!-- Remarque seulement si elle existe -->
-        @if($parcel->remarque)
-        <div class="remarque-section">
-            <div class="remarque-title">Remarque</div>
-            <div class="remarque-text">{{ $parcel->remarque }}</div>
-        </div>
-        @endif
         
         <!-- Tableau des articles -->
         <table class="items-table">
