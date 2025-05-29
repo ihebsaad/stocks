@@ -311,7 +311,7 @@
         <table class="text-center">
             <tr>
                 <td>
-                    <img src="{{ asset('img/logo.png')}}" style="width:100px" /><br>
+                    <img src="{{ asset('img/logo.png')}}" style="width:60px" /><br>
                     <b>zahome.tn<b>
                 </td>
                 <td>
