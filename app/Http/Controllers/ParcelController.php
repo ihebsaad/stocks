@@ -123,7 +123,6 @@ class ParcelController extends Controller
                         }
                         return $result;
                     }
-                    return '<span class="text-muted">-</span>';
                 })
                 ->addColumn('service_type', function ($parcel) {
                     if ($parcel->service) {
