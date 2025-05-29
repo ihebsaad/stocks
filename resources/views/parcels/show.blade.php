@@ -309,7 +309,7 @@
     <div class="content-section">
         <div class="row">
             <!-- Informations Client -->
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
                 <div class="info-card">
                     <h5>
                         <i class="fas fa-user"></i>
@@ -363,7 +363,7 @@
             </div>
 
             <!-- Détails Colis -->
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-4 col-md-6">
                 <div class="info-card">
                     <h5>
                         <i class="fas fa-box"></i>
@@ -422,14 +422,14 @@
                     <table class="table table-striped mt-2" style="width:100%;text-align:center">
                         <tr><th>DESIGNATION</th><th>PU</th><th>QTE</th><th>TOT</th></tr>
                         @foreach($parcel->order->items as $index => $item)
-                        <tr><td> </td><td>{{$item->unit_price}}</td><td>{{$item->quantity}}</td><td>{{ number_format($item->unit_price * $item->quantity, 2) }} <sup>TND</sup></td></tr>
+                        <tr><td>{{$item->product->name}} </td><td>{{$item->unit_price}}</td><td>{{$item->quantity}}</td><td>{{ number_format($item->unit_price * $item->quantity, 2) }} <sup>TND</sup></td></tr>
                         @endforeach
                     </table>
                 </div>
             </div>
 
             <!-- Historique -->
-            <div class="col-lg-3 col-md-12">
+            <div class="col-lg-4 col-md-12">
                 <div class="info-card">
                     <h5>
                         <i class="fas fa-history"></i>
