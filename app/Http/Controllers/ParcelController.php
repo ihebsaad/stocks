@@ -23,9 +23,8 @@ class ParcelController extends Controller
         return view('parcels.index');
     }
 
-    public function store($order_id)
+    public function store(Order $order)
     {
-        $order= Order::find($order_id);
         $client = $order->client;
         $deliveryCompany = $order->deliveryCompany;
 
