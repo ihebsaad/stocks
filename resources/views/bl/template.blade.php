@@ -323,11 +323,35 @@
                         <div class="date-sys">Date : {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
                     </div>
                 </td>
-                <td>
+                <td><!--
                 <div class="reference-barcode">
                     <div class="reference-left">
                         <div class="ref-value">{{ $parcel->reference }}</div>
                     </div>
+                </div>-->
+                <div class="barcode-section">
+                    <div class="section-title">code à barre généré</div>
+                    <div class="barcode-container">
+                        <!-- Code-barres simple avec CSS -->
+                        <div class="simple-barcode">
+                            <div class="barcode-lines">
+                                @php
+                                    // Génération simple de barres basée sur la référence
+                                    $reference = $parcel->reference;
+                                    $seed = crc32($reference);
+                                    srand($seed);
+                                @endphp
+                                @for($i = 0; $i < 20; $i++)
+                                    @php
+                                        $random = rand(1, 3);
+                                        $class = $random == 1 ? 'bar-thin' : ($random == 2 ? 'bar-medium' : 'bar-thick');
+                                    @endphp
+                                    <div class="bar {{ $class }}"></div>
+                                @endfor
+                            </div>
+                        </div>
+                    </div>
+                    <div class="barcode-text">{{ $parcel->reference }}</div>
                 </div>
                 </td>
             </tr>

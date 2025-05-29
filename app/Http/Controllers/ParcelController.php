@@ -188,8 +188,10 @@ class ParcelController extends Controller
             'mf' => '1768373/Z/P/M/000'
         ];
         
+        $barcode = $this->generateBarcodeWithMilon($parcel->reference);
+
         // Générer le PDF
-        $pdf = Pdf::loadView('bl.template', compact('parcel', 'expediteur'));
+        $pdf = Pdf::loadView('bl.template', compact('parcel', 'expediteur','barcode'));
         
         // Configurer le PDF pour format ticket (A5)
         $pdf->setPaper('A5', 'portrait');
@@ -198,6 +200,20 @@ class ParcelController extends Controller
         return $pdf->stream('BL-' . $parcel->reference . '.pdf');
     }
   
+
+        private function generateBarcodeWithMilon($reference)
+    {
+        // Si vous voulez utiliser milon/barcode:
+        // composer require milon/barcode
+        
+        if (class_exists('\Milon\Barcode\DNS1D')) {
+            $generator = new \Milon\Barcode\DNS1D();
+            return $generator->getBarcodeHTML($reference, 'C128', 2, 35);
+        }
+        
+        return $this->generateSimpleBarcode($reference);
+    }
+
     public function show(Parcel $parcel)
     {
         $client = $parcel->order->client;
