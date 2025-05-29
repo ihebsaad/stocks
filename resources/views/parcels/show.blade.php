@@ -33,7 +33,7 @@
     }
 
     .header-section {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        background: linear-gradient(135deg, #00a69c 0%, #003936 100%);
         color: white;
         padding: 2rem;
         position: relative;
