@@ -344,7 +344,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="barcode-text">{{ $parcel->reference }}</div>
+                    <div class="barcode-text" style="padding-left:10px">{{ $parcel->reference }}</div>
                 </div>
                 </td>
             </tr>
