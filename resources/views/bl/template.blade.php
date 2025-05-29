@@ -302,46 +302,28 @@
 <body>
     <div class="container">
         <!-- Header -->
-        <div class="header">
-        <img src="{{ asset('img/logo.png')}}" style="width:100px" />
-        <b>zahome.tn<b>
-            <div class="document-title">
-                <h1>BL {{ $parcel->id}}</h1>
-            </div>
-        </div>
-        
-         <!-- Référence + Code-barres -->
-        <div class="reference-barcode">
-            <div class="reference-left">
-                <div class="ref-value">{{ $parcel->reference }}</div>
-                <div class="date-sys">Date : {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
-            </div>
-            <div class="barcode-right">
-                <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Code-barres Code128 généré pour la référence -->
-                    @php
-                        $reference = $parcel->reference;
-                        $bars = '';
-                        // Simulation simple de code-barres - Vous pouvez utiliser une vraie lib comme picqer/php-barcode-generator
-                        for($i = 0; $i < strlen($reference); $i++) {
-                            $char = ord($reference[$i]);
-                            $pattern = ($char % 4) + 1;
-                            for($j = 0; $j < $pattern; $j++) {
-                                $bars .= '1';
-                            }
-                            $bars .= '0';
-                        }
-                    @endphp
-                    @for($i = 0; $i < strlen($bars); $i++)
-                        @if($bars[$i] == '1')
-                            <rect x="{{ $i * 1.2 }}" y="0" width="1" height="30" fill="#000"/>
-                        @endif
-                    @endfor
-                </svg>
-                <div class="barcode-text">{{ $parcel->reference }}</div>
-            </div>
-        </div>
-        
+        <table>
+            <tr>
+                <td>
+                    <img src="{{ asset('img/logo.png')}}" style="width:100px" /><br>
+                    <b>zahome.tn<b>
+                </td>
+                <td>
+                    <div class="document-title">
+                        <h1>BL {{ $parcel->id}}</h1>
+                        <div class="date-sys">Date : {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
+                    </div>
+                </td>
+                <td>
+                <div class="reference-barcode">
+                    <div class="reference-left">
+                        <div class="ref-value">{{ $parcel->reference }}</div>
+                    </div>
+                </div>
+                </td>
+            </tr>
+        </table>
+
         <!-- Expéditeur + Transporteur -->
         <table  >
             <tr>
