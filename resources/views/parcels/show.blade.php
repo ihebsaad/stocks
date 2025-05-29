@@ -286,7 +286,7 @@
     }
 
 
-        .btn-bl {
+    .btn-bl {
         background: linear-gradient(135deg, #01322e 0%, #0da598 100%);
         border: none;
         color: white;
@@ -325,10 +325,19 @@
                     Créé le {{ $parcel->created_at->format('d/m/Y à H:i') }}
                 </div>
             </div>
-            <a href="{{ route('parcels.index') }}" class="btn-back">
-                <i class="fas fa-arrow-left"></i>
-                Retour
-            </a>
+            <div class="d-flex gap-2">
+                <!-- Nouveau bouton BL -->
+                <a href="{{ route('parcel.bl', $parcel->id) }}" class="btn-bl" target="_blank">
+                    <i class="fas fa-file-pdf"></i>
+                    Bon de livraison
+                </a>
+                
+                <!-- Bouton retour existant -->
+                <a href="{{ route('parcels.index') }}" class="btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                    Retour
+                </a>
+            </div>
         </div>
     </div>
 
