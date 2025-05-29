@@ -338,19 +338,12 @@
                                     // Génération simple de barres basée sur la référence
                                     $reference = $parcel->reference;
                                     echo DNS1D::getBarcodeSVG($reference, 'PHARMA2T');
-
                                 @endphp
-                                @for($i = 0; $i < 20; $i++)
-                                    @php
-                                        $random = rand(1, 3);
-                                        $class = $random == 1 ? 'bar-thin' : ($random == 2 ? 'bar-medium' : 'bar-thick');
-                                    @endphp
-                                    <div class="bar {{ $class }}"></div>
-                                @endfor
+ 
                             </div>
                         </div>
                     </div>
-                    <div class="barcode-text">{{ $parcel->reference }}</div>
+                    <div class="barcode-text">{{ $parcel->reference }}..</div>
                 </div>
                 </td>
             </tr>
