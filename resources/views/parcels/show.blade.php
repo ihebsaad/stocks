@@ -309,7 +309,7 @@
     <div class="content-section">
         <div class="row">
             <!-- Informations Client -->
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <div class="info-card">
                     <h5>
                         <i class="fas fa-user"></i>
@@ -363,7 +363,7 @@
             </div>
 
             <!-- Détails Colis -->
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-6 col-md-6">
                 <div class="info-card">
                     <h5>
                         <i class="fas fa-box"></i>
@@ -429,7 +429,7 @@
             </div>
 
             <!-- Historique -->
-            <div class="col-lg-4 col-md-12">
+            <div class="col-lg-3 col-md-12">
                 <div class="info-card">
                     <h5>
                         <i class="fas fa-history"></i>
