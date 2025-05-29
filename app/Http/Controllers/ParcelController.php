@@ -179,7 +179,7 @@ class ParcelController extends Controller
     public function show(Parcel $parcel)
     {
         $client = $parcel->order->client;
-        $historiques= $parcel->order->statusHistory->sortByDesc('created_at')->get();
+        $historiques= $parcel->order->statusHistory->sortByDesc('created_at');
         return view('parcels.show', compact('parcel','client','historiques'));
 
     }
