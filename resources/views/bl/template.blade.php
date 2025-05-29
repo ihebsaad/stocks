@@ -336,8 +336,7 @@
                             <div class="barcode-lines">
                                 @php
                                     // Génération simple de barres basée sur la référence
-                                    $reference = $parcel->reference;
-                                    echo DNS1D::getBarcodeSVG($reference, 'PHARMA2T');
+                                    echo $barcode;
                                 @endphp
  
                             </div>
