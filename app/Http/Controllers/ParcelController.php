@@ -94,7 +94,7 @@ class ParcelController extends Controller
 
             return DataTables::of($parcels)
                 ->addColumn('reference', function ($parcel) {
-                    return '<a href="' . route('parcels.show', $parcel->id) . '">'.$parcel->reference ?? '<span class="text-muted">#'.$parcel->id.'</span>'.'</a>' ;
+                    return '#'.$parcel->id.'<br><a href="' . route('parcels.show', $parcel->id) . '">'.$parcel->reference ?? '<span class="text-muted">#'.$parcel->id.'</span>'.'</a>' ;
                 })
                 ->addColumn('created_at_formatted', function ($parcel) {
                     //$createdInfo=$parcel->created_at;
