@@ -321,7 +321,7 @@
             <div>
                 <div class="parcel-id">{{ $parcel->reference }}</div>
                 <div class="header-meta">
-                    #{{ $parcel->id }}  
+                    <b style="margin-right:30px">#{{ $parcel->id }}  </b>
                     <i class="fas fa-calendar-alt me-2"></i>
                     Créé le {{ $parcel->created_at->format('d/m/Y à H:i') }}
                 </div>
