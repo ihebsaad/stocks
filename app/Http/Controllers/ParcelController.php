@@ -120,7 +120,7 @@ class ParcelController extends Controller
                     if ($parcel->company) {
                         $result =  '<span class="badge bg-'.$parcel->company->id.'">'.ucfirst($parcel->company->name).'</span><br>' ;
                         if ($parcel->service && $parcel->service!='Livraison') {
-                            $result.='<B>Échange</B>'; 
+                            $result.='<span class="badge bg-danger"><i class="fas fa-exchange-alt"></i> Échange</span>'; 
                         } 
                         return $result;
                     }
