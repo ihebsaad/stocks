@@ -119,11 +119,9 @@ class ParcelController extends Controller
                 ->addColumn('delivery_company', function ($parcel) {
                     if ($parcel->company) {
                         $result =  '<span class="badge bg-'.$parcel->company->id.'">'.ucfirst($parcel->company->name).'</span><br>' ;
-                        if ($parcel->service && $parcel->service=='Livraison') {
-                            $result.='<b>Livraison</b>'; 
-                        }else{
-                            $result .='<i>Échange</i>' ;
-                        }
+                        if ($parcel->service && $parcel->service!='Livraison') {
+                            $result.='<B>Échange</B>'; 
+                        } 
                         return $result;
                     }
                 })
