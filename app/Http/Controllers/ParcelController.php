@@ -129,7 +129,7 @@ class ParcelController extends Controller
                     return '<span class="text-muted">-</span>';
                 })
                 ->addColumn('order_id', function ($parcel) {
-                    return '<a target="_blank" href="'.route('orders.edit', $parcel->order_id).'">#'.$parcel->order_id.' </a><br>'.$parcel->cod.'<em>TND</em>'  ;
+                    return '<a target="_blank" href="'.route('orders.edit', $parcel->order_id).'">#'.$parcel->order_id.' </a><br>'.$parcel->cod.'<sup>TND</sup>'  ;
                 })
                 ->addColumn('dernier_etat', function ($parcel) {
                     return $parcel->dernier_etat ? $parcel->dernier_etat . '<br><small>' . $parcel->date_dernier_etat . '</small>' : '<span class="text-muted">-</span>';
