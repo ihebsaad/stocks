@@ -137,6 +137,10 @@
             border: 1px solid #01322e;
             background: white;
         }
+        .client-section .info-section {
+            border: 1px solid #3f5367!important;
+            background: white;
+        }
         
         .section-header {
             background: #01322e;
@@ -167,7 +171,9 @@
             min-width: 35px;
             margin-right: 5px;
         }
-        
+        .client-section .info-label {
+            color:#3f5367!important;
+        }
         .info-value {
             flex: 1;
             word-break: break-word;
