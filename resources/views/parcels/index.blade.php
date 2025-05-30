@@ -57,8 +57,7 @@
                             <th>Date de création</th>
                             <th>Client</th>
                             <th>Statut</th>
-                            <th>Service</th>
-                            <th>Société de livraison</th>
+                            <th>Livraison</th>
                             <th>Commande</th>
                             <th>Actions</th>
                         </tr>
@@ -87,7 +86,6 @@ $(function() {
             { data: 'created_at_formatted', name: 'created_at' },
             { data: 'client', name: 'client', orderable: false, searchable: false },
             { data: 'dernier_etat', name: 'dernier_etat' },
-            { data: 'service_type', name: 'service_type' },
             { data: 'delivery_company', name: 'delivery_company' },
             { data: 'order_id', name: 'order_id' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
