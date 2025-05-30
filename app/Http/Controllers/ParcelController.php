@@ -136,7 +136,7 @@ class ParcelController extends Controller
                 })
                 ->addColumn('action', function ($parcel) {
                     $buttons = '';
-                    $buttons .= '<a href="' . route('parcels.bl', $parcel->id) . '" class="btn btn-sm btn-success mr-1 mb-1" title="BL"  target="_blank" style="display:none"><i class="fas fa-file-pdf"></i></a>';
+                    $buttons .= '<a href="' . route('parcel.bl', $parcel->id) . '" class="btn btn-sm btn-success mr-1 mb-1" title="BL"  target="_blank" style="display:none"><i class="fas fa-file-pdf"></i></a>';
                     $buttons .= '<a href="' . route('parcels.edit', $parcel->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
                     $buttons .= '<form action="' . route('parcels.destroy', $parcel->id) . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Confirmer la suppression ?\')">';
                     $buttons .= csrf_field();
