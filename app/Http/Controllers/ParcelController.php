@@ -118,16 +118,16 @@ class ParcelController extends Controller
                 })
                 ->addColumn('delivery_company', function ($parcel) {
                     if ($parcel->company) {
-                        $result =  '<span class="badge bg-'.$parcel->company->id.'">'.ucfirst($parcel->company->name).'</span> ' ;
+                        $result =  '<span class="badge bg-'.$parcel->company->id.'">'.ucfirst($parcel->company->name).'</span><br>' ;
+                        if ($parcel->service && $parcel->service=='Livraison') {
+                            $result.='<b>Livraison</b>'; 
+                        }else{
+                            $result .='<i>Échange</i>' ;
+                        }
                         return $result;
                     }
                 })
-                ->addColumn('service_type', function ($parcel) {
-                    if ($parcel->service) {
-                        return $parcel->service == 'Livraison' ? '<b>Livraison</b>' : '<i>Échange</i>' ;
-                    }
-                    return '<span class="text-muted">-</span>';
-                })
+
                 ->addColumn('order_id', function ($parcel) {
                     return '<a target="_blank" href="'.route('orders.edit', $parcel->order_id).'">#'.$parcel->order_id.' </a><br>'.$parcel->cod.'<sup>TND</sup>'  ;
                 })
