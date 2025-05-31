@@ -22,6 +22,9 @@
             color: #333;
             font-size: 20px;
         }
+        .logo {
+            text-align: left;
+        }
         .info {
             margin-bottom: 20px;
             text-align: right;
@@ -88,6 +91,7 @@
         <h1>Liste des colis ...</h1>
     </div>
     -->
+    <img src="{{ asset('img/logo.png')}}" style="width:70px" class="logo"/>
     <div class="info">
         <strong>Généré le:</strong> {{ $generated_at }}<br>
         <strong>Nombre total:</strong> {{ $total_count }} colis
@@ -100,7 +104,7 @@
                 <th width="15%">Référence</th>
                 <th width="15%">Client</th>
                 <th width="10%">Tél</th>
-                <th width="10%">Nb Pièces</th>
+                <th width="10%">Pièces</th>
                 <th width="25%">Libellé</th>
                 <th width="10%">COD</th>
             </tr>
@@ -172,7 +176,6 @@
     </table>
 
     <div class="footer">
-        Document généré le {{ $generated_at }}
     </div>
 </body>
 </html>
