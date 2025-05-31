@@ -80,7 +80,6 @@
         .bg-3{ color: #227ac2;  }
         .bg-4{ color: #6c757d;  }
         .bg-5{ color: #fd9883;  }
-
     </style>
 </head>
 <body>
@@ -134,7 +133,7 @@
                         @endif 
                         @php
                         if ($parcel->service && $parcel->service!='Livraison') {
-                            echo ' <span class="badge bg-danger"><i class="fas fa-exchange-alt"></i> Échange</span>'; 
+                            echo ' <b style="color:#d1202a"><i> Échange</i></b></span>'; 
                         }   
                         @endphp                   
                     </div>
@@ -149,10 +148,11 @@
                     {{ $parcel->nb_piece ?: '1' }}
                 </td>
                 <td>
-                    {{ $parcel->libelle ?: $parcel->remarque ?: '-' }}
+                    {{ $parcel->libelle }}
+                    @if($parcel->remarque!='')<br><b style="color:#d1202a">{{$parcel->remarque}}</b> @endif
                 </td>
                 <td class="text-right">
-                    <span class="cod">{{ number_format($parcel->cod, 2) }} <sup>TND</sup></span>
+                    <span class="cod">{{ number_format($parcel->cod, 2) }} </span>
                 </td>
 
             </tr>
