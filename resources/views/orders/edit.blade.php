@@ -874,6 +874,9 @@ $(document).ready(function() {
         $.ajax({
             url: `/orders/${orderId}/update-notes`,
             method: 'PATCH',
+            headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
             data: {
                 notes: notes,
                 _token: $('meta[name="csrf-token"]').attr('content')

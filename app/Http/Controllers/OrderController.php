@@ -594,6 +594,23 @@ class OrderController extends Controller
         }
     }
 
+
+    public function updateNotes(Request $request, Order $order)
+    {
+        $request->validate([
+            'notes' => 'nullable|string|max:1000'
+        ]);
+
+        $order->update([
+            'notes' => $request->notes
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notes mises à jour avec succès'
+        ]);
+    }
+
     /**
      * Supprime une commande
      */
