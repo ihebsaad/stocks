@@ -21,6 +21,7 @@
     .bg-4{ background-color: #6c757d; color: white;   }
     .bg-5{ background-color: #fd9883; color: white;   }
     .status-draft { background-color: #6c757d; color: white; }
+    .status-no_stock { background-color: #a82b89; color: white; }
     .status-pending { background-color: #ffc107; color: black; }
     .status-production { background-color: #17a2b8; color: white; }
     .status-no_response { background-color: #dc3545; color: white; }

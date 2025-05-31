@@ -36,7 +36,8 @@ class OrderController extends Controller
         $users = User::all();
         $statusOptions = [
             'draft' => 'Brouillon',
-            'pending' => 'Rupture de stock',
+            'pending' => 'En attente',
+            'no_stock' => 'Rupture de stock',
             'production' => 'En production',
             'confirmed' => 'Confirmée',
             'no_response' => 'Client ne répond plus',
@@ -56,7 +57,8 @@ class OrderController extends Controller
         $users = User::all();
         $statusOptions = [
             'draft' => 'Brouillon',
-            'pending' => 'Rupture de stock',
+            'pending' => 'En attente',
+            'no_stock' => 'Rupture de stock',
             'production' => 'En production',
             'confirmed' => 'Confirmée',
             'no_response' => 'Client ne répond plus',
@@ -73,7 +75,8 @@ class OrderController extends Controller
         $users = User::all();
         $statusOptions = [
             'draft' => 'Brouillon',
-            'pending' => 'Rupture de stock',
+            'pending' => 'En attente',
+            'no_stock' => 'Rupture de stock',
             'production' => 'En production',
             'confirmed' => 'Confirmée',
             'no_response' => 'Client ne répond plus',
@@ -160,7 +163,8 @@ class OrderController extends Controller
             ->addColumn('status_formatted', function ($order) {
                 $statusLabels = [
                     'draft' => 'Brouillon',
-                    'pending' => 'Rupture de stock',
+                    'pending' => 'En attente',
+                    'no_stock' => 'Rupture de stock',
                     'production' => 'En production',
                     'confirmed' => 'Confirmée',
                     'no_response' => 'Client ne répond plus',
@@ -417,7 +421,8 @@ class OrderController extends Controller
         $deliveryCompanies = DeliveryCompany::all();
         $statusOptions = [
             'draft' => 'Brouillon',
-            'pending' => 'Rupture de stock',
+            'pending' => 'En attente',
+            'no_stock' => 'Rupture de stock',
             'production' => 'En production',
             'confirmed' => 'Confirmée',
             'no_response' => 'Client ne répond plus',

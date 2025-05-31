@@ -265,8 +265,19 @@ class ParcelController extends Controller
     public function show(Parcel $parcel)
     {
         $client = $parcel->order->client;
+        $statusOptions = [
+            'draft' => 'Brouillon',
+            'pending' => 'En attente',
+            'no_stock' => 'Rupture de stock',
+            'production' => 'En production',
+            'confirmed' => 'Confirmée',
+            'no_response' => 'Client ne répond plus',
+            'not_available' => 'Client injoignable',
+            'cancelled' => 'Annulée',
+        ];
+
         $historiques= $parcel->order->statusHistory->sortByDesc('created_at');
-        return view('parcels.show', compact('parcel','client','historiques'));
+        return view('parcels.show', compact('parcel','client','historiques','statusOptions'));
 
     }
 
