@@ -179,25 +179,35 @@ class ParcelController extends Controller
 
     public function generateParcelsPdf(Request $request)
     {
-        $parcelIds = $request->input('parcel_ids', []);
-        
-        if (empty($parcelIds)) {
-            return response()->json(['error' => 'Aucun colis sélectionné'], 400);
+        try {
+            $parcelIds = $request->input('parcel_ids', []);
+            
+            if (empty($parcelIds)) {
+                return back()->with('error', 'Aucun colis sélectionné');
+            }
+
+            $parcels = Parcel::with(['order.client', 'company'])
+                ->whereIn('id', $parcelIds)
+                ->get();
+
+            if ($parcels->isEmpty()) {
+                return back()->with('error', 'Aucun colis trouvé');
+            }
+
+            $data = [
+                'parcels' => $parcels,
+                'generated_at' => now()->format('d/m/Y H:i'),
+                'total_count' => $parcels->count()
+            ];
+
+            $pdf = Pdf::loadView('parcels.pdf-list', $data);
+            
+            return $pdf->download('liste_colis_' . date('Y-m-d_H-i-s') . '.pdf');
+            
+        } catch (\Exception $e) {
+            \Log::error('Erreur génération PDF: ' . $e->getMessage());
+            return back()->with('error', 'Erreur lors de la génération du PDF');
         }
-
-        $parcels = Parcel::with(['order.client', 'company'])
-            ->whereIn('id', $parcelIds)
-            ->get();
-
-        $data = [
-            'parcels' => $parcels,
-            'generated_at' => now()->format('d/m/Y H:i'),
-            'total_count' => $parcels->count()
-        ];
-
-        $pdf = Pdf::loadView('parcels.pdf-list', $data);
-        
-        return $pdf->download('liste_colis_' . date('Y-m-d_H-i-s') . '.pdf');
     }
 
 
