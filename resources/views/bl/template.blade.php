@@ -384,8 +384,7 @@
                                 <tr>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label">Nom:</span>
-                                            <span class="info-value">Z&A Home</span>
+                                            <span class="info-label">Société Z&A Home</span>
                                         </div>
                                     </td>
                                     <td>
