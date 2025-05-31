@@ -510,6 +510,10 @@
                 </tr>
                 @endforeach
                 <tr class="total-row">
+                    <td colspan="3" style="text-align: right;">Frais de livraison:</td>
+                    <td class="amount">{{ number_format($parcel->company->delivery_price, 2) }} <span class="currency">TND</span></td>
+                </tr>                
+                <tr class="total-row">
                     <td colspan="3" style="text-align: right;">COD:</td>
                     <td class="amount">{{ number_format($parcel->cod, 2) }} <span class="currency">TND</span></td>
                 </tr>
