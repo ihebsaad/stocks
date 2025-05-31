@@ -35,6 +35,7 @@
     #orders-table{
         width:100%;
     }
+    
     .selection-actions {
         background-color: #f8f9fa;
         padding: 15px;
@@ -66,7 +67,8 @@
  
         </div>
     </div>
-     <!-- Selection Actions -->
+    
+    <!-- Selection Actions -->
     <div class="selection-actions">
         <div class="row align-items-center">
             <div class="col-md-8">
@@ -88,25 +90,27 @@
                 </button>
             </div>
         </div>
-    </div>    
-            <div class="table-responsive-">
-                <table class="table table-bordered table-striped" id="parcels-table">
-                    <thead>
-                        <tr>
-                            <th>Rérérence</th>
-                            <th>Date de création</th>
-                            <th>Client</th>
-                            <th>Statut</th>
-                            <th>Livraison</th>
-                            <th>Commande</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
     </div>
-
+     
+    <div class="table-responsive-">
+        <table class="table table-bordered table-striped" id="parcels-table">
+            <thead>
+                <tr>
+                    <th width="50px">
+                        <input type="checkbox" id="select-all-checkbox">
+                    </th>
+                    <th>Référence</th>
+                    <th>Date de création</th>
+                    <th>Client</th>
+                    <th>Statut</th>
+                    <th>Livraison</th>
+                    <th>Commande</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
 
 <!-- Loading Modal -->
 <div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -126,7 +130,8 @@
 @section('footer-scripts')
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-<script>$(function() {
+<script>
+$(function() {
     let table = $('#parcels-table').DataTable({
         processing: true,
         serverSide: true,
