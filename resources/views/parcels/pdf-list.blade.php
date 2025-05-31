@@ -78,7 +78,7 @@
         vertical-align: baseline;
         position: relative;
         top: -0.4em;
-        font-size:9px;
+        font-size:6px;
         }
         .bg-1{ color: #0da598;  }
         .bg-2{ color: #ef6f28;  }
