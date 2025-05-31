@@ -483,23 +483,21 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="5">
                         <div class="info-line">
                             <span class="info-label">Adresse:</span>
                             <span class="info-value">{{ $parcel->adresse_l }}</span>
                         </div>
                     </td>
-                    <td colspan="3">
-                        @if($parcel->remarque!='')
-                        <div class="info-line">
-                            <span class="info-label">Remarque:</span>
-                            <span class="info-value" style="color: #d03132;font-weight:bold">{{$parcel->remarque}}</span>
-                        </div>
-                        @endif
-                    </td>
+
                 </tr>
             </table>
- 
+            @if($parcel->remarque!='')
+            <div class="info-line">
+                <span class="info-label">Remarque:</span>
+                <span class="info-value" style="color: #d03132;font-weight:bold">{{$parcel->remarque}}</span>
+            </div>
+            @endif
         </div>
         
         
