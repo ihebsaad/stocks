@@ -79,11 +79,11 @@
     </style>
 </head>
 <body>
-    <!--
+    
     <div class="header">
-        <h1>Liste des Colis Sélectionnés</h1>
+        <h1>Liste des colis ...</h1>
     </div>
-    -->
+    
     <div class="info">
         <strong>Généré le:</strong> {{ $generated_at }}<br>
         <strong>Nombre total:</strong> {{ $total_count }} colis
@@ -111,8 +111,12 @@
                 <td>
                     <span class="reference">
                         {{ $parcel->reference ?: '#' . $parcel->id }}
-
                     </span>
+                    <div class="barcode">
+                        <div class="barcode-container">
+                            {!! $barcodes[$parcel->id] ?? '' !!}
+                        </div>
+                    </div>                    
                 </td>
                 <td>
                     <div class="client-info">

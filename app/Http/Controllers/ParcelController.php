@@ -11,6 +11,8 @@ use App\Services\DeliveryService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Milon\Barcode\DNS1D;
+
 
 class ParcelController extends Controller
 {
@@ -194,8 +196,18 @@ class ParcelController extends Controller
                 return back()->with('error', 'Aucun colis trouvé');
             }
 
+            // Générer les codes à barres pour chaque colis
+            $generator = new \Milon\Barcode\DNS1D();
+            $barcodes = [];
+            
+            foreach ($parcels as $parcel) {
+                $reference = $parcel->reference ?: '#' . $parcel->id;
+                $barcodes[$parcel->id] = $generator->getBarcodeHTML($reference, 'C128', 1.5, 30);
+            }
+
             $data = [
                 'parcels' => $parcels,
+                'barcodes' => $barcodes,
                 'generated_at' => now()->format('d/m/Y H:i'),
                 'total_count' => $parcels->count()
             ];
@@ -206,7 +218,7 @@ class ParcelController extends Controller
             
         } catch (\Exception $e) {
             \Log::error('Erreur génération PDF: ' . $e->getMessage());
-            return back()->with('error', 'Erreur lors de la génération du PDF');
+            return back()->with('error', 'Erreur lors de la génération du PDF: ' . $e->getMessage());
         }
     }
 
