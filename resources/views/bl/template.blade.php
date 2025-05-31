@@ -204,8 +204,19 @@
         .bg-success {
             --bs-bg-opacity: 1;
             background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
-            }
-
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+        }
         /* Section client pleine largeur */
         .client-section {
             border: 1px solid #3f5367;
@@ -518,16 +529,18 @@
                 @endforeach
                 <tr class="total-row">
                     <td colspan="3" style="text-align: right;">Frais de livraison:</td>
-                    <td class="amount">{{ number_format($parcel->company->delivery_price, 2) }} <span class="currency">TND</span></td>
+                    <td class="amount">
+                        @if ($parcel->order->free_delivery)
+                            <span class="badge bg-success">Gratuite</span>
+                        @else
+                            {{ number_format($parcel->company->delivery_price, 2) }}
+                             <span class="currency">TND</span></td>
+                        @endif                                                   
                 </tr>                
                 <tr class="total-row">
                     <td colspan="3" style="text-align: right;"><b>COD:</b></td>
                     <td class="amount verybold">
-                        @if ($parcel->order->free_delivery)
-                            <span class="badge bg-success">Gratuite</span>
-                        @else
                             {{ number_format($parcel->cod, 2) }}
-                        @endif                                                
                         <span class="currency">TND</span></td>
                 </tr>
             </tbody>
