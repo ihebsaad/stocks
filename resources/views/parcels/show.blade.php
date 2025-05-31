@@ -453,8 +453,11 @@
                             Service
                         </span>
                         <span class="info-value">
-                            {!! $parcel->service == 'Livraison' ? '<strong>Livraison</strong>' : '<em>Échange</em>' !!}
+                            {!! $parcel->service == 'Livraison' ? '<strong>Livraison</strong>' : '<em><i class="fas fa-exchange-alt"></i> Échange</em>' !!}
                         </span>
+                        @if ($parcel->order->free_delivery)
+                            <span class="badge bg-success">Gratuite</span>
+                        @else
                     </div>
                     <table class="table table-striped mt-4" style="width:100%;text-align:center">
                         <thead><tr><th>DESIGNATION</th><th>PU</th><th>QTE</th><th>TOT</th></tr></thead>
