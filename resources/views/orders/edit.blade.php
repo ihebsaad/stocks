@@ -202,8 +202,8 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-3 col-sm-6 mb-1">
-                                        <label for="last_name">Nom *</label>
-                                        <input type="text" name="last_name" id="last_name" class="form-control @error('last_name') is-invalid @enderror" required
+                                        <label for="last_name">Nom </label>
+                                        <input type="text" name="last_name" id="last_name" class="form-control @error('last_name') is-invalid @enderror"  
                                             value="{{ old('last_name', $order->client->last_name ?? '') }}">
                                         @error('last_name')
                                             <span class="invalid-feedback">{{ $message }}</span>

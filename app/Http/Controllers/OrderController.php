@@ -483,7 +483,7 @@ class OrderController extends Controller
             'client_id' => 'nullable|exists:clients,id',
             'phone' => 'required|string',
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'city' => 'required|string|max:255',
             'delegation' => 'required|string|max:255',
             'address' => 'required|string',
