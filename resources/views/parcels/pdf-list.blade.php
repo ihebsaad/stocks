@@ -26,6 +26,7 @@
             text-align: left;
         }
         .info {
+            margin-top:-50px;
             margin-bottom: 20px;
             text-align: right;
             color: #666;
@@ -91,16 +92,11 @@
         <h1>Liste des colis ...</h1>
     </div>
     -->
-    <div class="" style="width:100%">
-        <div class="logo" style="width:50%">
-            <img src="{{ asset('img/logo.png')}}" style="width:120px" />
-        </div>
-        <div class="info" style="width:50%">
-            <strong>Généré le:</strong> {{ $generated_at }}<br>
-            <strong>Nombre total:</strong> {{ $total_count }} colis
-        </div>
+    <img src="{{ asset('img/logo.png')}}" style="width:100px" class="logo"/>
+    <div class="info">
+        <strong>Généré le:</strong> {{ $generated_at }}<br>
+        <strong>Nombre total:</strong> {{ $total_count }} colis
     </div>
-
 
     <table>
         <thead>
