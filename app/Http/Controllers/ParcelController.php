@@ -256,7 +256,7 @@ class ParcelController extends Controller
         
         if (class_exists('\Milon\Barcode\DNS1D')) {
             $generator = new \Milon\Barcode\DNS1D();
-            return $generator->getBarcodeHTML($reference, 'C128', 2, 35);
+            return $generator->getBarcodeHTML($reference, 'C128', 1.5, 35);
         }
         
         return $this->generateSimpleBarcode($reference);
