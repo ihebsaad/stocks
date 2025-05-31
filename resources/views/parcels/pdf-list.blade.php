@@ -106,8 +106,7 @@
                 <th width="15%">Référence</th>
                 <th width="15%">Client</th>
                 <th width="10%">Tél</th>
-                <th width="10%">Pièces</th>
-                <th width="25%">Libellé</th>
+                <th width="25%">Articles</th>
                 <th width="10%">COD</th>
             </tr>
         </thead>
@@ -150,9 +149,6 @@
                     @if($parcel->tel2_l)
                         <br><small>{{ $parcel->tel2_l }}</small>
                     @endif 
-                </td>
-                <td class="text-center">
-                    {{ $parcel->nb_piece ?: '1' }}
                 </td>
                 <td>
                     @foreach($parcel->order->items as  $item)
