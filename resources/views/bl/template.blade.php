@@ -201,6 +201,11 @@
         .bg-4 { background-color: #6c757d; }
         .bg-5 { background-color: #fd9883; }
         
+        .bg-success {
+            --bs-bg-opacity: 1;
+            background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
+            }
+
         /* Section client pleine largeur */
         .client-section {
             border: 1px solid #3f5367;
@@ -517,7 +522,13 @@
                 </tr>                
                 <tr class="total-row">
                     <td colspan="3" style="text-align: right;"><b>COD:</b></td>
-                    <td class="amount verybold">{{ number_format($parcel->cod, 2) }} <span class="currency">TND</span></td>
+                    <td class="amount verybold">
+                        @if ($order->free_delivery)
+                            <span class="badge bg-success">Gratuite</span>
+                        @else
+                            {{ number_format($parcel->cod, 2) }}
+                        @endif                                                
+                        <span class="currency">TND</span></td>
                 </tr>
             </tbody>
         </table>
