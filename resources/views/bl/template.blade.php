@@ -491,13 +491,18 @@
                     </td>
 
                 </tr>
+                <tr>
+                    <td colspan="5">
+                        @if($parcel->remarque!='')
+                        <div class="info-line">
+                            <span class="info-label">Remarque:</span>
+                            <span class="info-value" style="color: #d03132;font-weight:bold">{{$parcel->remarque}}</span>
+                        </div>
+                        @endif
+                    </td>
+                </tr>
             </table>
-            @if($parcel->remarque!='')
-            <div class="info-line">
-                <span class="info-label">Remarque:</span>
-                <span class="info-value" style="color: #d03132;font-weight:bold">{{$parcel->remarque}}</span>
-            </div>
-            @endif
+
         </div>
         
         
