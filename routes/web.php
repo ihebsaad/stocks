@@ -34,7 +34,7 @@ Route::get('/orders-current', [OrderController::class, 'current'])->name('orders
 Route::get('/orders-archives', [OrderController::class, 'archives'])->name('orders.archives');
 Route::get('/get-current-orders', [OrderController::class, 'getCurrentOrders'])->name('orders.getCurrentOrders');
 Route::get('/get-archived-orders', [OrderController::class, 'getArchivedOrders'])->name('orders.getArchivedOrders');
-Route::patch('/orders/{order}/update-notes', [OrderController::class, 'updateNotes'])->name('orders.update-notes');
+Route::post('/orders/update-notes', [OrderController::class, 'updateNotes'])->name('orders.update-notes');
 
 
 Route::resource('categories', CategoriesController::class);

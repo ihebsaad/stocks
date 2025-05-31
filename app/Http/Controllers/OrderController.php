@@ -595,8 +595,10 @@ class OrderController extends Controller
     }
 
 
-    public function updateNotes(Request $request, Order $order)
+    public function updateNotes(Request $request)
     {
+        $order =  Order::find($request->order);
+        
         $request->validate([
             'notes' => 'nullable|string|max:1000'
         ]);

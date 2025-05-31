@@ -872,13 +872,14 @@ $(document).ready(function() {
         feedback.html('<small class="text-warning"><i class="fas fa-spinner fa-spin"></i> Sauvegarde en cours...</small>');
 
         $.ajax({
-            url: `/orders/${orderId}/update-notes`,
-            method: 'PATCH',
+            url: `/orders/update-notes`,
+            method: 'post',
             headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             data: {
                 notes: notes,
+                order: orderId,
                 _token: $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
