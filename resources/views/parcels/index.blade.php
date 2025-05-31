@@ -35,6 +35,24 @@
     #orders-table{
         width:100%;
     }
+    .selection-actions {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #dee2e6;
+    }
+    
+    .selection-info {
+        color: #6c757d;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    
+    #generate-pdf-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
 </style>
 @endsection
 
@@ -48,7 +66,29 @@
  
         </div>
     </div>
-     
+     <!-- Selection Actions -->
+    <div class="selection-actions">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="selection-info">
+                    <span id="selected-count">0</span> colis sélectionné(s)
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="select-all-btn" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-check-square"></i> Tout sélectionner
+                    </button>
+                    <button type="button" id="deselect-all-btn" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-square"></i> Tout désélectionner
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <button type="button" id="generate-pdf-btn" class="btn btn-success" disabled>
+                    <i class="fas fa-file-pdf"></i> Générer PDF
+                </button>
+            </div>
+        </div>
+    </div>    
             <div class="table-responsive-">
                 <table class="table table-bordered table-striped" id="parcels-table">
                     <thead>
@@ -66,13 +106,27 @@
             </div>
         </div>
     </div>
+
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Chargement...</span>
+                </div>
+                <p class="mt-2">Génération du PDF en cours...</p>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('footer-scripts')
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-<script>
-$(function() {
+<script>$(function() {
     let table = $('#parcels-table').DataTable({
         processing: true,
         serverSide: true,
@@ -82,6 +136,7 @@ $(function() {
             url: "{{ route('parcels.getParcels') }}",
         },
         columns: [
+            { data: 'checkbox', name: 'checkbox', orderable: false, searchable: false },
             { data: 'reference', name: 'reference' },
             { data: 'created_at_formatted', name: 'created_at' },
             { data: 'client', name: 'client', orderable: false, searchable: false },
@@ -90,12 +145,111 @@ $(function() {
             { data: 'order_id', name: 'order_id' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ],
-        order: [[0, 'desc']],
+        order: [[1, 'desc']],
         language: {
             url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/fr-FR.json'
+        },
+        drawCallback: function() {
+            updateSelectionCount();
         }
     });
+
+    // Handle individual checkbox changes
+    $(document).on('change', '.parcel-checkbox', function() {
+        updateSelectionCount();
+        updateSelectAllCheckbox();
+    });
+
+    // Handle select all checkbox in header
+    $('#select-all-checkbox').on('change', function() {
+        let isChecked = $(this).is(':checked');
+        $('.parcel-checkbox:visible').prop('checked', isChecked);
+        updateSelectionCount();
+    });
+
+    // Handle select all button
+    $('#select-all-btn').on('click', function() {
+        $('.parcel-checkbox:visible').prop('checked', true);
+        $('#select-all-checkbox').prop('checked', true);
+        updateSelectionCount();
+    });
+
+    // Handle deselect all button
+    $('#deselect-all-btn').on('click', function() {
+        $('.parcel-checkbox').prop('checked', false);
+        $('#select-all-checkbox').prop('checked', false);
+        updateSelectionCount();
+    });
+
+    // Handle generate PDF button
+    $('#generate-pdf-btn').on('click', function() {
+        let selectedIds = [];
+        $('.parcel-checkbox:checked').each(function() {
+            selectedIds.push($(this).val());
+        });
+
+        if (selectedIds.length === 0) {
+            alert('Veuillez sélectionner au moins un colis.');
+            return;
+        }
+
+        // Show loading modal
+        $('#loadingModal').modal('show');
+
+        // Create form and submit
+        let form = $('<form>', {
+            'method': 'POST',
+            'action': '{{ route("parcels.generatePdf") }}',
+            'target': '_blank'
+        });
+
+        // Add CSRF token
+        form.append($('<input>', {
+            'type': 'hidden',
+            'name': '_token',
+            'value': '{{ csrf_token() }}'
+        }));
+
+        // Add selected IDs
+        selectedIds.forEach(function(id) {
+            form.append($('<input>', {
+                'type': 'hidden',
+                'name': 'parcel_ids[]',
+                'value': id
+            }));
+        });
+
+        // Submit form
+        $('body').append(form);
+        form.submit();
+        form.remove();
+
+        // Hide loading modal after a delay
+        setTimeout(function() {
+            $('#loadingModal').modal('hide');
+        }, 2000);
+    });
+
+    function updateSelectionCount() {
+        let count = $('.parcel-checkbox:checked').length;
+        $('#selected-count').text(count);
+        $('#generate-pdf-btn').prop('disabled', count === 0);
+    }
+
+    function updateSelectAllCheckbox() {
+        let totalVisible = $('.parcel-checkbox:visible').length;
+        let totalChecked = $('.parcel-checkbox:visible:checked').length;
         
+        if (totalChecked === 0) {
+            $('#select-all-checkbox').prop('indeterminate', false);
+            $('#select-all-checkbox').prop('checked', false);
+        } else if (totalChecked === totalVisible) {
+            $('#select-all-checkbox').prop('indeterminate', false);
+            $('#select-all-checkbox').prop('checked', true);
+        } else {
+            $('#select-all-checkbox').prop('indeterminate', true);
+        }
+    }
 });
 </script>
 @endsection

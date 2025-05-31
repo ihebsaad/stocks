@@ -328,7 +328,7 @@
             </div>
             <div class="d-flex gap-2">
                 <!-- Nouveau bouton BL -->
-                <a href="{{ route('parcel.bl', $parcel->id) }}" class="btn-bl" target="_blank" style="display:none">
+                <a href="{{ route('parcel.bl', $parcel->id) }}" class="btn-bl" target="_blank" >
                     <i class="fas fa-file-pdf"></i>
                     Bon de livraison
                 </a>

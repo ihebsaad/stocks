@@ -93,6 +93,9 @@ class ParcelController extends Controller
             $parcels = Parcel::with(['order.client', 'company'])->select('parcels.*')->orderBy('parcels.id','desc');
 
             return DataTables::of($parcels)
+                ->addColumn('checkbox', function ($parcel) {
+                    return '<input type="checkbox" class="parcel-checkbox" value="' . $parcel->id . '">';
+                })            
                 ->addColumn('reference', function ($parcel) {
                     return '<a href="' . route('parcels.show', $parcel->id) . '">'.'#'.$parcel->id.'<br>'.$parcel->reference ?? '<span class="text-muted">#'.$parcel->id.'</span>'.'</a>' ;
                 })
@@ -134,7 +137,7 @@ class ParcelController extends Controller
                 })
                 ->addColumn('action', function ($parcel) {
                     $buttons = '';
-                    $buttons .= '<a href="' . route('parcel.bl', $parcel->id) . '" class="btn btn-sm btn-success mr-1 mb-1" title="BL"  target="_blank" style="display:none"><i class="fas fa-file-pdf"></i></a>';
+                    $buttons .= '<a href="' . route('parcel.bl', $parcel->id) . '" class="btn btn-sm btn-success mr-1 mb-1" title="BL"  target="_blank" ><i class="fas fa-file-pdf"></i></a>';
                     $buttons .= '<a href="' . route('parcels.edit', $parcel->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
                     $buttons .= '<form action="' . route('parcels.destroy', $parcel->id) . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Confirmer la suppression ?\')">';
                     $buttons .= csrf_field();
@@ -143,7 +146,7 @@ class ParcelController extends Controller
                     $buttons .= '</form>';
                     return $buttons;
                 })
-                ->rawColumns(['reference', 'client', 'status', 'delivery_company','service_type', 'dernier_etat','order_id', 'action'])
+                ->rawColumns(['checkbox','reference', 'client', 'status', 'delivery_company','service_type', 'dernier_etat','order_id', 'action'])
                 ->filter(function ($query) use ($request) {
                     if ($request->has('search') && !empty($request->search['value'])) {
                         $search = $request->search['value'];
@@ -173,6 +176,30 @@ class ParcelController extends Controller
         }
     }
      
+
+    public function generateParcelsPdf(Request $request)
+    {
+        $parcelIds = $request->input('parcel_ids', []);
+        
+        if (empty($parcelIds)) {
+            return response()->json(['error' => 'Aucun colis sélectionné'], 400);
+        }
+
+        $parcels = Parcel::with(['order.client', 'company'])
+            ->whereIn('id', $parcelIds)
+            ->get();
+
+        $data = [
+            'parcels' => $parcels,
+            'generated_at' => now()->format('d/m/Y H:i'),
+            'total_count' => $parcels->count()
+        ];
+
+        $pdf = Pdf::loadView('parcels.pdf-list', $data);
+        
+        return $pdf->download('liste_colis_' . date('Y-m-d_H-i-s') . '.pdf');
+    }
+
 
     public function generateBL($parcelId)
     {
