@@ -74,10 +74,11 @@
     </style>
 </head>
 <body>
+    <!--
     <div class="header">
         <h1>Liste des Colis Sélectionnés</h1>
     </div>
-    
+    -->
     <div class="info">
         <strong>Généré le:</strong> {{ $generated_at }}<br>
         <strong>Nombre total:</strong> {{ $total_count }} colis
@@ -86,28 +87,28 @@
     <table>
         <thead>
             <tr>
+                <th width="5%">#</th>
                 <th width="15%">Référence</th>
-                <th width="15%">Téléphone</th>
                 <th width="20%">Client</th>
                 <th width="10%">Nb Pièces</th>
                 <th width="25%">Libellé</th>
                 <th width="10%">COD</th>
-                <th width="5%">#</th>
             </tr>
         </thead>
         <tbody>
             @foreach($parcels as $index => $parcel)
             <tr>
+                <td class="text-center">
+                    {{ $index + 1 }}
+                </td>                
                 <td>
                     <span class="reference">
                         {{ $parcel->reference ?: '#' . $parcel->id }}
+                        @php 
+                        $generator = new \Milon\Barcode\DNS1D();
+                        echo $generator->getBarcodeHTML($reference, 'C128', 2, 35);
+                        @endphp
                     </span>
-                </td>
-                <td>
-                    {{ $parcel->tel_l ?: ($parcel->order && $parcel->order->client ? $parcel->order->client->phone : '-') }}
-                    @if($parcel->tel2_l)
-                        <br><small>{{ $parcel->tel2_l }}</small>
-                    @endif
                 </td>
                 <td>
                     <div class="client-info">
@@ -118,6 +119,10 @@
                         @else
                             <em>Non défini</em>
                         @endif
+                        {{ $parcel->tel_l ?: ($parcel->order && $parcel->order->client ? $parcel->order->client->phone : '-') }}
+                        @if($parcel->tel2_l)
+                            <br><small>{{ $parcel->tel2_l }}</small>
+                        @endif                        
                     </div>
                 </td>
                 <td class="text-center">
@@ -127,11 +132,9 @@
                     {{ $parcel->libelle ?: $parcel->remarque ?: '-' }}
                 </td>
                 <td class="text-right">
-                    <span class="cod">{{ number_format($parcel->cod, 3) }} TND</span>
+                    <span class="cod">{{ number_format($parcel->cod, 2) }} <sup>TND</sup></span>
                 </td>
-                <td class="text-center">
-                    {{ $index + 1 }}
-                </td>
+
             </tr>
             @endforeach
         </tbody>
@@ -139,7 +142,7 @@
             <tr style="background-color: #e9ecef; font-weight: bold;">
                 <td colspan="5" class="text-right">Total COD:</td>
                 <td class="text-right">
-                    <span class="cod">{{ number_format($parcels->sum('cod'), 3) }} TND</span>
+                    <span class="cod">{{ number_format($parcels->sum('cod'), 2) }} <sup>TND</sup></span>
                 </td>
                 <td class="text-center">{{ $total_count }}</td>
             </tr>
