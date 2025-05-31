@@ -91,11 +91,16 @@
         <h1>Liste des colis ...</h1>
     </div>
     -->
-    <img src="{{ asset('img/logo.png')}}" style="width:70px" class="logo"/>
-    <div class="info">
-        <strong>Généré le:</strong> {{ $generated_at }}<br>
-        <strong>Nombre total:</strong> {{ $total_count }} colis
+    <div class="" style="width:100%">
+        <div class="logo">
+            <img src="{{ asset('img/logo.png')}}" style="width:120px" />
+        </div>
+        <div class="info">
+            <strong>Généré le:</strong> {{ $generated_at }}<br>
+            <strong>Nombre total:</strong> {{ $total_count }} colis
+        </div>
     </div>
+
 
     <table>
         <thead>
