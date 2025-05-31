@@ -531,7 +531,7 @@
                     <td colspan="3" style="text-align: right;">Frais de livraison:</td>
                     <td class="amount">
                         @if ($parcel->order->free_delivery)
-                            <span class="badge bg-success" style="color:black">Gratuite</span>
+                            <span class="badge bg-success">Gratuite</span>
                         @else
                             {{ number_format($parcel->company->delivery_price, 2) }}
                              <span class="currency">TND</span></td>
