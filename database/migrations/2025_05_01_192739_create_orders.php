@@ -30,7 +30,7 @@ class CreateOrders extends Migration
             $table->string('phone')->unique();
             $table->string('phone2')->nullable();
             $table->string('first_name');
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
             $table->string('city');
             $table->string('delegation');
             $table->string('address');
