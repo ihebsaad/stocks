@@ -287,7 +287,9 @@
         .amount {
             font-weight: bold;
         }
-        
+        .verybold{
+            font-weight: 800!important;
+        }
         .currency {
             font-size: 6px;
             vertical-align: super;
@@ -515,7 +517,7 @@
                 </tr>                
                 <tr class="total-row">
                     <td colspan="3" style="text-align: right;"><b>COD:</b></td>
-                    <td class="amount"><b>{{ number_format($parcel->cod, 2) }} <span class="currency">TND</span></b></td>
+                    <td class="amount verybold">{{ number_format($parcel->cod, 2) }} <span class="currency">TND</span></td>
                 </tr>
             </tbody>
         </table>
