@@ -429,8 +429,7 @@
                                         <div class="info-line">
                                             <span class="info-label">MF:</span>
                                             <span class="info-value">{{$parcel->company->mf}}</span>
-                                        </div>                                        
-                                        <div class="info-line">
+ 
                                             <span class="info-label">Tél:</span>
                                             <span class="info-value">{{$parcel->company->phone}}</span>
                                         </div>

@@ -14,23 +14,7 @@
             </a>
         </div>
     </div>
-    
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-    
+        
     <div class="card">
         <div class="card-body">
             <form action="{{ route('delivery-companies.update', $deliveryCompany->id) }}" method="POST">
