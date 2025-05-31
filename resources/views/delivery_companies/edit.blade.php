@@ -60,9 +60,9 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="manager_name" class="form-label">Nom du responsable</label>
-                            <input type="text" class="form-control @error('manager_name') is-invalid @enderror" id="manager_name" name="manager_name" value="{{ old('manager_name', $deliveryCompany->manager_name) }}">
-                            @error('manager_name')
+                            <label for="mf" class="form-label">Matricule fiscale</label>
+                            <input type="text" class="form-control @error('mf') is-invalid @enderror" id="mf" name="mf" value="{{ old('mf', $deliveryCompany->mf) }}">
+                            @error('mf')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

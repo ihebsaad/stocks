@@ -345,7 +345,7 @@
                 </td>
                 <td>
                     <div class="document-title">
-                        <h1>BL {{ $parcel->id}}</h1>
+                        <h1>Bon de Livraison {{ $parcel->id}}</h1>
                         <div class="date-sys">Date : {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
                     </div>
                 </td>
@@ -426,6 +426,10 @@
                                         </div>
                                     </td>
                                     <td class="text-right">
+                                        <div class="info-line">
+                                            <span class="info-label">MF:</span>
+                                            <span class="info-value">{{$parcel->company->mf}}</span>
+                                        </div>                                        
                                         <div class="info-line">
                                             <span class="info-label">Tél:</span>
                                             <span class="info-value">{{$parcel->company->phone}}</span>

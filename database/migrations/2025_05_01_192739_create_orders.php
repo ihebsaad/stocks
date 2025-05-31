@@ -18,7 +18,7 @@ class CreateOrders extends Migration
             $table->id();
             $table->string('name');
             $table->decimal('delivery_price', 10, 3);
-            $table->string('manager_name')->nullable();
+            $table->string('mf')->nullable();
             $table->string('phone')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -33,7 +33,6 @@
                             <th>ID</th>
                             <th>Nom</th>
                             <th>Prix de livraison</th>
-                            <th>Nom du responsable</th>
                             <th>Téléphone</th>
                             <th>Date de création</th>
                             <th>Actions</th>
@@ -63,7 +62,6 @@ $(function() {
             { data: 'id', name: 'id' },
             { data: 'name', name: 'name' },
             { data: 'delivery_price_formatted', name: 'delivery_price' },
-            { data: 'manager_name', name: 'manager_name' },
             { data: 'phone', name: 'phone' },
             { data: 'created_at_formatted', name: 'created_at' },
             { data: 'action', name: 'action', orderable: false, searchable: false }

@@ -69,7 +69,7 @@ class DeliveryCompanyController extends Controller
         $request->validate([
             'name' => 'required|string|max:255|unique:delivery_companies',
             'delivery_price' => 'required|numeric|min:0',
-            'manager_name' => 'nullable|string|max:255',
+            'mf' => 'nullable|string|max:30',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
         ]);
@@ -79,7 +79,7 @@ class DeliveryCompanyController extends Controller
             DeliveryCompany::create([
                 'name' => $request->name,
                 'delivery_price' => $request->delivery_price,
-                'manager_name' => $request->manager_name,
+                'mf' => $request->mf,
                 'phone' => $request->phone,
                 'address' => $request->address,
             ]);
@@ -111,7 +111,7 @@ class DeliveryCompanyController extends Controller
         $request->validate([
             'name' => 'required|string|max:255|unique:delivery_companies,name,' . $deliveryCompany->id,
             'delivery_price' => 'required|numeric|min:0',
-            'manager_name' => 'nullable|string|max:255',
+            'mf' => 'nullable|string|max:30',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
             'is_active' => 'nullable|boolean',
@@ -126,7 +126,7 @@ class DeliveryCompanyController extends Controller
             $deliveryCompany->update([
                 'name' => $request->name,
                 'delivery_price' => $request->delivery_price,
-                'manager_name' => $request->manager_name,
+                'mf' => $request->mf,
                 'phone' => $request->phone,
                 'address' => $request->address,
                 'is_active' => $request->has('is_active') ? 1 : 0,

@@ -13,7 +13,7 @@ class DeliveryCompany extends Model
     protected $fillable = [
         'name',
         'delivery_price',
-        'manager_name',
+        'mf',
         'phone',
         'address',
         'api_url_dev',
