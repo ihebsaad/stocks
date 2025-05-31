@@ -456,7 +456,7 @@
                             {!! $parcel->service == 'Livraison' ? '<strong>Livraison</strong>' : '<em><i class="fas fa-exchange-alt"></i> Échange</em>' !!}
                         </span>
                         @if ($parcel->order->free_delivery)
-                            <span class="badge bg-success">Gratuite</span>
+                            <span class="badge bg-success ml-2">Gratuite</span>
                         @endif
                     </div>
                     <table class="table table-striped mt-4" style="width:100%;text-align:center">
