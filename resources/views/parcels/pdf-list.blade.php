@@ -119,14 +119,14 @@
                     <input type="checkbox" />
                 </td>                
                 <td>
-                    <span class="reference bg-{{$parcel->company->id}}">
-                        {{ $parcel->reference ?: '#' . $parcel->id }}
-                    </span>
                     <div class="barcode">
                         <div class="barcode-container">
                             {!! $barcodes[$parcel->id] ?? '' !!}
                         </div>
-                    </div>                    
+                    </div>    
+                    <span class="reference bg-{{$parcel->company->id}}">
+                        {{ $parcel->reference ?: '#' . $parcel->id }}
+                    </span>                
                 </td>
                 <td>
                     <div class="client-info">
