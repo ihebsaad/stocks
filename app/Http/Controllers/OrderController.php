@@ -198,73 +198,82 @@ class OrderController extends Controller
             });
         }
 
-        $dataTable->filter(function ($query) use ($request) {
-            // Filtre global (recherche dans toutes les colonnes)
-            if ($request->has('search') && !empty($request->search['value'])) {
-                $search = $request->search['value'];
-                $query->where(function($q) use ($search) {
-                    $q->where('id', 'like', "%{$search}%")
-                      ->orWhereHas('client', function($q) use ($search) {
-                          $q->where('first_name', 'like', "%{$search}%")
-                            ->orWhere('last_name', 'like', "%{$search}%")
-                            ->orWhere('phone', 'like', "%{$search}%");
-                      })
-                      ->orWhereHas('deliveryCompany', function($q) use ($search) {
-                          $q->where('name', 'like', "%{$search}%");
-                      })
-                      ->orWhereHas('user', function($q) use ($search) {
-                          $q->where('name', 'like', "%{$search}%");
-                      });
-                });
-            }
+            $dataTable->filter(function ($query) use ($request) {
+                // Filtre global (recherche dans toutes les colonnes)
+                if ($request->has('search') && !empty($request->search['value'])) {
+                    $search = $request->search['value'];
+                    $query->where(function($q) use ($search) {
+                        $q->where('id', 'like', "%{$search}%")
+                        ->orWhereHas('client', function($q) use ($search) {
+                            $q->where('first_name', 'like', "%{$search}%")
+                                ->orWhere('last_name', 'like', "%{$search}%")
+                                ->orWhere('phone', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('deliveryCompany', function($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('user', function($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        })
+                        // Ajout de la recherche par date formatée
+                        ->orWhereRaw("DATE_FORMAT(created_at, '%d/%m/%Y') LIKE ?", ["%{$search}%"])
+                        ->orWhereRaw("DATE_FORMAT(created_at, '%d/%m/%Y %H:%i') LIKE ?", ["%{$search}%"]);
+                    });
+                }
 
-            // Filtre spécifique par statut
-            if ($request->has('status') && !empty($request->status)) {
-                $query->where('status', $request->status);
-            }
-            
-            // Filtre par société de livraison
-            if ($request->has('delivery_company') && !empty($request->delivery_company)) {
-                $query->where('delivery_company_id', $request->delivery_company);
-            }
-            
-            // Filtre par utilisateur
-            if ($request->has('user_id') && !empty($request->user_id)) {
-                $query->where('user_id', $request->user_id);
-            }
-            
-            // Filtres par colonne individuelle
-            if ($request->has('columns')) {
-                foreach ($request->columns as $column) {
-                    if ($column['searchable'] == 'true' && !empty($column['search']['value'])) {
-                        $search = $column['search']['value'];
-                        switch ($column['name']) {
-                            case 'id':
-                                $query->where('id', 'like', "%{$search}%");
-                                break;
-                            case 'client_name':
-                                $query->whereHas('client', function($q) use ($search) {
-                                    $q->where('first_name', 'like', "%{$search}%")
-                                      ->orWhere('last_name', 'like', "%{$search}%")
-                                      ->orWhere('phone', 'like', "%{$search}%");
-                                });
-                                break;
-                            case 'service_type_formatted':
-                                $query->where('service_type', 'like', "%{$search}%");
-                                break;
-                            case 'delivery_company_info':
-                                $query->whereHas('deliveryCompany', function($q) use ($search) {
-                                    $q->where('name', 'like', "%{$search}%");
-                                });
-                                break;
-                            case 'status_formatted':
-                                $query->where('status', 'like', "%{$search}%");
-                                break;
+                // Filtre spécifique par statut
+                if ($request->has('status') && !empty($request->status)) {
+                    $query->where('status', $request->status);
+                }
+                
+                // Filtre par société de livraison
+                if ($request->has('delivery_company') && !empty($request->delivery_company)) {
+                    $query->where('delivery_company_id', $request->delivery_company);
+                }
+                
+                // Filtre par utilisateur
+                if ($request->has('user_id') && !empty($request->user_id)) {
+                    $query->where('user_id', $request->user_id);
+                }
+                
+                // Filtres par colonne individuelle
+                if ($request->has('columns')) {
+                    foreach ($request->columns as $column) {
+                        if ($column['searchable'] == 'true' && !empty($column['search']['value'])) {
+                            $search = $column['search']['value'];
+                            switch ($column['name']) {
+                                case 'id':
+                                    $query->where('id', 'like', "%{$search}%");
+                                    break;
+                                case 'client_name':
+                                    $query->whereHas('client', function($q) use ($search) {
+                                        $q->where('first_name', 'like', "%{$search}%")
+                                        ->orWhere('last_name', 'like', "%{$search}%")
+                                        ->orWhere('phone', 'like', "%{$search}%");
+                                    });
+                                    break;
+                                case 'service_type_formatted':
+                                    $query->where('service_type', 'like', "%{$search}%");
+                                    break;
+                                case 'delivery_company_info':
+                                    $query->whereHas('deliveryCompany', function($q) use ($search) {
+                                        $q->where('name', 'like', "%{$search}%");
+                                    });
+                                    break;
+                                case 'status_formatted':
+                                    $query->where('status', 'like', "%{$search}%");
+                                    break;
+                                case 'created_at': // Ajout du cas pour la recherche par date
+                                    $query->where(function($q) use ($search) {
+                                        $q->whereRaw("DATE_FORMAT(created_at, '%d/%m/%Y') LIKE ?", ["%{$search}%"])
+                                        ->orWhereRaw("DATE_FORMAT(created_at, '%d/%m/%Y %H:%i') LIKE ?", ["%{$search}%"]);
+                                    });
+                                    break;
+                            }
                         }
                     }
                 }
-            }
-        })
+            })
 
         ->addColumn('action', function ($order) {
                     $buttons = '';
@@ -277,29 +286,7 @@ class OrderController extends Controller
                     $buttons .= '</form>';
                     return $buttons;
         });
-/*
-        ->addColumn('action', function ($order) use ($isArchive) {
-            $buttons = '';
-            
-            if (!$isArchive) {
-                // Actions pour les commandes en cours
-                $buttons .= '<a href="' . route('orders.edit', $order->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
-                $buttons .= '<form action="' . route('orders.destroy', $order->id) . '" method="POST" style="display:inline;" class="mr-1">';
-                $buttons .= csrf_field();
-                $buttons .= method_field('DELETE');
-                $buttons .= '<button type="submit" class="btn btn-sm btn-danger mb-1" title="Supprimer" onclick="return confirm(\'Êtes-vous sûr?\')"><i class="fas fa-trash"></i></button>';
-                $buttons .= '</form>';
-            } else {
-                // Actions pour les archives (consultation uniquement)
-                $buttons .= '<a href="' . route('orders.show', $order->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
-                if ($order->parcel) {
-                    $buttons .= '<a href="' . route('parcels.show', $order->parcel->id) . '" class="btn btn-sm btn-success mr-1 mb-1" title="Voir le colis"><i class="fas fa-box"></i></a>';
-                }
-            }
-            
-            return $buttons;
-        });
-*/
+
         $rawColumns = ['client_name', 'service_type_formatted', 'delivery_company_info', 'status_formatted', 'created_at_formatted', 'action'];
         
         if ($isArchive) {
