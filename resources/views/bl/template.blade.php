@@ -203,6 +203,7 @@
 
         .bg-success {
             background-color:#5cb85c;
+            color:white;
         }
         .badge {
             display: inline-block;
