@@ -64,7 +64,9 @@
             <h2>Liste des Colis</h2>
         </div>
         <div class="col-md-6 text-end">
- 
+ {{ route('parcels.generatePdf') }}
+
+
         </div>
     </div>
     
