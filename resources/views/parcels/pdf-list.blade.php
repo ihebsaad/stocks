@@ -104,10 +104,7 @@
                 <td>
                     <span class="reference">
                         {{ $parcel->reference ?: '#' . $parcel->id }}
-                        @php 
-                        $generator = new \Milon\Barcode\DNS1D();
-                        echo $generator->getBarcodeHTML($reference, 'C128', 2, 35);
-                        @endphp
+
                     </span>
                 </td>
                 <td>
