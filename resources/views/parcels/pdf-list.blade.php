@@ -149,7 +149,7 @@
                 </td>
                 <td>
                     @foreach($parcel->order->items as  $item)
-                        <small>{{$item->product->name}}  X {{$item->quantity}}</small><br>
+                        <small>{{$item->product->name}}  ({{$item->quantity}})</small><br>
                     @endforeach
                     @if($parcel->remarque!='')<br><b style="color:#d1202a">{{$parcel->remarque}}</b> @endif
                 </td>
