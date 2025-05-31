@@ -175,8 +175,9 @@
             </tr>
         </tfoot>
     </table>
-
+<!--
     <div class="footer">
     </div>
+-->
 </body>
 </html>
