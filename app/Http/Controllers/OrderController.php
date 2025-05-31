@@ -492,7 +492,7 @@ class OrderController extends Controller
             'service_type' => 'required|in:Livraison,Echange',
             'delivery_company_id' => 'nullable|exists:delivery_companies,id',
             'free_delivery' => 'nullable|boolean',
-            'status' => 'required|in:draft,pending,production,no_response,cancelled,confirmed,not_available',
+            'status' => 'required|in:draft,pending,production,no_response,no_stock,cancelled,confirmed,not_available',
             'status_comment' => 'nullable|string',
             'notes' => 'nullable|string',
             'items' => 'required|array',
