@@ -147,7 +147,7 @@
         <tfoot>
             <tr style="background-color: #e9ecef; font-weight: bold;">
                 <td class="text-center">{{ $total_count }}</td>
-                <td colspan="4" class="text-right">Total COD:</td>
+                <td colspan="5" class="text-right">Total COD:</td>
                 <td class="text-right">
                     <span class="cod">{{ number_format($parcels->sum('cod'), 2) }} <sup>TND</sup></span>
                 </td>
