@@ -458,21 +458,7 @@
                             <span class="info-label">Nom:</span>
                             <span class="info-value">{{ $parcel->nom_client }}</span>
                         </div>
-                    </td>
-                    <td>
-                        <div class="info-line">
-                            <span class="info-label">Tél:</span>
-                            <span class="info-value">{{ $parcel->tel_l }}</span>
-                        </div>
-                    </td>
-                    <td>
-                        @if($parcel->tel2_l!='')
-                        <div class="info-line">
-                            <span class="info-label">Tél2:</span>
-                            <span class="info-value">{{ $parcel->tel2_l }}</span>
-                        </div>
-                        @endif
-                    </td>                    
+                    </td>                  
                     <td>
                         <div class="info-line">
                             <span class="info-label">Ville:</span>
@@ -485,15 +471,28 @@
                             <span class="info-value">{{ $parcel->gov_l }}</span>
                         </div>
                     </td>
+                    <td>
+                        @if($parcel->tel2_l!='')
+                        <div class="info-line">
+                            <span class="info-label">Tél2:</span>
+                            <span class="info-value">{{ $parcel->tel2_l }}</span>
+                        </div>
+                        @endif
+                    </td>                      
                 </tr>
                 <tr>
-                    <td colspan="5">
+                    <td>
+                        <div class="info-line">
+                            <span class="info-label">Tél:</span>
+                            <span class="info-value">{{ $parcel->tel_l }}</span>
+                        </div>
+                    </td>
+                    <td colspan="4">
                         <div class="info-line">
                             <span class="info-label">Adresse:</span>
                             <span class="info-value">{{ $parcel->adresse_l }}</span>
                         </div>
                     </td>
-
                 </tr>
                 <tr>
                     <td colspan="5">
