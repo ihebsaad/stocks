@@ -71,6 +71,11 @@
             font-weight: bold;
             color: #28a745;
         }
+        sup, sub {
+        vertical-align: baseline;
+        position: relative;
+        top: -0.4em;
+        }
     </style>
 </head>
 <body>
@@ -89,7 +94,8 @@
             <tr>
                 <th width="5%">#</th>
                 <th width="15%">Référence</th>
-                <th width="20%">Client</th>
+                <th width="15%">Client</th>
+                <th width="10%">Tél</th>
                 <th width="10%">Nb Pièces</th>
                 <th width="25%">Libellé</th>
                 <th width="10%">COD</th>
@@ -99,7 +105,8 @@
             @foreach($parcels as $index => $parcel)
             <tr>
                 <td class="text-center">
-                    {{ $index + 1 }}
+                    {{ $index + 1 }}<br>
+                    <input type="checkbox" />
                 </td>                
                 <td>
                     <span class="reference">
@@ -115,12 +122,14 @@
                             {{ $parcel->order->client->full_name }}
                         @else
                             <em>Non défini</em>
-                        @endif
-                        {{ $parcel->tel_l ?: ($parcel->order && $parcel->order->client ? $parcel->order->client->phone : '-') }}
-                        @if($parcel->tel2_l)
-                            <br><small>{{ $parcel->tel2_l }}</small>
-                        @endif                        
+                        @endif                      
                     </div>
+                </td>                
+                <td>
+                    {{ $parcel->tel_l ?: ($parcel->order && $parcel->order->client ? $parcel->order->client->phone : '-') }}
+                    @if($parcel->tel2_l)
+                        <br><small>{{ $parcel->tel2_l }}</small>
+                    @endif 
                 </td>
                 <td class="text-center">
                     {{ $parcel->nb_piece ?: '1' }}
@@ -129,7 +138,7 @@
                     {{ $parcel->libelle ?: $parcel->remarque ?: '-' }}
                 </td>
                 <td class="text-right">
-                    <span class="cod">{{ number_format($parcel->cod, 2) }} <sup>TND</sup></span>
+                    <span class="cod">{{ number_format($parcel->cod, 2) }} <sup>TND</sup></span>
                 </td>
 
             </tr>
@@ -140,7 +149,7 @@
                 <td class="text-center">{{ $total_count }}</td>
                 <td colspan="4" class="text-right">Total COD:</td>
                 <td class="text-right">
-                    <span class="cod">{{ number_format($parcels->sum('cod'), 2) }} <sup>TND</sup></span>
+                    <span class="cod">{{ number_format($parcels->sum('cod'), 2) }} <sup>TND</sup></span>
                 </td>
             </tr>
         </tfoot>
