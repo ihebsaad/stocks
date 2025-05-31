@@ -106,7 +106,7 @@
                 <th width="15%">Référence</th>
                 <th width="15%">Client</th>
                 <th width="10%">Tél</th>
-                <th width="25%">Articles</th>
+                <th width="35%">Articles</th>
                 <th width="10%">COD</th>
             </tr>
         </thead>
@@ -166,7 +166,7 @@
         <tfoot>
             <tr style="background-color: #e9ecef; font-weight: bold;">
                 <td class="text-center">{{ $total_count }}</td>
-                <td colspan="5" class="text-right">Total COD:</td>
+                <td colspan="4" class="text-right">Total COD:</td>
                 <td class="text-right">
                     <span class="cod">{{ number_format($parcels->sum('cod'), 2) }} <sup>TND</sup></span>
                 </td>
