@@ -330,7 +330,7 @@
             text-align:right;
         }
         .transporteur,.expediteur{
-            min-height: 30px;
+            min-height: 45px;
         }
     </style>
 </head>
