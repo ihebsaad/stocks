@@ -92,10 +92,10 @@
     </div>
     -->
     <div class="" style="width:100%">
-        <div class="logo">
+        <div class="logo" style="width:50%">
             <img src="{{ asset('img/logo.png')}}" style="width:120px" />
         </div>
-        <div class="info">
+        <div class="info" style="width:50%">
             <strong>Généré le:</strong> {{ $generated_at }}<br>
             <strong>Nombre total:</strong> {{ $total_count }} colis
         </div>
