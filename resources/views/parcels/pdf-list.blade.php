@@ -125,8 +125,9 @@
                         </div>
                     </div>    
                     <span class="reference bg-{{$parcel->company->id}}">
-                        {{ $parcel->reference ?: '#' . $parcel->id }}
-                    </span>                
+                        {{ $parcel->reference ?? '' }} 
+                    </span>   
+                    - {{'#' . $parcel->id}}             
                 </td>
                 <td>
                     <div class="client-info">
