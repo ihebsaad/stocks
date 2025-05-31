@@ -457,7 +457,7 @@
                         </span>
                         @if ($parcel->order->free_delivery)
                             <span class="badge bg-success">Gratuite</span>
-                        @else
+                        @endif
                     </div>
                     <table class="table table-striped mt-4" style="width:100%;text-align:center">
                         <thead><tr><th>DESIGNATION</th><th>PU</th><th>QTE</th><th>TOT</th></tr></thead>
