@@ -148,7 +148,9 @@
                     {{ $parcel->nb_piece ?: '1' }}
                 </td>
                 <td>
-                    {{ $parcel->libelle }}
+                    @foreach($parcel->order->items as  $item)
+                        <small>{{$item->product->name}}  X {{$item->quantity}}</small>
+                    @endforeach
                     @if($parcel->remarque!='')<br><b style="color:#d1202a">{{$parcel->remarque}}</b> @endif
                 </td>
                 <td class="text-right">
