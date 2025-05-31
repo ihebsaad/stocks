@@ -62,8 +62,7 @@
         }
         .reference {
             font-weight: bold;
-            color: #0066cc;
-        }
+         }
         .client-info {
             line-height: 1.2;
         }
@@ -76,14 +75,20 @@
         position: relative;
         top: -0.4em;
         }
+        .bg-1{ color: #0da598;  }
+        .bg-2{ color: #ef6f28;  }
+        .bg-3{ color: #227ac2;  }
+        .bg-4{ color: #6c757d;  }
+        .bg-5{ color: #fd9883;  }
+
     </style>
 </head>
 <body>
-    
+    <!--
     <div class="header">
         <h1>Liste des colis ...</h1>
     </div>
-    
+    -->
     <div class="info">
         <strong>Généré le:</strong> {{ $generated_at }}<br>
         <strong>Nombre total:</strong> {{ $total_count }} colis
@@ -109,7 +114,7 @@
                     <input type="checkbox" />
                 </td>                
                 <td>
-                    <span class="reference">
+                    <span class="reference bg-{{$parcel->company->id}}">
                         {{ $parcel->reference ?: '#' . $parcel->id }}
                     </span>
                     <div class="barcode">
@@ -126,7 +131,12 @@
                             {{ $parcel->order->client->full_name }}
                         @else
                             <em>Non défini</em>
-                        @endif                      
+                        @endif 
+                        @php
+                        if ($parcel->service && $parcel->service!='Livraison') {
+                            echo ' <span class="badge bg-danger"><i class="fas fa-exchange-alt"></i> Échange</span>'; 
+                        }   
+                        @endphp                   
                     </div>
                 </td>                
                 <td>

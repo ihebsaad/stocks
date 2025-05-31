@@ -202,7 +202,7 @@ class ParcelController extends Controller
             
             foreach ($parcels as $parcel) {
                 $reference = $parcel->reference ?: '#' . $parcel->id;
-                $barcodes[$parcel->id] = $generator->getBarcodeHTML($reference, 'C128', 1.5, 30);
+                $barcodes[$parcel->id] = $generator->getBarcodeHTML($reference, 'C128', 1.2, 30);
             }
 
             $data = [
