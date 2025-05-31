@@ -419,6 +419,7 @@
                             <table>
                                 <tr >
                                     <td>
+                                        @if($parcel->company->id==3) <span class="info-label">Société TGM</span> @endif
                                         <div class="transporteur-section">
                                             <span class="company-badge bg-{{ $parcel->company->id }}">
                                                 {{ strtoupper($parcel->company->name) }}
@@ -426,8 +427,7 @@
                                         </div>
                                     </td>
                                     <td class="text-right">
-                                        <div class="info-line">
-                                            @if($parcel->company->id==3) <span class="info-label">Société TGM</span> @endif  
+                                        <div class="info-line">                                            
                                             <span class="info-label">MF:</span>
                                             <span class="info-value">{{$parcel->company->mf}}</span>
                                              
