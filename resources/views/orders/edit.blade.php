@@ -591,7 +591,7 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <textarea name="notes" id="notes" class="form-control @error('notes') is-invalid @enderror" rows="3">{{ old('notes', $order->notes) }}</textarea>
+                        <textarea name="notes" id="notes" class="form-control @error('notes') is-invalid  @enderror"  data-order-id="{{ $order->id }}" rows="3">{{ old('notes', $order->notes) }}</textarea>
                             @error('notes')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
