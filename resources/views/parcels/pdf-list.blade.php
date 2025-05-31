@@ -78,6 +78,7 @@
         vertical-align: baseline;
         position: relative;
         top: -0.4em;
+        font-size:9px;
         }
         .bg-1{ color: #0da598;  }
         .bg-2{ color: #ef6f28;  }
@@ -156,7 +157,7 @@
                     @foreach($parcel->order->items as  $item)
                         <small>{{$item->product->name}}  ({{$item->quantity}})</small><br>
                     @endforeach
-                    @if($parcel->remarque!='')<br><b style="color:#d1202a">{{$parcel->remarque}}</b> @endif
+                    @if($parcel->remarque!='')<b style="color:#d1202a">{{$parcel->remarque}}</b> @endif
                 </td>
                 <td class="text-right">
                     <span class="cod">{{ number_format($parcel->cod, 2) }} </span>
@@ -168,8 +169,8 @@
         <tfoot>
             <tr style="background-color: #e9ecef; font-weight: bold;">
                 <td class="text-center">{{ $total_count }}</td>
-                <td colspan="4" class="text-right">Total COD:</td>
-                <td colspan="2" class="text-right">
+                <td colspan="5" class="text-right">Total COD:</td>
+                <td class="text-right">
                     <span class="cod">{{ number_format($parcels->sum('cod'), 2) }} <sup>TND</sup></span>
                 </td>
             </tr>
