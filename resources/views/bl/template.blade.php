@@ -514,8 +514,8 @@
                     <td class="amount">{{ number_format($parcel->company->delivery_price, 2) }} <span class="currency">TND</span></td>
                 </tr>                
                 <tr class="total-row">
-                    <td colspan="3" style="text-align: right;">COD:</td>
-                    <td class="amount">{{ number_format($parcel->cod, 2) }} <span class="currency">TND</span></td>
+                    <td colspan="3" style="text-align: right;"><b>COD:</b></td>
+                    <td class="amount"><b>{{ number_format($parcel->cod, 2) }} <span class="currency">TND</span></b></td>
                 </tr>
             </tbody>
         </table>
