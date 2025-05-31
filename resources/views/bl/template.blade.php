@@ -498,6 +498,10 @@
             <tbody>
                 @php $total = 0; @endphp
                 @foreach($parcel->order->items as $item)
+                @php 
+                    $itemTotal = $item->unit_price * $item->quantity;
+                    $total += $itemTotal;
+                @endphp
                 <tr>
                     <td class="designation">{{ $item->product->name }}</td>
                     <td>{{ number_format($item->unit_price, 2) }}</td>
