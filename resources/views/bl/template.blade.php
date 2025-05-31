@@ -289,7 +289,7 @@
         }
         .verybold{
             font-weight: 900!important;
-            font-size: 16px;
+            font-size: 14px;
         }
         .currency {
             font-size: 6px;
