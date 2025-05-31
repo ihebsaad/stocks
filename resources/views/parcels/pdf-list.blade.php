@@ -26,7 +26,7 @@
             text-align: left;
         }
         .info {
-            margin-top:-50px;
+            margin-top:-30px;
             margin-bottom: 20px;
             text-align: right;
             color: #666;
