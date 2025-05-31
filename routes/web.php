@@ -95,7 +95,7 @@ Route::prefix('stock')->name('stock.')->group(function () {
 
 
 
-
+Route::patch('/orders/{order}/update-notes', [OrderController::class, 'updateNotes'])->name('orders.update-notes');
 Route::delete('orders/delete-image/{id}', [OrderController::class, 'deleteImage'])->name('orders.delete-image');
 
 // Routes API pour la gestion des clients

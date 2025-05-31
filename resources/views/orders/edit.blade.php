@@ -745,7 +745,7 @@ $(document).ready(function() {
 
 
 // Si aucun produit n'est présent, en ajouter un par défaut
-if ($('.product-item').length === 0) {
+    if ($('.product-item').length === 0) {
         addProductItem();
     }
     
@@ -861,7 +861,51 @@ if ($('.product-item').length === 0) {
     // Initialiser les totaux au chargement
     updateTotals();
 
+    $('#notes').on('change', function() {
+        const orderId = $(this).data('order-id');
+        const notes = $(this).val();
+        const feedback = $('#notes-feedback');
+        const textarea = $(this);
 
+        // Visual feedback pendant la sauvegarde
+        textarea.addClass('border-warning');
+        feedback.html('<small class="text-warning"><i class="fas fa-spinner fa-spin"></i> Sauvegarde en cours...</small>');
+
+        $.ajax({
+            url: `/orders/${orderId}/update-notes`,
+            method: 'PATCH',
+            data: {
+                notes: notes,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                textarea.removeClass('border-warning').addClass('border-success');
+                feedback.html('<small class="text-success"><i class="fas fa-check"></i> Notes sauvegardées</small>');
+                
+                // Effacer le message après 3 secondes
+                setTimeout(function() {
+                    textarea.removeClass('border-success');
+                    feedback.html('');
+                }, 3000);
+            },
+            error: function(xhr) {
+                textarea.removeClass('border-warning').addClass('border-danger');
+                
+                let errorMessage = 'Erreur lors de la sauvegarde';
+                if (xhr.responseJSON && xhr.responseJSON.errors && xhr.responseJSON.errors.notes) {
+                    errorMessage = xhr.responseJSON.errors.notes[0];
+                }
+                
+                feedback.html(`<small class="text-danger"><i class="fas fa-exclamation-triangle"></i> ${errorMessage}</small>`);
+                
+                // Effacer le message d'erreur après 5 secondes
+                setTimeout(function() {
+                    textarea.removeClass('border-danger');
+                    feedback.html('');
+                }, 5000);
+            }
+        });
+    });
 
 }); //document ready
 

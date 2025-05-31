@@ -518,7 +518,6 @@ class OrderController extends Controller
                     'delegation' => $request->delegation,
                     'address' => $request->address,
                     'postal_code' => $request->postal_code,
-                    'notes' => $request->notes,
                 ]);
             }
             
