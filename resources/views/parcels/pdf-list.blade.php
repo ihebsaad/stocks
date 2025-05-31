@@ -107,7 +107,7 @@
                 <th width="15%">Client</th>
                 <th width="10%">Tél</th>
                 <th width="35%">Articles</th>
-                <th width="10%">COD</th>
+                <th class="text-right" width="10%">COD</th>
             </tr>
         </thead>
         <tbody>
