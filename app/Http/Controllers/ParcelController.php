@@ -162,7 +162,9 @@ class ParcelController extends Controller
                             })
                             ->orWhereHas('company', function($q) use ($search) {
                                 $q->where('name', 'like', "%{$search}%");
-                            });
+                            })
+                            ->orWhereRaw("DATE_FORMAT(created_at, '%d/%m/%Y') LIKE ?", ["%{$search}%"])
+                            ->orWhereRaw("DATE_FORMAT(created_at, '%d/%m/%Y %H:%i') LIKE ?", ["%{$search}%"]);
                         });
                     }
 
