@@ -153,7 +153,7 @@ class OrderController extends Controller
             ->addColumn('delivery_company_info', function ($order) {
                 if ($order->deliveryCompany) {
                     if (isset($order->parcel)) {
-                        $result = '<span class="badge bg-'.$order->deliveryCompany->id.'">'.ucfirst($order->deliveryCompany->name).' <a href="' . route('parcels.show', $order->parcel->id) . '"  >'.$order->parcel->reference.'</a></span> ';
+                        $result = '<span class="badge bg-'.$order->deliveryCompany->id.'">'.ucfirst($order->deliveryCompany->name).' <a style="color:white" href="' . route('parcels.show', $order->parcel->id) . '"  >'.$order->parcel->reference.'</a></span> ';
                     }else{
                         $result =  '<span class="badge bg-'.$order->deliveryCompany->id.'">'.ucfirst($order->deliveryCompany->name).'</span> ' ;
                     }
