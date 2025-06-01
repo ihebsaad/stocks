@@ -156,6 +156,9 @@ class OrderController extends Controller
                     if ($order->free_delivery) {
                         $result .= ' <span class="badge bg-success">Gratuite</span>';
                     }
+                    if (isset($order->parcel)) {
+                        $result .= '<br><a href="' . route('parcels.show', $order->parcel->id) . '"  >'.$order->parcel->reference.'</a>';
+                    }
                     return $result;
                 }
                 return '<span class="text-muted">-</span>';
