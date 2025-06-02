@@ -96,6 +96,15 @@
 				<div class="dashboard-stat-icon"><i class="fas fa-address-card"></i></div>
 			</div>
 		</div>
+
+		<div class="col-lg-3 col-md-6">
+			<div class="dashboard-stat color-4">
+				<div class="dashboard-stat-content"><a href="{{route('parcels.index')}}" >
+						<h4>{{$colis}}</h4> <span>Colis</span>
+					</a></div>
+				<div class="dashboard-stat-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+			</div>
+		</div>
 		@can('isAdmin')
 		<!-- Item -->
 		<div class="col-lg-3 col-md-6">

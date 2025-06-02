@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\Customer;
 use App\Models\Item;
 use App\Models\Order;
+use App\Models\Parcel;
 use App\Models\Product;
 use App\Models\Reglement;
 use Carbon\Carbon;
@@ -34,8 +35,9 @@ class HomeController extends Controller
          
         $commandes=Order::count();
         $produits=Product::count();
+        $colis=Parcel::count();
 
-        return view('home',compact('commandes','produits'));
+        return view('home',compact('commandes','produits','colis'));
  
     }
 
