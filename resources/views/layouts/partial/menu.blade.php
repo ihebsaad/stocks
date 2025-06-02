@@ -103,7 +103,7 @@
               </li>
               <li class="nav-item">
                 <a href="{{route('parcels.index')}}" class="nav-link {{ request()->is('parcels')  ? 'active' : '' }}">
-                  <i class="fas fa-truck nav-icon text-secondary"></i>
+                  <i class="fas fa-box nav-icon text-secondary"></i>
                   <p>Liste des colis</p>
                 </a>
               </li>

@@ -102,7 +102,7 @@
 				<div class="dashboard-stat-content"><a href="{{route('parcels.index')}}" >
 						<h4>{{$colis}}</h4> <span>Colis</span>
 					</a></div>
-				<div class="dashboard-stat-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+				<div class="dashboard-stat-icon"><i class="fas fa-box"></i></div>
 			</div>
 		</div>
 		@can('isAdmin')
