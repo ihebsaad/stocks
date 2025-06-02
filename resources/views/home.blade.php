@@ -112,7 +112,7 @@
 				<div class="dashboard-stat-content"><a href="{{route('products.index')}}">
 						<h4>{{$produits}}</h4> <span>Produits</span>
 					</a></div>
-				<div class="dashboard-stat-icon"><i class="fas fa-cubes"></i></div>
+				<div class="dashboard-stat-icon"><i class="fas fa-couch"></i></div>
 			</div>
 		</div>
 		@endcan

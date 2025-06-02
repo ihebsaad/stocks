@@ -109,7 +109,7 @@
               </li>
               <li class="nav-item">
                 <a href="{{route('products.index')}}" class="nav-link {{ request()->is('products')  ? 'active' : '' }}">
-                  <i class="fas fa-cube nav-icon text-secondary"></i>
+                  <i class="fas fa-couch nav-icon text-secondary"></i>
                   <p>Produits</p>
                 </a>
               </li>
