@@ -97,7 +97,7 @@
               </li>
               <li class="nav-item">
                 <a href="{{route('orders.current')}}" class="nav-link {{ request()->is('orders-current')  ? 'active' : '' }}">
-                  <i class="fas fa-shopping-cart nav-icon text-secondary"></i>
+                  <i class="fas fa-store nav-icon text-secondary"></i>
                   <p>Archive de commandes</p>
                 </a>
               </li>
