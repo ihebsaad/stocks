@@ -91,7 +91,7 @@ class DeliveryService
             // 🎯 Droppex → pas de /list, on doit faire un get par colis
             $parcels = Parcel::where('delivery_company_id', $this->company->id)
                         ->whereNotNull('reference')
-                        ->where('dernier_etat', '!=', 'Payé')
+                        //->where('dernier_etat', '!=', 'Payé')
                         ->get();
 
             foreach ($parcels as $parcel) {
@@ -138,7 +138,7 @@ class DeliveryService
             if (!$code || !$etat) continue;
 
             $parcel = Parcel::where('reference', $code)
-            ->where('dernier_etat', '!=', 'Payé')
+            //->where('dernier_etat', '!=', 'Payé')
             ->first();
             
             if (!$parcel) continue;
