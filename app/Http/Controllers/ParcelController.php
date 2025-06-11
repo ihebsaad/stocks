@@ -26,13 +26,20 @@ class ParcelController extends Controller
         return view(view: 'parcels.index');
     }
 
-    public function store(Order $order)
+   public function store(Order $order)
     {
         $client = $order->client;
         $deliveryCompany = $order->deliveryCompany;
 
         if (!$deliveryCompany) {
             return back()->with('error', 'Aucune société de livraison sélectionnée.');
+        }
+
+        // Vérifier le stock AVANT de créer le colis
+        try {
+            $this->checkStockAvailability($order);
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
 
         // Créer l'enregistrement local Parcel
@@ -52,15 +59,13 @@ class ParcelController extends Controller
             'ville_cl' => $client->city ?? '',
         ]);
 
-        if($parcel->id>0){ 
+        if($parcel->id > 0) {
             // Envoyer à l'API
             $deliveryService = new DeliveryService($deliveryCompany);
             $apiResponse = $deliveryService->createParcel($parcel->toArray());
 
             if (isset($apiResponse['reference'])) {
-
-                // mise a jour statut ici
-
+                // Mise à jour du statut
                 $parcel->update([
                     'status' => 'envoyé',
                     'reference' => $apiResponse['reference'],
@@ -68,19 +73,85 @@ class ParcelController extends Controller
                     'api_message' => $apiResponse['message'] ?? null,
                 ]);
 
-                foreach ($parcel->order->items as $item) {
-                    $this->deductFromStock($item);
+                // Déduire du stock SEULEMENT après succès de l'API
+                try {
+                    foreach ($parcel->order->items as $item) {
+                        $this->deductFromStock($item);
+                    }
+                } catch (\Exception $e) {
+                    // Si erreur lors de la déduction, on peut restaurer ou gérer l'erreur
+                    return back()->with('error', 'Erreur lors de la déduction du stock: ' . $e->getMessage());
                 }
 
                 return back()->with('success', 'Colis créé et envoyé avec succès. Réf: ' . $parcel->reference);
             } else {
                 return back()->with('error', 'Erreur API: ' . json_encode($apiResponse));
             }
-
-        }else{
-            return back()->with('error', 'Erreur lors de création de colis ' );
+        } else {
+            return back()->with('error', 'Erreur lors de la création du colis');
         }
+    }
 
+    /**
+     * Vérifier la disponibilité du stock avant traitement
+     */
+    private function checkStockAvailability(Order $order)
+    {
+        foreach ($order->items as $item) {
+            if ($item->variation_id) {
+                $variation = Variation::find($item->variation_id);
+                if (!$variation) {
+                    throw new \Exception("Variation introuvable pour l'article: {$item->product->name}");
+                }
+                if ($variation->stock_quantity < $item->quantity) {
+                    throw new \Exception("Stock insuffisant pour la variation {$variation->reference}. Stock disponible: {$variation->stock_quantity}, Quantité demandée: {$item->quantity}");
+                }
+            } else {
+                $product = Product::find($item->product_id);
+                if (!$product) {
+                    throw new \Exception("Produit introuvable pour l'article ID: {$item->product_id}");
+                }
+                if ($product->stock_quantity < $item->quantity) {
+                    throw new \Exception("Stock insuffisant pour le produit {$product->name}. Stock disponible: {$product->stock_quantity}, Quantité demandée: {$item->quantity}");
+                }
+            }
+        }
+    }
+
+    /**
+     * Déduire la quantité du stock
+     */
+    private function deductFromStock(OrderItem $item)
+    {
+        if ($item->variation_id) {
+            $variation = Variation::findOrFail($item->variation_id);
+            $variation->stock_quantity -= $item->quantity;
+            $variation->save();
+        } else {
+            $product = Product::findOrFail($item->product_id);
+            $product->stock_quantity -= $item->quantity;
+            $product->save();
+        }
+    }
+
+    /**
+     * Restaurer la quantité au stock
+     */
+    private function restoreStockQuantity(OrderItem $item)
+    {
+        if ($item->variation_id) {
+            $variation = Variation::find($item->variation_id);
+            if ($variation) {
+                $variation->stock_quantity += $item->quantity;
+                $variation->save();
+            }
+        } else {
+            $product = Product::find($item->product_id);
+            if ($product) {
+                $product->stock_quantity += $item->quantity;
+                $product->save();
+            }
+        }
     }
     function validateDate($date, $format = 'Y-m-d')
     {
@@ -365,48 +436,5 @@ class ParcelController extends Controller
             return back()->with('error', 'Erreur lors de la suppression: ' . json_encode($response));
         }
     }
-
-
     
-    /**
-     * Déduire la quantité du stock
-     */
-    private function deductFromStock(OrderItem $item)
-    {
-        if ($item->variation_id) {
-            $variation = Variation::findOrFail($item->variation_id);
-            if ($variation->stock_quantity < $item->quantity) {
-                throw new \Exception("Stock insuffisant pour la variation {$variation->reference}");
-            }
-            $variation->stock_quantity -= $item->quantity;
-            $variation->save();
-        } else {
-            $product = Product::findOrFail($item->product_id);
-            if ($product->stock_quantity < $item->quantity) {
-                throw new \Exception("Stock insuffisant pour le produit {$product->name}");
-            }
-            $product->stock_quantity -= $item->quantity;
-            $product->save();
-        }
-    }
-
-    /**
-     * Restaurer la quantité au stock
-     */
-    private function restoreStockQuantity(OrderItem $item)
-    {
-        if ($item->variation_id) {
-            $variation = Variation::find($item->variation_id);
-            if ($variation) {
-                $variation->stock_quantity += $item->quantity;
-                $variation->save();
-            }
-        } else {
-            $product = Product::find($item->product_id);
-            if ($product) {
-                $product->stock_quantity += $item->quantity;
-                $product->save();
-            }
-        }
-    }
 }
