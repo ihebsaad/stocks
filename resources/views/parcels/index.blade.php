@@ -280,6 +280,7 @@ $(function() {
     }
 
     $('#delivery-company-filter , #date_from , #date_to').on('change', function() {
+        // Redraw the table with new filters
         table.draw();
     });
 });
