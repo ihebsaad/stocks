@@ -65,9 +65,9 @@
     }
 	.selection-actions {
         background-color: #f8f9fa;
-        padding: 15px;
+        padding: 10px;
         border-radius: 5px;
-        margin-bottom: 20px;
+        margin: 10px;
         border: 1px solid #dee2e6;
     }
 	</style>
