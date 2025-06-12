@@ -19,6 +19,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProvidersController;
 use App\Http\Controllers\StockEntryController;
 use App\Http\Controllers\ClientApiController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\API\DeliveryController;
 
@@ -125,94 +126,17 @@ Route::get('/parcel/{id}/bl', [ParcelController::class, 'generateBL'])->name('pa
 
 
 Route::get('/invoices-by-product/{productId}', [HomeController::class, 'getInvoicesByProduct'])->name('invoices.by.product');
-
-/*
  
- use App\Http\Controllers\InvoicesController;
-use App\Http\Controllers\QuotesController;
- use App\Http\Controllers\ColorController;
- use App\Http\Controllers\LivraisonsController;
-  
-//reglements
-Route::post('/invoices/add_payment',[InvoicesController::class, 'add_payment'])->name('add_payment');
-Route::get('/invoices/get_payment',[InvoicesController::class, 'get_payment'])->name('invoices.get_payment');
-Route::post('/invoices/edit_payment',[InvoicesController::class, 'edit_payment'])->name('edit_payment');
-Route::post('/invoices/delete_payment',[InvoicesController::class, 'delete_payment'])->name('delete_payment');
-Route::post('/invoices/total_reglements',[InvoicesController::class, 'total_reglements'])->name('total_reglements');
 
- 
-Route::get('/quotes/all', [QuotesController::class, 'all'])->name('quotes.all');
-Route::get('/quotes/liste', [QuotesController::class, 'liste']);
-Route::get('/quotes/list', [QuotesController::class, 'getQuotes'])->name('quotes.list');
 
-Route::get('/invoices-data', [InvoicesController::class, 'getInvoices'])->name('invoices.data');
-
-Route::resource('categories', CategoriesController::class);
-Route::resource('invoices', InvoicesController::class);
-Route::resource('quotes', QuotesController::class);
-Route::resource('livraisons', LivraisonsController::class);
-
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'auth'], function () {
+    
+    // Routes CRUD pour les clients
+    Route::resource('clients', ClientController::class);
+    
+    // Routes API pour DataTables et AJAX
+    Route::get('clients-data', [ClientController::class, 'getClients'])->name('clients.getClients');
+    Route::get('clients-stats', [ClientController::class, 'getStats'])->name('clients.getStats');
+    Route::get('clients-search', [ClientController::class, 'search'])->name('clients.search');
+    
 });
-
-//Auth::routes();
-
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-//Settings
-Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
-Route::post('/update_setting', [App\Http\Controllers\SettingsController::class, 'update_setting'])->name('update_setting');
-Route::post('/update_text', [App\Http\Controllers\SettingsController::class, 'update_text'])->name('update_text');
-
-
-// users
-Route::get('profile', [UsersController::class, 'profile'])->name('profile');
-Route::post('/updateuser',[UsersController::class, 'updateuser'])->name('updateuser');
-Route::get('/loginAs/{id}', [UsersController::class, 'loginAs'])->name('loginAs');
-Route::post('/users/ajoutimage',[UsersController::class, 'ajoutimage'])->name('users.ajoutimage');
-Route::post('/activer/{id}', [UsersController::class, 'activer'])->name('activer');
-Route::post('/desactiver/{id}', [UsersController::class, 'desactiver'])->name('desactiver');
-/*
-//Signature
-Route::get('signatures', [App\Http\Controllers\SignaturePadController::class, 'index']);
-Route::get('signature/{quote_id}', [App\Http\Controllers\SignaturePadController::class, 'signature'])->name('signature');
-Route::post('signature-pad', [App\Http\Controllers\SignaturePadController::class, 'save'])->name('signpad.save');
-
-//invoices
-Route::get('/invoices/download_pdf/{id}', [InvoicesController::class, 'download_pdf'])->name('invoices.download_pdf');
-Route::get('/invoices/show_pdf/{id}', [InvoicesController::class, 'show_pdf'])->name('invoices.show_pdf');
-Route::get('/invoices/send_pdf/{id}', [InvoicesController::class, 'send_pdf'])->name('invoices.send_pdf');
-Route::get('/invoices/add/{customer_id}', [InvoicesController::class, 'add'])->name('invoices.add');
-Route::post('/invoices/update_totals',[InvoicesController::class, 'update_totals'])->name('invoices.update_totals');
-
-
-
-//quotes
-Route::get('/quotes/download_pdf/{id}', [QuotesController::class, 'download_pdf'])->name('quotes.download_pdf');
-Route::get('/quotes/download_pdf_signature/{id}', [QuotesController::class, 'download_pdf_signature'])->name('quotes.download_pdf_signature');
-Route::get('/quotes/show_pdf/{id}', [QuotesController::class, 'show_pdf'])->name('quotes.show_pdf');
-Route::get('/quotes/show_pdf_tva/{id}', [QuotesController::class, 'show_pdf_tva'])->name('quotes.show_pdf_tva');
-Route::get('/quotes/save_invoice/{id}', [QuotesController::class, 'save_invoice'])->name('quotes.save_invoice');
-Route::post('/updatetotals',[QuotesController::class, 'updatetotals'])->name('updatetotals');
-Route::get('/quotes/add/{customer_id}', [QuotesController::class, 'add'])->name('quotes.add');
-Route::post('/quotes/ajout_signature', [QuotesController::class, 'ajout_signature'])->name('quotes.ajout_signature');
-Route::get('/quotes/edit_men/{id}', [QuotesController::class, 'edit_men'])->name('quotes.edit_men');
-
-
-
-//livraisons
-Route::get('/livraisons/download_pdf/{id}', [LivraisonsController::class, 'download_pdf'])->name('livraisons.download_pdf');
-Route::get('/livraisons/download_pdf_signature/{id}', [LivraisonsController::class, 'download_pdf_signature'])->name('livraisons.download_pdf_signature');
-Route::get('/livraisons/show_pdf/{id}', [LivraisonsController::class, 'show_pdf'])->name('livraisons.show_pdf');
-Route::get('/livraisons/show_pdf_tva/{id}', [LivraisonsController::class, 'show_pdf_tva'])->name('livraisons.show_pdf_tva');
-Route::get('/livraisons/save_bl/{id}', [LivraisonsController::class, 'save_bl'])->name('livraisons.save_bl');
-Route::post('/update_totals',[LivraisonsController::class, 'update_totals'])->name('update_totals');
-Route::get('/livraisons/add/{customer_id}', [LivraisonsController::class, 'add'])->name('livraisons.add');
-Route::get('/livraisons/edit_men/{id}', [LivraisonsController::class, 'edit_men'])->name('livraisons.edit_men');
-Route::get('/calendar', [LivraisonsController::class, 'calendar'])->name('calendar');
- 
-Route::get('/colors', [ColorController::class, 'index'])->name('colors.index');
-*/
-
- 
