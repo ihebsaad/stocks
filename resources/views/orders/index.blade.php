@@ -122,6 +122,8 @@ $(function() {
                 d.status = $('#status-filter').val();
                 d.delivery_company = $('#delivery-company-filter').val();
                 d.user_id = $('#user-filter').val();
+                d.date_from = $('#date_from').val();
+                d.date_to = $('#date_to').val();
             }
         },
         columns: [
