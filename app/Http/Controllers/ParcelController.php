@@ -246,7 +246,7 @@ class ParcelController extends Controller
                     }
 
                     if ($request->has('delivery_company_id') && !empty($request->delivery_company_id)) {
-                        $query->where('delivery_company_id', $request->delivery_company_id);
+                        $query->where('order.delivery_company_id', $request->delivery_company_id);
                     }
                     
                     if ($request->has('date_from') && $request->has('date_to') && !empty($request->date_from) && !empty($request->date_to)) {
