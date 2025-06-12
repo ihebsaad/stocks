@@ -109,12 +109,16 @@ class ClientController extends Controller
     {
         return DataTables::of($clients)
             ->addColumn('client_info', function ($client) {
+                $first_name=$client->first_name ?? '';
+                $last_name=$client->last_name ?? '';
+                $full_name = mb_convert_encoding(string: $first_name , 'UTF-8', 'UTF-8').' '. mb_convert_encoding(string: $last_name , 'UTF-8', 'UTF-8');
 
                 $initials = strtoupper(substr($client->first_name, 0, 1) . substr($client->last_name, 0, 1));
-                $initials = mb_convert_encoding($initials , 'UTF-8', 'UTF-8');
+                $initials = mb_convert_encoding(string: $initials , 'UTF-8', 'UTF-8');
                 return '
                     <div class="client-info">
                         <div class="client-avatar">' . $initials . '</div>
+                        <h6>'.$full_name.'</h6>
                         <div class="client-details">
                             <small>Client #' . $client->id . '</small>
                         </div>
