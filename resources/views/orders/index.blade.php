@@ -81,9 +81,9 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label for="user-filter">Date:</label>
-                    De:<input type="date" name="date_from "id="date_from" class="form-control" placeholder="Date de début" format="YYYY-MM-DD">
-                    A<input type="date" name="date_to" id="date_to" class="form-control mt-2" placeholder="Date de fin" format="YYYY-MM-DD">
+                    <label for="user-filter">Date:</label><br>
+                    De: <input type="date" name="date_from "id="date_from" class="form-control" placeholder="Date de début" format="YYYY-MM-DD" style="width:150px;display:inline-block:inline-block;" >
+                    A: <input type="date" name="date_to" id="date_to" class="form-control" placeholder="Date de fin" format="YYYY-MM-DD" style="width:150px;display:inline-block:inline-block;">
                 </div>
             </div>
   
@@ -149,7 +149,7 @@ $(function() {
     });*/
     
     // Appliquer les filtres lorsque les valeurs changent
-    $('#status-filter, #delivery-company-filter , #user-filter').change(function() {
+    $('#status-filter, #delivery-company-filter , #user-filter ,#date_from,#date_to').change(function() {
         table.draw();
     });
 });
