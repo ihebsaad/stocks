@@ -149,7 +149,7 @@ $(function() {
     });*/
     
     // Appliquer les filtres lorsque les valeurs changent
-    $('#status-filter, #delivery-company-filter , #user-filter ,#date_from,#date_to').change(function() {
+    $('#status-filter, #delivery-company-filter , #user-filter ,#date_from , #date_to').change(function() {
         table.draw();
     });
 });
