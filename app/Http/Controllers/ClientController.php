@@ -162,7 +162,7 @@ class ClientController extends Controller
                 $buttons .= '<a href="' . route('clients.edit', $client->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
                 
                 // Bouton pour créer une commande pour ce client
-                $buttons .= '<a href="' . route('orders.create', ['client_id' => $client->id]) . '" class="btn btn-sm btn-success mr-1 mb-1" title="Nouvelle commande"><i class="fas fa-plus"></i></a>';
+                //$buttons .= '<a href="' . route('orders.create', ['client_id' => $client->id]) . '" class="btn btn-sm btn-success mr-1 mb-1" title="Nouvelle commande"><i class="fas fa-plus"></i></a>';
                 
                 $buttons .= '<form action="' . route('clients.destroy', $client->id) . '" method="POST" style="display:inline;" class="mr-1">';
                 $buttons .= csrf_field();

@@ -318,6 +318,13 @@
                                                         <input type="number" name="variations[{{ $index }}][stock_quantity]" class="form-control" min="0" value="{{ $variation->stock_quantity }}">
                                                     </div>
                                                 </div>
+                                                <div class="col-md-1">
+                                                    <form action="{{ route('variations.destroy', $variation->id) }}" method="POST" style="float:left" class="mr-2">';
+                                                        @csrf
+                                                    {{method_field('DELETE')}}
+                                                    <button type="submit" class="btn btn-sm btn-danger mb-1 ml-2" title="Supprimer" onclick="return confirm(\'Êtes-vous sûr?\')"><i class="fas fa-trash"></i></button>
+                                                    <form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

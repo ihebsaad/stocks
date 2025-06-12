@@ -127,6 +127,7 @@ Route::get('/parcel/{id}/bl', [ParcelController::class, 'generateBL'])->name('pa
 
 Route::get('/invoices-by-product/{productId}', [HomeController::class, 'getInvoicesByProduct'])->name('invoices.by.product');
  
+Route::delete('/variations/{variation}', [ProductsController::class, 'delete_variation'])->name('variations.destroy');
 
 
 Route::group(['middleware' => 'auth'], function () {

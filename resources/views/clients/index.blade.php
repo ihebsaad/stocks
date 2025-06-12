@@ -111,13 +111,13 @@
     <!-- Header -->
     <div class="row mb-4">
         <div class="col-md-6">
-            <h2><i class="fas fa-users"></i> Gestion des Clients</h2>
+            <h2><i class="fas fa-users"></i> Gestion des clients</h2>
             <small class="text-muted">Gérez votre base de données clients</small>
         </div>
         <div class="col-md-6 text-end">
-            <a href="{{ route('clients.create') }}" class="btn btn-primary btn-lg">
+            <!--<a href="{{ route('clients.create') }}" class="btn btn-primary btn-lg">
                 <i class="fas fa-user-plus"></i> Nouveau client
-            </a>
+            </a>-->
         </div>
     </div>
 
@@ -173,7 +173,7 @@
             <label for="orders-filter"><i class="fas fa-shopping-cart"></i> Nombre de commandes:</label>
             <select id="orders-filter" class="form-control">
                 <option value="">Tous</option>
-                <option value="0">Aucune commande</option>
+                <!--<option value="0">Aucune commande</option>-->
                 <option value="1-5">1-5 commandes</option>
                 <option value="6-10">6-10 commandes</option>
                 <option value="10+">Plus de 10</option>

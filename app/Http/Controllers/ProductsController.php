@@ -565,6 +565,10 @@ class ProductsController extends Controller
         }
     }
 
+    public function delete_variation(Variation $variation)
+    {
+        $variation->delete();
+    }
     /**
      * Récupérer l'ID d'un attribut existant ou en créer un nouveau
      */
