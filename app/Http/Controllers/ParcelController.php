@@ -165,7 +165,7 @@ class ParcelController extends Controller
     public function getParcels(Request $request)
     {
         if ($request->ajax()) {
-            $parcels = Parcel::with(['order.client', 'company'])->select('parcels.*')->orderBy('parcels.id','desc');
+            $parcels = Parcel::with(['order', 'company'])->select('parcels.*')->orderBy('parcels.id','desc');
 
             return DataTables::of($parcels)
                 ->addColumn('checkbox', function ($parcel) {
