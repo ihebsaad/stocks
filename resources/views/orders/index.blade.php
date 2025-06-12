@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-md-3">
                     <label for="user-filter">Date:</label><br>
-                    De: <input type="date" name="date_from "id="date_from" class="form-control" placeholder="Date de début" format="YYYY-MM-DD" style="width:150px;display:inline-block:inline-block;" >
+                    De: <input type="date" name="date_from" id="date_from" class="form-control" placeholder="Date de début" format="YYYY-MM-DD" style="width:150px;display:inline-block:inline-block;" >
                     A: <input type="date" name="date_to" id="date_to" class="form-control" placeholder="Date de fin" format="YYYY-MM-DD" style="width:150px;display:inline-block:inline-block;">
                 </div>
             </div>
