@@ -37,13 +37,7 @@
         width:100%;
     }
     
-    .selection-actions {
-        background-color: #f8f9fa;
-        padding: 15px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        border: 1px solid #dee2e6;
-    }
+
     
     .selection-info {
         color: #6c757d;

@@ -52,7 +52,7 @@
         </div>
     </div>  
  
-            <div class="row filter-row">
+            <div class="row filter-row selection-actions">
                 <div class="col-md-3">
                     <label for="status-filter">Filtrer par statut:</label>
                     <select id="status-filter" class="form-control">
