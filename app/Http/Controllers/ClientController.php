@@ -141,16 +141,17 @@ class ClientController extends Controller
                 ';
             })
             ->addColumn('orders_stats', function ($client) {
+                //$count = $client->orders->count();
                 $lastOrder = $client->orders->first();
-                $lastOrderText = $lastOrder ? 
-                    'Dernière: ' . $lastOrder->created_at->format('d/m/Y') :
-                    'Aucune commande';
                 
-                return '
+                    //' Commandes : '.$count.' Dernière: ' . $lastOrder->created_at->format('d/m/Y');
+                
+                $return= '
                     <div class="order-stats">
-                        <div class="order-count">' . $client->orders_count . '</div>
-                        <div class="last-order">' . $lastOrderText . '</div>
-                    </div>
+                        <div class="order-count">' . $client->orders->count() . '</div>';
+                        if($lastOrder)
+                            $return.= '<div class="last-order">  Dernière: ' . $lastOrder->created_at->format('d/m/Y') . '</div>';
+                    $return.= '</div>
                 ';
             })
             ->addColumn('created_at_formatted', function ($client) {
