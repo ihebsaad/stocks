@@ -80,6 +80,11 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-md-3">
+                    <label for="user-filter">Date:</label>
+                    De:<input type="date" name="date_from "id="date_from" class="form-control" placeholder="Date de début" format="YYYY-MM-DD">
+                    A<input type="date" name="date_to" id="date_to" class="form-control mt-2" placeholder="Date de fin" format="YYYY-MM-DD">
+                </div>
             </div>
   
             <div class="table-responsive-">
