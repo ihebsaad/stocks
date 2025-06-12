@@ -565,10 +565,42 @@ class ProductsController extends Controller
         }
     }
 
-    public function delete_variation(Variation $variation)
+    public function delete_variation($id)
     {
-        $variation->delete();
+        try {
+            // Trouver la variation
+            $variation = Variation::findOrFail($id);
+            
+            // Vérifier les permissions si nécessaire
+            // $this->authorize('delete', $variation);
+            
+            // Sauvegarder le nom pour le message de retour
+            
+            // Supprimer la variation
+            $variation->delete();
+            
+            return response()->json([
+                'success' => true,
+                'message' => "La variation a été supprimée avec succès"
+            ]);
+            
+        } catch (\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Variation non trouvée'
+            ], 404);
+            
+        } catch (\Exception $e) {
+            // Log l'erreur pour le débogage
+            Log::error('Erreur lors de la suppression de la variation: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la suppression de la variation'
+            ], 500);
+        }
     }
+ 
     /**
      * Récupérer l'ID d'un attribut existant ou en créer un nouveau
      */

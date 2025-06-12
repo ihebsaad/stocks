@@ -319,11 +319,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <form action="{{ route('variations.destroy', $variation->id) }}" method="POST" style="float:left" class="mr-2">';
-                                                        @csrf
-                                                    {{method_field('DELETE')}}
-                                                    <button type="submit" class="btn btn-sm btn-danger mb-1 ml-2" title="Supprimer" onclick="return confirm(\'Êtes-vous sûr?\')"><i class="fas fa-trash"></i></button>
-                                                    <form>
+                                                    <button type="button" class="btn btn-sm btn-danger mb-1 ml-2 delete-variation-btn" 
+                                                            title="Supprimer" 
+                                                            data-variation-id="{{ $variation->id }}"
+                                                            data-variation-name="{{ $variationName }}">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -373,8 +374,118 @@
                 };
             }
         });
+
+
+        $(document).on('click', '.delete-variation-btn', function() {
+            const variationId = $(this).data('variation-id');
+            const variationName = $(this).data('variation-name');
+            const cardElement = $('#variation-card-' + variationId);
+            
+            // Confirmation avant suppression
+            if (confirm(`Êtes-vous sûr de vouloir supprimer la variation "${variationName}" ?`)) {
+                // Désactiver le bouton pendant la requête
+                $(this).prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+                
+                // Requête AJAX pour supprimer la variation
+                $.ajax({
+                    url: `/variations/${variationId}`, // Ajustez l'URL selon votre route
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Animation de suppression
+                            cardElement.fadeOut(300, function() {
+                                $(this).remove();
+                                
+                                // Vérifier s'il reste des variations
+                                if ($('#variations_list .card').length === 0) {
+                                    $('#variations_container').hide();
+                                }
+                                
+                                // Réorganiser les index des variations restantes
+                                reindexVariations();
+                            });
+                            
+                            // Afficher un message de succès
+                            showAlert('success', response.message || 'Variation supprimée avec succès');
+                        } else {
+                            showAlert('error', response.message || 'Erreur lors de la suppression');
+                            // Réactiver le bouton en cas d'erreur
+                            $(this).prop('disabled', false).html('<i class="fas fa-trash"></i>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erreur AJAX:', error);
+                        let errorMessage = 'Erreur lors de la suppression de la variation';
+                        
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        } else if (xhr.status === 404) {
+                            errorMessage = 'Variation non trouvée';
+                        } else if (xhr.status === 403) {
+                            errorMessage = 'Vous n\'avez pas les droits pour supprimer cette variation';
+                        }
+                        
+                        showAlert('error', errorMessage);
+                        
+                        // Réactiver le bouton en cas d'erreur
+                        $(this).prop('disabled', false).html('<i class="fas fa-trash"></i>');
+                    }
+                });
+            }
+        });
+
     });
 
+
+    function reindexVariations() {
+        $('#variations_list .card').each(function(index) {
+            const card = $(this);
+            
+            // Mettre à jour les noms des inputs
+            card.find('input[name*="variations["]').each(function() {
+                const input = $(this);
+                const name = input.attr('name');
+                const newName = name.replace(/variations\[\d+\]/, `variations[${index}]`);
+                input.attr('name', newName);
+            });
+            
+            // Mettre à jour les appels de fonction onchange
+            card.find('input[onchange*="calculateVariation"]').each(function() {
+                const input = $(this);
+                const onchange = input.attr('onchange');
+                const newOnchange = onchange.replace(/\d+/, index);
+                input.attr('onchange', newOnchange);
+            });
+        });
+    }
+
+    // Fonction pour afficher des alertes
+    function showAlert(type, message) {
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        const alertHtml = `
+            <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        `;
+        
+        // Ajouter l'alerte au début du container des variations
+        $('#variations_container').prepend(alertHtml);
+        
+        // Supprimer automatiquement l'alerte après 5 secondes
+        setTimeout(function() {
+            $('.alert').fadeOut();
+        }, 5000);
+    }
+
+    
     function toggleVariableProduct() {
         const productType = document.getElementById('product_type').value;
         
