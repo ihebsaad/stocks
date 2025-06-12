@@ -277,6 +277,7 @@ $(function() {
     }
 
     $('#delivery-company-filter , #date_from , #date_to').change(function() {
+        alert();
         table.draw();
     });
 });
