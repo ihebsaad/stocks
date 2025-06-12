@@ -152,6 +152,9 @@ $(function() {
         serverSide: true,
         type: 'GET',
         dataType: "json", 
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
         ajax: {
             url: "{{ route('parcels.getParcels') }}",
             data: function(d) {
