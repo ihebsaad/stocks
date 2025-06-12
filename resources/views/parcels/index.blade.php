@@ -72,7 +72,7 @@
     <!-- Selection Actions -->
     <div class="selection-actions">
         <div class="row align-items-center">
-            <div class="col-md-8">
+            <div class="col-md-3">
                 <div class="selection-info">
                     <span id="selected-count">0</span> colis sélectionné(s)
                 </div>
@@ -85,10 +85,24 @@
                     </button>
                 </div>
             </div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-3 text-end">
                 <button type="button" id="generate-pdf-btn" class="btn btn-success" disabled>
                     <i class="fas fa-file-pdf"></i> Générer PDF
                 </button>
+            </div>
+            <div class="col-md-3">
+                <label for="delivery-company-filter">Filtrer par société de livraison:</label>
+                <select id="delivery-company-filter" class="form-control">
+                    <option value="">Toutes les sociétés</option>
+                        @foreach($deliveryCompanies as $company)
+                            <option value="{{ $company->id }}">{{ $company->name }}</option>
+                        @endforeach
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="user-filter">Date:</label><br>
+                De: <input type="date" name="date_from" id="date_from" class="form-control" placeholder="Date de début" format="YYYY-MM-DD" style="width:150px;display:inline-block;" > 
+                A: <input type="date" name="date_to" id="date_to" class="form-control" placeholder="Date de fin" format="YYYY-MM-DD" style="width:150px;display:inline-block;">
             </div>
         </div>
     </div>
@@ -140,6 +154,11 @@ $(function() {
         dataType: "json", 
         ajax: {
             url: "{{ route('parcels.getParcels') }}",
+            data: function(d) {
+                d.delivery_company = $('#delivery-company-filter').val();
+                d.date_from = $('#date_from').val();
+                d.date_to = $('#date_to').val();
+            },
         },
         columns: [
             { data: 'checkbox', name: 'checkbox', orderable: false, searchable: false },
@@ -256,6 +275,10 @@ $(function() {
             $('#select-all-checkbox').prop('indeterminate', true);
         }
     }
+
+    $('#delivery-company-filter , #date_from , #date_to').change(function() {
+        table.draw();
+    });
 });
 </script>
 @endsection

@@ -7,6 +7,7 @@ use App\Models\Parcel;
 use App\Models\Product;
 use App\Models\Variation;
 use App\Models\OrderItem;
+use App\Models\DeliveryCompany;
 use App\Services\DeliveryService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -23,7 +24,8 @@ class ParcelController extends Controller
     
     public function index()
     {
-        return view(view: 'parcels.index');
+        $deliveryCompanies = DeliveryCompany::all();
+        return view('parcels.index', compact('deliveryCompanies'));
     }
 
    public function store(Order $order)
