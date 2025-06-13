@@ -158,7 +158,7 @@ class ClientController extends Controller
             })
             ->addColumn('action', function ($client) {
                 $buttons = '';
-                $buttons .= '<a href="' . route('clients.show', $client->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
+                //$buttons .= '<a href="' . route('clients.show', $client->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
                 $buttons .= '<a href="' . route('clients.edit', $client->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
                 
                 // Bouton pour créer une commande pour ce client

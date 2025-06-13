@@ -112,7 +112,7 @@
     <div class="row mb-4">
         <div class="col-md-6">
             <h2><i class="fas fa-users"></i> Gestion des clients</h2>
-            <small class="text-muted">Gérez votre base de données clients</small>
+            <!--<small class="text-muted">Gérez votre base de données clients</small>-->
         </div>
         <div class="col-md-6 text-end">
             <!--<a href="{{ route('clients.create') }}" class="btn btn-primary btn-lg">
@@ -128,13 +128,13 @@
                 <h3 id="total-clients">{{ $totalClients }}</h3>
                 <p>Total clients</p>
             </div>
-        </div>
+        </div><!--
         <div class="col-md-3">
             <div class="stats-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
                 <h3 id="active-clients">{{ $activeClients }}</h3>
                 <p>Clients actifs</p>
             </div>
-        </div>
+        </div>-->
         <div class="col-md-3">
             <div class="stats-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
                 <h3 id="new-clients">{{ $newClientsThisMonth }}</h3>
