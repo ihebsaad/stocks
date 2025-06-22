@@ -27,7 +27,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('parcels:sync-statuses')->daily(); // ou ->everyThirtyMinutes(), etc.
+        //$schedule->command('parcels:sync-statuses')->daily(); // ou ->everyThirtyMinutes(), etc.
+        $schedule->command('parcels:sync-statuses')->everyTwoHours(); // ou ->everyThirtyMinutes(), etc.
 
     }
 

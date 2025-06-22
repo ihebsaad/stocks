@@ -29,6 +29,8 @@ class SyncParcelStatuses extends Command
         }
 
         $this->info('🎉 Synchronisation terminée.');
+        \Log::info(     'Synchronisation terminée');
+       
     }
 }
 
