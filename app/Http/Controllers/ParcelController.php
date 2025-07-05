@@ -44,6 +44,11 @@ class ParcelController extends Controller
             return back()->with('error', $e->getMessage());
         }
 
+        // Vérifier s'il n y'a pas de colis déjà créé pour cette commande
+        if(Parcel::where('order_id', $order->id)->exists()) {
+            return back()->with('error', 'Un colis a déjà été créé pour cette commande.');
+        }
+        
         // Créer l'enregistrement local Parcel
         $parcel = Parcel::create([
             'order_id' => $order->id,

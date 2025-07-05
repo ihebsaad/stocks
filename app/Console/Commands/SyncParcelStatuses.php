@@ -35,5 +35,5 @@ class SyncParcelStatuses extends Command
 }
 
 
-//* * * * * cd /chemin/vers/ton-projet && php artisan schedule:run >> /dev/null 2>&1
+//* * * * * cd /var/www/vhosts/enterprise-esolutions.com/Apps/app && php artisan schedule:run >> /dev/null 2>&1
 //php artisan parcels:sync-statuses

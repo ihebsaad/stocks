@@ -791,7 +791,7 @@ $(document).ready(function() {
         
         // Mettre à jour l'info de stock et limiter la quantité max
         stockInfo.text(productStock);
-        quantityInput.attr('max', productStock);
+        ///quantityInput.attr('max', productStock);
         
         // Gérer les variations si c'est un produit variable
         if (productType == 1 && hasVariations) {
@@ -823,7 +823,7 @@ $(document).ready(function() {
                 // Mettre à jour le prix et les informations de stock
                 priceInput.val(variation.prix_ttc || product.prix_ttc || '');
                 stockInfo.text(variation.stock_quantity);
-                quantityInput.attr('max', variation.stock_quantity);
+                ///quantityInput.attr('max', variation.stock_quantity);
                 
                 // Si la quantité actuelle dépasse le stock disponible, ajuster
                 if (parseInt(quantityInput.val()) > variation.stock_quantity) {
@@ -838,7 +838,7 @@ $(document).ready(function() {
     // Gestionnaire pour les changements de quantité et de prix
     $('#products-container').on('input', '.item-quantity, .item-price', function() {
         const itemContainer = $(this).closest('.product-item');
-        
+        /*
         // Vérifier que la quantité ne dépasse pas le stock disponible
         if ($(this).hasClass('item-quantity')) {
             const maxStock = parseInt(itemContainer.find('.available-stock').text());
@@ -849,7 +849,7 @@ $(document).ready(function() {
                 $(this).val(maxStock);
             }
         }
-        
+        */
         updateItemSubtotal(itemContainer);
     });
     
