@@ -213,7 +213,7 @@
     <div class="row mb-3">
         <div class="col-12">
             <a href="{{ route('clients.index') }}" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Retour à la liste
+                <i class="fas fa-arrow-left"></i> Retour à la liste des clients
             </a>
         </div>
     </div>
@@ -230,6 +230,7 @@
                 <div class="member-since">
                     <i class="fas fa-calendar-alt"></i> Membre depuis le {{ $client->created_at->format('d/m/Y') }}
                 </div>
+                <!--
                 <div class="action-buttons">
                     <a href="#" class="btn-action btn-edit">
                         <i class="fas fa-edit"></i> Modifier
@@ -238,6 +239,7 @@
                         <i class="fas fa-plus"></i> Nouvelle commande
                     </a>
                 </div>
+                -->
             </div>
         </div>
     </div>
