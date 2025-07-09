@@ -21,6 +21,7 @@ use App\Http\Controllers\StockEntryController;
 use App\Http\Controllers\ClientApiController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\API\DeliveryController;
 
 use App\Http\Controllers\ParcelController;      
@@ -28,6 +29,8 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('products.list');
 
+
+Route::get('/stats', [StatisticsController::class, 'index'])->name('stats');
 
 Route::get('/get-orders', [OrderController::class, 'getOrders'])->name('orders.getOrders');
 // Nouvelles routes pour les commandes en cours et archives
