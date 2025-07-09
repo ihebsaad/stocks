@@ -189,7 +189,7 @@ class ParcelController extends Controller
                 ->addColumn('client', function ($parcel) {
                     if ($parcel->order && $parcel->order->client) {
                         $client = $parcel->order->client;
-                        return $client->full_name . '<br><small>' . $client->phone . '</small>';
+                        return  '<a href="' . route('clients.show', $client->id) . '" class="btn btn-sm  mr-1 mb-1" target="_blank" title="Voir" style="border:1px solid black">'.$client->full_name . '</a>  <br><small>' . $client->phone . '</small>';
                     }
                     return '<span class="text-muted">Non défini</span>';
                 })
