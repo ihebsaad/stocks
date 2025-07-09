@@ -158,7 +158,7 @@ class ClientController extends Controller
             })
             ->addColumn('action', function ($client) {
                 $buttons = '';
-                //$buttons .= '<a href="' . route('clients.show', $client->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
+                $buttons .= '<a href="' . route('clients.show', $client->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
                 ///$buttons .= '<a href="' . route('clients.edit', $client->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
                 $buttons .= '<a href="#" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
                 
@@ -242,18 +242,58 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
+        // Charger les relations nécessaires
         $client->load(['orders' => function($query) {
             $query->with(['deliveryCompany', 'user'])->latest();
         }]);
 
-        // Statistiques du client
+        // Calculer les statistiques
         $totalOrders = $client->orders->count();
-        $totalSpent = $client->orders->sum('total');
-        $avgOrderValue = $totalOrders > 0 ? $totalSpent / $totalOrders : 0;
-        
-        $statusCounts = $client->orders->groupBy('status')->map->count();
+        $totalAmount = $client->orders->sum('total');
+        $avgOrderAmount = $totalOrders > 0 ? $totalAmount / $totalOrders : 0;
+        $lastOrderDate = $client->orders->first()?->created_at;
 
-        return view('clients.show', compact('client', 'totalOrders', 'totalSpent', 'avgOrderValue', 'statusCounts'));
+        // Préparer les données pour le graphique des commandes par mois
+        $monthlyOrdersData = $this->getMonthlyOrdersData($client);
+
+        // Statistiques par statut
+        $ordersByStatus = $client->orders->groupBy('status')->map(function($orders) {
+            return $orders->count();
+        });
+
+        return view('clients.show', compact(
+            'client',
+            'totalOrders',
+            'totalAmount',
+            'avgOrderAmount',
+            'lastOrderDate',
+            'monthlyOrdersData',
+            'ordersByStatus'
+        ));
+    }
+
+    /**
+     * Récupère les données des commandes par mois pour le graphique
+     */
+    private function getMonthlyOrdersData(Client $client)
+    {
+        $monthlyData = [];
+        
+        // Récupérer les données des 12 derniers mois
+        for ($i = 11; $i >= 0; $i--) {
+            $date = now()->subMonths($i);
+            $count = $client->orders()
+                ->whereYear('created_at', $date->year)
+                ->whereMonth('created_at', $date->month)
+                ->count();
+                
+            $monthlyData[] = [
+                'month' => $date->format('M Y'),
+                'count' => $count
+            ];
+        }
+        
+        return $monthlyData;
     }
 
     /**

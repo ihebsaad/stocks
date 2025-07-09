@@ -139,5 +139,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('clients-data', [ClientController::class, 'getClients'])->name('clients.getClients');
     Route::get('clients-stats', [ClientController::class, 'getStats'])->name('clients.getStats');
     Route::get('clients-search', [ClientController::class, 'search'])->name('clients.search');
-    
+    Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
 });
