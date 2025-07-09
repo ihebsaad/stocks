@@ -132,7 +132,8 @@
                         Statistiques des Colis
                     </h1>
                     <div class="export-buttons">
-                        <a href="{{ route('statistics.export.pdf') }}?{{ http_build_query($filters) }}" class="btn btn-danger">
+                        <!--
+                        <a href="#?{{ http_build_query($filters) }}" class="btn btn-danger">
                             <i class="fas fa-file-pdf me-1"></i>
                             Exporter PDF
                         </a>
@@ -140,6 +141,7 @@
                             <i class="fas fa-file-excel me-1"></i>
                             Exporter Excel
                         </button>
+                    -->
                     </div>
                 </div>
             </div>
