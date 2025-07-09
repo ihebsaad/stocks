@@ -140,7 +140,7 @@ class OrderController extends Controller
                     $class="hidden";
                 }
                 if ($order->client) {
-                    return '<div class="'.$class.'"><a href="' . route('clients.show', $order->client->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Voir">'.$order->client->full_name . '</a><br><small>' . $order->client->phone . '</small></div>';
+                    return '<div class="'.$class.'"><a href="' . route('clients.show', $order->client->id) . '" class="btn btn-sm  mr-1 mb-1" target="_blank" title="Voir" style="border:1px solid black">'.$order->client->full_name . '</a><br><small>' . $order->client->phone . '</small></div>';
                 }
                 return '<div class="'.$class.'"><span class="text-muted">Non défini</span></div>';
             })
