@@ -149,7 +149,7 @@
 
         <!-- Filtres -->
         <div class="filter-section">
-            <form method="GET" action="{{ route('statistics.index') }}">
+            <form method="GET" action="{{ route('stats') }}">
                 <div class="row">
                     <div class="col-md-3">
                         <label class="form-label">Période</label>
