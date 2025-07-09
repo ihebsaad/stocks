@@ -414,7 +414,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-outline-primary" title="Voir détails">
+                                    <a href="{{ route('orders.edit', $order->id) }}" class="btn btn-sm btn-outline-primary" title="Voir détails">#{{ $order->id }}</a>
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
