@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+ @section('style')
      <style>
         .stats-card {
             background: #fff;
@@ -121,8 +122,11 @@
             margin-top: 5px;
         }
     </style>
-</head>
-<body>
+
+    @endsection
+    
+    @section('content')
+
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
