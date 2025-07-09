@@ -367,7 +367,9 @@
                             @foreach($client->orders as $order)
                             <tr>
                                 <td>
-                                    <strong>#{{ $order->id }}</strong>
+                                    <strong>
+                                        <a href="{{ route('orders.edit', $order->id) }}" class="btn btn-sm btn-primary mr-1 mb-1" title="Voir">#{{ $order->id }}</a>
+                                    </strong>
                                     @if($order->notes)
                                         <br><small class="text-muted">{{ Str::limit($order->notes, 30) }}</small>
                                     @endif
