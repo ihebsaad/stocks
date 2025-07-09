@@ -42,7 +42,7 @@ class StatisticsController extends Controller
         // Sociétés de livraison pour le filtre
         $deliveryCompanies = DeliveryCompany::where('is_active', true)->get();
         
-        return view('statistics.index', compact(
+        return view('parcels.stats', compact(
             'mainStats',
             'companyStats',
             'detailedStats',
