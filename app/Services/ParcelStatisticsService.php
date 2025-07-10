@@ -198,7 +198,10 @@ class ParcelStatisticsService
         if ($statusKey === 'created') {
             return 'Colis Créé';
         }
-        
+
+        if ($statusKey === 'unknown' || $statusKey === 'other') {
+            return 'Autre';
+        }
         // Pour les autres, utiliser le statut original
         return $originalStatus;
     }
