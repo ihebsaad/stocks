@@ -177,7 +177,7 @@ class ParcelStatisticsService
     private function getStatusKey($status, $companyId)
     {
         if (!isset($this->statusMapping[$companyId])) {
-            return 'unknown';
+            return 'other';
         }
         
         foreach ($this->statusMapping[$companyId] as $key => $statuses) {
@@ -186,7 +186,7 @@ class ParcelStatisticsService
             }
         }
         
-        return 'unknown';
+        return 'other';
     }
 
     /**
