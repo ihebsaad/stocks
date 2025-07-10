@@ -49,8 +49,8 @@ class ParcelStatisticsService
         'delivered_cash' => ['color' => '#059669', 'bg' => 'rgba(5, 150, 105, 0.1)', 'icon' => 'fas fa-money-bill'],
         'paid' => ['color' => '#047857', 'bg' => 'rgba(4, 120, 87, 0.1)', 'icon' => 'fas fa-credit-card'],
         'returned_charged' => ['color' => '#EF4444', 'bg' => 'rgba(239, 68, 68, 0.1)', 'icon' => 'fas fa-undo-alt'],
-        'inbound' => ['color' => '#DC2626', 'bg' => 'rgba(220, 38, 38, 0.1)', 'icon' => 'fas fa-arrow-right'],
-        'dated' => ['color' => '#DC2626', 'bg' => 'rgba(230, 100, 160, 0.1)', 'icon' => 'fas fa-clock-rotate-left'],
+        'inbound' => ['color' => '#F59E0B', 'bg' => 'rgba(220, 38, 38, 0.1)', 'icon' => 'fas fa-arrow-right'],
+        'dated' => ['color' => '#F59E0B', 'bg' => 'rgba(230, 100, 160, 0.1)', 'icon' => 'fas fa-clock-rotate-left'],
         'in_progress' => ['color' => '#8B5CF6', 'bg' => 'rgba(139, 92, 246, 0.1)', 'icon' => 'fas fa-cog'],
         'postponed' => ['color' => '#F59E0B', 'bg' => 'rgba(245, 158, 11, 0.1)', 'icon' => 'fas fa-clock'],
         'collected_tunis' => ['color' => '#06B6D4', 'bg' => 'rgba(6, 182, 212, 0.1)', 'icon' => 'fas fa-map-marker-alt'],
@@ -58,8 +58,8 @@ class ParcelStatisticsService
         'return_sender' => ['color' => '#DC2626', 'bg' => 'rgba(220, 38, 38, 0.1)', 'icon' => 'fas fa-reply'],
         'not_received' => ['color' => '#6B7280', 'bg' => 'rgba(107, 114, 128, 0.1)', 'icon' => 'fas fa-question-circle'],
         'exchange_closed' => ['color' => '#7C3AED', 'bg' => 'rgba(124, 58, 237, 0.1)', 'icon' => 'fas fa-handshake'],
-        'other' => ['color' => '#7C3AED', 'bg' => 'rgba(124, rgba(127, 206, 36, 0.1)','icon' =>'fas fa-circle-exclamation'],
-        'wha' => ['color' => '#7C3AED', 'bg' => 'rgba(124, rgba(127, 206, 36, 0.1)','icon' =>'fas fa-circle-exclamation']
+        'other' => ['color' => '#F59E0B', 'bg' => 'rgba(124, rgba(127, 206, 36, 0.1)','icon' =>'fas fa-circle-exclamation'],
+        'wha' => ['color' => '#F59E0B', 'bg' => 'rgba(124, rgba(127, 206, 36, 0.1)','icon' =>'fas fa-exclamation']
     ];
 
     /**
