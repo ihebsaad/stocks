@@ -543,13 +543,7 @@
 
     <!-- Graphique -->
     <div class="row">
-        <div class="col-md-6">
-            <div class="chart-container">
-                <h5 class="mb-3">Répartition par statut</h5>
-                <canvas id="statusChart" height="200"></canvas>
-            </div>
-        </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="chart-container">
                 <h5 class="mb-3">Résumé Total</h5>
                 <div class="row text-center">
@@ -576,61 +570,6 @@
 </div>
 
 <script>
-// Graphique en secteurs pour les statuts
-const statusData = @json($statusStats);
-const ctx = document.getElementById('statusChart').getContext('2d');
-new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        labels: statusData.map(item => item.label),
-        datasets: [{
-            data: statusData.map(item => item.count),
-            backgroundColor: [
-                '#3B82F6', '#F59E0B', '#10B981', '#EF4444',
-                '#6B7280', '#8B5CF6', '#ec4899', '#14b8a6'
-            ],
-            borderColor: [
-                '#1E40AF', '#D97706', '#047857', '#DC2626',
-                '#374151', '#7C3AED', '#db2777', '#0f766e'
-            ],
-            borderWidth: 2,
-            hoverOffset: 10
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    usePointStyle: true,
-                    padding: 20,
-                    font: {
-                        size: 12,
-                        weight: 'bold'
-                    }
-                }
-            },
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        const label = context.label || '';
-                        const value = context.parsed || 0;
-                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                        const percentage = ((value / total) * 100).toFixed(1);
-                        return `${label}: ${value} colis (${percentage}%)`;
-                    }
-                }
-            }
-        },
-        cutout: '60%',
-        animation: {
-            animateScale: true,
-            animateRotate: true
-        }
-    }
-});
 
 // Animation des compteurs
 function animateCounters() {
