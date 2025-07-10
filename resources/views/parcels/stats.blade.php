@@ -640,4 +640,396 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Graphique d'évolution par période
+const periodData = @json($periodStats);
+const ctx1 = document.getElementById('periodChart').getContext('2d');
+new Chart(ctx1, {
+    type: 'line',
+    data: {
+        labels: periodData.map(item => item.formatted_date),
+        datasets: [{
+            label: 'Créés',
+            data: periodData.map(item => item.created_count),
+            borderColor: '#3B82F6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            tension: 0.4,
+            fill: true
+        }, {
+            label: 'En transit',
+            data: periodData.map(item => item.in_transit_count),
+            borderColor: '#F59E0B',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+            tension: 0.4,
+            fill: true
+        }, {
+            label: 'Livrés',
+            data: periodData.map(item => item.delivered_count),
+            borderColor: '#10B981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            tension: 0.4,
+            fill: true
+        }, {
+            label: 'Retournés',
+            data: periodData.map(item => item.returned_count),
+            borderColor: '#EF4444',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: {
+                    usePointStyle: true,
+                    padding: 20,
+                    font: {
+                        size: 12
+                    }
+                }
+            },
+            title: {
+                display: true,
+                text: 'Évolution des colis par période',
+                font: {
+                    size: 16,
+                    weight: 'bold'
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.1)'
+                },
+                ticks: {
+                    font: {
+                        size: 11
+                    }
+                }
+            },
+            x: {
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.1)'
+                },
+                ticks: {
+                    font: {
+                        size: 11
+                    }
+                }
+            }
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index'
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        }
+    }
+});
+
+// Graphique en secteurs pour les statuts
+const statusData = @json($statusStats);
+const ctx2 = document.getElementById('statusChart').getContext('2d');
+new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+        labels: statusData.map(item => item.label),
+        datasets: [{
+            data: statusData.map(item => item.count),
+            backgroundColor: [
+                '#3B82F6',
+                '#F59E0B',
+                '#10B981',
+                '#EF4444',
+                '#6B7280',
+                '#8B5CF6'
+            ],
+            borderColor: [
+                '#1E40AF',
+                '#D97706',
+                '#047857',
+                '#DC2626',
+                '#374151',
+                '#7C3AED'
+            ],
+            borderWidth: 2,
+            hoverOffset: 4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    usePointStyle: true,
+                    padding: 15,
+                    font: {
+                        size: 12
+                    }
+                }
+            },
+            title: {
+                display: true,
+                text: 'Répartition par statut',
+                font: {
+                    size: 16,
+                    weight: 'bold'
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const label = context.label || '';
+                        const value = context.parsed || 0;
+                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        const percentage = ((value / total) * 100).toFixed(1);
+                        return `${label}: ${value} colis (${percentage}%)`;
+                    }
+                }
+            }
+        },
+        cutout: '60%'
+    }
+});
+
+// Fonction d'export Excel
+function exportToExcel() {
+    const currentUrl = new URL(window.location.href);
+    const params = new URLSearchParams(currentUrl.search);
+    params.set('export', 'excel');
+    
+    const exportUrl = `${currentUrl.pathname}?${params.toString()}`;
+    window.open(exportUrl, '_blank');
+}
+
+// Fonction d'export PDF
+function exportToPdf() {
+    const currentUrl = new URL(window.location.href);
+    const params = new URLSearchParams(currentUrl.search);
+    params.set('export', 'pdf');
+    
+    const exportUrl = `${currentUrl.pathname}?${params.toString()}`;
+    window.open(exportUrl, '_blank');
+}
+
+// Fonction pour actualiser les graphiques
+function refreshCharts() {
+    // Récupérer les nouvelles données via AJAX
+    const formData = new FormData(document.querySelector('form'));
+    const params = new URLSearchParams(formData);
+    
+    fetch(`/statistics/chart-data?${params.toString()}`)
+        .then(response => response.json())
+        .then(data => {
+            // Mettre à jour les graphiques avec les nouvelles données
+            updatePeriodChart(data.period);
+            updateStatusChart(data.status);
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des données:', error);
+        });
+}
+
+// Fonction pour mettre à jour le graphique de période
+function updatePeriodChart(data) {
+    const chart = Chart.getChart('periodChart');
+    if (chart) {
+        chart.data.labels = data.map(item => item.formatted_date);
+        chart.data.datasets[0].data = data.map(item => item.created_count);
+        chart.data.datasets[1].data = data.map(item => item.in_transit_count);
+        chart.data.datasets[2].data = data.map(item => item.delivered_count);
+        chart.data.datasets[3].data = data.map(item => item.returned_count);
+        chart.update();
+    }
+}
+
+// Fonction pour mettre à jour le graphique de statut
+function updateStatusChart(data) {
+    const chart = Chart.getChart('statusChart');
+    if (chart) {
+        chart.data.labels = data.map(item => item.label);
+        chart.data.datasets[0].data = data.map(item => item.count);
+        chart.update();
+    }
+}
+
+// Fonction pour formater les nombres
+function formatNumber(num) {
+    return new Intl.NumberFormat('fr-FR').format(num);
+}
+
+// Fonction pour animer les compteurs
+function animateCounters() {
+    const counters = document.querySelectorAll('.stats-number');
+    
+    counters.forEach(counter => {
+        const target = parseInt(counter.textContent.replace(/[^\d]/g, ''));
+        const duration = 1000; // 1 seconde
+        const step = target / (duration / 16); // 60 FPS
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                counter.textContent = formatNumber(target);
+                clearInterval(timer);
+            } else {
+                counter.textContent = formatNumber(Math.floor(current));
+            }
+        }, 16);
+    });
+}
+
+// Fonction pour imprimer les statistiques
+function printStatistics() {
+    window.print();
+}
+
+// Fonction pour copier le lien des statistiques
+function copyStatisticsLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        // Afficher une notification de succès
+        showNotification('Lien copié dans le presse-papiers', 'success');
+    }).catch(err => {
+        console.error('Erreur lors de la copie:', err);
+    });
+}
+
+// Fonction pour afficher des notifications
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.zIndex = '9999';
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Supprimer automatiquement après 3 secondes
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Fonction pour valider les dates
+function validateDates() {
+    const dateFrom = document.querySelector('input[name="date_from"]').value;
+    const dateTo = document.querySelector('input[name="date_to"]').value;
+    
+    if (dateFrom && dateTo) {
+        const fromDate = new Date(dateFrom);
+        const toDate = new Date(dateTo);
+        
+        if (fromDate > toDate) {
+            showNotification('La date de début doit être antérieure à la date de fin', 'warning');
+            return false;
+        }
+        
+        // Vérifier que la période n'est pas trop large (plus de 1 an)
+        const diffTime = Math.abs(toDate - fromDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays > 365) {
+            showNotification('La période ne peut pas dépasser 1 an', 'warning');
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+// Fonction pour réinitialiser les filtres
+function resetFilters() {
+    document.querySelector('form').reset();
+    window.location.href = window.location.pathname;
+}
+
+// Gestionnaire d'événements pour le formulaire
+document.addEventListener('DOMContentLoaded', function() {
+    // Animer les compteurs au chargement
+    animateCounters();
+    
+    // Validation des dates avant soumission
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            if (!validateDates()) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
+    
+    // Auto-soumission lors du changement de période
+    const periodSelect = document.querySelector('select[name="period"]');
+    if (periodSelect) {
+        periodSelect.addEventListener('change', function() {
+            if (validateDates()) {
+                form.submit();
+            }
+        });
+    }
+    
+    // Tooltips Bootstrap
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function(tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+
+// Gestion du responsive pour les graphiques
+window.addEventListener('resize', function() {
+    Chart.helpers.each(Chart.instances, function(instance) {
+        instance.resize();
+    });
+});
+
+// Fonction pour basculer entre les vues
+function toggleView(viewType) {
+    const views = ['cards', 'table', 'charts'];
+    
+    views.forEach(view => {
+        const element = document.querySelector(`.${view}-view`);
+        if (element) {
+            element.style.display = view === viewType ? 'block' : 'none';
+        }
+    });
+    
+    // Mettre à jour les boutons actifs
+    document.querySelectorAll('.view-toggle').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelector(`[data-view="${viewType}"]`).classList.add('active');
+}
+
+// Fonction pour rechercher dans les statistiques
+function searchStatistics(query) {
+    const cards = document.querySelectorAll('.company-card, .stats-card');
+    
+    cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(query.toLowerCase())) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+</script>
 @endsection
