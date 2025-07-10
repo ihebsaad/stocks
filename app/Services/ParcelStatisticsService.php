@@ -316,9 +316,9 @@ class ParcelStatisticsService
         // Regroupement pour les graphiques
         if (in_array($statusKey, ['created'])) {
             return 'created';
-        } elseif (in_array($statusKey, ['br_printed', 'transferred', 'in_transit', 'console_sousse', 'in_progress', 'collected_tunis'])) {
+        } elseif (in_array($statusKey, [ 'transferred', 'in_transit', 'console_sousse', 'in_progress', 'collected_tunis'])) {
             return 'in_transit';
-        } elseif (in_array($statusKey, ['delivered', 'delivered_cash', 'paid'])) {
+        } elseif (in_array($statusKey, ['delivered', 'delivered_cash', 'paid','br_printed'])) {
             return 'delivered';
         } elseif (in_array($statusKey, ['returned_charged', 'returned_depot', 'definitive_return', 'return_sender'])) {
             return 'returned';

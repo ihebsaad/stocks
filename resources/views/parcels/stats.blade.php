@@ -343,6 +343,10 @@
                 padding: 30px;
             }
         }
+
+        select{
+            display:block
+        }
     </style>
 @endsection
 
@@ -391,7 +395,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label class="form-label">Statut</label>
                     <select name="status" class="form-select">
                         <option value="">Tous les statuts</option>
@@ -400,7 +404,7 @@
                         <option value="Colis livré" {{ ($filters['status'] ?? '') == 'Colis livré' ? 'selected' : '' }}>Colis livré</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label class="form-label">&nbsp;</label>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">
