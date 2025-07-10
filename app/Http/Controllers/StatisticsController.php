@@ -25,7 +25,7 @@ class StatisticsController extends Controller
         $filters = $this->getFilters($request);
         
         // Statistiques principales
-        $mainStats = $this->statisticsService->getMainStatistics($filters);
+        //$mainStats = $this->statisticsService->getMainStatistics($filters);
         
         // Statistiques par société
         $companyStats = $this->statisticsService->getStatisticsByCompany($filters);
@@ -43,7 +43,7 @@ class StatisticsController extends Controller
         $deliveryCompanies = DeliveryCompany::where('is_active', true)->get();
         
         return view('parcels.stats', compact(
-            'mainStats',
+           // 'mainStats',
             'companyStats',
             'detailedStats',
             'performanceMetrics',
