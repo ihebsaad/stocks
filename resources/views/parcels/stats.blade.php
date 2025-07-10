@@ -117,6 +117,7 @@
 
         /* Couleurs spécifiques pour chaque statut */
         .stats-card.created { background: var(--info-gradient); }
+        .stats-card.updated { background: var(--info-gradient); }
         .stats-card.br_printed { background: var(--purple-gradient); }
         .stats-card.transferred { background: var(--indigo-gradient); }
         .stats-card.in_transit { background: var(--warning-gradient); }

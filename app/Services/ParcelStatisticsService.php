@@ -12,7 +12,8 @@ class ParcelStatisticsService
     // Mapping des statuts pour chaque société de livraison - Sans regroupement excessif
     private $statusMapping = [
         2 => [
-            'created' => ['Colis Créé', 'Colis à été modifié'], // Seuls ces deux sont regroupés
+            'created' => ['Colis Créé'], // Seuls ces deux sont regroupés
+            'updated' => ['Colis à été modifié'], // Seuls ces deux sont regroupés
             'br_printed' => ['Br imprimé'],
             'transferred' => ['C.R Transferé'],
             'in_transit' => ['En transit'],
@@ -23,7 +24,8 @@ class ParcelStatisticsService
             'other'=> ['Autre'],
         ],
         3 => [
-            'created' => ['Colis créé', 'Colis modifier'], // Seuls ces deux sont regroupés
+            'created' => ['Colis créé'], // Seuls ces deux sont regroupés
+            'updated' => ['Colis modifier'], // Seuls ces deux sont regroupés
             'in_progress' => ['En cours'],
             'postponed' => ['Reporté'],
             'collected_tunis' => ['Collecté - Tunis'],
@@ -41,6 +43,7 @@ class ParcelStatisticsService
     // Configuration des couleurs pour chaque statut
     private $statusColors = [
         'created' => ['color' => '#3B82F6', 'bg' => 'rgba(59, 130, 246, 0.1)', 'icon' => 'fas fa-plus-circle'],
+        'updated' => ['color' => '#3B82F6', 'bg' => 'rgba(59, 130, 246, 0.1)', 'icon' => 'fas fa-edit'],
         'br_printed' => ['color' => '#8B5CF6', 'bg' => 'rgba(139, 92, 246, 0.1)', 'icon' => 'fas fa-print'],
         'transferred' => ['color' => '#06B6D4', 'bg' => 'rgba(6, 182, 212, 0.1)', 'icon' => 'fas fa-exchange-alt'],
         'in_transit' => ['color' => '#F59E0B', 'bg' => 'rgba(245, 158, 11, 0.1)', 'icon' => 'fas fa-truck'],
