@@ -496,6 +496,16 @@
                     <div class="summary-amount">{{ number_format($mainStats['created_amount'], 0) }} TND</div>
                 </div>
                 
+                <!-- En cours -->
+                <div class="summary-card text-center ongoing-summary">
+                    <div class="summary-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="summary-label">En cours</div>
+                    <div class="summary-number">{{ $mainStats['in_transit_count'] + $mainStats['pending_count'] + $mainStats['other_count'] }}</div>
+                    <div class="summary-amount">{{ number_format($mainStats['in_transit_amount'] + $mainStats['pending_amount'] + $mainStats['other_amount'], 0) }} TND</div>
+                </div>
+                                
                 <!-- Terminés -->
                 <div class="summary-card text-center completed-summary">
                     <div class="summary-icon">
@@ -506,15 +516,7 @@
                     <div class="summary-amount">{{ number_format($mainStats['delivered_amount'], 0) }} TND</div>
                 </div>
                 
-                <!-- En cours -->
-                <div class="summary-card text-center ongoing-summary">
-                    <div class="summary-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="summary-label">En cours</div>
-                    <div class="summary-number">{{ $mainStats['in_transit_count'] + $mainStats['pending_count'] + $mainStats['other_count'] }}</div>
-                    <div class="summary-amount">{{ number_format($mainStats['in_transit_amount'] + $mainStats['pending_amount'] + $mainStats['other_amount'], 0) }} TND</div>
-                </div>
+
             </div>
         </div>
 

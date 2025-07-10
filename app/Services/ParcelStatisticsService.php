@@ -16,23 +16,25 @@ class ParcelStatisticsService
             'br_printed' => ['Br imprimé'],
             'transferred' => ['C.R Transferé'],
             'in_transit' => ['En transit'],
-            'console_sousse' => ['Console B Sousse'],
-            'delivered' => ['Colis livré'],
             'returned_charged' => ['Retour facturé'],
-            'returned_depot' => ['Retourné Dépot']
+            'inbound' => ['Console Inbound'],
+            'dated' => ['Colis daté'],
+            'wha' => ['Wha'],
+            'other'=> [''],
         ],
         3 => [
             'created' => ['Colis créé', 'Colis modifier'], // Seuls ces deux sont regroupés
             'in_progress' => ['En cours'],
             'postponed' => ['Reporté'],
             'collected_tunis' => ['Collecté - Tunis'],
-            'delivered_cash' => ['Livré - espèce'],
             'delivered' => ['Colis livré'],
             'paid' => ['Payé'],
             'definitive_return' => ['Retour definitif'],
             'return_sender' => ['Retour expéditeur'],
             'not_received' => ['Non recu'],
-            'exchange_closed' => ['Echange clôturé']
+            'exchange_closed' => ['Echange clôturé'],
+            'other'=> [''],
+
         ]
     ];
 
@@ -47,14 +49,17 @@ class ParcelStatisticsService
         'delivered_cash' => ['color' => '#059669', 'bg' => 'rgba(5, 150, 105, 0.1)', 'icon' => 'fas fa-money-bill'],
         'paid' => ['color' => '#047857', 'bg' => 'rgba(4, 120, 87, 0.1)', 'icon' => 'fas fa-credit-card'],
         'returned_charged' => ['color' => '#EF4444', 'bg' => 'rgba(239, 68, 68, 0.1)', 'icon' => 'fas fa-undo-alt'],
-        'returned_depot' => ['color' => '#DC2626', 'bg' => 'rgba(220, 38, 38, 0.1)', 'icon' => 'fas fa-store-slash'],
+        'inbound' => ['color' => '#DC2626', 'bg' => 'rgba(220, 38, 38, 0.1)', 'icon' => 'fas fa-arrow-right'],
+        'dated' => ['color' => '#DC2626', 'bg' => 'rgba(230, 100, 160, 0.1)', 'icon' => 'fas fa-clock-rotate-left'],
         'in_progress' => ['color' => '#8B5CF6', 'bg' => 'rgba(139, 92, 246, 0.1)', 'icon' => 'fas fa-cog'],
         'postponed' => ['color' => '#F59E0B', 'bg' => 'rgba(245, 158, 11, 0.1)', 'icon' => 'fas fa-clock'],
         'collected_tunis' => ['color' => '#06B6D4', 'bg' => 'rgba(6, 182, 212, 0.1)', 'icon' => 'fas fa-map-marker-alt'],
         'definitive_return' => ['color' => '#EF4444', 'bg' => 'rgba(239, 68, 68, 0.1)', 'icon' => 'fas fa-times-circle'],
         'return_sender' => ['color' => '#DC2626', 'bg' => 'rgba(220, 38, 38, 0.1)', 'icon' => 'fas fa-reply'],
         'not_received' => ['color' => '#6B7280', 'bg' => 'rgba(107, 114, 128, 0.1)', 'icon' => 'fas fa-question-circle'],
-        'exchange_closed' => ['color' => '#7C3AED', 'bg' => 'rgba(124, 58, 237, 0.1)', 'icon' => 'fas fa-handshake']
+        'exchange_closed' => ['color' => '#7C3AED', 'bg' => 'rgba(124, 58, 237, 0.1)', 'icon' => 'fas fa-handshake'],
+        'other' => ['color' => '#7C3AED', 'bg' => 'rgba(124, rgba(127, 206, 36, 0.1)','icon' =>'fas fa-circle-exclamation'],
+        'wha' => ['color' => '#7C3AED', 'bg' => 'rgba(124, rgba(127, 206, 36, 0.1)','icon' =>'fas fa-circle-exclamation']
     ];
 
     /**
@@ -322,7 +327,7 @@ class ParcelStatisticsService
             return 'delivered';
         } elseif (in_array($statusKey, ['returned_charged', 'returned_depot', 'definitive_return', 'return_sender'])) {
             return 'returned';
-        } elseif (in_array($statusKey, ['not_received', 'postponed'])) {
+        } elseif (in_array($statusKey, ['not_received', 'postponed','other','wha','inbound','dated'])) {
             return 'pending';
         }
         
