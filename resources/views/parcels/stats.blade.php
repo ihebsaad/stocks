@@ -134,6 +134,11 @@
         .stats-card.not_received { background: var(--secondary-gradient); }
         .stats-card.exchange_closed { background: var(--purple-gradient); }
 
+        .stats-card.wha { background: var(--secondary-gradient); }
+        .stats-card.other { background: var(--secondary-gradient); }
+        .stats-card.inbound { background: var(--secondary-gradient); }
+        .stats-card.dated { background: var(--secondary-gradient); }
+
         /* Grands résumés */
         .summary-card {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -505,7 +510,7 @@
                     <div class="summary-number">{{ $mainStats['in_transit_count'] + $mainStats['pending_count'] + $mainStats['other_count'] }}</div>
                     <div class="summary-amount">{{ number_format($mainStats['in_transit_amount'] + $mainStats['pending_amount'] + $mainStats['other_amount'], 0) }} TND</div>
                 </div>
-                                
+
                 <!-- Terminés -->
                 <div class="summary-card text-center completed-summary">
                     <div class="summary-icon">
