@@ -1,54 +1,95 @@
+
 @extends('layouts.admin')
- @section('style')
-     <style>
+@section('style')
+    <style>
         .stats-card {
-            background: #fff;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
             margin-bottom: 20px;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
         }
         
         .stats-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.2);
+        }
+        
+        .stats-card.created {
+            background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+        }
+        
+        .stats-card.in-transit {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+        }
+        
+        .stats-card.delivered {
+            background: linear-gradient(135deg, #10B981 0%, #047857 100%);
+        }
+        
+        .stats-card.returned {
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        }
+        
+        .stats-card.pending {
+            background: linear-gradient(135deg, #6B7280 0%, #374151 100%);
+        }
+        
+        .stats-card.other {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
         }
         
         .stats-icon {
             font-size: 2.5rem;
             margin-bottom: 15px;
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
         .stats-number {
-            font-size: 2.2rem;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
         .stats-amount {
             font-size: 1.1rem;
-            color: #6c757d;
+            color: rgba(255,255,255,0.8);
+            font-weight: 500;
         }
         
         .stats-label {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             text-transform: uppercase;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            color: rgba(255,255,255,0.9);
+            letter-spacing: 0.5px;
         }
         
-        .created { color: #17a2b8; }
-        .in-transit { color: #ffc107; }
-        .delivered { color: #28a745; }
-        .returned { color: #dc3545; }
-        .pending { color: #6c757d; }
-        .exchanged { color: #6f42c1; }
-        
         .filter-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 25px;
+            border-radius: 15px;
             margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
         
         .company-stats {
@@ -56,60 +97,72 @@
         }
         
         .company-card {
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .company-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
         }
         
         .performance-metrics {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-radius: 10px;
-            padding: 25px;
+            border-radius: 15px;
+            padding: 30px;
             margin-bottom: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
         
         .metric-item {
             text-align: center;
-            padding: 15px;
+            padding: 20px;
         }
         
         .metric-value {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
         .metric-label {
             font-size: 0.9rem;
-            opacity: 0.8;
+            opacity: 0.85;
+            font-weight: 500;
         }
 
         .chart-container {
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
             margin-bottom: 30px;
         }
 
         .detailed-stats {
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
             margin-bottom: 30px;
         }
 
         .status-badge {
             display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 0.8rem;
-            font-weight: 500;
+            font-weight: 600;
             margin-right: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .export-buttons {
@@ -117,227 +170,380 @@
         }
 
         .progress-custom {
-            height: 8px;
-            border-radius: 4px;
-            margin-top: 5px;
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 8px;
+            overflow: hidden;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .btn {
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .main-stats-container {
+            margin-bottom: 30px;
+        }
+
+        .status-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .single-status-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .single-status-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .status-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .status-card-icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+
+        .status-card-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            margin: 0;
+        }
+
+        .status-card-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-card-count {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .status-card-amount {
+            font-size: 0.9rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .status-card-percentage {
+            font-size: 0.8rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .no-data-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .no-data-message i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #d1d5db;
         }
     </style>
+@endsection
 
-    @endsection
+@section('content')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
-  
-    @section('content')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1 class="h3 mb-0">
-                        <i class="fas fa-chart-bar me-2"></i>
-                        Statistiques des Colis
-                    </h1>
-                    <div class="export-buttons">
-                        <!--
-                        <a href="#?{{ http_build_query($filters) }}" class="btn btn-danger">
-                            <i class="fas fa-file-pdf me-1"></i>
-                            Exporter PDF
-                        </a>
-                        <button class="btn btn-success" onclick="exportToExcel()">
-                            <i class="fas fa-file-excel me-1"></i>
-                            Exporter Excel
-                        </button>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-chart-bar me-2"></i>
+                    Statistiques des Colis
+                </h1>
+                <div class="export-buttons">
+                    <!--
+                    <a href="#?{{ http_build_query($filters) }}" class="btn btn-danger">
+                        <i class="fas fa-file-pdf me-1"></i>
+                        Exporter PDF
+                    </a>
+                    <button class="btn btn-success" onclick="exportToExcel()">
+                        <i class="fas fa-file-excel me-1"></i>
+                        Exporter Excel
+                    </button>
                     -->
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Filtres -->
-        <div class="filter-section">
-            <form method="GET" action="{{ route('stats') }}">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label class="form-label">Période</label>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="date" name="date_from" class="form-control" 
-                                       value="{{ $filters['date_from'] ?? '' }}" placeholder="Du">
-                            </div>
-                            <div class="col-6">
-                                <input type="date" name="date_to" class="form-control" 
-                                       value="{{ $filters['date_to'] ?? '' }}" placeholder="Au">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Société de livraison</label>
-                        <select name="delivery_company_id" class="form-select">
-                            <option value="">Toutes les sociétés</option>
-                            @foreach($deliveryCompanies as $company)
-                                <option value="{{ $company->id }}" 
-                                        {{ ($filters['delivery_company_id'] ?? '') == $company->id ? 'selected' : '' }}>
-                                    {{ $company->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Période graphique</label>
-                        <select name="period" class="form-select">
-                            <option value="daily" {{ ($filters['period'] ?? 'daily') == 'daily' ? 'selected' : '' }}>Journalier</option>
-                            <option value="weekly" {{ ($filters['period'] ?? 'daily') == 'weekly' ? 'selected' : '' }}>Hebdomadaire</option>
-                            <option value="monthly" {{ ($filters['period'] ?? 'daily') == 'monthly' ? 'selected' : '' }}>Mensuel</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Statut</label>
-                        <select name="status" class="form-select">
-                            <option value="">Tous les statuts</option>
-                            <option value="Colis Créé" {{ ($filters['status'] ?? '') == 'Colis Créé' ? 'selected' : '' }}>Colis Créé</option>
-                            <option value="Colis créé" {{ ($filters['status'] ?? '') == 'Colis créé' ? 'selected' : '' }}>Colis créé</option>
-                            <option value="En transit" {{ ($filters['status'] ?? '') == 'En transit' ? 'selected' : '' }}>En transit</option>
-                            <option value="Colis livré" {{ ($filters['status'] ?? '') == 'Colis livré' ? 'selected' : '' }}>Colis livré</option>
-                            <option value="Livré - espèce" {{ ($filters['status'] ?? '') == 'Livré - espèce' ? 'selected' : '' }}>Livré - espèce</option>
-                            <option value="Retour facturé" {{ ($filters['status'] ?? '') == 'Retour facturé' ? 'selected' : '' }}>Retour facturé</option>
-                            <option value="Retourné Dépot" {{ ($filters['status'] ?? '') == 'Retourné Dépot' ? 'selected' : '' }}>Retourné Dépot</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">&nbsp;</label>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-filter me-1"></i>
-                                Filtrer
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <!-- Métriques de performance -->
-        <div class="performance-metrics">
+    <!-- Filtres -->
+    <div class="filter-section">
+        <form method="GET" action="{{ route('stats') }}">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="metric-item">
-                        <div class="metric-value">{{ number_format($performanceMetrics['delivery_rate'], 1) }}%</div>
-                        <div class="metric-label">Taux de livraison</div>
+                    <label class="form-label">Période</label>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="date" name="date_from" class="form-control" 
+                                   value="{{ $filters['date_from'] ?? '' }}" placeholder="Du">
+                        </div>
+                        <div class="col-6">
+                            <input type="date" name="date_to" class="form-control" 
+                                   value="{{ $filters['date_to'] ?? '' }}" placeholder="Au">
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="metric-item">
-                        <div class="metric-value">{{ number_format($performanceMetrics['return_rate'], 1) }}%</div>
-                        <div class="metric-label">Taux de retour</div>
-                    </div>
+                    <label class="form-label">Société de livraison</label>
+                    <select name="delivery_company_id" class="form-select">
+                        <option value="">Toutes les sociétés</option>
+                        @foreach($deliveryCompanies as $company)
+                            <option value="{{ $company->id }}" 
+                                    {{ ($filters['delivery_company_id'] ?? '') == $company->id ? 'selected' : '' }}>
+                                {{ $company->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="col-md-3">
-                    <div class="metric-item">
-                        <div class="metric-value">{{ number_format($performanceMetrics['average_delivery_time'], 1) }}</div>
-                        <div class="metric-label">Jours moy. livraison</div>
-                    </div>
+                <div class="col-md-2">
+                    <label class="form-label">Période graphique</label>
+                    <select name="period" class="form-select">
+                        <option value="daily" {{ ($filters['period'] ?? 'daily') == 'daily' ? 'selected' : '' }}>Journalier</option>
+                        <option value="weekly" {{ ($filters['period'] ?? 'daily') == 'weekly' ? 'selected' : '' }}>Hebdomadaire</option>
+                        <option value="monthly" {{ ($filters['period'] ?? 'daily') == 'monthly' ? 'selected' : '' }}>Mensuel</option>
+                    </select>
                 </div>
-                <div class="col-md-3">
-                    <div class="metric-item">
-                        <div class="metric-value">{{ number_format($performanceMetrics['total_revenue'], 0) }}</div>
-                        <div class="metric-label">Chiffre d'affaires (TND)</div>
+                <div class="col-md-2">
+                    <label class="form-label">Statut</label>
+                    <select name="status" class="form-select">
+                        <option value="">Tous les statuts</option>
+                        <option value="Colis Créé" {{ ($filters['status'] ?? '') == 'Colis Créé' ? 'selected' : '' }}>Colis Créé</option>
+                        <option value="Colis créé" {{ ($filters['status'] ?? '') == 'Colis créé' ? 'selected' : '' }}>Colis créé</option>
+                        <option value="En transit" {{ ($filters['status'] ?? '') == 'En transit' ? 'selected' : '' }}>En transit</option>
+                        <option value="Colis livré" {{ ($filters['status'] ?? '') == 'Colis livré' ? 'selected' : '' }}>Colis livré</option>
+                        <option value="Livré - espèce" {{ ($filters['status'] ?? '') == 'Livré - espèce' ? 'selected' : '' }}>Livré - espèce</option>
+                        <option value="Retour facturé" {{ ($filters['status'] ?? '') == 'Retour facturé' ? 'selected' : '' }}>Retour facturé</option>
+                        <option value="Retourné Dépot" {{ ($filters['status'] ?? '') == 'Retourné Dépot' ? 'selected' : '' }}>Retourné Dépot</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-filter me-1"></i>
+                            Filtrer
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
+    </div>
 
-        <!-- Statistiques principales -->
+    <!-- Métriques de performance -->
+    <div class="performance-metrics">
         <div class="row">
-            <div class="col-md-2">
-                <div class="stats-card text-center created">
-                    <div class="stats-icon created">
-                        <i class="fas fa-plus-circle"></i>
-                    </div>
-                    <div class="stats-label">Créés</div>
-                    <div class="stats-number">{{ $mainStats['created_count'] }}</div>
-                    <div class="stats-amount">{{ number_format($mainStats['created_amount'], 0) }} TND</div>
+            <div class="col-md-3">
+                <div class="metric-item">
+                    <div class="metric-value">{{ number_format($performanceMetrics['delivery_rate'], 1) }}%</div>
+                    <div class="metric-label">Taux de livraison</div>
                 </div>
             </div>
-            
-            <div class="col-md-2">
-                <div class="stats-card text-center in-transit">
-                    <div class="stats-icon in-transit">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <div class="stats-label">En transit</div>
-                    <div class="stats-number">{{ $mainStats['in_transit_count'] }}</div>
-                    <div class="stats-amount">{{ number_format($mainStats['in_transit_amount'], 0) }} TND</div>
+            <div class="col-md-3">
+                <div class="metric-item">
+                    <div class="metric-value">{{ number_format($performanceMetrics['return_rate'], 1) }}%</div>
+                    <div class="metric-label">Taux de retour</div>
                 </div>
             </div>
-            
-            <div class="col-md-2">
-                <div class="stats-card text-center delivered">
-                    <div class="stats-icon delivered">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stats-label">Livrés</div>
-                    <div class="stats-number">{{ $mainStats['delivered_count'] }}</div>
-                    <div class="stats-amount">{{ number_format($mainStats['delivered_amount'], 0) }} TND</div>
+            <div class="col-md-3">
+                <div class="metric-item">
+                    <div class="metric-value">{{ number_format($performanceMetrics['average_delivery_time'], 1) }}</div>
+                    <div class="metric-label">Jours moy. livraison</div>
                 </div>
             </div>
-            
-            <div class="col-md-2">
-                <div class="stats-card text-center returned">
-                    <div class="stats-icon returned">
-                        <i class="fas fa-undo"></i>
-                    </div>
-                    <div class="stats-label">Retournés</div>
-                    <div class="stats-number">{{ $mainStats['returned_count'] }}</div>
-                    <div class="stats-amount">{{ number_format($mainStats['returned_amount'], 0) }} TND</div>
-                </div>
-            </div>
-            
-            <div class="col-md-2">
-                <div class="stats-card text-center pending">
-                    <div class="stats-icon pending">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stats-label">En attente</div>
-                    <div class="stats-number">{{ $mainStats['pending_count'] }}</div>
-                    <div class="stats-amount">{{ number_format($mainStats['pending_amount'], 0) }} TND</div>
-                </div>
-            </div>
-            
-            <div class="col-md-2">
-                <div class="stats-card text-center exchanged">
-                    <div class="stats-icon exchanged">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <div class="stats-label">Échangés</div>
-                    <div class="stats-number">{{ $mainStats['exchanged_count'] }}</div>
-                    <div class="stats-amount">{{ number_format($mainStats['exchanged_amount'], 0) }} TND</div>
+            <div class="col-md-3">
+                <div class="metric-item">
+                    <div class="metric-value">{{ number_format($performanceMetrics['total_revenue'], 0) }}</div>
+                    <div class="metric-label">Chiffre d'affaires (TND)</div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Graphiques -->
-        <div class="row">
-            <div class="col-md-8">
-                <div class="chart-container">
-                    <h5 class="mb-3">Évolution des colis par période</h5>
-                    <canvas id="periodChart" height="100"></canvas>
+    <!-- Statistiques principales -->
+    @if(isset($filters['delivery_company_id']) && $filters['delivery_company_id'] != '')
+        <!-- Affichage pour une société spécifique -->
+        @if(!empty($companyStats['status_stats']))
+            <div class="main-stats-container">
+                <h4 class="mb-3">
+                    <i class="fas fa-building me-2"></i>
+                    {{ $companyStats['company_name'] }}
+                </h4>
+                <div class="status-stats-grid">
+                    @foreach($companyStats['status_stats'] as $status)
+                        <div class="single-status-card">
+                            <div class="status-card-header">
+                                <div class="status-card-icon">
+                                    <i class="{{ $status['icon'] }}"></i>
+                                </div>
+                                <h6 class="status-card-title">{{ $status['label'] }}</h6>
+                            </div>
+                            <div class="status-card-stats">
+                                <div>
+                                    <div class="status-card-count">{{ $status['count'] }}</div>
+                                    <div class="status-card-amount">{{ number_format($status['amount'], 0) }} TND</div>
+                                </div>
+                                <div class="status-card-percentage">{{ $status['percentage'] }}%</div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="chart-container">
-                    <h5 class="mb-3">Répartition par statut</h5>
-                    <canvas id="statusChart" height="200"></canvas>
+        @else
+            <div class="no-data-message">
+                <i class="fas fa-inbox"></i>
+                <p>Aucune donnée disponible pour cette société dans la période sélectionnée.</p>
+            </div>
+        @endif
+    @else
+        <!-- Affichage général pour toutes les sociétés -->
+        <div class="main-stats-container">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="stats-card text-center created">
+                        <div class="stats-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <div class="stats-label">Créés</div>
+                        <div class="stats-number">{{ $mainStats['created_count'] }}</div>
+                        <div class="stats-amount">{{ number_format($mainStats['created_amount'], 0) }} TND</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-2">
+                    <div class="stats-card text-center in-transit">
+                        <div class="stats-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="stats-label">En transit</div>
+                        <div class="stats-number">{{ $mainStats['in_transit_count'] }}</div>
+                        <div class="stats-amount">{{ number_format($mainStats['in_transit_amount'], 0) }} TND</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-2">
+                    <div class="stats-card text-center delivered">
+                        <div class="stats-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stats-label">Livrés</div>
+                        <div class="stats-number">{{ $mainStats['delivered_count'] }}</div>
+                        <div class="stats-amount">{{ number_format($mainStats['delivered_amount'], 0) }} TND</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-2">
+                    <div class="stats-card text-center returned">
+                        <div class="stats-icon">
+                            <i class="fas fa-undo"></i>
+                        </div>
+                        <div class="stats-label">Retournés</div>
+                        <div class="stats-number">{{ $mainStats['returned_count'] }}</div>
+                        <div class="stats-amount">{{ number_format($mainStats['returned_amount'], 0) }} TND</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-2">
+                    <div class="stats-card text-center pending">
+                        <div class="stats-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stats-label">En attente</div>
+                        <div class="stats-number">{{ $mainStats['pending_count'] }}</div>
+                        <div class="stats-amount">{{ number_format($mainStats['pending_amount'], 0) }} TND</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-2">
+                    <div class="stats-card text-center other">
+                        <div class="stats-icon">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                        <div class="stats-label">Autres</div>
+                        <div class="stats-number">{{ $mainStats['other_count'] }}</div>
+                        <div class="stats-amount">{{ number_format($mainStats['other_amount'], 0) }} TND</div>
+                    </div>
                 </div>
             </div>
         </div>
+    @endif
 
-        <!-- Statistiques par société -->
+    <!-- Graphiques -->
+    <div class="row">
+        <div class="col-md-8">
+            <div class="chart-container">
+                <h5 class="mb-3">Évolution des colis par période</h5>
+                <canvas id="periodChart" height="100"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="chart-container">
+                <h5 class="mb-3">Répartition par statut</h5>
+                <canvas id="statusChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    @if(!isset($filters['delivery_company_id']) || $filters['delivery_company_id'] == '')
+        <!-- Statistiques par société (seulement si toutes les sociétés sont sélectionnées) -->
         <div class="company-stats">
             <h4 class="mb-3">Statistiques par société de livraison</h4>
             <div class="row">
-                @foreach($companyStats as $companyId => $stats)
+                @foreach($companyStats as $stats)
                 <div class="col-md-6 mb-4">
                     <div class="company-card">
                         <h5 class="text-primary mb-3">
@@ -357,274 +563,81 @@
                             <div class="col-4 text-center">
                                 <div class="text-muted small">Taux livraison</div>
                                 <div class="h5 mb-0 text-success">
-                                    {{ $stats['total_parcels'] > 0 ? number_format(($stats['delivered_count'] / $stats['total_parcels']) * 100, 1) : 0 }}%
+                                    @php
+                                        $deliveredCount = collect($stats['status_stats'])->where('key', 'delivered')->sum('count') + 
+                                                         collect($stats['status_stats'])->where('key', 'delivered_cash')->sum('count') + 
+                                                         collect($stats['status_stats'])->where('key', 'paid')->sum('count');
+                                    @endphp
+                                    {{ $stats['total_parcels'] > 0 ? number_format(($deliveredCount / $stats['total_parcels']) * 100, 1) : 0 }}%
                                 </div>
                             </div>
                         </div>
                         
                         <hr>
                         
+                        <!-- Affichage des statuts détaillés -->
                         <div class="row">
-                            <div class="col-6">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-info">Créés</span>
-                                    <span class="badge bg-info">{{ $stats['created_count'] }}</span>
+                            @foreach($stats['status_stats'] as $status)
+                                <div class="col-12 mb-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center">
+                                            <i class="{{ $status['icon'] }} me-2" style="color: {{ $status['color'] }}"></i>
+                                            <span style="font-size: 0.9rem;">{{ $status['label'] }}</span>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge" style="background-color: {{ $status['color'] }}">{{ $status['count'] }}</span>
+                                            <small class="text-muted ms-2">{{ $status['percentage'] }}%</small>
+                                        </div>
+                                    </div>
+                                    <div class="progress progress-custom mt-1">
+                                        <div class="progress-bar" style="width: {{ $status['percentage'] }}%; background-color: {{ $status['color'] }}"></div>
+                                    </div>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-warning">En transit</span>
-                                    <span class="badge bg-warning">{{ $stats['in_transit_count'] }}</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-success">Livrés</span>
-                                    <span class="badge bg-success">{{ $stats['delivered_count'] }}</span>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-danger">Retournés</span>
-                                    <span class="badge bg-danger">{{ $stats['returned_count'] }}</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-secondary">En attente</span>
-                                    <span class="badge bg-secondary">{{ $stats['pending_count'] }}</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-purple">Échangés</span>
-                                    <span class="badge" style="background-color: #6f42c1;">{{ $stats['exchanged_count'] }}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Barre de progression pour le taux de livraison -->
-                        <div class="mt-3">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <small class="text-muted">Progression des livraisons</small>
-                                <small class="text-muted">{{ $stats['total_parcels'] > 0 ? number_format(($stats['delivered_count'] / $stats['total_parcels']) * 100, 1) : 0 }}%</small>
-                            </div>
-                            <div class="progress progress-custom">
-                                <div class="progress-bar bg-success" style="width: {{ $stats['total_parcels'] > 0 ? ($stats['delivered_count'] / $stats['total_parcels']) * 100 : 0 }}%"></div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
         </div>
+    @endif
 
-        <!-- Statistiques détaillées par statut -->
-        <div class="detailed-stats">
-            <h4 class="mb-3">Statistiques détaillées par statut</h4>
-            @foreach($detailedStats as $companyId => $companyData)
-            <div class="mb-4">
-                <h6 class="text-primary mb-3">
-                    <i class="fas fa-building me-2"></i>
-                    {{ $companyData['company_name'] }}
-                </h6>
-                
-                <div class="table-responsive">
-                    <table class="table table-sm table-striped">
-                        <thead>
-                            <tr>
-                                <th>Statut</th>
-                                <th>Catégorie</th>
-                                <th class="text-end">Nombre</th>
-                                <th class="text-end">Montant (TND)</th>
-                                <th class="text-end">Pourcentage</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $totalParcels = array_sum(array_column($companyData['statuses'], 'count'));
-                            @endphp
-                            @foreach($companyData['statuses'] as $status => $statusData)
-                            <tr>
-                                <td>{{ $status }}</td>
-                                <td>
-                                    @if($statusData['category'] == 'created')
-                                        <span class="status-badge bg-info text-white">Créé</span>
-                                    @elseif($statusData['category'] == 'in_transit')
-                                        <span class="status-badge bg-warning text-dark">En transit</span>
-                                    @elseif($statusData['category'] == 'delivered')
-                                        <span class="status-badge bg-success text-white">Livré</span>
-                                    @elseif($statusData['category'] == 'returned')
-                                        <span class="status-badge bg-danger text-white">Retourné</span>
-                                    @elseif($statusData['category'] == 'pending')
-                                        <span class="status-badge bg-secondary text-white">En attente</span>
-                                    @elseif($statusData['category'] == 'exchanged')
-                                        <span class="status-badge text-white" style="background-color: #6f42c1;">Échangé</span>
-                                    @else
-                                        <span class="status-badge bg-light text-dark">Non défini</span>
-                                    @endif
-                                </td>
-                                <td class="text-end">{{ $statusData['count'] }}</td>
-                                <td class="text-end">{{ number_format($statusData['amount'], 0) }}</td>
-                                <td class="text-end">{{ $totalParcels > 0 ? number_format(($statusData['count'] / $totalParcels) * 100, 1) : 0 }}%</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            @endforeach
-        </div>
-
-        <!-- Résumé total -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="stats-card">
-                    <h5 class="text-center mb-3">Résumé général</h5>
-                    <div class="row text-center">
-                        <div class="col-md-2">
-                            <div class="h4 text-primary">{{ $mainStats['total_parcels'] }}</div>
-                            <div class="text-muted">Total colis</div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="h4 text-success">{{ number_format($mainStats['total_amount'], 0) }} TND</div>
-                            <div class="text-muted">Montant total</div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="h4 text-info">{{ number_format($performanceMetrics['delivery_rate'], 1) }}%</div>
-                            <div class="text-muted">Taux de livraison</div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="h4 text-warning">{{ number_format($performanceMetrics['return_rate'], 1) }}%</div>
-                            <div class="text-muted">Taux de retour</div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="h4 text-secondary">{{ number_format($performanceMetrics['average_delivery_time'], 1) }}</div>
-                            <div class="text-muted">Jours moy. livraison</div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="h4 text-success">{{ number_format($performanceMetrics['total_revenue'], 0) }} TND</div>
-                            <div class="text-muted">Chiffre d'affaires</div>
-                        </div>
+    <!-- Résumé total -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="stats-card" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); color: #1f2937;">
+                <h5 class="text-center mb-3" style="color: #1f2937;">Résumé général</h5>
+                <div class="row text-center">
+                    <div class="col-md-2">
+                        <div class="h4 text-primary">{{ $mainStats['total_parcels'] ?? 0 }}</div>
+                        <div class="text-muted">Total colis</div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="h4 text-success">{{ number_format($mainStats['total_amount'] ?? 0, 0) }} TND</div>
+                        <div class="text-muted">Montant total</div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="h4 text-info">{{ number_format($performanceMetrics['delivery_rate'], 1) }}%</div>
+                        <div class="text-muted">Taux de livraison</div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="h4 text-warning">{{ number_format($performanceMetrics['return_rate'], 1) }}%</div>
+                        <div class="text-muted">Taux de retour</div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="h4 text-secondary">{{ number_format($performanceMetrics['average_delivery_time'], 1) }}</div>
+                        <div class="text-muted">Jours moy. livraison</div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="h4 text-success">{{ number_format($performanceMetrics['total_revenue'], 0) }} TND</div>
+                        <div class="text-muted">Chiffre d'affaires</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Graphique d'évolution par période
-        const periodData = @json($periodStats);
-        const ctx1 = document.getElementById('periodChart').getContext('2d');
-        new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: periodData.map(item => item.date),
-                datasets: [{
-                    label: 'Créés',
-                    data: periodData.map(item => item.created_count),
-                    borderColor: '#17a2b8',
-                    backgroundColor: 'rgba(23, 162, 184, 0.1)',
-                    tension: 0.4
-                }, {
-                    label: 'En transit',
-                    data: periodData.map(item => item.in_transit_count),
-                    borderColor: '#ffc107',
-                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
-                    tension: 0.4
-                }, {
-                    label: 'Livrés',
-                    data: periodData.map(item => item.delivered_count),
-                    borderColor: '#28a745',
-                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                    tension: 0.4
-                }, {
-                    label: 'Retournés',
-                    data: periodData.map(item => item.returned_count),
-                    borderColor: '#dc3545',
-                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Graphique en secteurs pour les statuts
-        const statusData = [
-            {{ $mainStats['created_count'] }},
-            {{ $mainStats['in_transit_count'] }},
-            {{ $mainStats['delivered_count'] }},
-            {{ $mainStats['returned_count'] }},
-            {{ $mainStats['pending_count'] }},
-            {{ $mainStats['exchanged_count'] }}
-        ];
-
-        const ctx2 = document.getElementById('statusChart').getContext('2d');
-        new Chart(ctx2, {
-            type: 'doughnut',
-            data: {
-                labels: ['Créés', 'En transit', 'Livrés', 'Retournés', 'En attente', 'Échangés'],
-                datasets: [{
-                    data: statusData,
-                    backgroundColor: [
-                        '#17a2b8',
-                        '#ffc107',
-                        '#28a745',
-                        '#dc3545',
-                        '#6c757d',
-                        '#6f42c1'
-                    ],
-                    borderWidth: 2,
-                    borderColor: '#fff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    }
-                }
-            }
-        });
-
-        // Fonction d'export Excel
-        function exportToExcel() {
-            // Créer une table HTML avec toutes les données
-            let html = '<table>';
-            html += '<tr><th>Statut</th><th>Nombre</th><th>Montant</th></tr>';
-            
-            // Ajouter les données principales
-            html += '<tr><td>Créés</td><td>{{ $mainStats["created_count"] }}</td><td>{{ $mainStats["created_amount"] }}</td></tr>';
-            html += '<tr><td>En transit</td><td>{{ $mainStats["in_transit_count"] }}</td><td>{{ $mainStats["in_transit_amount"] }}</td></tr>';
-            html += '<tr><td>Livrés</td><td>{{ $mainStats["delivered_count"] }}</td><td>{{ $mainStats["delivered_amount"] }}</td></tr>';
-            html += '<tr><td>Retournés</td><td>{{ $mainStats["returned_count"] }}</td><td>{{ $mainStats["returned_amount"] }}</td></tr>';
-            html += '<tr><td>En attente</td><td>{{ $mainStats["pending_count"] }}</td><td>{{ $mainStats["pending_amount"] }}</td></tr>';
-            html += '<tr><td>Échangés</td><td>{{ $mainStats["exchanged_count"] }}</td><td>{{ $mainStats["exchanged_amount"] }}</td></tr>';
-            
-            html += '</table>';
-            
-            // Créer un blob et télécharger
-            const blob = new Blob([html], {type: 'application/vnd.ms-excel'});
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'statistiques_colis_' + new Date().toISOString().slice(0,10) + '.xls';
-            a.click();
-            window.URL.revokeObjectURL(url);
-        }
-
-        // Actualisation automatique toutes les 5 minutes
-        setInterval(function() {
-            location.reload();
-        }, 300000);
-    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 @endsection
