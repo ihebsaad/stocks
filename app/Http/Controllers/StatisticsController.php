@@ -24,14 +24,11 @@ class StatisticsController extends Controller
     {
         $filters = $this->getFilters($request);
         
-        // Statistiques principales
-        //$mainStats = $this->statisticsService->getMainStatistics($filters);
+        // Statistiques principales (globales)
+        $mainStats = $this->statisticsService->getMainStatistics($filters);
         
         // Statistiques par société
         $companyStats = $this->statisticsService->getStatisticsByCompany($filters);
-        
-        // Statistiques détaillées par statut
-        $detailedStats = $this->statisticsService->getDetailedStatusStatistics($filters);
         
         // Métriques de performance
         $performanceMetrics = $this->statisticsService->getPerformanceMetrics($filters);
@@ -39,15 +36,18 @@ class StatisticsController extends Controller
         // Données pour les graphiques
         $periodStats = $this->statisticsService->getStatisticsByPeriod($filters);
         
+        // Statistiques pour le graphique en secteurs
+        $statusStats = $this->statisticsService->getStatusStatsForChart($filters);
+        
         // Sociétés de livraison pour le filtre
         $deliveryCompanies = DeliveryCompany::where('is_active', true)->get();
         
         return view('parcels.stats', compact(
-           // 'mainStats',
+            'mainStats',
             'companyStats',
-            'detailedStats',
             'performanceMetrics',
             'periodStats',
+            'statusStats',
             'deliveryCompanies',
             'filters'
         ));
@@ -69,7 +69,7 @@ class StatisticsController extends Controller
                 return response()->json($this->statisticsService->getStatisticsByCompany($filters));
             
             case 'status':
-                return response()->json($this->statisticsService->getDetailedStatusStatistics($filters));
+                return response()->json($this->statisticsService->getStatusStatsForChart($filters));
             
             default:
                 return response()->json([]);
@@ -93,6 +93,17 @@ class StatisticsController extends Controller
         
         $pdf = \PDF::loadView('statistics.pdf', $data);
         return $pdf->download('statistiques_colis_' . date('Y-m-d_H-i-s') . '.pdf');
+    }
+
+    /**
+     * Exporter les statistiques en Excel
+     */
+    public function exportExcel(Request $request)
+    {
+        $filters = $this->getFilters($request);
+        
+        // Vous devrez implémenter cette méthode dans votre service
+        return $this->statisticsService->exportToExcel($filters);
     }
 
     /**
