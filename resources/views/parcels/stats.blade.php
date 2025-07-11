@@ -1174,5 +1174,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 200);
     });
 </script>
-@endif
+
 @endsection
