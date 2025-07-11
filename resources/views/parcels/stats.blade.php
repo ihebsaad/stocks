@@ -600,7 +600,7 @@
         </form>
     </div>
 
-    <!-- Métriques de performance -->
+    <!-- Métriques de performance  
     <div class="performance-metrics">
         <div class="row">
             <div class="col-md-3">
@@ -629,7 +629,7 @@
             </div>
         </div>
     </div>
-
+-->
     <!-- Statistiques par société -->
     @if(isset($filters['delivery_company_id']) && $filters['delivery_company_id'] != '')
         <!-- Affichage pour une société spécifique -->
@@ -665,7 +665,7 @@
         <div class="company-section">
             <h2 class="company-title">
                 <i class="fas fa-chart-pie"></i>
-                Résumé Global
+                Résumé
             </h2>
             
             <div class="stats-grid summary">
@@ -730,40 +730,13 @@
         @endif
     @endif
 
-    <!-- Graphique
-    <div class="row">
-        <div class="col-md-12">
-            <div class="chart-container">
-                <h5 class="mb-3">Résumé Total</h5>
-                <div class="row text-center">
-                    <div class="col-md-6 mb-3">
-                        <div class="h4 text-primary">{{ $mainStats['total_parcels'] ?? 0 }}</div>
-                        <div class="text-muted">Total colis</div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="h4 text-success">{{ number_format($mainStats['total_amount'] ?? 0, 0) }} TND</div>
-                        <div class="text-muted">Montant total</div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="h4 text-info">{{ number_format($performanceMetrics['delivery_rate'], 1) }}%</div>
-                        <div class="text-muted">Taux de livraison</div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="h4 text-warning">{{ number_format($performanceMetrics['return_rate'], 1) }}%</div>
-                        <div class="text-muted">Taux de retour</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
- -->
         <div class="row">
             <div class="col-12">
                 <div class="enhanced-summary-card animated-card">
                     <div class="chart-header">
                         <h3 class="chart-title">
                             <i class="fas fa-chart-pie"></i>
-                            Résumé Total
+                            Total
                         </h3>
                     </div>
                     
@@ -831,7 +804,7 @@
         <div class="col-md-12">
             <div class="chart-container">
                 <h5 class="mb-4">
-                    <i class="fas fa-chart-line me-2"></i>
+                    <i class="fas fa-chart-line me-2"></i> 
                     Évolution des Colis et Chiffre d'Affaires
                 </h5>
                 
