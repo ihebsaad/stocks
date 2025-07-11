@@ -479,7 +479,7 @@
             position: relative;
         }
 
-        .summary-metric:hover {
+        .enhanced-summary-card .summary-metric:hover {
             transform: translateX(5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
@@ -520,43 +520,14 @@
             letter-spacing: 0.5px;
         }
 
-        .metric-value {
+        .enhanced-summary-card .metric-value {
             font-size: 1.8rem;
             font-weight: 800;
             color: #1e293b;
             margin: 0;
             letter-spacing: -0.5px;
         }
-
-        .metric-trend {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            text-align: right;
-        }
-
-        .trend-indicator {
-            font-size: 0.8rem;
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .trend-up {
-            background: rgba(16, 185, 129, 0.1);
-            color: #059669;
-        }
-
-        .trend-down {
-            background: rgba(239, 68, 68, 0.1);
-            color: #dc2626;
-        }
-
-        .trend-neutral {
-            background: rgba(107, 114, 128, 0.1);
-            color: #6b7280;
-        }
+ 
     </style>
 @endsection
 
