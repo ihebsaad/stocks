@@ -21,7 +21,7 @@ class ParcelStatisticsService
             'inbound' => ['Console Inbound'],
             'dated' => ['Colis daté'],
             'wha' => ['Wha'],
-            'other'=> [null],
+            'other'=> ['Autre'],
         ],
         3 => [
             'created' => ['Colis créé'], // Seuls ces deux sont regroupés
@@ -35,7 +35,7 @@ class ParcelStatisticsService
             'return_sender' => ['Retour expéditeur'],
             'not_received' => ['Non recu'],
             'exchange_closed' => ['Echange clôturé'],
-            'other'=> [null],
+            'other'=> ['Autre'],
 
         ]
     ];

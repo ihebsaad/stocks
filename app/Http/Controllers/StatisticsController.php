@@ -22,6 +22,10 @@ class StatisticsController extends Controller
      */
     public function index(Request $request) 
     {
+        if(auth()->id()!=1)
+        // Vérifier si l'utilisateur est admin (id=1)
+        return redirect()->route('home');
+        
         $filters = $this->getFilters($request);
         
         // Ajouter la période pour le graphique si elle n'est pas spécifiée

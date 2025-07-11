@@ -130,6 +130,7 @@
             </ul>
           </li>
           @can('isAdmin')
+          @if(auth()->id()==1)
           <li class="nav-item  {{  request()->is('stats')   ? 'menu-open' : '' }}">
             <a href="{{route('stats')}}" class="nav-link {{  request()->is('stats')   ? 'active' : '' }}">
               <i class="nav-icon fas fa-chart-line text-white"></i>
@@ -138,6 +139,7 @@
               </p>
             </a>
           </li>
+          @endif
           <li class="nav-item  {{  request()->is('categories/*') || request()->is('providers/*') || request()->is('categories') ||  request()->is('providers') || request()->is('users') || request()->is('delivery-companies') ||  request()->is('delivery-companies.index')    ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{  request()->is('categories/*') || request()->is('providers/*') || request()->is('categories') || request()->is('providers') || request()->is('users') || request()->is('delivery-companies.index') ||  request()->is('delivery-companies')    ? 'active' : '' }}">
               <i class="nav-icon fas fa-cog text-white"></i>
