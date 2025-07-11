@@ -415,6 +415,148 @@
         .evolution-neutral {
             color: #6B7280 !important;
         }
+
+
+
+
+        
+        /* Styles pour les cartes de résumé améliorées */
+        .enhanced-summary-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+        }
+
+        .enhanced-summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #10B981, #F59E0B);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .enhanced-summary-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+            transition: all 0.6s ease;
+        }
+
+        .enhanced-summary-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .enhanced-summary-card:hover::after {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .summary-metric {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 252, 0.6));
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .summary-metric:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-metric:last-child {
+            margin-bottom: 0;
+        }
+
+        .metric-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .metric-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-right: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-icon.total { background: var(--primary-gradient); }
+        .metric-icon.amount { background: var(--success-gradient); }
+        .metric-icon.delivery { background: var(--info-gradient); }
+        .metric-icon.return { background: var(--warning-gradient); }
+
+        .metric-details h6 {
+            margin: 0 0 5px 0;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .metric-trend {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .trend-indicator {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .trend-up {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .trend-down {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .trend-neutral {
+            background: rgba(107, 114, 128, 0.1);
+            color: #6b7280;
+        }
     </style>
 @endsection
 
@@ -617,7 +759,7 @@
         @endif
     @endif
 
-    <!-- Graphique -->
+    <!-- Graphique
     <div class="row">
         <div class="col-md-12">
             <div class="chart-container">
@@ -643,8 +785,77 @@
             </div>
         </div>
     </div>
-
-
+ -->
+        <div class="row">
+            <div class="col-12">
+                <div class="enhanced-summary-card animated-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">
+                            <i class="fas fa-chart-pie"></i>
+                            Résumé Total
+                        </h3>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="summary-metric">
+                                <div class="metric-info">
+                                    <div class="metric-icon total">
+                                        <i class="fas fa-boxes"></i>
+                                    </div>
+                                    <div class="metric-details">
+                                        <h6>Total Colis</h6>
+                                        <p class="metric-value">{{ $mainStats['total_parcels'] ?? 0 }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="summary-metric">
+                                <div class="metric-info">
+                                    <div class="metric-icon amount">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                    <div class="metric-details">
+                                        <h6>Chiffre d'Affaires</h6>
+                                        <p class="metric-value">{{ number_format($mainStats['total_amount'] ?? 0, 0) }} TND</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="summary-metric">
+                                <div class="metric-info">
+                                    <div class="metric-icon delivery">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="metric-details">
+                                        <h6>Taux de Livraison</h6>
+                                        <p class="metric-value">{{ number_format($performanceMetrics['delivery_rate'], 1) }}%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="summary-metric">
+                                <div class="metric-info">
+                                    <div class="metric-icon return">
+                                        <i class="fas fa-undo-alt"></i>
+                                    </div>
+                                    <div class="metric-details">
+                                        <h6>Taux de Retour</h6>
+                                        <p class="metric-value">{{ number_format($performanceMetrics['return_rate'], 1) }}%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     <div class="row">
         <div class="col-md-12">
             <div class="chart-container">
