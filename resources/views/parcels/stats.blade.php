@@ -1,6 +1,9 @@
 @extends('layouts.admin')
 @section('styles')
     <style>
+        .hidden{
+            display: none;
+        }
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --success-gradient: linear-gradient(135deg, #10B981 0%, #047857 100%);
