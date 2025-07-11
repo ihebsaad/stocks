@@ -848,11 +848,11 @@
                         <div class="h6" id="parcelsEvolution">-</div>
                     </div>
                     
-                    <div class="col-md-3 text-center  @if(auth()->id()==1) hidden @endif ">
+                    <div class="col-md-3 text-center  @if(auth()->id()!=1) hidden @endif ">
                         <div class="small text-muted">CA période actuelle</div>
                         <div class="h6 text-success" id="currentPeriodAmount">-</div>
                     </div>
-                    <div class="col-md-3 text-center  @if(auth()->id()==1) hidden @endif ">
+                    <div class="col-md-3 text-center  @if(auth()->id()!=1) hidden @endif ">
                         <div class="small text-muted">Évolution CA</div>
                         <div class="h6" id="amountEvolution">-</div>
                     </div>
