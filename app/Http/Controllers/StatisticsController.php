@@ -20,9 +20,14 @@ class StatisticsController extends Controller
     /**
      * Afficher le tableau de bord des statistiques
      */
-    public function index(Request $request)
+    public function index(Request $request) 
     {
         $filters = $this->getFilters($request);
+        
+        // Ajouter la période pour le graphique si elle n'est pas spécifiée
+        if (!isset($filters['period'])) {
+            $filters['period'] = 'weekly'; // Par défaut hebdomadaire
+        }
         
         // Statistiques principales (globales)
         $mainStats = $this->statisticsService->getMainStatistics($filters);
@@ -33,7 +38,7 @@ class StatisticsController extends Controller
         // Métriques de performance
         $performanceMetrics = $this->statisticsService->getPerformanceMetrics($filters);
         
-        // Données pour les graphiques
+        // Données pour les graphiques (avec la période spécifiée)
         $periodStats = $this->statisticsService->getStatisticsByPeriod($filters);
         
         // Statistiques pour le graphique en secteurs
@@ -44,7 +49,7 @@ class StatisticsController extends Controller
         
         return view('parcels.stats', compact(
             'mainStats',
-            'companyStats',
+            'companyStats', 
             'performanceMetrics',
             'periodStats',
             'statusStats',
@@ -84,7 +89,7 @@ class StatisticsController extends Controller
         
         // Période pour les graphiques
         if ($request->has('period')) {
-            $filters['period'] = $request->period;
+            $filters['period'] = $request->get('period', 'weekly');
         }
         
         return $filters;

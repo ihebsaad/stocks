@@ -353,6 +353,68 @@
         select{
             display:block
         }
+
+
+
+        .period-btn {
+            border-radius: 8px !important;
+            margin-right: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .period-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .period-btn.active {
+            background: var(--primary-gradient) !important;
+            border-color: transparent !important;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .chart-container canvas {
+            border-radius: 12px;
+        }
+
+        .chart-container h5 {
+            color: #1f2937;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .chart-container h5 i {
+            color: #667eea;
+        }
+
+        /* Styles pour les statistiques rapides */
+        .chart-container .row.mt-4 .col-md-3 {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .chart-container .row.mt-4 .col-md-3:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .evolution-positive {
+            color: #10B981 !important;
+        }
+
+        .evolution-negative {
+            color: #EF4444 !important;
+        }
+
+        .evolution-neutral {
+            color: #6B7280 !important;
+        }
     </style>
 @endsection
 
@@ -389,7 +451,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4 pr-4">
                     <label class="form-label">Société de livraison</label>
                     <select name="delivery_company_id" class="form-select">
                         <option value="">Toutes les sociétés</option>
@@ -410,7 +472,7 @@
                         <option value="Colis livré" {{ ($filters['status'] ?? '') == 'Colis livré' ? 'selected' : '' }}>Colis livré</option>
                     </select>
                 </div>-->
-                <div class="col-md-3 pl-2">
+                <div class="col-md-4 pl-4">
                     <label class="form-label">&nbsp;</label>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">
@@ -579,6 +641,61 @@
             </div>
         </div>
     </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-container">
+                <h5 class="mb-4">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Évolution des Colis et Chiffre d'Affaires
+                </h5>
+                
+                <!-- Sélecteur de période -->
+                <div class="mb-3">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary period-btn" data-period="daily">
+                            <i class="fas fa-calendar-day me-1"></i>
+                            Journalier
+                        </button>
+                        <button type="button" class="btn btn-outline-primary period-btn active" data-period="weekly">
+                            <i class="fas fa-calendar-week me-1"></i>
+                            Hebdomadaire
+                        </button>
+                        <button type="button" class="btn btn-outline-primary period-btn" data-period="monthly">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            Mensuel
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Conteneur du graphique -->
+                <div style="position: relative; height: 400px;">
+                    <canvas id="lineChart"></canvas>
+                </div>
+                
+                <!-- Statistiques rapides sous le graphique -->
+                <div class="row mt-4">
+                    <div class="col-md-3 text-center">
+                        <div class="small text-muted">Période actuelle</div>
+                        <div class="h6 text-primary" id="currentPeriodParcels">-</div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="small text-muted">CA période actuelle</div>
+                        <div class="h6 text-success" id="currentPeriodAmount">-</div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="small text-muted">Évolution colis</div>
+                        <div class="h6" id="parcelsEvolution">-</div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="small text-muted">Évolution CA</div>
+                        <div class="h6" id="amountEvolution">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -642,5 +759,256 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+    let lineChart;
+    let currentPeriod = 'weekly';
+
+    // Fonction pour initialiser le graphique
+    function initializeChart() {
+        const ctx = document.getElementById('lineChart').getContext('2d');
+        const periodData = @json($periodStats);
+        
+        lineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: periodData.map(item => item.formatted_date),
+                datasets: [
+                    {
+                        label: 'Nombre de colis',
+                        data: periodData.map(item => item.total_parcels),
+                        borderColor: '#3B82F6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#3B82F6',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Chiffre d\'affaires (TND)',
+                        data: periodData.map(item => item.total_amount),
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#10B981',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: {
+                            size: 16,
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            size: 14
+                        },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.datasetIndex === 1) {
+                                    label += new Intl.NumberFormat('fr-FR').format(context.parsed.y) + ' TND';
+                                } else {
+                                    label += new Intl.NumberFormat('fr-FR').format(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Période',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Nombre de colis',
+                            color: '#3B82F6',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        ticks: {
+                            color: '#3B82F6',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Chiffre d\'affaires (TND)',
+                            color: '#10B981',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                        ticks: {
+                            color: '#10B981',
+                            font: {
+                                size: 12
+                            },
+                            callback: function(value) {
+                                return new Intl.NumberFormat('fr-FR').format(value);
+                            }
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        hoverBackgroundColor: '#ffffff'
+                    }
+                }
+            }
+        });
+        
+        // Mettre à jour les statistiques rapides
+        updateQuickStats(periodData);
+    }
+
+    // Fonction pour mettre à jour les statistiques rapides
+    function updateQuickStats(data) {
+        if (data.length === 0) return;
+        
+        const currentPeriodData = data[data.length - 1];
+        const previousPeriodData = data.length > 1 ? data[data.length - 2] : null;
+        
+        // Valeurs actuelles
+        document.getElementById('currentPeriodParcels').textContent = currentPeriodData.total_parcels.toLocaleString();
+        document.getElementById('currentPeriodAmount').textContent = currentPeriodData.total_amount.toLocaleString() + ' TND';
+        
+        // Évolutions
+        if (previousPeriodData) {
+            const parcelsEvolution = currentPeriodData.total_parcels - previousPeriodData.total_parcels;
+            const amountEvolution = currentPeriodData.total_amount - previousPeriodData.total_amount;
+            
+            updateEvolutionElement('parcelsEvolution', parcelsEvolution);
+            updateEvolutionElement('amountEvolution', amountEvolution, ' TND');
+        }
+    }
+
+    // Fonction pour mettre à jour un élément d'évolution
+    function updateEvolutionElement(elementId, value, suffix = '') {
+        const element = document.getElementById(elementId);
+        const icon = value > 0 ? '↗' : value < 0 ? '↘' : '→';
+        const className = value > 0 ? 'evolution-positive' : value < 0 ? 'evolution-negative' : 'evolution-neutral';
+        
+        element.textContent = `${icon} ${Math.abs(value).toLocaleString()}${suffix}`;
+        element.className = `h6 ${className}`;
+    }
+
+    // Fonction pour changer de période
+    function changePeriod(newPeriod) {
+        currentPeriod = newPeriod;
+        
+        // Mettre à jour les boutons
+        document.querySelectorAll('.period-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-period="${newPeriod}"]`).classList.add('active');
+        
+        // Recharger les données avec la nouvelle période
+        const currentFilters = new URLSearchParams(window.location.search);
+        currentFilters.set('period', newPeriod);
+        
+        // Vous pouvez soit faire un appel AJAX, soit recharger la page
+        // Pour l'exemple, nous rechargeons la page
+        window.location.search = currentFilters.toString();
+    }
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser le graphique
+        setTimeout(initializeChart, 500);
+        
+        // Gestionnaires d'événements pour les boutons de période
+        document.querySelectorAll('.period-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const period = this.getAttribute('data-period');
+                changePeriod(period);
+            });
+        });
+        
+        // Animation d'entrée du graphique
+        setTimeout(() => {
+            const chartContainer = document.querySelector('#lineChart').parentElement;
+            chartContainer.style.opacity = '0';
+            chartContainer.style.transform = 'translateY(20px)';
+            chartContainer.style.transition = 'all 0.6s ease';
+            
+            setTimeout(() => {
+                chartContainer.style.opacity = '1';
+                chartContainer.style.transform = 'translateY(0)';
+            }, 100);
+        }, 200);
+    });
 </script>
 @endsection
