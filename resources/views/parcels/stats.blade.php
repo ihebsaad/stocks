@@ -401,7 +401,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
+                <!--<div class="col-md-3">
                     <label class="form-label">Statut</label>
                     <select name="status" class="form-select">
                         <option value="">Tous les statuts</option>
@@ -409,7 +409,7 @@
                         <option value="En transit" {{ ($filters['status'] ?? '') == 'En transit' ? 'selected' : '' }}>En transit</option>
                         <option value="Colis livré" {{ ($filters['status'] ?? '') == 'Colis livré' ? 'selected' : '' }}>Colis livré</option>
                     </select>
-                </div>
+                </div>-->
                 <div class="col-md-3">
                     <label class="form-label">&nbsp;</label>
                     <div class="d-grid">
