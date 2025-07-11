@@ -450,6 +450,8 @@
                                    value="{{ $filters['date_to'] ?? '' }}" placeholder="Au">
                         </div>
                     </div>
+                    <input type="hidden" name="period" value="{{ $filters['period'] ?? 'weekly' }}">
+
                 </div>
                 <div class="col-md-4 pr-4">
                     <label class="form-label">Société de livraison</label>
