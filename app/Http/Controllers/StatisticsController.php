@@ -53,59 +53,8 @@ class StatisticsController extends Controller
         ));
     }
 
-    /**
-     * API pour les données de graphiques
-     */
-    public function getChartData(Request $request)
-    {
-        $filters = $this->getFilters($request);
-        $chartType = $request->get('chart_type', 'period');
-        
-        switch ($chartType) {
-            case 'period':
-                return response()->json($this->statisticsService->getStatisticsByPeriod($filters));
-            
-            case 'company':
-                return response()->json($this->statisticsService->getStatisticsByCompany($filters));
-            
-            case 'status':
-                return response()->json($this->statisticsService->getStatusStatsForChart($filters));
-            
-            default:
-                return response()->json([]);
-        }
-    }
-
-    /**
-     * Exporter les statistiques en PDF
-     */
-    public function exportPdf(Request $request)
-    {
-        $filters = $this->getFilters($request);
-        
-        $data = [
-            'mainStats' => $this->statisticsService->getMainStatistics($filters),
-            'companyStats' => $this->statisticsService->getStatisticsByCompany($filters),
-            'performanceMetrics' => $this->statisticsService->getPerformanceMetrics($filters),
-            'filters' => $filters,
-            'generated_at' => now()->format('d/m/Y H:i')
-        ];
-        
-        $pdf = \PDF::loadView('statistics.pdf', $data);
-        return $pdf->download('statistiques_colis_' . date('Y-m-d_H-i-s') . '.pdf');
-    }
-
-    /**
-     * Exporter les statistiques en Excel
-     */
-    public function exportExcel(Request $request)
-    {
-        $filters = $this->getFilters($request);
-        
-        // Vous devrez implémenter cette méthode dans votre service
-        return $this->statisticsService->exportToExcel($filters);
-    }
-
+ 
+ 
     /**
      * Obtenir les filtres depuis la requête
      */
