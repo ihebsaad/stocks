@@ -89,7 +89,7 @@ class StatisticsController extends Controller
         
         // Période pour les graphiques
         if ($request->has('period')) {
-            $filters['period'] = $request->get('period', 'weekly');
+            $filters['period'] = $request->period;
         }
         
         return $filters;
