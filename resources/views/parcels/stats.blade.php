@@ -648,7 +648,7 @@
                             </div>
                             <div class="stats-label">{{ $status['label'] }}</div>
                             <div class="stats-number">{{ $status['count'] }}</div>
-                            <div class="stats-amount">{{ number_format($status['amount'], 0) }} TND</div>
+                            @if(auth()->id()==1)<div class="stats-amount">{{ number_format($status['amount'], 0) }} TND</div>@endif
                             <div class="stats-percentage">{{ $status['percentage'] }}%</div>
                         </div>
                     @endforeach
@@ -676,7 +676,7 @@
                     </div>
                     <div class="summary-label">Créés</div>
                     <div class="summary-number">{{ $mainStats['created_count'] }}</div>
-                    <div class="summary-amount">{{ number_format($mainStats['created_amount'], 0) }} TND</div>
+                    @if(auth()->id()==1)<div class="summary-amount">{{ number_format($mainStats['created_amount'], 0) }} TND</div>@endif
                 </div>
                 
                 <!-- En cours -->
@@ -686,7 +686,7 @@
                     </div>
                     <div class="summary-label">En cours</div>
                     <div class="summary-number">{{ $mainStats['in_transit_count'] + $mainStats['pending_count'] + $mainStats['other_count'] }}</div>
-                    <div class="summary-amount">{{ number_format($mainStats['in_transit_amount'] + $mainStats['pending_amount'] + $mainStats['other_amount'], 0) }} TND</div>
+                    @if(auth()->id()==1)<div class="summary-amount">{{ number_format($mainStats['in_transit_amount'] + $mainStats['pending_amount'] + $mainStats['other_amount'], 0) }} TND</div>@endif
                 </div>
 
                 <!-- Terminés -->
@@ -696,7 +696,7 @@
                     </div>
                     <div class="summary-label">Terminés</div>
                     <div class="summary-number">{{ $mainStats['delivered_count'] }}</div>
-                    <div class="summary-amount">{{ number_format($mainStats['delivered_amount'], 0) }} TND</div>
+                    @if(auth()->id()==1)<div class="summary-amount">{{ number_format($mainStats['delivered_amount'], 0) }} TND</div>@endif
                 </div>
                 
 
@@ -720,7 +720,7 @@
                                 </div>
                                 <div class="stats-label">{{ $status['label'] }}</div>
                                 <div class="stats-number">{{ $status['count'] }}</div>
-                                <div class="stats-amount">{{ number_format($status['amount'], 0) }} TND</div>
+                                @if(auth()->id()==1)<div class="stats-amount">{{ number_format($status['amount'], 0) }} TND</div>@endif
                                 <div class="stats-percentage">{{ $status['percentage'] }}%</div>
                             </div>
                         @endforeach
@@ -754,7 +754,8 @@
                                 </div>
                             </div>
                         </div>
-                        
+
+                        @if(auth()->id()==1)
                         <div class="col-md-6">
                             <div class="summary-metric">
                                 <div class="metric-info">
@@ -768,7 +769,8 @@
                                 </div>
                             </div>
                         </div>
-                        
+                        @endif
+
                         <div class="col-md-6">
                             <div class="summary-metric">
                                 <div class="metric-info">
@@ -800,6 +802,7 @@
                 </div>
             </div>
         </div>
+    @if(auth()->id()==1)
     <div class="row">
         <div class="col-md-12">
             <div class="chart-container">
@@ -853,6 +856,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 
 <script>
@@ -916,8 +920,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-
+</script>
+    @if(auth()->id()==1)
+<script>    
+// Initialisation du graphique
     let lineChart;
     let currentPeriod = 'weekly';
 
@@ -1168,4 +1174,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 200);
     });
 </script>
+@endif
 @endsection
