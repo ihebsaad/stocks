@@ -672,7 +672,7 @@
                 <!-- Créés -->
                 <div class="summary-card text-center created-summary">
                     <div class="summary-icon">
-                        <i class="fas fa-plus-circle"></i>
+                        <i class="fas fa-plus-circle" style="color:#58c4e9"></i>
                     </div>
                     <div class="summary-label">Créés</div>
                     <div class="summary-number">{{ $mainStats['created_count'] }}</div>
@@ -692,7 +692,7 @@
                 <!-- Terminés -->
                 <div class="summary-card text-center completed-summary">
                     <div class="summary-icon">
-                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-check-circle" style="color:#04b431"></i>
                     </div>
                     <div class="summary-label">Terminés</div>
                     <div class="summary-number">{{ $mainStats['delivered_count'] }}</div>
