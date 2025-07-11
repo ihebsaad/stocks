@@ -802,7 +802,7 @@
                 </div>
             </div>
         </div>
-    @if(auth()->id()==1)
+
     <div class="row">
         <div class="col-md-12">
             <div class="chart-container">
@@ -856,7 +856,7 @@
             </div>
         </div>
     </div>
-    @endif
+     
 </div>
 
 <script>
@@ -920,9 +920,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-</script>
-    @if(auth()->id()==1)
-<script>    
+   
 // Initialisation du graphique
     let lineChart;
     let currentPeriod = 'weekly';
@@ -952,6 +950,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         pointHoverRadius: 7,
                         yAxisID: 'y'
                     },
+                        <?php if(auth()->id()==1){ ?>
                     {
                         label: 'Chiffre d\'affaires (TND)',
                         data: periodData.map(item => item.total_amount),
@@ -967,6 +966,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         pointHoverRadius: 7,
                         yAxisID: 'y1'
                     }
+                    <?php } ?>
                 ]
             },
             options: {
