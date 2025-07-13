@@ -1377,9 +1377,11 @@ function updateDiscountDetails(manualDiscount, promoDiscount) {
 // Gestion de la validation du formulaire avec codes promos
 function usePromoCode() {
     const promoCodeId = document.getElementById('promo_code_id').value;
-    const total = document.getElementById('total').value;
-    const discount = document.getElementById('discount').value;
+    const total = $('#total').val() || 0;
+    const discount = $('#discount').val() || 0;
     
+    alert('total'+ total);
+    alert('discount'+ discount);
     if (promoCodeId) {
         // Marquer le code promo comme utilisé
         fetch(`/promo-codes/${promoCodeId}/use`, {
