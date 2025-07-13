@@ -1495,47 +1495,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Appliquer un code promo
-    document.querySelectorAll('.apply-promo-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const promoId = this.dataset.promoId;
-            const promoType = this.dataset.promoType;
-            const promoValue = this.dataset.promoValue;
-            const promoProductId = this.dataset.promoProductId;
-            
-            // Mettre à jour le champ hidden
-            document.getElementById('promo_code_id').value = promoId;
-            
-            // Appliquer la remise selon le type
-            if (promoType === 'percentage') {
-                // Calculer la remise en pourcentage
-                const subtotal = parseFloat(document.getElementById('subtotal-amount').textContent.replace(' TND', ''));
-                const discountAmount = (subtotal * promoValue) / 100;
-                document.getElementById('discount').value = discountAmount;
-            } else if (promoType === 'fixed_amount') {
-                document.getElementById('discount').value = promoValue;
-            } else if (promoType === 'free_product') {
-                // Ajouter le produit gratuit (logique à implémenter selon vos besoins)
-                addFreeProduct(promoProductId);
-            }
-            
-            // Recalculer les totaux
-            calculateTotals();
-            
-            // Mettre à jour l'affichage
-            location.reload();
-        });
-    });
-    
-    // Retirer un code promo
-    document.querySelectorAll('.remove-promo-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            document.getElementById('promo_code_id').value = '';
-            document.getElementById('discount').value = 0;
-            calculateTotals();
-            location.reload();
-        });
-    });
+ 
+ 
     
     
  
