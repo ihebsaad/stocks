@@ -612,6 +612,7 @@
                                 <!-- Champ hidden pour le code promo sélectionné -->
                                 <input type="hidden" name="promo_code_id" id="promo_code_id" value="{{ $order->promo_code_id }}">
                             </div>
+                        </div>
 
                         <div class="form-group mt-4">
                             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
