@@ -522,7 +522,7 @@
 
 
                         <!-- Section Codes Promos -->
-                        <div class="card mb-2">
+                        <div class="card mb-2" style="display:none">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Codes Promos</h6>
                                 <button type="button" class="btn btn-success btn-sm"  id="add-promo-btn"  >
@@ -834,12 +834,13 @@
                     </div>
                                             
                     <input type="hidden" name="apply_immediately" value="0">
+                    <!--
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="apply_immediately" name="apply_immediately" value="1">
                         <label class="form-check-label" for="apply_immediately">
                             Appliquer immédiatement à cette commande
                         </label>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
