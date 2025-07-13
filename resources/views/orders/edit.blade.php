@@ -1383,10 +1383,16 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             body: formData,
             headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 // Fermer le modal
@@ -1401,7 +1407,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Erreur lors de la création du code promo');
+            alert('Erreur lors de la création du code promo: ' + error.message);
         });
     });
     
@@ -1453,10 +1459,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Ajout du produit gratuit:', productId);
     }
     
-    function calculateTotals() {
-        // Votre logique existante de calcul des totaux
-        // Cette fonction devrait déjà exister dans votre code
-    }
+ 
 });
 </script>
 @endsection

@@ -149,3 +149,4 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::post('/promo-codes', [PromoCodeController::class, 'store'])->name('promo-codes.store');
 Route::delete('/promo-codes/{promoCode}', [PromoCodeController::class, 'destroy'])->name('promo-codes.destroy');
+Route::post('/promo-codes/{promoCode}/use', [PromoCodeController::class, 'use'])->name('promo-codes.use');
