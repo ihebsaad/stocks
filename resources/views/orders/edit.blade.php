@@ -1217,6 +1217,7 @@ function calculateTotals() {
     
     // Afficher le détail des remises si code promo appliqué
     updateDiscountDetails(manualDiscount, promoDiscount);
+    alert(promoDiscount);
 }
 
 function getPromoCodeData(promoCodeId) {
