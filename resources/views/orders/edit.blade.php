@@ -1198,7 +1198,7 @@ $(document).ready(function() {
         updateTotals();
         
         // Recharger la page pour mettre à jour l'affichage
-        location.reload();
+        //location.reload();
     });
     
     // Gestionnaire pour retirer un code promo
