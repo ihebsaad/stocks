@@ -1339,6 +1339,7 @@ function calculateTotals() {
     document.getElementById('total-amount').textContent = total.toFixed(2) + ' TND';
 
     document.getElementById('total').value = total.toFixed(2);
+    document.getElementById('discount').value = totalDiscount.toFixed(2);
     document.getElementById('subtotal').value = subtotal.toFixed(2);
 
     
