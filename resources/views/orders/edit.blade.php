@@ -512,7 +512,6 @@
                                                     <strong>Total:</strong>
                                                     <strong id="total-amount">0.00 TND</strong>
                                                 </div>
-                                                <input type="hidden"  id="subtotal" />
                                                 <input type="hidden"   id="total"  />
                                             </div>
                                         </div>
@@ -1379,7 +1378,6 @@ function updateDiscountDetails(manualDiscount, promoDiscount) {
 function usePromoCode() {
     const promoCodeId = document.getElementById('promo_code_id').value;
     const total = document.getElementById('total').value;
-    const subtotal = document.getElementById('subtotal').value;
     const discount = document.getElementById('discount').value;
     
     if (promoCodeId) {
@@ -1393,7 +1391,6 @@ function usePromoCode() {
             body: JSON.stringify({
                 order_id: {{ $order->id }},
                 discount: discount,
-                subtotal: subtotal,
                 total: total,
             })
         })
@@ -1668,7 +1665,6 @@ function updateTotals() {
     }
  
     document.getElementById('total').value = total.toFixed(2);
-    document.getElementById('subtotal').value = subtotal.toFixed(2);
 }
 
 // Fonction mise à jour pour le sous-total des éléments

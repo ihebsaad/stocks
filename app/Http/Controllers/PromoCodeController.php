@@ -95,16 +95,16 @@ class PromoCodeController extends Controller
                 ], 422);
             }
 
-            $promoCode->markAsUsed();
-            
             $order = Order::findOrFail($validated['order_id']);
 
-            $order->update([
-                'subtotal' => $request->subtotal,
-                'discount' => $request->discount,
-                'total' => $request->total,
-                'promo_code_id' => $promoCode->id
-            ]);
+            $order->discount = $request->get('discount') ;
+            $order->total = $request->get('total') ;
+            $order->promo_code_id  =  $promoCode->id ;
+            $order->save();
+            $promoCode->markAsUsed();
+            
+
+
 
             return response()->json([
                 'success' => true,
