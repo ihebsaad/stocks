@@ -472,7 +472,7 @@
                                                             @elseif($promo->type == 'fixed_amount')
                                                                 -{{ $promo->value }} TND
                                                             @elseif($promo->type == 'free_product')
-                                                                Produit gratuit
+                                                                Produit gratuit : {{$promo->product->name}}
                                                             @endif
                                                         </small>
                                                         <br>
