@@ -16,9 +16,9 @@ class PromoCodeController extends Controller
                 'code' => 'required|string|unique:promo_codes,code',
                 'type' => 'required|in:percentage,fixed_amount,free_product',
                 'value' => 'required_unless:type,free_product|numeric|min:0',
-                'product_id' => 'required_if:type,free_product|exists:products,id',
+                'product_id' => 'required_if:type,free_product|nullable|exists:products,id',
                 'expires_at' => 'nullable|date|after:today',
-                //'apply_immediately' => 'boolean'
+                'apply_immediately' => 'boolean'
             ]);
 
             // Validation spécifique pour le pourcentage

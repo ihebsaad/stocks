@@ -1405,8 +1405,9 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             if (data.success) {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('createPromoModal'));
-                modal.hide();
+                //const modal = bootstrap.Modal.getInstance(document.getElementById('createPromoModal'));
+                //modal.hide();
+                $('#createPromoModal').hide();
                 location.reload();
             } else {
                 alert('Erreur lors de la création du code promo: ' + (data.message || 'Erreur inconnue'));
