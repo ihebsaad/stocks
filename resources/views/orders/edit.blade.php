@@ -684,7 +684,7 @@
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="createPromoModalLabel">Créer un code promo</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-close" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="client_id" value="{{ $order->client->id ?? '' }}">
