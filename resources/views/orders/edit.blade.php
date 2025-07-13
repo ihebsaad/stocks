@@ -864,6 +864,9 @@ const products = @json($products);
 // Compteur pour les indices d'éléments
 let itemIndex = {{ count($order->items ?? []) }};
 
+// Stockage des données du code promo actuellement appliqué
+let currentPromoData = null;
+
 $(document).ready(function() {
  
     var currentPhone = '{{ old("phone", $order->client->phone ?? "") }}';
@@ -1166,10 +1169,7 @@ $(document).ready(function() {
 
     // Désactiver le champ discount pour empêcher la modification manuelle
     $('#discount').prop('readonly', true);
-    
-    // Stockage des données du code promo actuellement appliqué
-    let currentPromoData = null;
-    
+        
     // Initialiser les données du code promo si un code est déjà appliqué
     initializeCurrentPromo();
     
