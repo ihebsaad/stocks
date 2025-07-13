@@ -416,7 +416,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="discount">Remise (TND):</label>
-                                            <input type="number" name="discount" id="discount" class="form-control" step="1" min="0" 
+                                            <input type="number" name="discount" id="discount" class="form-control" step="1" min="0" readonly
                                                 value="{{ old('discount', $order->discount ?? 0) }}">
                                         </div>
                                     </div>
