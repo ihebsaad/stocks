@@ -734,8 +734,9 @@
                         <div class="form-text">Laisser vide pour aucune expiration</div>
                     </div>
                                             
+                    <input type="hidden" name="apply_immediately" value="0">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="apply_immediately" name="apply_immediately">
+                        <input class="form-check-input" type="checkbox" id="apply_immediately" name="apply_immediately" value="1">
                         <label class="form-check-label" for="apply_immediately">
                             Appliquer immédiatement à cette commande
                         </label>
