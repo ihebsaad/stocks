@@ -1162,6 +1162,80 @@ $(document).ready(function() {
         });
     });
 
+
+
+    // Désactiver le champ discount pour empêcher la modification manuelle
+    $('#discount').prop('readonly', true);
+    
+    // Stockage des données du code promo actuellement appliqué
+    let currentPromoData = null;
+    
+    // Initialiser les données du code promo si un code est déjà appliqué
+    initializeCurrentPromo();
+    
+    // Gestionnaire pour appliquer un code promo (délégation d'événement)
+    $(document).on('click', '.apply-promo-btn', function() {
+        const promoId = $(this).data('promo-id');
+        const promoType = $(this).data('promo-type');
+        const promoValue = $(this).data('promo-value');
+        const promoProductId = $(this).data('promo-product-id');
+        
+        // Stocker les données du code promo
+        currentPromoData = {
+            id: promoId,
+            type: promoType,
+            value: promoValue,
+            product_id: promoProductId
+        };
+        
+        // Mettre à jour le champ hidden
+        $('#promo_code_id').val(promoId);
+        
+        // Appliquer le code promo selon son type
+        applyPromoCode(currentPromoData);
+        
+        // Recalculer les totaux
+        updateTotals();
+        
+        // Recharger la page pour mettre à jour l'affichage
+        location.reload();
+    });
+    
+    // Gestionnaire pour retirer un code promo
+    $(document).on('click', '.remove-promo-btn', function() {
+        // Supprimer les produits gratuits s'il y en a
+        if (currentPromoData && currentPromoData.type === 'free_product') {
+            $('.free-product').remove();
+        }
+        
+        // Réinitialiser les données
+        currentPromoData = null;
+        $('#promo_code_id').val('');
+        $('#discount').val(0);
+        
+        // Recalculer les totaux
+        updateTotals();
+        
+        // Recharger la page pour mettre à jour l'affichage
+        location.reload();
+    });
+    
+    // Écouter les changements sur les champs qui affectent le calcul
+    $('#delivery_company_id, #free_delivery').on('change', function() {
+        updateTotals();
+    });
+    
+    // Écouter les changements sur les produits pour recalculer avec le code promo
+    $('#products-container').on('input change', '.item-quantity, .item-price, .product-select, .variation-select', function() {
+        const itemContainer = $(this).closest('.product-item');
+        updateItemSubtotal(itemContainer);
+    });
+    
+    // Initialiser les totaux au chargement
+    updateTotals();
+
+
+
 }); //document ready
 
   // Fonction pour ajouter un élément de produit
@@ -1467,79 +1541,7 @@ document.addEventListener('DOMContentLoaded', function() {
  
 });
 
-
-$(document).ready(function() {
-    // Désactiver le champ discount pour empêcher la modification manuelle
-    $('#discount').prop('readonly', true);
-    
-    // Stockage des données du code promo actuellement appliqué
-    let currentPromoData = null;
-    
-    // Initialiser les données du code promo si un code est déjà appliqué
-    initializeCurrentPromo();
-    
-    // Gestionnaire pour appliquer un code promo (délégation d'événement)
-    $(document).on('click', '.apply-promo-btn', function() {
-        const promoId = $(this).data('promo-id');
-        const promoType = $(this).data('promo-type');
-        const promoValue = $(this).data('promo-value');
-        const promoProductId = $(this).data('promo-product-id');
-        
-        // Stocker les données du code promo
-        currentPromoData = {
-            id: promoId,
-            type: promoType,
-            value: promoValue,
-            product_id: promoProductId
-        };
-        
-        // Mettre à jour le champ hidden
-        $('#promo_code_id').val(promoId);
-        
-        // Appliquer le code promo selon son type
-        applyPromoCode(currentPromoData);
-        
-        // Recalculer les totaux
-        updateTotals();
-        
-        // Recharger la page pour mettre à jour l'affichage
-        location.reload();
-    });
-    
-    // Gestionnaire pour retirer un code promo
-    $(document).on('click', '.remove-promo-btn', function() {
-        // Supprimer les produits gratuits s'il y en a
-        if (currentPromoData && currentPromoData.type === 'free_product') {
-            $('.free-product').remove();
-        }
-        
-        // Réinitialiser les données
-        currentPromoData = null;
-        $('#promo_code_id').val('');
-        $('#discount').val(0);
-        
-        // Recalculer les totaux
-        updateTotals();
-        
-        // Recharger la page pour mettre à jour l'affichage
-        location.reload();
-    });
-    
-    // Écouter les changements sur les champs qui affectent le calcul
-    $('#delivery_company_id, #free_delivery').on('change', function() {
-        updateTotals();
-    });
-    
-    // Écouter les changements sur les produits pour recalculer avec le code promo
-    $('#products-container').on('input change', '.item-quantity, .item-price, .product-select, .variation-select', function() {
-        const itemContainer = $(this).closest('.product-item');
-        updateItemSubtotal(itemContainer);
-    });
-    
-    // Initialiser les totaux au chargement
-    updateTotals();
-});
-
+ 
 function initializeCurrentPromo() {
     const promoCodeId = $('#promo_code_id').val();
     if (promoCodeId) {
