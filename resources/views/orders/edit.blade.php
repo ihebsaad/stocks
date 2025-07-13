@@ -1373,12 +1373,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('promo_code').value = randomCode;
     });
     
-    // Création du code promo
     document.getElementById('createPromoForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         const formData = new FormData(this);
-        
+
         fetch('{{ route("promo-codes.store") }}', {
             method: 'POST',
             body: formData,
@@ -1387,19 +1386,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Accept': 'application/json'
             }
         })
-        .then(response => {
+        .then(async response => {
+            const data = await response.json();
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                // Gestion des erreurs de validation Laravel
+                if (response.status === 422) {
+                    let messages = '';
+                    for (const key in data.errors) {
+                        messages += data.errors[key].join('\n') + '\n';
+                    }
+                    alert('Erreurs de validation :\n' + messages);
+                } else {
+                    alert('Erreur: ' + (data.message || 'Erreur inconnue'));
+                }
+                throw new Error('Erreur http ' + response.status);
             }
-            return response.json();
+            return data;
         })
         .then(data => {
             if (data.success) {
-                // Fermer le modal
                 const modal = bootstrap.Modal.getInstance(document.getElementById('createPromoModal'));
                 modal.hide();
-                
-                // Recharger la page ou actualiser la section
                 location.reload();
             } else {
                 alert('Erreur lors de la création du code promo: ' + (data.message || 'Erreur inconnue'));
@@ -1407,7 +1414,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Erreur lors de la création du code promo: ' + error.message);
         });
     });
     
