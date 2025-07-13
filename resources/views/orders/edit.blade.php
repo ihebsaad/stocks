@@ -1340,7 +1340,6 @@ function calculateTotals() {
 
     document.getElementById('total').value = total.toFixed(2);
     document.getElementById('discount').value = totalDiscount.toFixed(2);
-    document.getElementById('subtotal').value = subtotal.toFixed(2);
 
     
     // Afficher le détail des remises si code promo appliqué
