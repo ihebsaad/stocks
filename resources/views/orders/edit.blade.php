@@ -512,6 +512,8 @@
                                                     <strong>Total:</strong>
                                                     <strong id="total-amount">0.00 TND</strong>
                                                 </div>
+                                                <input type="hidden"  id="subtotal" />
+                                                <input type="hidden"   id="total"  />
                                             </div>
                                         </div>
                                     </div>
@@ -1336,6 +1338,10 @@ function calculateTotals() {
     document.getElementById('discount-amount').textContent = totalDiscount.toFixed(2) + ' TND';
     document.getElementById('delivery-amount').textContent = deliveryFee.toFixed(2) + ' TND';
     document.getElementById('total-amount').textContent = total.toFixed(2) + ' TND';
+
+    document.getElementById('total').value = total.toFixed(2);
+    document.getElementById('subtotal').value = subtotal.toFixed(2);
+
     
     // Afficher le détail des remises si code promo appliqué
     updateDiscountDetails(manualDiscount, promoDiscount);
@@ -1370,8 +1376,11 @@ function updateDiscountDetails(manualDiscount, promoDiscount) {
 
 
 // Gestion de la validation du formulaire avec codes promos
-document.getElementById('orderForm').addEventListener('submit', function(e) {
+function usePromoCode() {
     const promoCodeId = document.getElementById('promo_code_id').value;
+    const total = document.getElementById('total').value;
+    const subtotal = document.getElementById('subtotal').value;
+    const discount = document.getElementById('discount').value;
     
     if (promoCodeId) {
         // Marquer le code promo comme utilisé
@@ -1382,14 +1391,17 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                order_id: {{ $order->id }}
+                order_id: {{ $order->id }},
+                discount: discount,
+                subtotal: subtotal,
+                total: total,
             })
         })
         .catch(error => {
             console.error('Erreur lors de la mise à jour du code promo:', error);
         });
     }
-});
+};
 
 // Écouter les changements sur les champs qui affectent le calcul
 document.addEventListener('DOMContentLoaded', function() {
@@ -1535,6 +1547,8 @@ function applyPromoCode(promoData) {
             addFreeProduct(promoData.product_id);
             break;
     }
+
+    usePromoCode(); // Marquer le code promo comme utilisé
 }
 
 function addFreeProduct(productId) {
@@ -1652,11 +1666,9 @@ function updateTotals() {
     } else {
         $('#discount-amount').removeAttr('title');
     }
-    
-    // Mettre à jour le champ caché pour le total si nécessaire
-    if ($('#total').length) {
-        $('#total').val(total.toFixed(2));
-    }
+ 
+    document.getElementById('total').value = total.toFixed(2);
+    document.getElementById('subtotal').value = subtotal.toFixed(2);
 }
 
 // Fonction mise à jour pour le sous-total des éléments

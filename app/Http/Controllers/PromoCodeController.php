@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PromoCode;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -95,6 +96,15 @@ class PromoCodeController extends Controller
             }
 
             $promoCode->markAsUsed();
+            
+            $order = Order::findOrFail($validated['order_id']);
+
+            $order->update([
+                'subtotal' => $request->subtotal,
+                'discount' => $request->discount,
+                'total' => $request->total,
+                'promo_code_id' => $promoCode->id
+            ]);
 
             return response()->json([
                 'success' => true,
