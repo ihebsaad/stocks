@@ -355,6 +355,7 @@ class ParcelController extends Controller
             'draft' => 'Brouillon',
             'pending' => 'En attente',
             'no_stock' => 'Rupture de stock',
+            'rendezvous' => 'Rendez-vous',
             'production' => 'En production',
             'confirmed' => 'Confirmée',
             'no_response' => 'Client ne répond plus',

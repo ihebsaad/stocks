@@ -452,7 +452,7 @@
                         <div class="card mb-2">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Codes Promos</h6>
-                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#createPromoModal">
+                                <button type="button" class="btn btn-success btn-sm"  id="add-promo-btn"  >
                                     <i class="fas fa-plus"></i> Créer
                                 </button>
                             </div>
@@ -515,81 +515,6 @@
                                 <input type="hidden" name="promo_code_id" id="promo_code_id" value="{{ $order->promo_code_id }}">
                             </div>
                         </div>
-
-                        <!-- Modal pour créer un code promo -->
-                        <div class="modal fade" id="createPromoModal" tabindex="-1" aria-labelledby="createPromoModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form id="createPromoForm">
-                                        @csrf
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="createPromoModalLabel">Créer un code promo</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input type="hidden" name="client_id" value="{{ $order->client->id ?? '' }}">
-                                            
-                                            <div class="mb-3">
-                                                <label for="promo_code" class="form-label">Code promo *</label>
-                                                <input type="text" class="form-control" id="promo_code" name="code" required>
-                                                <div class="form-text">
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="generateCodeBtn">
-                                                        Générer automatiquement
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="mb-3">
-                                                <label for="promo_type" class="form-label">Type *</label>
-                                                <select class="form-control" id="promo_type" name="type" required>
-                                                    <option value="">Sélectionner...</option>
-                                                    <option value="percentage">Pourcentage</option>
-                                                    <option value="fixed_amount">Montant fixe</option>
-                                                    <option value="free_product">Produit gratuit</option>
-                                                </select>
-                                            </div>
-                                            
-                                            <div class="mb-3" id="value_container">
-                                                <label for="promo_value" class="form-label">Valeur *</label>
-                                                <div class="input-group">
-                                                    <input type="number" class="form-control" id="promo_value" name="value" step="0.01" min="0">
-                                                    <span class="input-group-text" id="value_unit">TND</span>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="mb-3" id="product_container" style="display: none;">
-                                                <label for="promo_product" class="form-label">Produit gratuit *</label>
-                                                <select class="form-control" id="promo_product" name="product_id">
-                                                    <option value="">Sélectionner un produit...</option>
-                                                    @foreach($products as $product)
-                                                        <option value="{{ $product->id }}">{{ $product->name }} ({{ $product->reference }})</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            
-                                            <div class="mb-3">
-                                                <label for="expires_at" class="form-label">Date d'expiration</label>
-                                                <input type="date" class="form-control" id="expires_at" name="expires_at" 
-                                                    min="{{ date('Y-m-d') }}">
-                                                <div class="form-text">Laisser vide pour aucune expiration</div>
-                                            </div>
-                                            
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="apply_immediately" name="apply_immediately">
-                                                <label class="form-check-label" for="apply_immediately">
-                                                    Appliquer immédiatement à cette commande
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                            <button type="submit" class="btn btn-primary">Créer le code promo</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
 
                         <div class="form-group mt-4">
                             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
@@ -748,6 +673,84 @@
         </div>
     </div>
 </div>
+
+
+
+<!-- Modal pour créer un code promo -->
+<div class="modal fade" id="createPromoModal" tabindex="-1" aria-labelledby="createPromoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="createPromoForm">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createPromoModalLabel">Créer un code promo</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="client_id" value="{{ $order->client->id ?? '' }}">
+                                            
+                    <div class="mb-3">
+                        <label for="promo_code" class="form-label">Code promo *</label>
+                        <input type="text" class="form-control" id="promo_code" name="code" required>
+                        <div class="form-text">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="generateCodeBtn">
+                                Générer automatiquement
+                            </button>
+                        </div>
+                    </div>
+                                            
+                    <div class="mb-3">
+                        <label for="promo_type" class="form-label">Type *</label>
+                        <select class="form-control" id="promo_type" name="type" required>
+                            <option value="">Sélectionner...</option>
+                            <option value="percentage">Pourcentage</option>
+                            <option value="fixed_amount">Montant fixe</option>
+                            <option value="free_product">Produit gratuit</option>
+                        </select>
+                    </div>
+                                            
+                    <div class="mb-3" id="value_container">
+                        <label for="promo_value" class="form-label">Valeur *</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="promo_value" name="value" step="0.01" min="0">
+                                <span class="input-group-text" id="value_unit">TND</span>
+                            </div>
+                    </div>
+                                            
+                    <div class="mb-3" id="product_container" style="display: none;">
+                        <label for="promo_product" class="form-label">Produit gratuit *</label>
+                        <select class="form-control" id="promo_product" name="product_id">
+                            <option value="">Sélectionner un produit...</option>
+                                @foreach($products as $product)
+                                    <option value="{{ $product->id }}">{{ $product->name }} ({{ $product->reference }})</option>
+                                @endforeach
+                        </select>
+                    </div>
+                                            
+                    <div class="mb-3">
+                        <label for="expires_at" class="form-label">Date d'expiration</label>
+                        <input type="date" class="form-control" id="expires_at" name="expires_at" 
+                            min="{{ date('Y-m-d') }}">
+                        <div class="form-text">Laisser vide pour aucune expiration</div>
+                    </div>
+                                            
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="apply_immediately" name="apply_immediately">
+                        <label class="form-check-label" for="apply_immediately">
+                            Appliquer immédiatement à cette commande
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary"  id="add-code">Créer le code promo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
 
@@ -897,6 +900,10 @@ $(document).ready(function() {
     // Gestionnaire pour le bouton "Ajouter un produit"
     $('#add-product-btn').click(function() {
         addProductItem();
+    });
+
+    $('#add-promo-btn').click(function() {
+        addPromo();
     });
     
     // Gestionnaire pour les boutons de suppression d'un produit (délégation d'événement)
@@ -1321,6 +1328,135 @@ document.addEventListener('DOMContentLoaded', function() {
     // Calcul initial
     calculateTotals();
 });
+
+function addPromo() {
+    // Ouvrir la modal pour ajouter un code promo
+    const promoModal = new bootstrap.Modal(document.getElementById('createPromoModal'));
+    promoModal.show();
+}
         
+ 
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion du type de promo
+    document.getElementById('promo_type').addEventListener('change', function() {
+        const valueContainer = document.getElementById('value_container');
+        const productContainer = document.getElementById('product_container');
+        const valueUnit = document.getElementById('value_unit');
+        const promoValue = document.getElementById('promo_value');
+        
+        if (this.value === 'free_product') {
+            valueContainer.style.display = 'none';
+            productContainer.style.display = 'block';
+            promoValue.required = false;
+            document.getElementById('promo_product').required = true;
+        } else {
+            valueContainer.style.display = 'block';
+            productContainer.style.display = 'none';
+            promoValue.required = true;
+            document.getElementById('promo_product').required = false;
+            
+            if (this.value === 'percentage') {
+                valueUnit.textContent = '%';
+                promoValue.max = 100;
+            } else {
+                valueUnit.textContent = 'TND';
+                promoValue.removeAttribute('max');
+            }
+        }
+    });
+    
+    // Générateur de code automatique
+    document.getElementById('generateCodeBtn').addEventListener('click', function() {
+        const clientName = '{{ $order->client->first_name ?? "" }}';
+        const timestamp = Date.now().toString().slice(-6);
+        const randomCode = clientName.substring(0, 3).toUpperCase() + timestamp;
+        document.getElementById('promo_code').value = randomCode;
+    });
+    
+    // Création du code promo
+    document.getElementById('createPromoForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        fetch('{{ route("promo-codes.store") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Fermer le modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('createPromoModal'));
+                modal.hide();
+                
+                // Recharger la page ou actualiser la section
+                location.reload();
+            } else {
+                alert('Erreur lors de la création du code promo: ' + (data.message || 'Erreur inconnue'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Erreur lors de la création du code promo');
+        });
+    });
+    
+    // Appliquer un code promo
+    document.querySelectorAll('.apply-promo-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const promoId = this.dataset.promoId;
+            const promoType = this.dataset.promoType;
+            const promoValue = this.dataset.promoValue;
+            const promoProductId = this.dataset.promoProductId;
+            
+            // Mettre à jour le champ hidden
+            document.getElementById('promo_code_id').value = promoId;
+            
+            // Appliquer la remise selon le type
+            if (promoType === 'percentage') {
+                // Calculer la remise en pourcentage
+                const subtotal = parseFloat(document.getElementById('subtotal-amount').textContent.replace(' TND', ''));
+                const discountAmount = (subtotal * promoValue) / 100;
+                document.getElementById('discount').value = discountAmount;
+            } else if (promoType === 'fixed_amount') {
+                document.getElementById('discount').value = promoValue;
+            } else if (promoType === 'free_product') {
+                // Ajouter le produit gratuit (logique à implémenter selon vos besoins)
+                addFreeProduct(promoProductId);
+            }
+            
+            // Recalculer les totaux
+            calculateTotals();
+            
+            // Mettre à jour l'affichage
+            location.reload();
+        });
+    });
+    
+    // Retirer un code promo
+    document.querySelectorAll('.remove-promo-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            document.getElementById('promo_code_id').value = '';
+            document.getElementById('discount').value = 0;
+            calculateTotals();
+            location.reload();
+        });
+    });
+    
+    function addFreeProduct(productId) {
+        // Logique pour ajouter automatiquement le produit gratuit
+        // À adapter selon votre structure de données
+        console.log('Ajout du produit gratuit:', productId);
+    }
+    
+    function calculateTotals() {
+        // Votre logique existante de calcul des totaux
+        // Cette fonction devrait déjà exister dans votre code
+    }
+});
 </script>
 @endsection

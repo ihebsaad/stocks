@@ -46,7 +46,7 @@ class CreateOrders extends Migration
             $table->foreignId('client_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('delivery_company_id')->nullable()->constrained()->onDelete('set null');
             $table->enum('service_type', ['Livraison', 'Echange'])->nullable();
-            $table->enum('status', ['draft','pending','no_stock','production','no_response','cancelled','confirmed','not_available'])->default('draft');
+            $table->enum('status', ['draft','pending','no_stock','production','no_response','cancelled','confirmed','not_available','rendezvous'])->default('draft');
             $table->text('notes')->nullable();
             $table->boolean('free_delivery')->default(false);
             $table->timestamps();

@@ -31,4 +31,10 @@ class Client extends Model
     {
         return "{$this->first_name} {$this->last_name}";
     }
+    
+    public function promoCodes()
+    {
+        return $this->hasMany(PromoCode::class);
+    }
+
 }
