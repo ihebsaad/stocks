@@ -85,7 +85,9 @@ class PromoCodeController extends Controller
     {
         try {
             $validated = $request->validate([
-                'order_id' => 'required|exists:orders,id'
+                'order_id' => 'required|exists:orders,id',
+                'discount' => 'required',
+                'total' => 'required',
             ]);
 
             if (!$promoCode->isValid()) {
@@ -97,8 +99,8 @@ class PromoCodeController extends Controller
 
             $order = Order::findOrFail($validated['order_id']);
 
-            $order->discount = $request->get('discount') ;
-            $order->total = $request->get('total') ;
+            $order->discount = $validated['discount'] ;
+            $order->total = $validated['total'] ;
             $order->promo_code_id  =  $promoCode->id ;
             $order->save();
             $promoCode->markAsUsed();

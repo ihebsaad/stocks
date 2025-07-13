@@ -533,7 +533,7 @@
                                 @if($order->client && $order->client->promoCodes->count() > 0)
                                     <div class="promo-codes-list">
                                         @foreach($order->client->promoCodes as $promo)
-                                            <div class="promo-item mb-2 p-3 border rounded {{ $promo->id == $order->promo_code_id ? 'bg-success bg-opacity-10 border-success' : 'bg-light' }}">
+                                            <div class="promo-item mb-2 p-3 border rounded {{ $promo->id == $order->promo_code_id ? 'bg-success- bg-opacity-10 border-success' : 'bg-light' }}">
                                                 <div class="d-flex justify-content-between align-items-start">
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex align-items-center mb-1">
@@ -579,11 +579,11 @@
                                                     
                                                     <div class="ms-3">
                                                         @if($promo->id == $order->promo_code_id)
-                                                            <button type="button" class="btn btn-sm btn-outline-danger remove-promo-btn" 
+                                                            <!--<button type="button" class="btn btn-sm btn-outline-danger remove-promo-btn" 
                                                                     data-promo-id="{{ $promo->id }}"
                                                                     title="Retirer ce code promo">
                                                                 <i class="fas fa-times"></i> Retirer
-                                                            </button>
+                                                            </button>-->
                                                         @elseif(!$promo->is_used && (!$promo->expires_at || !$promo->expires_at->isPast()))
                                                             <button type="button" class="btn btn-sm btn-outline-success apply-promo-btn" 
                                                                     data-promo-id="{{ $promo->id }}"
