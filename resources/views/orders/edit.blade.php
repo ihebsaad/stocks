@@ -485,7 +485,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="discount">Remise (TND):</label>
-                                            <input type="number" name="discount" id="discount" class="form-control" step="0.01" min="0"  
+                                            <input type="number" name="discount" id="discount" class="form-control" step="0.01" min="0" readonly
                                                 value="{{ old('discount', $order->discount ?? 0) }}" title="Remise appliquée automatiquement par le code promo">
                                             <small class="text-muted">
                                                 <i class="fas fa-info-circle"></i> La remise est calculée automatiquement selon le code promo appliqué
@@ -1169,7 +1169,7 @@ $(document).ready(function() {
 
 
     // Désactiver le champ discount pour empêcher la modification manuelle
-    //$('#discount').prop('readonly', true);
+    $('#discount').prop('readonly', true);
         
     // Initialiser les données du code promo si un code est déjà appliqué
     initializeCurrentPromo();
@@ -1379,9 +1379,7 @@ function usePromoCode() {
     const promoCodeId = document.getElementById('promo_code_id').value;
     const total = $('#total').val() || 0;
     const discount = $('#discount').val() || 0;
-    
-    alert('total'+ total);
-    alert('discount'+ discount);
+     
     if (promoCodeId) {
         // Marquer le code promo comme utilisé
         fetch(`/promo-codes/${promoCodeId}/use`, {
@@ -1414,7 +1412,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('delivery_company_id').addEventListener('change', calculateTotals);
     
     // Calcul initial
-    calculateTotals();
+    //calculateTotals();
 });
 
 function addPromo() {
@@ -1546,7 +1544,7 @@ function applyPromoCode(promoData) {
             addFreeProduct(promoData.product_id);
             break;
     }
-
+    calculateTotals(); // Recalculer les totaux après application du code promo
     usePromoCode(); // Marquer le code promo comme utilisé
 }
 
