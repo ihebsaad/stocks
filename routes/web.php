@@ -22,6 +22,7 @@ use App\Http\Controllers\ClientApiController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\PromoCodeController;
 use App\Http\Controllers\API\DeliveryController;
 
 use App\Http\Controllers\ParcelController;      
@@ -144,3 +145,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('clients-search', [ClientController::class, 'search'])->name('clients.search');
     Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
 });
+
+
+Route::post('/promo-codes', [PromoCodeController::class, 'store'])->name('promo-codes.store');
+Route::delete('/promo-codes/{promoCode}', [PromoCodeController::class, 'destroy'])->name('promo-codes.destroy');

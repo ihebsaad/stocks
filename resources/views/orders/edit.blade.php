@@ -446,6 +446,151 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <!-- Section Codes Promos -->
+                        <div class="card mb-2">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Codes Promos</h6>
+                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#createPromoModal">
+                                    <i class="fas fa-plus"></i> Créer
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <!-- Codes promos existants du client -->
+                                @if($order->client && $order->client->promoCodes->count() > 0)
+                                    <div class="promo-codes-list">
+                                        @foreach($order->client->promoCodes as $promo)
+                                            <div class="promo-item mb-2 p-2 border rounded {{ $promo->id == $order->promo_code_id ? 'bg-success bg-opacity-10 border-success' : '' }}">
+                                                <div class="d-flex justify-content-between align-items-start">
+                                                    <div>
+                                                        <strong>{{ $promo->code }}</strong>
+                                                        <br>
+                                                        <small class="text-muted">
+                                                            @if($promo->type == 'percentage')
+                                                                -{{ $promo->value }}%
+                                                            @elseif($promo->type == 'fixed_amount')
+                                                                -{{ $promo->value }} TND
+                                                            @elseif($promo->type == 'free_product')
+                                                                Produit gratuit
+                                                            @endif
+                                                        </small>
+                                                        <br>
+                                                        <small class="text-muted">
+                                                            Exp: {{ $promo->expires_at ? $promo->expires_at->format('d/m/Y') : 'Jamais' }}
+                                                        </small>
+                                                        @if($promo->expires_at && $promo->expires_at->isPast())
+                                                            <span class="badge bg-danger">Expiré</span>
+                                                        @elseif($promo->is_used)
+                                                            <span class="badge bg-warning">Utilisé</span>
+                                                        @else
+                                                            <span class="badge bg-success">Valide</span>
+                                                        @endif
+                                                    </div>
+                                                    <div>
+                                                        @if($promo->id == $order->promo_code_id)
+                                                            <button type="button" class="btn btn-sm btn-outline-danger remove-promo-btn" 
+                                                                    data-promo-id="{{ $promo->id }}">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        @elseif(!$promo->is_used && (!$promo->expires_at || !$promo->expires_at->isPast()))
+                                                            <button type="button" class="btn btn-sm btn-outline-success apply-promo-btn" 
+                                                                    data-promo-id="{{ $promo->id }}"
+                                                                    data-promo-type="{{ $promo->type }}"
+                                                                    data-promo-value="{{ $promo->value }}"
+                                                                    data-promo-product-id="{{ $promo->product_id }}">
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-muted">Aucun code promo pour ce client</p>
+                                @endif
+                                
+                                <!-- Champ hidden pour le code promo sélectionné -->
+                                <input type="hidden" name="promo_code_id" id="promo_code_id" value="{{ $order->promo_code_id }}">
+                            </div>
+                        </div>
+
+                        <!-- Modal pour créer un code promo -->
+                        <div class="modal fade" id="createPromoModal" tabindex="-1" aria-labelledby="createPromoModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form id="createPromoForm">
+                                        @csrf
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="createPromoModalLabel">Créer un code promo</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="client_id" value="{{ $order->client->id ?? '' }}">
+                                            
+                                            <div class="mb-3">
+                                                <label for="promo_code" class="form-label">Code promo *</label>
+                                                <input type="text" class="form-control" id="promo_code" name="code" required>
+                                                <div class="form-text">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="generateCodeBtn">
+                                                        Générer automatiquement
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="promo_type" class="form-label">Type *</label>
+                                                <select class="form-control" id="promo_type" name="type" required>
+                                                    <option value="">Sélectionner...</option>
+                                                    <option value="percentage">Pourcentage</option>
+                                                    <option value="fixed_amount">Montant fixe</option>
+                                                    <option value="free_product">Produit gratuit</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="mb-3" id="value_container">
+                                                <label for="promo_value" class="form-label">Valeur *</label>
+                                                <div class="input-group">
+                                                    <input type="number" class="form-control" id="promo_value" name="value" step="0.01" min="0">
+                                                    <span class="input-group-text" id="value_unit">TND</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-3" id="product_container" style="display: none;">
+                                                <label for="promo_product" class="form-label">Produit gratuit *</label>
+                                                <select class="form-control" id="promo_product" name="product_id">
+                                                    <option value="">Sélectionner un produit...</option>
+                                                    @foreach($products as $product)
+                                                        <option value="{{ $product->id }}">{{ $product->name }} ({{ $product->reference }})</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="expires_at" class="form-label">Date d'expiration</label>
+                                                <input type="date" class="form-control" id="expires_at" name="expires_at" 
+                                                    min="{{ date('Y-m-d') }}">
+                                                <div class="form-text">Laisser vide pour aucune expiration</div>
+                                            </div>
+                                            
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="apply_immediately" name="apply_immediately">
+                                                <label class="form-check-label" for="apply_immediately">
+                                                    Appliquer immédiatement à cette commande
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                            <button type="submit" class="btn btn-primary">Créer le code promo</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="form-group mt-4">
                             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                             <a href="{{ route('orders.index') }}" class="btn btn-secondary">Annuler</a>
@@ -1003,6 +1148,179 @@ function updateTotals() {
         $('#total').val(total.toFixed(2));
     }
 }
+
+
+/* Codes promos */
+
+function calculateTotals() {
+    let subtotal = 0;
+    
+    // Calculer le sous-total des produits
+    document.querySelectorAll('.product-item').forEach(function(item) {
+        const quantity = parseFloat(item.querySelector('.item-quantity').value) || 0;
+        const price = parseFloat(item.querySelector('.item-price').value) || 0;
+        const itemTotal = quantity * price;
+        
+        item.querySelector('.item-subtotal').value = itemTotal.toFixed(2) + ' TND';
+        subtotal += itemTotal;
+    });
+    
+    // Remise manuelle
+    const manualDiscount = parseFloat(document.getElementById('discount').value) || 0;
+    
+    // Remise du code promo
+    let promoDiscount = 0;
+    const promoCodeId = document.getElementById('promo_code_id').value;
+    
+    if (promoCodeId) {
+        const promoData = getPromoCodeData(promoCodeId);
+        if (promoData) {
+            if (promoData.type === 'percentage') {
+                promoDiscount = (subtotal * promoData.value) / 100;
+            } else if (promoData.type === 'fixed_amount') {
+                promoDiscount = promoData.value;
+            }
+            // Pour free_product, le produit est ajouté avec prix = 0
+        }
+    }
+    
+    // Total des remises
+    const totalDiscount = manualDiscount + promoDiscount;
+    
+    // Frais de livraison
+    let deliveryFee = 0;
+    const freeDelivery = document.getElementById('free_delivery').checked;
+    if (!freeDelivery) {
+        const deliveryCompany = document.getElementById('delivery_company_id');
+        if (deliveryCompany.value) {
+            const selectedOption = deliveryCompany.options[deliveryCompany.selectedIndex];
+            deliveryFee = parseFloat(selectedOption.dataset.price) || 0;
+        }
+    }
+    
+    // Total final
+    const total = Math.max(0, subtotal - totalDiscount + deliveryFee);
+    
+    // Mise à jour de l'affichage
+    document.getElementById('subtotal-amount').textContent = subtotal.toFixed(2) + ' TND';
+    document.getElementById('discount-amount').textContent = totalDiscount.toFixed(2) + ' TND';
+    document.getElementById('delivery-amount').textContent = deliveryFee.toFixed(2) + ' TND';
+    document.getElementById('total-amount').textContent = total.toFixed(2) + ' TND';
+    
+    // Afficher le détail des remises si code promo appliqué
+    updateDiscountDetails(manualDiscount, promoDiscount);
+}
+
+function getPromoCodeData(promoCodeId) {
+    // Récupérer les données du code promo depuis l'élément DOM
+    const promoButton = document.querySelector(`[data-promo-id="${promoCodeId}"]`);
+    if (promoButton) {
+        return {
+            type: promoButton.dataset.promoType,
+            value: parseFloat(promoButton.dataset.promoValue),
+            product_id: promoButton.dataset.promoProductId
+        };
+    }
+    return null;
+}
+
+function updateDiscountDetails(manualDiscount, promoDiscount) {
+    const discountElement = document.getElementById('discount-amount');
+    
+    if (manualDiscount > 0 && promoDiscount > 0) {
+        discountElement.title = `Remise manuelle: ${manualDiscount.toFixed(2)} TND + Code promo: ${promoDiscount.toFixed(2)} TND`;
+    } else if (promoDiscount > 0) {
+        discountElement.title = `Code promo: ${promoDiscount.toFixed(2)} TND`;
+    } else if (manualDiscount > 0) {
+        discountElement.title = `Remise manuelle: ${manualDiscount.toFixed(2)} TND`;
+    } else {
+        discountElement.title = '';
+    }
+}
+
+function addFreeProduct(productId) {
+    // Trouver le produit dans la liste
+    const productSelect = document.querySelector('.product-select');
+    const productOption = productSelect.querySelector(`option[value="${productId}"]`);
+    
+    if (productOption) {
+        // Ajouter un nouvel élément produit
+        const template = document.getElementById('product-item-template');
+        const clone = template.content.cloneNode(true);
+        
+        // Mettre à jour l'index
+        const index = document.querySelectorAll('.product-item').length;
+        clone.innerHTML = clone.innerHTML.replace(/INDEX/g, index);
+        
+        // Configurer le produit
+        const newProductSelect = clone.querySelector('.product-select');
+        newProductSelect.value = productId;
+        
+        // Prix à 0 pour produit gratuit
+        const priceInput = clone.querySelector('.item-price');
+        priceInput.value = '0.00';
+        priceInput.readOnly = true;
+        
+        // Quantité par défaut
+        const quantityInput = clone.querySelector('.item-quantity');
+        quantityInput.value = 1;
+        
+        // Ajouter une classe pour identifier les produits gratuits
+        clone.querySelector('.product-item').classList.add('free-product');
+        
+        // Ajouter un indicateur visuel
+        const indicator = document.createElement('span');
+        indicator.className = 'badge bg-success ms-2';
+        indicator.textContent = 'Gratuit';
+        clone.querySelector('.product-select').parentNode.appendChild(indicator);
+        
+        // Insérer dans le conteneur
+        document.getElementById('products-container').appendChild(clone);
+        
+        // Déclencher les événements pour charger les variations si nécessaire
+        newProductSelect.dispatchEvent(new Event('change'));
+        
+        // Recalculer les totaux
+        calculateTotals();
+    }
+}
+
+// Gestion de la validation du formulaire avec codes promos
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+    const promoCodeId = document.getElementById('promo_code_id').value;
+    
+    if (promoCodeId) {
+        // Marquer le code promo comme utilisé
+        fetch(`/promo-codes/${promoCodeId}/use`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                order_id: {{ $order->id }}
+            })
+        })
+        .catch(error => {
+            console.error('Erreur lors de la mise à jour du code promo:', error);
+        });
+    }
+});
+
+// Écouter les changements sur les champs qui affectent le calcul
+document.addEventListener('DOMContentLoaded', function() {
+    // Recalculer quand la remise manuelle change
+    document.getElementById('discount').addEventListener('input', calculateTotals);
+    
+    // Recalculer quand la livraison gratuite change
+    document.getElementById('free_delivery').addEventListener('change', calculateTotals);
+    
+    // Recalculer quand la société de livraison change
+    document.getElementById('delivery_company_id').addEventListener('change', calculateTotals);
+    
+    // Calcul initial
+    calculateTotals();
+});
         
 </script>
 @endsection

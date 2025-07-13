@@ -74,4 +74,10 @@ class Order extends Model
             'comment' => $comment,
         ]);
     }
+
+    public function promoCode()
+    {
+        return $this->belongsTo(PromoCode::class);
+    }
+
 }
