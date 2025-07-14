@@ -126,7 +126,7 @@ class SalesStatisticsService
                 DB::raw('SUM(order_items.subtotal) as revenue'),
                 DB::raw('SUM(order_items.quantity) as quantity')
             )
-            ->where('orders.status', '!=', 'cancelled');
+            ->where('orders.status', '==', 'confirmed');
             
         if (isset($filters['date_from']) && $filters['date_from']) {
             $query->whereDate('orders.created_at', '>=', $filters['date_from']);
