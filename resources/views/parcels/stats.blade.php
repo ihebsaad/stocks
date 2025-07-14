@@ -530,7 +530,44 @@
             margin: 0;
             letter-spacing: -0.5px;
         }
- 
+        
+        .badge {
+            font-size: 0.8em;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .card-body h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body small {
+            opacity: 0.8;
+        }
+
+        .table-responsive {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .badge-primary {
+            background-color: #007bff;
+        }
+
+        .badge-success {
+            background-color: #28a745;
+        }
+
+        .badge-danger {
+            background-color: #dc3545;
+        }
+
+        .badge-info {
+            background-color: #17a2b8;
+        }
     </style>
 @endsection
 
@@ -1059,47 +1096,7 @@
     });
     </script>
 
-    <!-- CSS pour améliorer l'affichage -->
-    <style>
-    .badge {
-        font-size: 0.8em;
-    }
-
-    .table th {
-        background-color: #f8f9fa;
-        font-weight: 600;
-    }
-
-    .card-body h3 {
-        margin-bottom: 0.5rem;
-    }
-
-    .card-body small {
-        opacity: 0.8;
-    }
-
-    .table-responsive {
-        max-height: 500px;
-        overflow-y: auto;
-    }
-
-    .badge-primary {
-        background-color: #007bff;
-    }
-
-    .badge-success {
-        background-color: #28a745;
-    }
-
-    .badge-danger {
-        background-color: #dc3545;
-    }
-
-    .badge-info {
-        background-color: #17a2b8;
-    }
-    </style>
-     
+ 
 </div>
 
 <script>

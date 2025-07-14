@@ -1199,6 +1199,7 @@ $(document).ready(function() {
         // Recalculer les totaux
         updateTotals();
         
+        usePromoCode();
         // Recharger la page pour mettre à jour l'affichage
         //location.reload();
     });
@@ -1459,7 +1460,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const randomCode = clientName.substring(0, 3).toUpperCase() + timestamp;
         document.getElementById('promo_code').value = randomCode;
     });
-    
+    /*
     document.getElementById('createPromoForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -1504,7 +1505,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
         });
     });
-    
+    */
  
  
     
@@ -1545,8 +1546,7 @@ function applyPromoCode(promoData) {
             addFreeProduct(promoData.product_id);
             break;
     }
-    calculateTotals(); // Recalculer les totaux après application du code promo
-    usePromoCode(); // Marquer le code promo comme utilisé
+
 }
 
 function addFreeProduct(productId) {
