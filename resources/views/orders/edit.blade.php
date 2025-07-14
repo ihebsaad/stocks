@@ -396,7 +396,7 @@
                         </div>
                                                 
                         <!-- Section Produits -->
-                        <div class="card mb-2">
+                        <div class="card mb-2" data-order-id="{{ $order->id }}">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Produits de la commande</h6>
                                 <button type="button" class="btn btn-success btn-sm" id="add-product-btn">
@@ -611,7 +611,7 @@
                                 @endif
                                 
                                 <!-- Champ hidden pour le code promo sélectionné -->
-                                <input type="hidden" name="promo_code_id" id="promo_code_id" value="{{ $order->promo_code_id }}">
+                                <input type="hidden" name="promo_code_id" id="promo_code_id" value="{{ $order->promo_code_id ?? '' }}">
                                 <input type="hidden" name="promo_code_type" id="promo_code_type" value="{{ $order->promoCode->type ?? '' }}">
                                 <input type="hidden" name="promo_code_value" id="promo_code_value" value="{{ $order->promoCode->value ?? '' }}">
                             </div>
@@ -1192,8 +1192,10 @@ $(document).ready(function() {
             product_id: promoProductId
         };
         
-        // Mettre à jour le champ hidden
+        // Mettre à jour les champs hidden
         $('#promo_code_id').val(promoId);
+        $('#promo_code_type').val(promoType);
+        $('#promo_code_value').val(promoValue);
         
         // Appliquer le code promo selon son type
         applyPromoCode(currentPromoData);
@@ -1201,9 +1203,10 @@ $(document).ready(function() {
         // Recalculer les totaux
         updateTotals();
         
-        usePromoCode();
-        // Recharger la page pour mettre à jour l'affichage
-        //location.reload();
+        // CORRIGER: Appeler usePromoCode APRÈS que les totaux soient calculés
+        setTimeout(() => {
+            usePromoCode();
+        }, 100);
     });
     
     // Gestionnaire pour retirer un code promo
@@ -1360,6 +1363,19 @@ function getPromoCodeData(promoCodeId) {
             product_id: promoButton.dataset.promoProductId
         };
     }
+    
+    // AJOUTER: Fallback vers les champs hidden si bouton pas trouvé
+    const typeField = document.getElementById('promo_code_type');
+    const valueField = document.getElementById('promo_code_value');
+    
+    if (typeField && typeField.value) {
+        return {
+            type: typeField.value,
+            value: parseFloat(valueField.value || 0),
+            product_id: null // À adapter selon vos besoins
+        };
+    }
+    
     return null;
 }
 
@@ -1381,9 +1397,12 @@ function updateDiscountDetails(manualDiscount, promoDiscount) {
 // Gestion de la validation du formulaire avec codes promos
 function usePromoCode() {
     const promoCodeId = document.getElementById('promo_code_id').value;
-    const total = $('#total').val() || 0;
-    const discount = $('#discount').val() || 0;
-    alert(total + ' ' + discount); 
+    const total = parseFloat($('#total').val()) || 0;
+    const discount = parseFloat($('#discount').val()) || 0;
+    
+    // RETIRER cette ligne qui cause une alerte
+    // alert(total + ' ' + discount);
+    
     if (promoCodeId) {
         // Marquer le code promo comme utilisé
         fetch(`/promo-codes/${promoCodeId}/use`, {
@@ -1393,17 +1412,41 @@ function usePromoCode() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                order_id: {{ $order->id }},
+                // CORRIGER: Récupérer l'ID de commande correctement
+                order_id: getOrderId(), // Fonction à ajouter
                 discount: discount,
                 total: total,
             })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Code promo utilisé avec succès');
+            } else {
+                console.error('Erreur:', data.message);
+            }
         })
         .catch(error => {
             console.error('Erreur lors de la mise à jour du code promo:', error);
         });
     }
-};
-
+}
+function getOrderId() {
+    // Récupérer l'ID de commande depuis l'URL ou un élément DOM
+    const urlParts = window.location.pathname.split('/');
+    const orderIndex = urlParts.indexOf('orders');
+    if (orderIndex !== -1 && urlParts[orderIndex + 1]) {
+        return urlParts[orderIndex + 1];
+    }
+    
+    // Alternative: depuis un élément DOM
+    const orderIdElement = document.querySelector('[data-order-id]');
+    if (orderIdElement) {
+        return orderIdElement.dataset.orderId;
+    }
+    
+    return null;
+}
 // Écouter les changements sur les champs qui affectent le calcul
 document.addEventListener('DOMContentLoaded', function() {
     // Recalculer quand la remise manuelle change
@@ -1457,7 +1500,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Générateur de code automatique
     document.getElementById('generateCodeBtn').addEventListener('click', function() {
-        const clientName = '{{ $order->client->first_name ?? "" }}';
+        const clientName = '{{ $order->client->first_name ?? "CLIENT" }}';
         const timestamp = Date.now().toString().slice(-6);
         const randomCode = clientName.substring(0, 3).toUpperCase() + timestamp;
         document.getElementById('promo_code').value = randomCode;
@@ -1527,8 +1570,31 @@ function initializeCurrentPromo() {
                 value: promoButton.data('promo-value'),
                 product_id: promoButton.data('promo-product-id')
             };
+        } else {
+            // AJOUTER: Fallback pour récupérer depuis les champs hidden
+            const typeField = $('#promo_code_type').val();
+            const valueField = $('#promo_code_value').val();
+            
+            if (typeField) {
+                currentPromoData = {
+                    id: promoCodeId,
+                    type: typeField,
+                    value: parseFloat(valueField || 0),
+                    product_id: null
+                };
+            }
         }
     }
+}
+
+function debugPromoCalculation() {
+    const promoCodeId = $('#promo_code_id').val();
+    const promoData = getPromoCodeData(promoCodeId);
+    
+    console.log('Debug Promo:');
+    console.log('- Promo ID:', promoCodeId);
+    console.log('- Promo Data:', promoData);
+    console.log('- Current Promo Data:', currentPromoData);
 }
 
 function applyPromoCode(promoData) {
@@ -1611,24 +1677,24 @@ function updateTotals() {
     
     // Calculer la remise du code promo
     let promoDiscount = 0;
+    const promoCodeId = $('#promo_code_id').val();
 
-    promoCodeId = $('#promo_code_id').val() ?? 0;
-
-     
-    if (promoCodeId > 0) {
+    if (promoCodeId && promoCodeId > 0) {
         const currentPromoData = getPromoCodeData(promoCodeId);
-    
-        switch (currentPromoData.type) {
-            case 'percentage':
-                promoDiscount = (subtotal * currentPromoData.value) / 100;
-                break;
-            case 'fixed_amount':
-                promoDiscount = parseFloat(currentPromoData.value);
-                break;
-            case 'free_product':
-                // La remise est déjà prise en compte par le produit à prix 0
-                promoDiscount = 0;
-                break;
+        
+        if (currentPromoData) {
+            switch (currentPromoData.type) {
+                case 'percentage':
+                    promoDiscount = (subtotal * currentPromoData.value) / 100;
+                    break;
+                case 'fixed_amount':
+                    promoDiscount = parseFloat(currentPromoData.value);
+                    break;
+                case 'free_product':
+                    // La remise est déjà prise en compte par le produit à prix 0
+                    promoDiscount = 0;
+                    break;
+            }
         }
     }
     
@@ -1654,7 +1720,11 @@ function updateTotals() {
     $('#delivery-amount').text(deliveryCost.toFixed(2) + ' TND');
     $('#total-amount').text(total.toFixed(2) + ' TND');
     
+    // CORRIGER: Mettre à jour le champ hidden du total
+    $('#total').val(total.toFixed(2));
+    
     // Mettre à jour le titre du discount pour afficher le type de remise
+    const currentPromoData = getPromoCodeData(promoCodeId);
     if (currentPromoData && promoDiscount > 0) {
         let discountTitle = '';
         switch (currentPromoData.type) {
@@ -1672,10 +1742,8 @@ function updateTotals() {
     } else {
         $('#discount-amount').removeAttr('title');
     }
- 
-    document.getElementById('total').value = total.toFixed(2);
 
-    console.log('Totaux mis à jour ...');
+    console.log('Totaux mis à jour - Subtotal:', subtotal, 'Promo:', promoDiscount, 'Total:', total);
 }
 
 // Fonction mise à jour pour le sous-total des éléments
