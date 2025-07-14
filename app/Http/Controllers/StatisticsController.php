@@ -72,6 +72,9 @@ class StatisticsController extends Controller
             'performanceMetrics',
             'periodStats',
             'statusStats',
+            'profitStats',           // Nouveau
+            'topSellingProducts',    // Nouveau
+            'profitByPeriod',  
             'deliveryCompanies',
             'filters'
         ));
