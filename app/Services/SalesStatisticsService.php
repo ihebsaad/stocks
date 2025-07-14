@@ -70,7 +70,7 @@ class SalesStatisticsService
                 'products.id as product_id',
                 'products.name as product_name',
                 'products.reference as product_reference',
-                'variations.name as variation_name',
+                'variations.reference as variation_name',
                 DB::raw('SUM(order_items.quantity) as total_quantity'),
                 DB::raw('SUM(order_items.subtotal) as total_revenue'),
                 DB::raw('COUNT(DISTINCT orders.id) as orders_count')
