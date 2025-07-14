@@ -1666,6 +1666,8 @@ function updateTotals() {
     }
  
     document.getElementById('total').value = total.toFixed(2);
+
+    console.log('Totaux mis à jour ...');
 }
 
 // Fonction mise à jour pour le sous-total des éléments
