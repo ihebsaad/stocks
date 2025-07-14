@@ -864,16 +864,16 @@
 
 
 
-
+    @if(auth()->id()==1)
     <div class="row mb-4">
         <div class="col-12">
-            <h3 class="mb-3">📊 Statistiques des commandes</h3>
+            <h3 class="mb-3">📊 Statistiques des commandes confirmées</h3>
         </div>
         <div class="col-md-3">
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <h5 class="card-title">💰 Chiffre d'Affaires</h5>
-                    <h3>{{ number_format($profitStats['total_revenue'], 0) }} TND</h3>
+                    <h3 class="text-right">{{ number_format($profitStats['total_revenue'], 0) }} TND</h3>
                     <small>{{ $profitStats['items_count'] }} articles vendus</small>
                 </div>
             </div>
@@ -882,7 +882,7 @@
             <div class="card bg-warning text-white">
                 <div class="card-body">
                     <h5 class="card-title">📦 Coût Total</h5>
-                    <h3>{{ number_format($profitStats['total_cost'], 0) }} TND</h3>
+                    <h3 class="text-right">{{ number_format($profitStats['total_cost'], 0) }} TND</h3>
                     <small>Coût des marchandises vendues</small>
                 </div>
             </div>
@@ -890,8 +890,8 @@
         <div class="col-md-3">
             <div class="card bg-success text-white">
                 <div class="card-body">
-                    <h5 class="card-title">💎 Bénéfice Net</h5>
-                    <h3>{{ number_format($profitStats['total_profit'], 0) }} TND</h3>
+                    <h5 class="card-title">💎 Bénéfice </h5>
+                    <h3 class="text-right">{{ number_format($profitStats['total_profit'], 0) }} TND</h3>
                     <small>Bénéfice brut</small>
                 </div>
             </div>
@@ -900,13 +900,13 @@
             <div class="card bg-info text-white">
                 <div class="card-body">
                     <h5 class="card-title">📈 Marge Bénéficiaire</h5>
-                    <h3>{{ intval($profitStats['profit_margin']) }}%</h3>
+                    <h3 class="text-right">{{ intval($profitStats['profit_margin']) }}%</h3>
                     <small>Pourcentage de profit</small>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <!-- Graphique des bénéfices par période -->
     <div class="row mb-4">
         <div class="col-12">
@@ -920,7 +920,7 @@
             </div>
         </div>
     </div>
-
+    @endif
     <!-- Top 10 des produits les plus vendus -->
     <div class="row mb-4">
         <div class="col-12">
@@ -938,9 +938,11 @@
                                     <th>Référence</th>
                                     <th>Variation</th>
                                     <th>Quantité Vendue</th>
-                                    <th>Chiffre d'Affaires</th>
+                                    @if(auth()->id()==1)
+                                    <th>Chiffre d'Affaires</th>                                    
                                     <th>Bénéfice</th>
                                     <th>Marge</th>
+                                    @endif
                                     <th>Commandes</th>
                                 </tr>
                             </thead>
@@ -962,12 +964,13 @@
                                     <td>
                                         <span class="badge badge-info">{{ $product['total_quantity'] }}</span>
                                     </td>
+                                    @if(auth()->id()==1)
                                     <td>
-                                        <strong>{{ number_format($product['total_revenue'], 0) }} TND</strong>
+                                        <strong>{{ number_format($product['total_revenue'], 0,'',' ') }} TND</strong>
                                     </td>
                                     <td>
                                         <span class="badge badge-{{ $product['profit'] >= 0 ? 'success' : 'danger' }}">
-                                            {{ number_format($product['profit'], 0) }} TND
+                                            {{ number_format($product['profit'], 0,'',' ') }} TND
                                         </span>
                                     </td>
                                     <td>
@@ -975,6 +978,7 @@
                                             {{ $product['profit_margin'] }}%
                                         </span>
                                     </td>
+                                    @endif
                                     <td>
                                         {{ $product['orders_count'] }}
                                     </td>
