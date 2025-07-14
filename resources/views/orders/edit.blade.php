@@ -486,7 +486,7 @@
                                         <div class="form-group">
                                             <label for="discount">Remise (TND):</label>
                                             <input type="number" name="discount" id="discount" class="form-control" step="0.01" min="0" 
-                                                value="{{ old('discount', $order->discount ?? 0) }}" title="Remise appliquée automatiquement par le code promo">
+                                                value="{{  $order->discount ?? 0  }}" title="Remise appliquée automatiquement par le code promo">
                                             <small class="text-muted">
                                                 <i class="fas fa-info-circle"></i> La remise est calculée automatiquement selon le code promo appliqué
                                             </small>
@@ -497,22 +497,22 @@
                                             <div class="card-body">
                                                 <div class="d-flex justify-content-between">
                                                     <span>Sous-total:</span>
-                                                    <span id="subtotal-amount">0.00 TND</span>
+                                                    <span id="subtotal-amount">{{  $order->subtotal ?? 0  }} TND</span>
                                                 </div>
                                                 <div class="d-flex justify-content-between">
                                                     <span>Remise:</span>
-                                                    <span id="discount-amount">0.00 TND</span>
+                                                    <span id="discount-amount">{{  $order->discount ?? 0  }} TND</span>
                                                 </div>
                                                 <div class="d-flex justify-content-between">
                                                     <span>Livraison:</span>
-                                                    <span id="delivery-amount">0.00 TND</span>
+                                                    <span id="delivery-amount">{{  $order->delivery_cost ?? 0  }} TND</span>
                                                 </div>
                                                 <hr>
                                                 <div class="d-flex justify-content-between">
                                                     <strong>Total:</strong>
-                                                    <strong id="total-amount">0.00 TND</strong>
+                                                    <strong id="total-amount">{{  $order->total ?? 0  }} TND</strong>
                                                 </div>
-                                                <input type="hidden"   id="total"  />
+                                                <input type="hidden"   id="total"  value="{{  $order->total ?? 0  }}"  />
                                             </div>
                                         </div>
                                     </div>
