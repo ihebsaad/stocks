@@ -579,11 +579,11 @@
                                                     
                                                     <div class="ms-3">
                                                         @if($promo->id == $order->promo_code_id)
-                                                            <!--<button type="button" class="btn btn-sm btn-outline-danger remove-promo-btn" 
+                                                            <button type="button" class="btn btn-sm btn-outline-danger remove-promo-btn" 
                                                                     data-promo-id="{{ $promo->id }}"
                                                                     title="Retirer ce code promo">
                                                                 <i class="fas fa-times"></i> Retirer
-                                                            </button>-->
+                                                            </button>
                                                         @elseif(!$promo->is_used && (!$promo->expires_at || !$promo->expires_at->isPast()))
                                                             <button type="button" class="btn btn-sm btn-outline-success apply-promo-btn" 
                                                                     data-promo-id="{{ $promo->id }}"
@@ -612,6 +612,8 @@
                                 
                                 <!-- Champ hidden pour le code promo sélectionné -->
                                 <input type="hidden" name="promo_code_id" id="promo_code_id" value="{{ $order->promo_code_id }}">
+                                <input type="hidden" name="promo_code_type" id="promo_code_type" value="{{ $order->promoCode->type ?? '' }}">
+                                <input type="hidden" name="promo_code_value" id="promo_code_value" value="{{ $order->promoCode->value ?? '' }}">
                             </div>
                         </div>
 
@@ -1609,7 +1611,13 @@ function updateTotals() {
     
     // Calculer la remise du code promo
     let promoDiscount = 0;
-    if (currentPromoData) {
+
+    promoCodeId = $('#promo_code_id').val() ?? 0;
+
+     
+    if (promoCodeId > 0) {
+        const currentPromoData = getPromoCodeData(promoCodeId);
+    
         switch (currentPromoData.type) {
             case 'percentage':
                 promoDiscount = (subtotal * currentPromoData.value) / 100;

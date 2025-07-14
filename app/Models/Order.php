@@ -27,6 +27,11 @@ class Order extends Model
     protected $casts = [
         'free_delivery' => 'boolean',
     ];
+    
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 
     public function user()
     {
@@ -46,11 +51,6 @@ class Order extends Model
     public function images()
     {
         return $this->hasMany(OrderImage::class);
-    }
-
-    public function items()
-    {
-        return $this->hasMany(OrderItem::class);
     }
 
     
