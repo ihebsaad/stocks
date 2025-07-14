@@ -1696,6 +1696,8 @@ function updateTotals() {
                     break;
             }
         }
+    }else{
+        console.log('Aucun code promo appliqué ou ID invalide');
     }
     
     // Mettre à jour le champ discount avec la remise calculée
