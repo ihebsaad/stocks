@@ -861,6 +861,240 @@
             </div>
         </div>
     </div>
+
+
+
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3 class="mb-3">📊 Statistiques de Bénéfices</h3>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">💰 Chiffre d'Affaires</h5>
+                    <h3>{{ number_format($profitStats['total_revenue'], 2) }} €</h3>
+                    <small>{{ $profitStats['items_count'] }} articles vendus</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">📦 Coût Total</h5>
+                    <h3>{{ number_format($profitStats['total_cost'], 2) }} €</h3>
+                    <small>Coût des marchandises vendues</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">💎 Bénéfice Net</h5>
+                    <h3>{{ number_format($profitStats['total_profit'], 2) }} €</h3>
+                    <small>Bénéfice brut</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">📈 Marge Bénéficiaire</h5>
+                    <h3>{{ $profitStats['profit_margin'] }}%</h3>
+                    <small>Pourcentage de profit</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphique des bénéfices par période -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>📈 Évolution des Bénéfices</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="profitChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top 10 des produits les plus vendus -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>🏆 Top 10 des Produits les Plus Vendus</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Rang</th>
+                                    <th>Produit</th>
+                                    <th>Référence</th>
+                                    <th>Variation</th>
+                                    <th>Quantité Vendue</th>
+                                    <th>Chiffre d'Affaires</th>
+                                    <th>Bénéfice</th>
+                                    <th>Marge</th>
+                                    <th>Commandes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($topSellingProducts as $index => $product)
+                                <tr>
+                                    <td>
+                                        <span class="badge badge-primary">{{ $index + 1 }}</span>
+                                    </td>
+                                    <td>
+                                        <strong>{{ $product['product_name'] }}</strong>
+                                    </td>
+                                    <td>
+                                        <code>{{ $product['product_reference'] }}</code>
+                                    </td>
+                                    <td>
+                                        {{ $product['variation_name'] ?? '-' }}
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">{{ $product['total_quantity'] }}</span>
+                                    </td>
+                                    <td>
+                                        <strong>{{ number_format($product['total_revenue'], 2) }} €</strong>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-{{ $product['profit'] >= 0 ? 'success' : 'danger' }}">
+                                            {{ number_format($product['profit'], 2) }} €
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-{{ $product['profit_margin'] >= 0 ? 'success' : 'danger' }}">
+                                            {{ $product['profit_margin'] }}%
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{ $product['orders_count'] }}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script pour le graphique des bénéfices -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Données du graphique des bénéfices
+        const profitData = @json($profitByPeriod);
+        
+        // Configuration du graphique
+        const ctx = document.getElementById('profitChart').getContext('2d');
+        const profitChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: profitData.map(item => item.period),
+                datasets: [
+                    {
+                        label: 'Chiffre d\'Affaires',
+                        data: profitData.map(item => item.revenue),
+                        borderColor: 'rgb(54, 162, 235)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Coût',
+                        data: profitData.map(item => item.cost),
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Bénéfice',
+                        data: profitData.map(item => item.profit),
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        tension: 0.1,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Évolution des Bénéfices par Période'
+                    },
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString() + ' €';
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+    });
+    </script>
+
+    <!-- CSS pour améliorer l'affichage -->
+    <style>
+    .badge {
+        font-size: 0.8em;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .card-body h3 {
+        margin-bottom: 0.5rem;
+    }
+
+    .card-body small {
+        opacity: 0.8;
+    }
+
+    .table-responsive {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .badge-primary {
+        background-color: #007bff;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+    }
+
+    .badge-info {
+        background-color: #17a2b8;
+    }
+    </style>
      
 </div>
 

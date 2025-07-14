@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\ParcelStatisticsService;
+use App\Services\SalesStatisticsService; // Ajout du nouveau service
 use App\Models\DeliveryCompany;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -10,11 +11,14 @@ use Carbon\Carbon;
 class StatisticsController extends Controller
 {
     protected $statisticsService;
+        
+    protected $salesStatisticsService; // Nouveau service
 
-    public function __construct(ParcelStatisticsService $statisticsService)
+    public function __construct(ParcelStatisticsService $statisticsService,SalesStatisticsService $salesStatisticsService)
     {
         $this->middleware('auth');
         $this->statisticsService = $statisticsService;
+        $this->salesStatisticsService = $salesStatisticsService;
     }
 
     /**
@@ -46,6 +50,18 @@ class StatisticsController extends Controller
         
         // Statistiques pour le graphique en secteurs
         $statusStats = $this->statisticsService->getStatusStatsForChart($filters);
+
+        // Statistiques de bénéfices
+        $profitStats = $this->salesStatisticsService->getProfitStatistics($filters);
+
+        // Top 10 des produits les plus vendus
+        $topSellingProducts = $this->salesStatisticsService->getTopSellingProducts($filters, 10);
+
+        // Bénéfices par période pour le graphique
+        $profitByPeriod = $this->salesStatisticsService->getProfitByPeriod($filters);
+
+        // Sociétés de livraison pour le filtre
+        $deliveryCompanies = DeliveryCompany::where('is_active', true)->get();
         
         // Sociétés de livraison pour le filtre
         $deliveryCompanies = DeliveryCompany::where('is_active', true)->get();
