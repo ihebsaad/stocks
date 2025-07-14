@@ -85,7 +85,7 @@ class SalesStatisticsService
         }
         
         $topProducts = $query
-            ->groupBy('products.id', 'products.name', 'products.reference', 'variations.name')
+            ->groupBy('products.id', 'products.name', 'products.reference', 'variations.reference')
             ->orderBy('total_quantity', 'desc')
             ->limit($limit)
             ->get();
