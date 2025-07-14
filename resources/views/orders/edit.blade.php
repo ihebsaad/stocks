@@ -1354,6 +1354,7 @@ function calculateTotals() {
 }
 
 function getPromoCodeData(promoCodeId) {
+    /*
     // Récupérer les données du code promo depuis l'élément DOM
     const promoButton = document.querySelector(`[data-promo-id="${promoCodeId}"]`);
     if (promoButton) {
@@ -1363,11 +1364,12 @@ function getPromoCodeData(promoCodeId) {
             product_id: promoButton.dataset.promoProductId
         };
     }
-    
+    */
     // AJOUTER: Fallback vers les champs hidden si bouton pas trouvé
     const typeField = document.getElementById('promo_code_type');
     const valueField = document.getElementById('promo_code_value');
-    
+    //const typeField = document.getElementById('promo_code_type');
+
     if (typeField && typeField.value) {
         return {
             type: typeField.value,
