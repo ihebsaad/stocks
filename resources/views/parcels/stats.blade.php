@@ -873,7 +873,7 @@
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <h5 class="card-title">💰 Chiffre d'Affaires</h5>
-                    <h3>{{ number_format($profitStats['total_revenue'], 2) }} €</h3>
+                    <h3>{{ number_format($profitStats['total_revenue'], 0) }} TND</h3>
                     <small>{{ $profitStats['items_count'] }} articles vendus</small>
                 </div>
             </div>
@@ -882,7 +882,7 @@
             <div class="card bg-warning text-white">
                 <div class="card-body">
                     <h5 class="card-title">📦 Coût Total</h5>
-                    <h3>{{ number_format($profitStats['total_cost'], 2) }} €</h3>
+                    <h3>{{ number_format($profitStats['total_cost'], 0) }} TND</h3>
                     <small>Coût des marchandises vendues</small>
                 </div>
             </div>
@@ -891,7 +891,7 @@
             <div class="card bg-success text-white">
                 <div class="card-body">
                     <h5 class="card-title">💎 Bénéfice Net</h5>
-                    <h3>{{ number_format($profitStats['total_profit'], 2) }} €</h3>
+                    <h3>{{ number_format($profitStats['total_profit'], 0) }} TND</h3>
                     <small>Bénéfice brut</small>
                 </div>
             </div>
@@ -963,11 +963,11 @@
                                         <span class="badge badge-info">{{ $product['total_quantity'] }}</span>
                                     </td>
                                     <td>
-                                        <strong>{{ number_format($product['total_revenue'], 2) }} €</strong>
+                                        <strong>{{ number_format($product['total_revenue'], 0) }} TND</strong>
                                     </td>
                                     <td>
                                         <span class="badge badge-{{ $product['profit'] >= 0 ? 'success' : 'danger' }}">
-                                            {{ number_format($product['profit'], 2) }} €
+                                            {{ number_format($product['profit'], 0) }} TND
                                         </span>
                                     </td>
                                     <td>
@@ -1041,7 +1041,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return value.toLocaleString() + ' €';
+                                return value.toLocaleString() + ' TND';
                             }
                         }
                     }
