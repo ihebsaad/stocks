@@ -114,8 +114,9 @@ class PromoCodeController extends Controller
                 $order->update([
                     'discount' => $validated['discount'],
                     'total' => $validated['total'],
-                    'promo_code_id' => $promoCode->id
                 ]);
+                    $order->promo_code_id  =  $promoCode->id ;
+                    $order->save();
 
                 // Marquer le code promo comme utilisé
                 $promoCode->markAsUsed();
