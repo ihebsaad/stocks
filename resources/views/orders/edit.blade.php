@@ -1696,6 +1696,8 @@ function updateTotals() {
                     break;
             }
         }
+
+        console.log(promoDiscount, 'Remise appliquée pour le code promo:', promoCodeId);
     }else{
         console.log('Aucun code promo appliqué ou ID invalide');
     }
