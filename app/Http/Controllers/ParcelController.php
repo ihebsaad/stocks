@@ -467,7 +467,7 @@ class ParcelController extends Controller
         // Rechercher le colis par référence et société de livraison
         $parcel = Parcel::where('reference', $barcode)
                        ->where('delivery_company_id', $deliveryCompanyId)
-                       ->with(['company', 'order'])
+                       //->with(['company', 'order'])
                        ->first();
 
         if (!$parcel) {
