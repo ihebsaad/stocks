@@ -87,9 +87,9 @@
         </div>
     </div>
 
-    <div class="card mt-4">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h4>Scanner de codes à barres</h4>
+
+        <div class="  d-flex justify-content-between align-items-center">
+            <h3>Scanner de codes à barres</h3>
             <div class="scanner-controls">
                 <input type="text" id="barcode-input" class="form-control d-inline-block" 
                        placeholder="Scanner ou saisir le code à barres" style="width: 300px;">
@@ -97,6 +97,10 @@
                     <i class="fas fa-barcode"></i> Scanner
                 </button>
             </div>
+        </div>
+    <div class="card mt-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4>liste des colis</h4>
         </div>
         <div class="card-body">
             <div id="scanner-messages" class="mb-3"></div>
