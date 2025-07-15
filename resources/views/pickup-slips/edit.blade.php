@@ -68,16 +68,6 @@
     </div>
 </div>
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <strong>Erreurs:</strong>
-        <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 
 <form action="{{ route('pickups.update', $pickupSlip->id) }}" method="POST" id="pickupSlipForm">
     @csrf
