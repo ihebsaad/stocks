@@ -31,7 +31,7 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('products.list');
 
-Route::post('/parcels/search', [ParcelController::class, 'searchParcel'])->name('parcels.search');
+Route::post( '/parcels/search', [ParcelController::class, 'searchParcel'])->name('parcels.search');
 
 Route::resource('pickup', PickupSlipController::class);
  
