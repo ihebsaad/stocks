@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Variation;
 use App\Models\OrderItem;
 use App\Models\DeliveryCompany;
+use App\Models\PickupSlip;
 use App\Services\DeliveryService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -449,6 +450,72 @@ class ParcelController extends Controller
         } else {
             return back()->with('error', 'Erreur lors de la suppression: ' . json_encode($response));
         }
+    }
+
+
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'barcode' => 'required|string',
+            'delivery_company_id' => 'required|integer'
+        ]);
+
+        $barcode = $request->input('barcode');
+        $deliveryCompanyId = $request->input('delivery_company_id');
+
+        // Rechercher le colis par référence et société de livraison
+        $parcel = Parcel::where('reference', $barcode)
+                       ->where('delivery_company_id', $deliveryCompanyId)
+                       ->with(['company', 'order'])
+                       ->first();
+
+        if (!$parcel) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Colis non trouvé pour cette société de livraison'
+            ], 404);
+        }
+
+        // Vérifier si le colis est déjà dans un bon de ramassage
+        $existingPickup = PickupSlip::whereHas('parcels', function($query) use ($parcel) {
+            $query->where('parcel_id', $parcel->id);
+        })->first();
+
+        if ($existingPickup) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ce colis est déjà dans le bon de ramassage: ' . $existingPickup->reference
+            ], 409);
+        }
+
+        // Vérifier le statut du colis (optionnel)
+        $allowedStatuses = ['pending', 'ready_for_pickup', 'in_transit'];
+        if (!in_array($parcel->status, $allowedStatuses)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ce colis ne peut pas être ramassé (statut: ' . $parcel->status . ')'
+            ], 400);
+        }
+
+        return response()->json([
+            'success' => true,
+            'parcel' => [
+                'id' => $parcel->id,
+                'reference' => $parcel->reference,
+                'nom_client' => $parcel->nom_client,
+                'tel_l' => $parcel->tel_l,
+                'tel2_l' => $parcel->tel2_l,
+                'gov_l' => $parcel->gov_l,
+                'ville_cl' => $parcel->ville_cl,
+                'adresse_l' => $parcel->adresse_l,
+                'cod' => $parcel->cod,
+                'status' => $parcel->status,
+                'libelle' => $parcel->libelle,
+                'nb_piece' => $parcel->nb_piece,
+                'company_name' => $parcel->company->name ?? ''
+            ]
+        ]);
     }
     
 }

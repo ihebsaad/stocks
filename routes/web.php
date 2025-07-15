@@ -23,6 +23,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\PromoCodeController;
+use App\Http\Controllers\PickupSlipController;
 use App\Http\Controllers\API\DeliveryController;
 
 use App\Http\Controllers\ParcelController;      
@@ -150,3 +151,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::post('/promo-codes', [PromoCodeController::class, 'store'])->name('promo-codes.store');
 Route::delete('/promo-codes/{promoCode}', [PromoCodeController::class, 'destroy'])->name('promo-codes.destroy');
 Route::post('/promo-codes/{promoCode}/use', [PromoCodeController::class, 'use'])->name('promo-codes.use');
+
+
+Route::post('/parcels/search', [ParcelController::class, 'search'])->name('parcels.search');
+Route::resource('pickup.slips', PickupSlipController::class);
