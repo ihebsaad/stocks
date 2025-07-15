@@ -155,3 +155,9 @@ Route::delete('/promo-codes/{promoCode}', [PromoCodeController::class, 'destroy'
 Route::post('/promo-codes/{promoCode}/use', [PromoCodeController::class, 'use'])->name('promo-codes.use');
 
 
+Route::get('pickup-data', [PickupSlipController::class, 'data'])->name('pickup.data');
+Route::post('pickup/{pickupSlip}/update-status', [PickupSlipController::class, 'updateStatus'])->name('pickup.update-status');
+Route::get('pickup/{pickupSlip}/print', [PickupSlipController::class, 'print'])->name('pickup.print');
+Route::get('pickup-export', [PickupSlipController::class, 'export'])->name('pickup.export');
+Route::get('pickup-statistics', [PickupSlipController::class, 'statistics'])->name('pickup.statistics');
+    
