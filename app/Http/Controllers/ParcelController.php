@@ -456,66 +456,76 @@ class ParcelController extends Controller
 
     public function search(Request $request)
     {
-        $request->validate([
-            'barcode' => 'required|string',
-            'delivery_company_id' => 'required|integer'
-        ]);
+        try {
+            $request->validate([
+                'barcode' => 'required|string',
+                'delivery_company_id' => 'required|integer'
+            ]);
 
-        $barcode = $request->input('barcode');
-        $deliveryCompanyId = $request->input('delivery_company_id');
+            $barcode = trim($request->input('barcode'));
+            $deliveryCompanyId = $request->input('delivery_company_id');
 
-        // Rechercher le colis par référence et société de livraison
-        $parcel = Parcel::where('reference', $barcode)
-                       ->where('delivery_company_id', $deliveryCompanyId)
-                       //->with(['company', 'order'])
-                       ->first();
+            // Log pour débogage
+            \Log::info("Recherche colis: barcode=$barcode, company_id=$deliveryCompanyId");
 
-        if (!$parcel) {
+            // Rechercher le colis par référence et société de livraison
+            $parcel = Parcel::where('reference', $barcode)
+                        ->where('delivery_company_id', $deliveryCompanyId)
+                        ->first();
+
+            if (!$parcel) {
+                // Essayer sans la société de livraison pour voir si le colis existe
+                $parcelExists = Parcel::where('reference', $barcode)->first();
+                
+                if ($parcelExists) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Colis trouvé mais appartient à une autre société de livraison'
+                    ], 404);
+                }
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Colis non trouvé avec cette référence'
+                ], 404);
+            }
+
+            // Charger la relation avec la société de livraison
+            $parcel->load('company');
+
+            return response()->json([
+                'success' => true,
+                'parcel' => [
+                    'id' => $parcel->id,
+                    'reference' => $parcel->reference,
+                    'nom_client' => $parcel->nom_client ?? '',
+                    'tel_l' => $parcel->tel_l ?? '',
+                    'tel2_l' => $parcel->tel2_l ?? '',
+                    'gov_l' => $parcel->gov_l ?? '',
+                    'ville_cl' => $parcel->ville_cl ?? '',
+                    'adresse_l' => $parcel->adresse_l ?? '',
+                    'cod' => $parcel->cod ?? 0,
+                    'status' => $parcel->status ?? 'pending',
+                    'libelle' => $parcel->libelle ?? '',
+                    'nb_piece' => $parcel->nb_piece ?? 1,
+                    'company_name' => $parcel->company->name ?? ''
+                ]
+            ]);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Colis non trouvé pour cette société de livraison'
-            ], 404);
-        }
-
-        // Vérifier si le colis est déjà dans un bon de ramassage
-        $existingPickup = PickupSlip::whereHas('parcels', function($query) use ($parcel) {
-            $query->where('parcel_id', $parcel->id);
-        })->first();
-
-        if ($existingPickup) {
+                'message' => 'Données invalides: ' . $e->getMessage()
+            ], 422);
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors de la recherche de colis: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            
             return response()->json([
                 'success' => false,
-                'message' => 'Ce colis est déjà dans le bon de ramassage: ' . $existingPickup->reference
-            ], 409);
+                'message' => 'Erreur serveur lors de la recherche'
+            ], 500);
         }
-
-        // Vérifier le statut du colis (optionnel)
-        $allowedStatuses = ['pending', 'ready_for_pickup', 'in_transit'];
-        if (!in_array($parcel->status, $allowedStatuses)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Ce colis ne peut pas être ramassé (statut: ' . $parcel->status . ')'
-            ], 400);
-        }
-
-        return response()->json([
-            'success' => true,
-            'parcel' => [
-                'id' => $parcel->id,
-                'reference' => $parcel->reference,
-                'nom_client' => $parcel->nom_client,
-                'tel_l' => $parcel->tel_l,
-                'tel2_l' => $parcel->tel2_l,
-                'gov_l' => $parcel->gov_l,
-                'ville_cl' => $parcel->ville_cl,
-                'adresse_l' => $parcel->adresse_l,
-                'cod' => $parcel->cod,
-                'status' => $parcel->status,
-                'libelle' => $parcel->libelle,
-                'nb_piece' => $parcel->nb_piece,
-                'company_name' => $parcel->company->name ?? ''
-            ]
-        ]);
     }
     
 }
