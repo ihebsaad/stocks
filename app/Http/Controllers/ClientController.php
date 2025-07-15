@@ -395,7 +395,7 @@ class ClientController extends Controller
     /**
      * Recherche AJAX pour l'autocomplétion
      */
-    public function search(Request $request)
+    public function searchclient(Request $request)
     {
         $search = $request->get('search');
         
