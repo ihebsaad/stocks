@@ -168,7 +168,7 @@ class PickupSlipController extends Controller
 
         return DataTables::of($pickupSlips)
             ->addColumn('delivery_company', function ($pickupSlip) {
-                return '<span class="badge mr-2 bg-'.$pickupSlip->company->id.'">'.ucfirst($pickupSlip->deliveryCompany->name ?? '').'</span>' ;
+                return '<span class="badge mr-2 bg-'.$pickupSlip->deliveryCompany->id.'">'.ucfirst($pickupSlip->deliveryCompany->name ?? '').'</span>' ;
             })
             ->addColumn('user', function ($pickupSlip) {
                 return $pickupSlip->user->name ?? 'N/A';
