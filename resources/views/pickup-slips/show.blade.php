@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Détails du bon de ramassage')
-
+@php dd($pickupSlip); @endphp
 @section('styles')
 <style>
     .info-card {
@@ -91,7 +91,7 @@
                     </tr>
                     <tr>
                         <td><strong>Société de livraison:</strong></td>
-                        <td>{{ $pickupSlip->deliveryCompany->name ?? '' }}</td>
+                        <td>{{ $pickupSlip->deliveryCompany->name }}</td>
                     </tr>
                     <tr>
                         <td><strong>Statut:</strong></td>
@@ -128,11 +128,11 @@
                     </tr>
                     <tr>
                         <td><strong>Date de création:</strong></td>
-                        <td>{{ $pickupSlip->date->format('d/m/Y H:i') ?? '' }}</td>
+                        <td>{{ $pickupSlip->created_at->format('d/m/Y H:i') }}</td>
                     </tr>
                     <tr>
                         <td><strong>Dernière modification:</strong></td>
-                        <td>{{ $pickupSlip->updated_at->format('d/m/Y H:i') ?? '' }}</td>
+                        <td>{{ $pickupSlip->updated_at->format('d/m/Y H:i') }}</td>
                     </tr>
                 </table>
             </div>
