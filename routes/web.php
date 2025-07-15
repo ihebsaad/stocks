@@ -33,8 +33,8 @@ Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('
 
 Route::post('/parcels/search', [ParcelController::class, 'searchParcel'])->name('parcels.search');
 
-Route::resource('pickup', PickupSlipController::class);
-/*
+//Route::resource('pickup', PickupSlipController::class);
+ 
 Route::resource('pickup', PickupSlipController::class)->names([
     'index' => 'pickup.index',
     'create' => 'pickup.create',
@@ -44,7 +44,7 @@ Route::resource('pickup', PickupSlipController::class)->names([
     'update' => 'pickup.update',
     'destroy' => 'pickup.destroy'
 ]);
-*/
+ 
 Route::get('/stats', [StatisticsController::class, 'index'])->name('stats');
 
 Route::get('/get-orders', [OrderController::class, 'getOrders'])->name('orders.getOrders');
