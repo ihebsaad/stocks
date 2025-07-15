@@ -161,4 +161,5 @@ Route::post('pickups/{pickupSlip}/update-status', [PickupSlipController::class, 
 Route::get('pickups/{pickupSlip}/print', [PickupSlipController::class, 'print'])->name('pickups.print');
 Route::get('pickup-export', [PickupSlipController::class, 'export'])->name('pickups.export');
 Route::get('pickup-statistics', [PickupSlipController::class, 'statistics'])->name('pickups.statistics');
+Route::delete('pickups/supprimer/{id}', [PickupSlipController::class, 'supprimer'])->name('pickups.supprimer');
     

@@ -134,7 +134,7 @@ class PickupSlipController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function supprimer($id)
     {
         $pickupSlip = PickupSlip::find($id);
         dd($pickupSlip);
