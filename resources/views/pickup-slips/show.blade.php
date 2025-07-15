@@ -53,10 +53,10 @@
             <a class="btn btn-primary" href="{{ route('pickup.index') }}">
                 <i class="fas fa-arrow-left"></i> Retour
             </a>
-            <a class="btn btn-warning" href="">
+            <a class="btn btn-warning" href="#">
                 <i class="fas fa-edit"></i> Modifier
             </a>
-            <a class="btn btn-success print-btn" href="{{ route('pickup.print', $pickupSlip->id) }}" target="_blank">
+            <a class="btn btn-success print-btn" href="#" target="_blank">
                 <i class="fas fa-print"></i> Imprimer
             </a>
         </div>
