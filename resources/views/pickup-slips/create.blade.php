@@ -132,6 +132,7 @@
             </div>
         </div>
     </div>
+    <div id="selected-parcels-inputs"></div>
 
     <div class="col-xs-12 col-sm-12 col-lg-12 mt-3">
         <button type="submit" class="btn btn-primary">Enregistrer le bon de ramassage</button>
@@ -139,7 +140,6 @@
 </form>
 
 <!-- Input cachés pour les colis sélectionnés -->
-<div id="selected-parcels-inputs"></div>
 
 @endsection
 
