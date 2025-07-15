@@ -33,7 +33,7 @@ Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('
 
 Route::post('/parcels/search', [ParcelController::class, 'searchParcel'])->name('parcels.search');
 
-Route::resource('pickup', PickupSlipController::class);
+//Route::resource('pickup', PickupSlipController::class);
 
 Route::resource('pickup', PickupSlipController::class)->names([
     'index' => 'pickup.index',
