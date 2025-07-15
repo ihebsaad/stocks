@@ -77,10 +77,12 @@ class PickupSlipController extends Controller
         }
     }
 
-    public function show(PickupSlip $pickupSlip)
+    public function show( $id)
     {
         //$pickupSlip->load(['deliveryCompany', 'parcels', 'user']);
-        dd($pickupSlip);
+        //PickupSlip::find($id)->load(['deliveryCompany', 'parcels', 'user']);
+        $pickupSlip = PickupSlip::find($id);
+        dd($pickupSlip->id);
         $deliveryCompany = DeliveryCompany::find($pickupSlip->delivery_company_id);
         dd($deliveryCompany);
         return view('pickup-slips.show', compact('pickupSlip','deliveryCompany'));
