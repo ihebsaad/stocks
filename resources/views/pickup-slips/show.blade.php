@@ -128,11 +128,11 @@
                     </tr>
                     <tr>
                         <td><strong>Date de création:</strong></td>
-                        <td>{{ $pickupSlip->created_at->format('d/m/Y H:i') }}</td>
+                        <td>{{ $pickupSlip->date->format('d/m/Y H:i') }}</td>
                     </tr>
                     <tr>
                         <td><strong>Dernière modification:</strong></td>
-                        <td>{{ $pickupSlip->updated_at->format('d/m/Y H:i') }}</td>
+                        <td>{{ $pickupSlip->updated_at->format('d/m/Y H:i') ?? '' }}</td>
                     </tr>
                 </table>
             </div>
