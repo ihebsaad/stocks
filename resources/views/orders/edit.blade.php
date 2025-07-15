@@ -600,11 +600,11 @@
                                                     
                                                     <div class="ms-3">
                                                         @if($promo->id == $order->promo_code_id)
-                                                            <button type="button" class="btn btn-sm btn-outline-danger remove-promo-btn" 
+                                                            <!--<button type="button" class="btn btn-sm btn-outline-danger remove-promo-btn" 
                                                                     data-promo-id="{{ $promo->id }}"
                                                                     title="Retirer ce code promo">
                                                                 <i class="fas fa-times"></i> Retirer
-                                                            </button>
+                                                            </button>-->
                                                         @elseif(!$promo->is_used && (!$promo->expires_at || !$promo->expires_at->isPast()))
                                                             <button type="button" class="btn btn-sm btn-outline-success apply-promo-btn" 
                                                                     data-promo-id="{{ $promo->id }}"
