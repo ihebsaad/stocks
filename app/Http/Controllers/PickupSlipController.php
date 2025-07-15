@@ -58,7 +58,7 @@ class PickupSlipController extends Controller
 
             DB::commit();
 
-            return redirect()->route('pickup.slips.index')
+            return redirect()->route('pickup.index')
                            ->with('success', 'Bon de ramassage créé avec succès');
 
         } catch (\Exception $e) {
@@ -109,7 +109,7 @@ class PickupSlipController extends Controller
 
             DB::commit();
 
-            return redirect()->route('pickup.slips.index')
+            return redirect()->route('pickup.index')
                            ->with('success', 'Bon de ramassage mis à jour avec succès');
 
         } catch (\Exception $e) {
@@ -134,7 +134,7 @@ class PickupSlipController extends Controller
 
             DB::commit();
 
-            return redirect()->route('pickup.slips.index')
+            return redirect()->route('pickup.index')
                            ->with('success', 'Bon de ramassage supprimé avec succès');
 
         } catch (\Exception $e) {
