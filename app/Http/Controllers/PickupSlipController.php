@@ -33,8 +33,8 @@ class PickupSlipController extends Controller
             'date' => 'required|date',
             'reference' => 'required|string|unique:pickup_slips,reference',
             'delivery_company_id' => 'required|exists:delivery_companies,id',
-            //'parcels' => 'required|array|min:1',
-            'parcels.*' => 'required|exists:parcels,id'
+            'parcels' => 'required|array|min:1',
+            //'parcels.*' => 'required|exists:parcels,id'
         ]);
 
         DB::beginTransaction();
