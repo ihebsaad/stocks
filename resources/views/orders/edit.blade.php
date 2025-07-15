@@ -198,7 +198,7 @@
 
 
     #save-and-create-parcel-btn {
-        margin-left: 10px;
+        /*margin-left: 10px;*/
         transition: all 0.3s ease;
     }
 
