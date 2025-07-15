@@ -207,7 +207,7 @@ class PickupSlipController extends Controller
                 return $pickupSlip->created_at->format('d/m/Y H:i');
             })
             ->editColumn('parcels_count', function ($pickupSlip) {
-                return '<span class="badge badge-secondary">' . $pickupSlip->parcels_count . '</span>';
+                return '<span class="badge badge-secondary">' . count($pickupSlip->parcels) . '</span>';
             })
             ->rawColumns(['status', 'actions', 'parcels_count'])
             ->make(true);
