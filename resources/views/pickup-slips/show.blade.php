@@ -91,7 +91,7 @@
                     </tr>
                     <tr>
                         <td><strong>Société de livraison:</strong></td>
-                        <td>{{ $pickupSlip->deliveryCompany->name }}</td>
+                        <td>{{ $deliveryCompany->name }}</td>
                     </tr>
                     <tr>
                         <td><strong>Statut:</strong></td>
