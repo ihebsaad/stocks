@@ -65,7 +65,7 @@ class PickupSlipController extends Controller
 
             DB::commit();
 
-            return redirect()->route('pickup.index')
+            return redirect()->route('pickups.index')
                            ->with('success', 'Bon de ramassage créé avec succès');
 
         } catch (\Exception $e) {
@@ -118,7 +118,7 @@ class PickupSlipController extends Controller
 
             DB::commit();
 
-            return redirect()->route('pickup.index')
+            return redirect()->route('pickups.index')
                            ->with('success', 'Bon de ramassage mis à jour avec succès');
 
         } catch (\Exception $e) {
@@ -143,7 +143,7 @@ class PickupSlipController extends Controller
 
             DB::commit();
 
-            return redirect()->route('pickup.index')
+            return redirect()->route('pickups.index')
                            ->with('success', 'Bon de ramassage supprimé avec succès');
 
         } catch (\Exception $e) {
@@ -176,13 +176,13 @@ class PickupSlipController extends Controller
                 $actions = '<div class="table-actions">';
                 
                 // Bouton Voir
-                $actions .= '<a href="' . route('pickup.show', $pickupSlip->id) . '" 
+                $actions .= '<a href="' . route('pickups.show', $pickupSlip->id) . '" 
                            class="btn btn-info btn-sm mr-1" title="Voir">
                            <i class="fas fa-eye"></i>
                            </a>';
                 
                 // Bouton Modifier
-                $actions .= '<a href="' . route('pickup.edit', $pickupSlip->id) . '" 
+                $actions .= '<a href="' . route('pickups.edit', $pickupSlip->id) . '" 
                            class="btn btn-primary btn-sm mr-1" title="Modifier">
                            <i class="fas fa-edit"></i>
                            </a>';

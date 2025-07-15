@@ -50,7 +50,7 @@
             <h2>Bon de ramassage: {{ $pickupSlip->reference }}</h2>
         </div>
         <div class="float-right d-flex action-buttons">
-            <a class="btn btn-primary" href="{{ route('pickup.index') }}">
+            <a class="btn btn-primary" href="{{ route('pickups.index') }}">
                 <i class="fas fa-arrow-left"></i> Retour
             </a>
             <a class="btn btn-warning" href="#">
@@ -308,7 +308,7 @@
     function updateStatus(status) {
         if (confirm('Êtes-vous sûr de vouloir changer le statut de ce bon de ramassage ?')) {
             $.ajax({
-                url: '{{ route("pickup.update-status", $pickupSlip->id) }}',
+                url: '{{ route("pickups.update-status", $pickupSlip->id) }}',
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',

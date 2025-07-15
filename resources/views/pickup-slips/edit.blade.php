@@ -58,10 +58,10 @@
             <h2>Modifier le bon de ramassage: {{ $pickupSlip->reference }}</h2>
         </div>
         <div class="float-right">
-            <a class="btn btn-primary" href="{{ route('pickup.index') }}">
+            <a class="btn btn-primary" href="{{ route('pickups.index') }}">
                 <i class="fas fa-arrow-left"></i> Retour
             </a>
-            <a class="btn btn-info" href="{{ route('pickup.show', $pickupSlip->id) }}">
+            <a class="btn btn-info" href="{{ route('pickups.show', $pickupSlip->id) }}">
                 <i class="fas fa-eye"></i> Voir
             </a>
         </div>
@@ -79,7 +79,7 @@
     </div>
 @endif
 
-<form action="{{ route('pickup.update', $pickupSlip->id) }}" method="POST" id="pickupSlipForm">
+<form action="{{ route('pickups.update', $pickupSlip->id) }}" method="POST" id="pickupSlipForm">
     @csrf
     @method('PUT')
 
@@ -201,7 +201,7 @@
         <button type="submit" class="btn btn-primary">
             <i class="fas fa-save"></i> Mettre à jour le bon de ramassage
         </button>
-        <a href="{{ route('pickup.index') }}" class="btn btn-secondary">
+        <a href="{{ route('pickups.index') }}" class="btn btn-secondary">
             <i class="fas fa-times"></i> Annuler
         </a>
     </div>

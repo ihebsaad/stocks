@@ -46,12 +46,12 @@
             <h2>Nouveau bon de ramassage</h2>
         </div>
         <div class="float-right">
-            <a class="btn btn-primary" href="{{ route('pickup.index') }}"> Retour</a>
+            <a class="btn btn-primary" href="{{ route('pickups.index') }}"> Retour</a>
         </div>
     </div>
 </div>
 
-<form action="{{ route('pickup.store') }}" method="POST" id="pickupSlipForm">
+<form action="{{ route('pickups.store') }}" method="POST" id="pickupSlipForm">
     @csrf
 
     <div class="card">

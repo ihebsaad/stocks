@@ -47,7 +47,7 @@
             <h2>Bons de ramassage</h2>
         </div>
         <div class="float-right">
-            <a class="btn btn-success" href="{{ route('pickup.create') }}">
+            <a class="btn btn-success" href="{{ route('pickups.create') }}">
                 <i class="fas fa-plus"></i> Nouveau bon de ramassage
             </a>
         </div>
@@ -137,7 +137,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         responsive: true,
-        ajax: '{{ route("pickup.data") }}',
+        ajax: '{{ route("pickups.data") }}',
         columns: [
             { data: 'date', name: 'date' },
             { data: 'reference', name: 'reference' },

@@ -29,7 +29,6 @@ use App\Http\Controllers\API\DeliveryController;
 use App\Http\Controllers\ParcelController;      
 use App\Http\Controllers\HomeController;      
 
-Route::resource('pickup', PickupSlipController::class);
 
 Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('products.list');
 
@@ -46,7 +45,7 @@ Route::get('/get-current-orders', [OrderController::class, 'getCurrentOrders'])-
 Route::get('/get-archived-orders', [OrderController::class, 'getArchivedOrders'])->name('orders.getArchivedOrders');
 Route::post('/orders/update-notes', [OrderController::class, 'updateNotes'])->name('orders.update-notes');
 
-
+Route::resource('pickups', PickupSlipController::class);
 Route::resource('categories', CategoriesController::class);
 Route::resource('users', UsersController::class);
 Route::resource('providers', ProvidersController::class);
@@ -157,9 +156,9 @@ Route::delete('/promo-codes/{promoCode}', [PromoCodeController::class, 'destroy'
 Route::post('/promo-codes/{promoCode}/use', [PromoCodeController::class, 'use'])->name('promo-codes.use');
 
 
-Route::get('pickup-data', [PickupSlipController::class, 'data'])->name('pickup.data');
-Route::post('pickup/{pickupSlip}/update-status', [PickupSlipController::class, 'updateStatus'])->name('pickup.update-status');
-Route::get('pickup/{pickupSlip}/print', [PickupSlipController::class, 'print'])->name('pickup.print');
-Route::get('pickup-export', [PickupSlipController::class, 'export'])->name('pickup.export');
-Route::get('pickup-statistics', [PickupSlipController::class, 'statistics'])->name('pickup.statistics');
+Route::get('pickup-data', [PickupSlipController::class, 'data'])->name('pickups.data');
+Route::post('pickups/{pickupSlip}/update-status', [PickupSlipController::class, 'updateStatus'])->name('pickups.update-status');
+Route::get('pickups/{pickupSlip}/print', [PickupSlipController::class, 'print'])->name('pickups.print');
+Route::get('pickup-export', [PickupSlipController::class, 'export'])->name('pickups.export');
+Route::get('pickup-statistics', [PickupSlipController::class, 'statistics'])->name('pickups.statistics');
     
