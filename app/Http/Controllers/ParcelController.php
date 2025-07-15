@@ -454,7 +454,7 @@ class ParcelController extends Controller
 
 
 
-    public function search(Request $request)
+    public function searchParcel(Request $request)
     {
         try {
             $request->validate([

@@ -209,6 +209,9 @@
         $.ajax({
             url: '{{ route("parcels.search") }}',
             method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
             data: {
                 _token: '{{ csrf_token() }}',
                 barcode: barcode,

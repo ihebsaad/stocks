@@ -153,5 +153,5 @@ Route::delete('/promo-codes/{promoCode}', [PromoCodeController::class, 'destroy'
 Route::post('/promo-codes/{promoCode}/use', [PromoCodeController::class, 'use'])->name('promo-codes.use');
 
 
-Route::post('/parcels/search', [ParcelController::class, 'search'])->name('parcels.search');
+Route::post('/parcels/search', [ParcelController::class, 'searchParcel'])->name('parcels.search');
 Route::resource('pickup', PickupSlipController::class);
