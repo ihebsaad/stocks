@@ -127,7 +127,7 @@ Route::post('/parcels/generate-pdf', [ParcelController::class, 'generateParcelsP
 Route::get('/getparcels', [ParcelController::class, 'getParcels'])->name('parcels.getParcels');
 #Route::get('/parcels', [ParcelController::class, 'index'])->name('parcels.index');
 Route::delete('/parcels/{parcel}', [ParcelController::class, 'destroy'])->name('parcels.destroy');
-Route::post('/parcels/{order}', [ParcelController::class, 'store'])->name('parcels.store');
+//Route::post('/parcels/{order}', [ParcelController::class, 'store'])->name('parcels.store');
 #Route::get('/parcels/{parcel}/details', [ParcelController::class, 'show'])->name('parcels.details');
 Route::get('/parcel/{id}/bl', [ParcelController::class, 'generateBL'])->name('parcel.bl');
 
