@@ -461,7 +461,7 @@ class ParcelController extends Controller
                 'barcode' => 'required|string',
                 'delivery_company_id' => 'required|integer'
             ]);
-
+            dd($request->all());
             $barcode = trim($request->input('barcode'));
             $deliveryCompanyId = $request->input('delivery_company_id');
 
