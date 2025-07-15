@@ -19,6 +19,7 @@ class Client extends Model
         'delegation',
         'address',
         'postal_code',
+        'notes'
     ];
 
     public function orders()
