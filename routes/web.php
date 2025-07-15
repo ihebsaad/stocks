@@ -154,4 +154,4 @@ Route::post('/promo-codes/{promoCode}/use', [PromoCodeController::class, 'use'])
 
 
 Route::post('/parcels/search', [ParcelController::class, 'search'])->name('parcels.search');
-Route::resource('pickup.slips', PickupSlipController::class);
+Route::resource('pickup', PickupSlipController::class);
