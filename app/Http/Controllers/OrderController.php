@@ -600,9 +600,37 @@ class OrderController extends Controller
             }            
             
             DB::commit();
+
+            if ($request->has('create_parcel') && $request->create_parcel == '1') {
+                // Vérifier les conditions avant de créer le colis
+                $canCreateParcel = $this->canCreateParcel($order);
+                
+                if ($canCreateParcel['status']) {
+                    try {
+                        // Créer le colis
+                        $parcel = $this->createParcelForOrder($order);
+                        
+                        if ($parcel) {
+                            return redirect()->route('orders.show', $order->id)
+                                ->with('success', 'Commande mise à jour et colis créé avec succès.');
+                        }
+                    } catch (\Exception $e) {
+                        return redirect()->route('orders.show', $order->id)
+                            ->with('error', 'Commande mise à jour mais erreur lors de la création du colis: ' . $e->getMessage());
+                    }
+                } else {
+                    return redirect()->route('orders.show', $order->id)
+                        ->with('warning', 'Commande mise à jour mais impossible de créer le colis: ' . $canCreateParcel['message']);
+                }
+            }
             
-            return redirect()->route('orders.index')
-                ->with('success', 'Commande mise à jour avec succès');
+            return redirect()->route('orders.show', $order->id)
+                ->with('success', 'Commande mise à jour avec succès.');
+
+            
+            
+            //return redirect()->route('orders.index')
+            //    ->with('success', 'Commande mise à jour avec succès');
                 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -610,6 +638,48 @@ class OrderController extends Controller
         }
     }
 
+
+
+
+    private function canCreateParcel(Order $order)
+    {
+        // Vérifier qu'il n'y a pas déjà un colis
+        if ($order->parcel) {
+            return ['status' => false, 'message' => 'Un colis existe déjà pour cette commande.'];
+        }
+        
+        // Vérifier qu'il y a une société de livraison valide
+        if (!$order->delivery_company_id || $order->delivery_company_id <= 1) {
+            return ['status' => false, 'message' => 'Aucune société de livraison valide sélectionnée.'];
+        }
+        
+        // Vérifier qu'il y a au moins un produit
+        if ($order->items->count() == 0) {
+            return ['status' => false, 'message' => 'Aucun produit dans la commande.'];
+        }
+        
+        // Vérifier que tous les produits ont des quantités valides
+        foreach ($order->items as $item) {
+            if ($item->quantity <= 0) {
+                return ['status' => false, 'message' => 'Quantité invalide pour un produit.'];
+            }
+        }
+        
+        return ['status' => true, 'message' => 'OK'];
+    }
+
+    /**
+     * Créer un colis pour une commande
+     */
+    private function createParcelForOrder(Order $order)
+    {
+        // Votre logique existante de création de colis
+        // Ou appeler le contrôleur ParcelsController
+        
+        $parcelController = new ParcelController();
+        
+        return $parcelController->store($order);
+    }
 
     public function updateNotes(Request $request)
     {

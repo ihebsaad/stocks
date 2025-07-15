@@ -195,6 +195,27 @@
         opacity: 0.5;
         cursor: not-allowed;
     }
+
+
+    #save-and-create-parcel-btn {
+        margin-left: 10px;
+        transition: all 0.3s ease;
+    }
+
+    #save-and-create-parcel-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
 </style>
 @endsection
 
@@ -522,7 +543,7 @@
 
 
                         <!-- Section Codes Promos -->
-                        <div class="card mb-2" style="display:none">
+                        <div class="card mb-2"  >
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Codes Promos</h6>
                                 <button type="button" class="btn btn-success btn-sm"  id="add-promo-btn"  >
@@ -629,12 +650,17 @@
                             </button>
                         </div>
                     </form>
+                    <!--
                     @if($order->delivery_company_id > 1 &&  isset($order->items) )
                     <form method="POST" action="{{ route('parcels.store', $order->id) }}">
                         @csrf
                         <button type="submit" class="btn btn-success float-right" >Créer et envoyer colis</button>
                     </form>
                     @endif
+                -->
+                    <button type="button" id="save-and-create-parcel-btn" class="btn btn-success" style="display: none;">
+                        <i class="fas fa-box"></i> Enregistrer et créer colis
+                    </button>
                     <form id="delete-form" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display: none;">
                         @csrf
                         @method('DELETE')
@@ -1244,6 +1270,112 @@ $(document).ready(function() {
 
 
 
+    function checkParcelButtonVisibility() {
+        const hasExistingParcel = $('.card-body').find('a[href*="parcels.show"]').length > 0;
+        const deliveryCompanyId = $('#delivery_company_id').val();
+        const hasProducts = $('.product-item').length > 0;
+        const hasValidProducts = $('.product-item').find('.product-select').filter(function() {
+            return $(this).val() !== '';
+        }).length > 0;
+
+        // Conditions :
+        // 1. Pas de colis déjà créé
+        // 2. Société de livraison > 1
+        // 3. Au moins un produit sélectionné
+        const shouldShow = !hasExistingParcel && 
+                          deliveryCompanyId > 1 && 
+                          hasProducts && 
+                          hasValidProducts;
+
+        if (shouldShow) {
+            $('#save-and-create-parcel-btn').show();
+        } else {
+            $('#save-and-create-parcel-btn').hide();
+        }
+    }
+
+    // Initialiser le bouton
+    createParcelButton();
+    
+    // Vérifier initialement
+    checkParcelButtonVisibility();
+
+    // Écouter les changements sur la société de livraison
+    $('#delivery_company_id').on('change', function() {
+        checkParcelButtonVisibility();
+    });
+
+    // Écouter les changements sur les produits
+    $(document).on('change', '.product-select', function() {
+        checkParcelButtonVisibility();
+    });
+
+    // Écouter l'ajout de produits
+    $(document).on('click', '#add-product-btn', function() {
+        setTimeout(checkParcelButtonVisibility, 100); // Petit délai pour laisser le DOM se mettre à jour
+    });
+
+    // Écouter la suppression de produits
+    $(document).on('click', '.remove-product-btn', function() {
+        setTimeout(checkParcelButtonVisibility, 100);
+    });
+
+    // Gérer le clic sur le bouton "Enregistrer et créer colis"
+    $(document).on('click', '#save-and-create-parcel-btn', function(e) {
+        e.preventDefault();
+        
+        // Validation avant soumission
+        const form = $('#orderForm');
+        const requiredFields = form.find('[required]');
+        let isValid = true;
+        
+        requiredFields.each(function() {
+            if (!$(this).val()) {
+                isValid = false;
+                $(this).addClass('is-invalid');
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
+
+        if (!isValid) {
+            alert('Veuillez remplir tous les champs requis avant de créer le colis.');
+            return;
+        }
+
+        // Confirmation
+        if (confirm('Êtes-vous sûr de vouloir enregistrer la commande et créer le colis ?')) {
+            // Ajouter un champ hidden pour indiquer qu'on veut créer un colis
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'create_parcel',
+                value: '1'
+            }).appendTo(form);
+            
+            // Soumettre le formulaire
+            form.submit();
+        }
+    });
+
+    // Observer les mutations DOM pour détecter les changements dynamiques
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                checkParcelButtonVisibility();
+            }
+        });
+    });
+
+    // Observer le conteneur des produits
+    const productsContainer = document.getElementById('products-container');
+    if (productsContainer) {
+        observer.observe(productsContainer, {
+            childList: true,
+            subtree: true
+        });
+    }
+ 
+
 }); //document ready
 
   // Fonction pour ajouter un élément de produit
@@ -1506,8 +1638,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const timestamp = Date.now().toString().slice(-6);
         const randomCode = clientName.substring(0, 3).toUpperCase() + timestamp;
         document.getElementById('promo_code').value = randomCode;
-    });
-    
+    });   
     
  
 });
