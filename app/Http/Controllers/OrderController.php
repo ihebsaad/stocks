@@ -611,20 +611,20 @@ class OrderController extends Controller
                         $parcel = $this->createParcelForOrder($order);
                         
                         if ($parcel) {
-                            return redirect()->route('orders.show', $order->id)
+                            return redirect()->route('orders.edit', $order->id)
                                 ->with('success', 'Commande mise à jour et colis créé avec succès.');
                         }
                     } catch (\Exception $e) {
-                        return redirect()->route('orders.show', $order->id)
+                        return redirect()->route('orders.edit', $order->id)
                             ->with('error', 'Commande mise à jour mais erreur lors de la création du colis: ' . $e->getMessage());
                     }
                 } else {
-                    return redirect()->route('orders.show', $order->id)
+                    return redirect()->route('orders.edit', $order->id)
                         ->with('warning', 'Commande mise à jour mais impossible de créer le colis: ' . $canCreateParcel['message']);
                 }
             }
             
-            return redirect()->route('orders.show', $order->id)
+            return redirect()->route('orders.edit', $order->id)
                 ->with('success', 'Commande mise à jour avec succès.');
 
             
