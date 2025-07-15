@@ -81,7 +81,7 @@ class PickupSlipController extends Controller
     {
         $pickupSlip->load(['deliveryCompany', 'parcels', 'user']);
 
-        $deliveryCompany = deliveryCompany::find($pickupSlip->delivery_company_id);
+        $deliveryCompany = DeliveryCompany::find($pickupSlip->delivery_company_id);
         return view('pickup-slips.show', compact('pickupSlip','deliveryCompany'));
     }
 
