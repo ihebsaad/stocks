@@ -1507,54 +1507,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const randomCode = clientName.substring(0, 3).toUpperCase() + timestamp;
         document.getElementById('promo_code').value = randomCode;
     });
-    /*
-    document.getElementById('createPromoForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const formData = new FormData(this);
-
-        fetch('{{ route("promo-codes.store") }}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Accept': 'application/json'
-            }
-        })
-        .then(async response => {
-            const data = await response.json();
-            if (!response.ok) {
-                // Gestion des erreurs de validation Laravel
-                if (response.status === 422) {
-                    let messages = '';
-                    for (const key in data.errors) {
-                        messages += data.errors[key].join('\n') + '\n';
-                    }
-                    alert('Erreurs de validation :\n' + messages);
-                } else {
-                    alert('Erreur: ' + (data.message || 'Erreur inconnue'));
-                }
-                throw new Error('Erreur http ' + response.status);
-            }
-            return data;
-        })
-        .then(data => {
-            if (data.success) {
-                //const modal = bootstrap.Modal.getInstance(document.getElementById('createPromoModal'));
-                //modal.hide();
-                $('#createPromoModal').hide();
-                location.reload();
-            } else {
-                alert('Erreur lors de la création du code promo: ' + (data.message || 'Erreur inconnue'));
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-    */
- 
- 
     
     
  
