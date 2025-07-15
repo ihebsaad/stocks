@@ -32,7 +32,18 @@ use App\Http\Controllers\HomeController;
 Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('products.list');
 
 Route::post('/parcels/search', [ParcelController::class, 'searchParcel'])->name('parcels.search');
+
 Route::resource('pickup', PickupSlipController::class);
+
+Route::resource('pickup', PickupSlipController::class)->names([
+    'index' => 'pickup.index',
+    'create' => 'pickup.create',
+    'store' => 'pickup.store',
+    'show' => 'pickup.show',
+    'edit' => 'pickup.edit',
+    'update' => 'pickup.update',
+    'destroy' => 'pickup.destroy'
+]);
 
 Route::get('/stats', [StatisticsController::class, 'index'])->name('stats');
 
