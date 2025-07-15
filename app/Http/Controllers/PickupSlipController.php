@@ -96,8 +96,10 @@ class PickupSlipController extends Controller
         return view('pickup-slips.edit', compact('pickupSlip', 'deliveryCompanies'));
     }
 
-    public function update(Request $request, PickupSlip $pickupSlip)
+    public function update(Request $request, $id)
     {
+        $pickupSlip = PickupSlip::find($id);
+
         $request->validate([
             'date' => 'required|date',
             'reference' => 'required|string|unique:pickup_slips,reference,' . $pickupSlip->id,
