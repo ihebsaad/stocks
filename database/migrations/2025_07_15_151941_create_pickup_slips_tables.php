@@ -19,7 +19,7 @@ class CreatePickupSlipsTables extends Migration
             $table->string('reference')->unique();
             $table->foreignId('delivery_company_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->enum('status', ['pending', 'confirmed', 'picked_up', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'confirmed', 'in_progress','completed','cancelled'])->default('pending');
             $table->text('notes')->nullable();
             $table->timestamps();
         });
