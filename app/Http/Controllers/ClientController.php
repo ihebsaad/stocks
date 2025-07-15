@@ -160,7 +160,7 @@ class ClientController extends Controller
                 $buttons = '';
                 $buttons .= '<a href="' . route('clients.show', $client->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
                 $buttons .= '<a href="' . route('clients.edit', $client->id) . '" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
-                $buttons .= '<a href="#" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
+                ///$buttons .= '<a href="#" class="btn btn-sm btn-primary mr-1 mb-1" title="Modifier"><i class="fas fa-edit"></i></a>';
                 
                 // Bouton pour créer une commande pour ce client
                 //$buttons .= '<a href="' . route('orders.create', ['client_id' => $client->id]) . '" class="btn btn-sm btn-success mr-1 mb-1" title="Nouvelle commande"><i class="fas fa-plus"></i></a>';
