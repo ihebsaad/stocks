@@ -138,11 +138,7 @@
                 <i class="fas fa-barcode"></i> Scanner
             </button>
         </div>
-    </div>
 
-    <div class="card mt-4">
-
-        <div class="card-body">
             <div id="scanner-messages" class="mb-3"></div>
             
             <div class="alert alert-info">
@@ -151,8 +147,9 @@
                 <span class="badge badge-light ml-2">Gris = Colis existant</span>
                 <span class="badge badge-success ml-2">Vert = Nouveau colis ajouté</span>
             </div>
-        </div>
     </div>
+
+ 
 
     <div class="card mt-4">
         <div class="card-header">
