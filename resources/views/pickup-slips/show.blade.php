@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Détails du bon de ramassage')
-@php dd($pickupSlip); @endphp
+
 @section('styles')
 <style>
     .info-card {

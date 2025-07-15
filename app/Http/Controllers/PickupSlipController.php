@@ -17,7 +17,7 @@ class PickupSlipController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         $pickupSlips = PickupSlip::with(['deliveryCompany', 'parcels'])
@@ -79,7 +79,7 @@ class PickupSlipController extends Controller
 
     public function show(PickupSlip $pickupSlip)
     {
-        $pickupSlip->load(['deliveryCompany', 'parcels', 'user']);
+        $pickupSlip->with(['deliveryCompany', 'parcels', 'user']);
         
         return view('pickup-slips.show', compact('pickupSlip'));
     }
