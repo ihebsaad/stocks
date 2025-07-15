@@ -298,11 +298,6 @@ class PickupSlipController extends Controller
                 'status' => $request->status
             ]);
 
-            // Si le statut est "completed", mettre à jour le statut des colis
-            if ($request->status === 'completed') {
-                $pickupSlip->parcels()->update(['status' => 'picked_up']);
-            }
-
             return response()->json([
                 'success' => true,
                 'message' => 'Statut mis à jour avec succès'
