@@ -12,6 +12,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PickupSlipController extends Controller
 {
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $pickupSlips = PickupSlip::with(['deliveryCompany', 'parcels'])
