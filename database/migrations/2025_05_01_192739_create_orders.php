@@ -35,7 +35,7 @@ class CreateOrders extends Migration
             $table->string('delegation');
             $table->string('address');
             $table->string('postal_code')->nullable();
-            $table->text('notes')->nullable();
+            $table->string('notes')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
