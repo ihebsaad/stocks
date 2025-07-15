@@ -285,10 +285,9 @@ class PickupSlipController extends Controller
     /**
      * Mise à jour du statut d'un bon de ramassage
      */
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request, PickupSlip $pickupSlip)
     {
-        $pickupSlip = PickupSlip::find($id);
-        dd($pickupSlip);
+        
         $request->validate([
             'status' => 'required|in:pending,in_progress,completed,cancelled'
         ]);
@@ -297,7 +296,7 @@ class PickupSlipController extends Controller
             $pickupSlip->update([
                 'status' => $request->status
             ]);
-
+ 
             return response()->json([
                 'success' => true,
                 'message' => 'Statut mis à jour avec succès'
