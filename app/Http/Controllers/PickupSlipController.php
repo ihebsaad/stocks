@@ -305,7 +305,7 @@ class PickupSlipController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la mise à jour du statut'
+                'message' => 'Erreur lors de la mise à jour du statut '.$e->getMessage()
             ], 500);
         }
     }
