@@ -1293,9 +1293,6 @@ $(document).ready(function() {
             $('#save-and-create-parcel-btn').hide();
         }
     }
-
-    // Initialiser le bouton
-    createParcelButton();
     
     // Vérifier initialement
     checkParcelButtonVisibility();
