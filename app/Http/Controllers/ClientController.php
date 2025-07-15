@@ -362,7 +362,7 @@ class ClientController extends Controller
             'delegation' => 'required|string|max:255',
             'address' => 'required|string',
             'postal_code' => 'nullable|string|max:10',
-            'notes' => 'nullable|string',
+            'notes' => 'nullable|string|max:10',
         ]);
 
         $client->update($request->all());
