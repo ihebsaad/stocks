@@ -180,7 +180,7 @@ $(document).ready(function() {
         const reference = $(this).data('reference');
         
         $('#delete-reference').text(reference);
-        $('#delete-form').attr('action', '/pickup/' + pickupSlipId);
+        $('#delete-form').attr('action', '/destroy/' + pickupSlipId);
         $('#deleteModal').modal('show');
     });
 

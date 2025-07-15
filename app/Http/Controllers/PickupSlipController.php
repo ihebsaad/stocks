@@ -137,7 +137,7 @@ class PickupSlipController extends Controller
     public function destroy($id)
     {
         $pickupSlip = PickupSlip::find($id);
-        dd($pickupSlip);
+
         DB::beginTransaction();
 
         try {
