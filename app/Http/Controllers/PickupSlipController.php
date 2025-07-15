@@ -288,7 +288,7 @@ class PickupSlipController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $pickupSlip = PickupSlip::find($id);
-
+        dd($pickupSlip);
         $request->validate([
             'status' => 'required|in:pending,in_progress,completed,cancelled'
         ]);
