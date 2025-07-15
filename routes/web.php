@@ -31,6 +31,8 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('products.list');
 
+Route::post('/parcels/search', [ParcelController::class, 'searchParcel'])->name('parcels.search');
+Route::resource('pickup', PickupSlipController::class);
 
 Route::get('/stats', [StatisticsController::class, 'index'])->name('stats');
 
@@ -153,5 +155,3 @@ Route::delete('/promo-codes/{promoCode}', [PromoCodeController::class, 'destroy'
 Route::post('/promo-codes/{promoCode}/use', [PromoCodeController::class, 'use'])->name('promo-codes.use');
 
 
-Route::post('/parcels/search', [ParcelController::class, 'searchParcel'])->name('parcels.search');
-Route::resource('pickup', PickupSlipController::class);
