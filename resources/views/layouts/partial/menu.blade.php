@@ -74,7 +74,7 @@
             </ul>
           </li>
 -->
-          <li class="nav-item menu-open {{ request()->is('products') ||   request()->is('products/*') || request()->is('orders') ||   request()->is('orders/*') || request()->is('parcels') ||   request()->is('parcels/*') || request()->is('clients') ||   request()->is('clients/*')   ? 'menu-open' : '' }} ">
+          <li class="nav-item menu-open {{ request()->is('products') ||   request()->is('products/*') || request()->is('orders') ||   request()->is('orders/*') || request()->is('parcels') ||   request()->is('parcels/*') || request()->is('clients') ||   request()->is('clients/*') || request()->is('pickups') ||   request()->is('pickups/*')   ? 'menu-open' : '' }} ">
             <a href="#" class="nav-link {{    request()->is('products') ||   request()->is('products/*') || request()->is('orders') ||   request()->is('orders/*') || request()->is('parcels') ||   request()->is('parcels/*') || request()->is('clients') ||   request()->is('clients/*')   ? 'active' : '' }}">
               <i class="nav-icon fas fa-store text-white"></i>
               <p>
@@ -125,6 +125,12 @@
                 <a href="{{ route('clients.index') }}" class="nav-link {{ request()->is('clients/*')  ? 'active' : '' }}">
                   <i class="fas fa-users nav-icon text-secondary"></i>
                   <p>Clients</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('pickups.index') }}" class="nav-link {{ request()->is('pickups/*')  ? 'active' : '' }}">
+                  <i class="fas fa-barcode nav-icon text-secondary"></i>
+                  <p>Bons de ramassage</p>
                 </a>
               </li>
             </ul>

@@ -53,11 +53,21 @@
             <a class="btn btn-primary" href="{{ route('pickups.index') }}">
                 <i class="fas fa-arrow-left"></i> Retour
             </a>
-            <a class="btn btn-warning" href="#">
+            <a class="btn btn-warning" href="{{ route('pickup-slips.edit', $pickupSlip->id) }}" >
                 <i class="fas fa-edit"></i> Modifier
             </a>
-            <a class="btn btn-success print-btn" href="#" target="_blank">
-                <i class="fas fa-print"></i> Imprimer
+            <a href="{{ route('pickup-slips.pdf.view', $pickupSlip->id) }}" 
+            class="btn btn-primary btn-lg rounded-circle mb-2" 
+            target="_blank"
+            title="Voir PDF"
+            style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-file-pdf fa-lg"></i>
+            </a>
+            <a href="{{ route('pickup-slips.pdf.download', $pickupSlip->id) }}" 
+            class="btn btn-success btn-lg rounded-circle" 
+            title="Télécharger PDF"
+            style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-download fa-lg"></i>
             </a>
         </div>
     </div>

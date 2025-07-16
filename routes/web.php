@@ -163,3 +163,7 @@ Route::get('pickup-export', [PickupSlipController::class, 'export'])->name('pick
 Route::get('pickup-statistics', [PickupSlipController::class, 'statistics'])->name('pickups.statistics');
 Route::delete('pickups/supprimer/{id}', [PickupSlipController::class, 'supprimer'])->name('pickups.supprimer');
     
+Route::get('/{pickupSlip}/pdf/download', [PickupSlipController::class, 'generatePickupSlipPdf'])->name('pdf.download');
+        
+// Route pour afficher le PDF dans le navigateur
+Route::get('/{pickupSlip}/pdf/view', [PickupSlipController::class, 'viewPickupSlipPdf'])->name('pdf.view');

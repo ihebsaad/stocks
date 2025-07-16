@@ -9,6 +9,8 @@ use App\Models\PickupSlip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Milon\Barcode\DNS1D;
 
 class PickupSlipController extends Controller
 {
@@ -372,4 +374,110 @@ class PickupSlipController extends Controller
 
         return response()->json($stats);
     }
+
+
+
+    public function generatePickupSlipPdf($pickupSlipId)
+{
+    try {
+        // Récupérer le bon de ramassage avec ses relations
+        $pickupSlip = PickupSlip::with([
+            'parcels.order.client',
+            'user',
+            'deliveryCompany'
+        ])->findOrFail($pickupSlipId);
+
+        // Récupérer la société de livraison
+        $deliveryCompany = $pickupSlip->deliveryCompany;
+
+        // Générer les codes à barres pour chaque colis
+        $generator = new \Milon\Barcode\DNS1D();
+        $barcodes = [];
+        
+        foreach ($pickupSlip->parcels as $parcel) {
+            $reference = $parcel->reference ?: '#' . $parcel->id;
+            $barcodes[$parcel->id] = $generator->getBarcodeHTML($reference, 'C128', 1.2, 30);
+        }
+
+        // Calculer les statistiques
+        $statistics = [
+            'total_parcels' => $pickupSlip->parcels->count(),
+            'total_cod' => $pickupSlip->parcels->sum('cod'),
+            'total_governorates' => $pickupSlip->parcels->groupBy('gov_l')->count(),
+            'pending_parcels' => $pickupSlip->parcels->where('status', 'pending')->count()
+        ];
+
+        // Préparer les données pour la vue PDF
+        $data = [
+            'pickupSlip' => $pickupSlip,
+            'deliveryCompany' => $deliveryCompany,
+            'barcodes' => $barcodes,
+            'statistics' => $statistics,
+            'generated_at' => now()->format('d/m/Y H:i'),
+            'parcels' => $pickupSlip->parcels
+        ];
+
+        // Générer le PDF
+        $pdf = Pdf::loadView('pickup-slips.pdf', $data);
+        
+        // Définir les options du PDF
+        $pdf->setPaper('A4', 'portrait');
+        
+        // Nom du fichier
+        $filename = 'bon_ramassage_' . $pickupSlip->reference . '_' . date('Y-m-d_H-i-s') . '.pdf';
+        
+        return $pdf->download($filename);
+        
+    } catch (\Exception $e) {
+        \Log::error('Erreur génération PDF bon de ramassage: ' . $e->getMessage());
+        return back()->with('error', 'Erreur lors de la génération du PDF: ' . $e->getMessage());
+    }
+}
+
+// Méthode alternative pour afficher le PDF dans le navigateur
+public function viewPickupSlipPdf($pickupSlipId)
+{
+    try {
+        $pickupSlip = PickupSlip::with([
+            'parcels.order.client',
+            'user',
+            'deliveryCompany'
+        ])->findOrFail($pickupSlipId);
+
+        $deliveryCompany = $pickupSlip->deliveryCompany;
+
+        $generator = new \Milon\Barcode\DNS1D();
+        $barcodes = [];
+        
+        foreach ($pickupSlip->parcels as $parcel) {
+            $reference = $parcel->reference ?: '#' . $parcel->id;
+            $barcodes[$parcel->id] = $generator->getBarcodeHTML($reference, 'C128', 1.2, 30);
+        }
+
+        $statistics = [
+            'total_parcels' => $pickupSlip->parcels->count(),
+            'total_cod' => $pickupSlip->parcels->sum('cod'),
+            'total_governorates' => $pickupSlip->parcels->groupBy('gov_l')->count(),
+            'pending_parcels' => $pickupSlip->parcels->where('status', 'pending')->count()
+        ];
+
+        $data = [
+            'pickupSlip' => $pickupSlip,
+            'deliveryCompany' => $deliveryCompany,
+            'barcodes' => $barcodes,
+            'statistics' => $statistics,
+            'generated_at' => now()->format('d/m/Y H:i'),
+            'parcels' => $pickupSlip->parcels
+        ];
+
+        $pdf = Pdf::loadView('pickup-slips.pdf', $data);
+        $pdf->setPaper('A4', 'portrait');
+        
+        return $pdf->stream('bon_ramassage_' . $pickupSlip->reference . '.pdf');
+        
+    } catch (\Exception $e) {
+        \Log::error('Erreur affichage PDF bon de ramassage: ' . $e->getMessage());
+        return back()->with('error', 'Erreur lors de l\'affichage du PDF: ' . $e->getMessage());
+    }
+}
 }
