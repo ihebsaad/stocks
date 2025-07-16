@@ -194,6 +194,13 @@ class PickupSlipController extends Controller
                            class="btn btn-primary btn-sm mr-1" title="Modifier">
                            <i class="fas fa-edit"></i>
                            </a>';
+
+                $actions .= '<a href="' .  route('pickups.pdf_download', $pickupSlip->id) . '" 
+                            class="btn btn-success btn-lg rounded-circle" 
+                            title="Télécharger PDF"
+                            style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-download fa-lg"></i>
+                            </a>';
                 
                 // Bouton Supprimer
                 $actions .= '<button type="button" 

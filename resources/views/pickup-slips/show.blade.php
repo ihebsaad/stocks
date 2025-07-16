@@ -56,14 +56,14 @@
             <a class="btn btn-warning" href="{{ route('pickups.edit', $pickupSlip->id) }}" >
                 <i class="fas fa-edit"></i> Modifier
             </a>
-            <a href="{{ route('pickup-slips.pdf.view', $pickupSlip->id) }}" 
+            <a href="{{ route('pickups.pdf_view', $pickupSlip->id) }}" 
             class="btn btn-primary btn-lg rounded-circle mb-2" 
             target="_blank"
             title="Voir PDF"
             style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
                 <i class="fas fa-file-pdf fa-lg"></i>
             </a>
-            <a href="{{ route('pickup-slips.pdf.download', $pickupSlip->id) }}" 
+            <a href="{{ route('pickups.pdf_download', $pickupSlip->id) }}" 
             class="btn btn-success btn-lg rounded-circle" 
             title="Télécharger PDF"
             style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
