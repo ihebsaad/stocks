@@ -176,7 +176,6 @@
             background-color: #f8f9fa;
             padding: 2px 4px;
             border-radius: 3px;
-            font-size: 10px;
         }
         
         .barcode {
@@ -212,14 +211,14 @@
             <div class="info-card">
                 <h3>Informations générales</h3>
                 <table class="info-table">
-                    <tr>
+                    <!--<tr>
                         <td>Date:</td>
                         <td>{{ date('d/m/Y', strtotime($pickupSlip->date)) }}</td>
                     </tr>
                     <tr>
                         <td>Référence:</td>
                         <td><span class="reference-code">{{ $pickupSlip->reference }}</span></td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td>Société de livraison:</td>
                         <td>{{ $deliveryCompany->name }}</td>
