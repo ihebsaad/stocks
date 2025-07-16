@@ -23,7 +23,7 @@
         
         .header h1 {
             color: #007bff;
-            font-size: 24px;
+            font-size: 20px;
             margin: 0;
         }
         
@@ -200,8 +200,7 @@
 <body>
     <!-- En-tête -->
     <div class="header">
-        <h1>BON DE RAMASSAGE</h1>
-        <p>Référence: <span class="reference-code">{{ $pickupSlip->reference }}</span></p>
+        <h1>BON DE RAMASSAGE - {{ $pickupSlip->reference }}</span></h1>
         <p>Généré le: {{ $generated_at }}</p>
     </div>
 
@@ -209,7 +208,6 @@
     <div class="info-section">
         <div class="info-column">
             <div class="info-card">
-                <h3>Informations générales</h3>
                 <table class="info-table">
                     <!--<tr>
                         <td>Date:</td>
@@ -246,7 +244,6 @@
 
         <div class="info-column">
             <div class="info-card">
-                <h3>Informations de création</h3>
                 <table class="info-table">
                     <tr>
                         <td>Créé par:</td>
