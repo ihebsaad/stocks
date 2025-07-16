@@ -360,10 +360,11 @@
         </div>
     </div>
 
-    <!-- Pied de page -->
+    <!-- Pied de page 
     <div class="footer">
         <p>Document généré automatiquement le {{ $generated_at }}</p>
         <p>Bon de ramassage - {{ $pickupSlip->reference }} - {{ $statistics['total_parcels'] }} colis</p>
     </div>
+    -->
 </body>
 </html>
