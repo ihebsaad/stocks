@@ -53,7 +53,7 @@
             <a class="btn btn-primary" href="{{ route('pickups.index') }}">
                 <i class="fas fa-arrow-left"></i> Retour
             </a>
-            <a class="btn btn-warning" href="{{ route('pickup-slips.edit', $pickupSlip->id) }}" >
+            <a class="btn btn-warning" href="{{ route('pickups.edit', $pickupSlip->id) }}" >
                 <i class="fas fa-edit"></i> Modifier
             </a>
             <a href="{{ route('pickup-slips.pdf.view', $pickupSlip->id) }}" 
