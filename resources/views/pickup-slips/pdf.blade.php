@@ -76,7 +76,7 @@
         }
         
         .badge {
-            padding: 3px 8px;
+            padding: 3px 8px 3px 8px;
             border-radius: 3px;
             font-size: 10px;
             font-weight: bold;
@@ -195,6 +195,12 @@
         .page-break {
             page-break-before: always;
         }
+
+        .bg-1{ background-color: #0da598; color: white;   }
+        .bg-2{ background-color: #ef6f28; color: white;   }
+        .bg-3{ background-color: #227ac2; color: white;   }
+        .bg-4{ background-color: #6c757d; color: white;   }
+        .bg-5{ background-color: #fd9883; color: white;   }
     </style>
 </head>
 <body>
@@ -219,7 +225,7 @@
                     </tr>-->
                     <tr>
                         <td>Société de livraison:</td>
-                        <td>{{ $deliveryCompany->name }}</td>
+                        <td><span class="badge bg-{{$deliveryCompany->id}}">{{ ucfirst($deliveryCompany->name) }}</span></td>
                     </tr>
                     <!--
                     <tr>
@@ -287,7 +293,7 @@
 -->
     <!-- Liste des colis -->
     <div style="margin-top: 30px;">
-        <h3 style="color: #007bff; margin-bottom: 15px;">Liste des colis</h3>
+        <!--<h3 style="color: #007bff; margin-bottom: 15px;">Liste des colis</h3>-->
         
         @if($parcels->count() > 0)
             <table class="parcels-table">
