@@ -50,23 +50,21 @@
             <h2>Bon de ramassage: {{ $pickupSlip->reference }}</h2>
         </div>
         <div class="float-right d-flex action-buttons">
-            <a class="btn btn-primary" href="{{ route('pickups.index') }}">
+            <a class="btn btn-secondary" href="{{ route('pickups.index') }}">
                 <i class="fas fa-arrow-left"></i> Retour
             </a>
-            <a class="btn btn-warning" href="{{ route('pickups.edit', $pickupSlip->id) }}" >
+            <a class="btn btn-primary" href="{{ route('pickups.edit', $pickupSlip->id) }}" >
                 <i class="fas fa-edit"></i> Modifier
             </a>
             <a href="{{ route('pickups.pdf_view', $pickupSlip->id) }}" 
-            class="btn btn-primary btn-lg rounded-circle mb-2" 
+            class="btn btn-info mb-2" 
             target="_blank"
-            title="Voir PDF"
-            style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+            title="Voir PDF">
                 <i class="fas fa-file-pdf fa-lg"></i>
             </a>
             <a href="{{ route('pickups.pdf_download', $pickupSlip->id) }}" 
-            class="btn btn-success btn-lg rounded-circle" 
-            title="Télécharger PDF"
-            style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+            class="btn btn-success" 
+            title="Télécharger PDF">
                 <i class="fas fa-download fa-lg"></i>
             </a>
         </div>

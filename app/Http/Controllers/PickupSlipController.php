@@ -196,9 +196,8 @@ class PickupSlipController extends Controller
                            </a>';
 
                 $actions .= '<a href="' .  route('pickups.pdf_download', $pickupSlip->id) . '" 
-                            class="btn btn-success btn-lg rounded-circle" 
-                            title="Télécharger PDF"
-                            style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            class="btn btn-success" 
+                            title="Télécharger PDF">
                                 <i class="fas fa-download fa-lg"></i>
                             </a>';
                 
