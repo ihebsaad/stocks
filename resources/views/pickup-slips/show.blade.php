@@ -60,12 +60,12 @@
             class="btn btn-info mb-2" 
             target="_blank"
             title="Voir PDF">
-                <i class="fas fa-file-pdf fa-lg"></i>
+                <i class="fas fa-file-pdf"></i>
             </a>
             <a href="{{ route('pickups.pdf_download', $pickupSlip->id) }}" 
             class="btn btn-success" 
             title="Télécharger PDF">
-                <i class="fas fa-download fa-lg"></i>
+                <i class="fas fa-download"></i>
             </a>
         </div>
     </div>
