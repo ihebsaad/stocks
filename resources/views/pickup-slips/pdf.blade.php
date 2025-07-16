@@ -224,6 +224,7 @@
                         <td>Société de livraison:</td>
                         <td>{{ $deliveryCompany->name }}</td>
                     </tr>
+                    <!--
                     <tr>
                         <td>Statut:</td>
                         <td>
@@ -233,7 +234,7 @@
                                 {{ ucfirst($pickupSlip->status) }}
                             </span>
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td>Nombre de colis:</td>
                         <td>
@@ -255,17 +256,17 @@
                     <tr>
                         <td>Date de création:</td>
                         <td>{{ $pickupSlip->created_at->format('d/m/Y H:i') }}</td>
-                    </tr>
+                    </tr><!--
                     <tr>
                         <td>Dernière modification:</td>
                         <td>{{ $pickupSlip->updated_at->format('d/m/Y H:i') }}</td>
-                    </tr>
+                    </tr>-->
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Statistiques -->
+    <!-- Statistiques  
     <div class="stats-section">
         <h3 style="margin-top: 0; color: #007bff;">Statistiques</h3>
         <div class="stats-row">
@@ -287,7 +288,7 @@
             </div>
         </div>
     </div>
-
+-->
     <!-- Liste des colis -->
     <div style="margin-top: 30px;">
         <h3 style="color: #007bff; margin-bottom: 15px;">Liste des colis</h3>
@@ -302,7 +303,7 @@
                         <th>Gouvernorat</th>
                         <th>Adresse</th>
                         <th>COD</th>
-                        <th>Statut</th>
+                        <!--<th>Statut</th>-->
                     </tr>
                 </thead>
                 <tbody>
@@ -321,13 +322,13 @@
                             <td>{{ $parcel->gov_l }}</td>
                             <td>{{ $parcel->adresse_l }}</td>
                             <td>{{ number_format($parcel->cod, 2) }} Dt</td>
-                            <td>
+                            <!--<td>
                                 <span class="badge badge-{{ $parcel->status === 'pending' ? 'warning' : 
                                                            ($parcel->status === 'delivered' ? 'success' : 
                                                            ($parcel->status === 'in_transit' ? 'info' : 'danger')) }}">
                                     {{ ucfirst($parcel->status) }}
                                 </span>
-                            </td>
+                            </td>-->
                         </tr>
                     @endforeach
                 </tbody>
