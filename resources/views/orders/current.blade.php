@@ -83,7 +83,7 @@
                 </div>
             </div>
   
-            <div class="table-responsive-">
+            <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="orders-table">
                     <thead>
                         <tr>
@@ -110,6 +110,7 @@ $(function() {
     let table = $('#orders-table').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
         type: 'GET',
         dataType: "json", 
         ajax: {

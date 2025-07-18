@@ -216,6 +216,7 @@ $(function() {
     let table = $('#clients-table').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
         ajax: {
             url: "{{ route('clients.getClients') }}",
             data: function(d) {

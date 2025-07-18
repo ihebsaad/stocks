@@ -35,21 +35,23 @@
         </div>
     </div>
     -->
-    <table class="table table-bordered table-striped" id='mytable'>
-        <thead>
-            <tr>
-            <th>Reference</th>
-            <th>Nom</th>
-            <th>Catégorie</th>
-            <th>Fournisseur</th>
-            <th>Type</th>
-            <th>Prix</th>
-            <th>Qté</th>
-            <th>Description</th>
-            <th class="no-sort"  style="width:20%"  >Action</th>
-            </tr>
-        </thead>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id='mytable'>
+            <thead>
+                <tr>
+                <th>Reference</th>
+                <th>Nom</th>
+                <th>Catégorie</th>
+                <th>Fournisseur</th>
+                <th>Type</th>
+                <th>Prix</th>
+                <th>Qté</th>
+                <th>Description</th>
+                <th class="no-sort"  style="width:20%"  >Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 
 @endsection
 @section('footer-scripts')
@@ -76,6 +78,7 @@
         var table = $('#mytable').DataTable({
             processing: true,
             serverSide: true,
+            responsive: true,
             ajax: {
                 url: '{{ route("products.list") }}',
                 type: 'GET',

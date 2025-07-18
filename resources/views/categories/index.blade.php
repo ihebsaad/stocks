@@ -23,6 +23,7 @@
    <style>
 		.small-img{width:150px;}
    </style>
+   <div class="table-responsive">
     <table class="table table-bordered table-striped" id='mytable'>
         <thead>
             <tr>
@@ -50,6 +51,7 @@
         </tr>
         @endforeach
     </table>
+    </div>
   
       
 @endsection
