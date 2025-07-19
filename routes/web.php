@@ -31,6 +31,7 @@ use App\Http\Controllers\HomeController;
 
 
 Route::get('/products/list', [ProductsController::class, 'getProducts'])->name('products.list');
+Route::get('/stock/entries/list', [StockEntryController::class, 'getStockEntriesList'])->name('stock.entries.list');
 
 Route::post( '/parcels/search', [ParcelController::class, 'searchParcel'])->name('parcels.search');
 
@@ -167,4 +168,3 @@ Route::get('/{pickupSlip}/pdf/download', [PickupSlipController::class, 'generate
         
 // Route pour afficher le PDF dans le navigateur
 Route::get('/{pickupSlip}/pdf/view', [PickupSlipController::class, 'viewPickupSlipPdf'])->name('pickups.pdf_view');
-Route::get('/stock/entries/list', [StockEntryController::class, 'getStockEntriesList'])->name('stock.entries.list');
