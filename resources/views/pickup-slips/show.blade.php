@@ -188,7 +188,7 @@
 </div>
 
 <!-- Actions rapides -->
-@if(true)
+@if($pickupSlip->status === 'pending')
 <div class="row mt-4">
     <div class="col-md-12">
         <div class="card">
