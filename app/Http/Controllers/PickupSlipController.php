@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Models\OrderStatusHistory;
 use App\Models\Parcel;
 use App\Models\DeliveryCompany;
 use App\Models\PickupSlip;
@@ -304,7 +304,23 @@ class PickupSlipController extends Controller
             $pickupSlip->update([
                 'status' => $request->status
             ]);
- 
+
+            foreach($pickupSlip->parcels as $parcel) {
+                // Mettre à jour le statut des colis associés
+                if ($request->status === 'completed') {
+                    $old = $parcel->dernier_etat;
+                    $parcel->update(['dernier_etat' => 'Ramassé',
+                    'date_dernier_etat' => now()]);  
+                    
+                    OrderStatusHistory::create([
+                        'order_id'   => $parcel->order_id,
+                        'user_id'    => auth()->id() ?? null,
+                        'old_status' => $old,
+                        'new_status' => 'picked_up',
+                        'comment'    => 'Ramassage chez ZA HOME',
+                    ]);
+                }
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Statut mis à jour avec succès'

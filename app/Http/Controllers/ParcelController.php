@@ -359,6 +359,7 @@ class ParcelController extends Controller
             'rendezvous' => 'Rendez-vous',
             'production' => 'En production',
             'confirmed' => 'Confirmée',
+            'picked_up' => 'Ramassé',
             'no_response' => 'Client ne répond plus',
             'not_available' => 'Client injoignable',
             'cancelled' => 'Annulée',
