@@ -72,11 +72,11 @@
             <table class="table table-striped table-bordered" id="pickup-slips-table">
                 <thead>
                     <tr>
-                        <th>Date</th>
+                        <!--<th>Date</th>-->
                         <th>Référence</th>
+                        <th>Statut</th>
                         <th>Société de livraison</th>
                         <th>Nombre de colis</th>
-                        <th>Statut</th>
                         <th>Créé par</th>
                         <th>Créé le</th>
                         <th>Actions</th>
@@ -139,11 +139,11 @@ $(document).ready(function() {
         responsive: true,
         ajax: '{{ route("pickups.data") }}',
         columns: [
-            { data: 'date', name: 'date' },
+            //{ data: 'date', name: 'date' },
             { data: 'reference', name: 'reference' },
+            { data: 'status', name: 'status' },
             { data: 'delivery_company', name: 'delivery_company.name' },
             { data: 'parcels_count', name: 'parcels_count', orderable: false, searchable: false },
-            { data: 'status', name: 'status' },
             { data: 'user', name: 'user.name' },
             { data: 'created_at', name: 'created_at' },
             { data: 'actions', name: 'actions', orderable: false, searchable: false }

@@ -95,10 +95,10 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Statut</th>
                             <th>Client</th>
                             <th>Service</th>
-                            <th>Société de livraison</th>
-                            <th>Statut</th>
+                            <th>Société de livraison</th>                            
                             <th>Date de création</th>
                             <th>Actions</th>
                         </tr>
@@ -134,10 +134,10 @@ $(function() {
         },
         columns: [
             { data: 'id', name: 'id' },
+            { data: 'status_formatted', name: 'status_formatted' },
             { data: 'client_name', name: 'client_name' },
             { data: 'service_type_formatted', name: 'service_type_formatted' },
             { data: 'delivery_company_info', name: 'delivery_company_info' },
-            { data: 'status_formatted', name: 'status_formatted' },
             { data: 'created_at_formatted', name: 'created_at' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ],
