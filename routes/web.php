@@ -167,3 +167,4 @@ Route::get('/{pickupSlip}/pdf/download', [PickupSlipController::class, 'generate
         
 // Route pour afficher le PDF dans le navigateur
 Route::get('/{pickupSlip}/pdf/view', [PickupSlipController::class, 'viewPickupSlipPdf'])->name('pickups.pdf_view');
+Route::get('/stock/entries/list', [StockEntryController::class, 'getStockEntriesList'])->name('stock.entries.list');

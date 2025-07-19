@@ -8,6 +8,7 @@ use App\Models\StockEntry;
 use App\Models\StockEntryItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class StockEntryController extends Controller
 {
@@ -91,15 +92,36 @@ class StockEntryController extends Controller
         }
     }
 
-    /**
-     * Afficher la liste des entrées de stock
-     */
     public function index()
-    {
-        $entries = StockEntry::with('items.product', 'items.variation')->orderBy('date', 'desc')->get();
-        return view('stock.index', compact('entries'));
-    }
+        {
+            return view('stock.index');
+        }
 
+        public function getStockEntriesList(Request $request)
+        {
+            if ($request->ajax()) {
+                $entries = StockEntry::with('items.product', 'items.variation')
+                    ->select('stock_entries.*');
+
+                return DataTables::of($entries)
+                    ->addColumn('date_formatted', function ($entry) {
+                        return $entry->date->format('d/m/Y');
+                    })
+                    ->addColumn('products_count', function ($entry) {
+                        return $entry->items->count();
+                    })
+                    ->addColumn('total_formatted', function ($entry) {
+                        return number_format($entry->getTotal(), 2, ',', ' ') . ' Dt';
+                    })
+                    ->addColumn('action', function ($entry) {
+                        return '<a href="' . route('stock.entries.show', $entry->id) . '" class="btn btn-info btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>';
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+        }
     /**
      * Afficher les détails d'une entrée de stock
      */
