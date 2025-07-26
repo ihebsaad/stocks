@@ -977,8 +977,8 @@
                                     <th>Quantité Vendue</th>
                                     @if(auth()->id()==1)
                                     <th>Chiffre d'Affaires</th>                                    
-                                    <th>Bénéfice</th>
-                                    <th>Marge</th>
+                                    <!--<th>Bénéfice</th>
+                                    <th>Marge</th>-->
                                     @endif
                                     <th>Commandes</th>
                                 </tr>
@@ -1005,7 +1005,7 @@
                                     <td>
                                         <strong>{{ number_format($product['total_revenue'], 0,'',' ') }} TND</strong>
                                     </td>
-                                    <td>
+                                    <!--<td>
                                         <span class="badge badge-{{ $product['profit'] >= 0 ? 'success' : 'danger' }}">
                                             {{ number_format($product['profit'], 0,'',' ') }} TND
                                         </span>
@@ -1014,7 +1014,7 @@
                                         <span class="badge badge-{{ $product['profit_margin'] >= 0 ? 'success' : 'danger' }}">
                                             {{ $product['profit_margin'] }}%
                                         </span>
-                                    </td>
+                                    </td>-->
                                     @endif
                                     <td>
                                         {{ $product['orders_count'] }}
