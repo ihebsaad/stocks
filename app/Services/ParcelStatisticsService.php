@@ -309,7 +309,7 @@ class ParcelStatisticsService
             case 'daily':
                 return Carbon::parse($date)->format('d/m');
             case 'weekly':
-                return 'S' ;
+                return 'S ' .$date->format("W");
             case 'monthly':
                 return Carbon::parse($date)->format('m/Y');
             default:
