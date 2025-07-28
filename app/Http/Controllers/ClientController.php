@@ -107,9 +107,10 @@ class ClientController extends Controller
      */
     private function buildClientsDataTable($clients, Request $request)
     {
-        $clients->loadCount('orders')->load(['orders' => function($query) {
-            $query->orderBy('created_at', 'desc')->limit(1);
-        }]);
+        $clients->withCount('orders')
+            ->with(['orders' => function($query) {
+                $query->orderBy('created_at', 'desc')->limit(1);
+            }]);
 
         return DataTables::of($clients)
             ->addColumn('client_info', function ($client) {
@@ -193,7 +194,19 @@ class ClientController extends Controller
                           ->orWhere('address', 'like', "%{$search}%");
                     });
                 }
-
+                if ($request->has('orders_filter') && !empty($request->orders_filter)) {
+                    switch ($request->orders_filter) {
+                        case 'no_orders':
+                            $query->doesntHave('orders');
+                            break;
+                        case 'has_orders':
+                            $query->has('orders');
+                            break;
+                        case 'many_orders':
+                            $query->has('orders', '>=', 5);
+                            break;
+                    }
+                }
                 // Appliquer les filtres spécifiques
                 $this->applyFilters($query, $request);
             })
