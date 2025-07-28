@@ -203,7 +203,7 @@ class ClientController extends Controller
                             $query->has('orders');
                             break;
                         case 'many_orders':
-                            $query->has('orders', '>=', 5);
+                            $query->has('orders', '>=', 2);
                             break;
                     }
                 }
