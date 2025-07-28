@@ -235,7 +235,7 @@ $(function() {
             { data: 'client_info', name: 'client_info', orderable: false },
             { data: 'phones', name: 'phones', orderable: false },
             { data: 'location', name: 'location', orderable: false },
-            { data: 'orders_stats', name: 'orders_stats', orderable: false },
+            { data: 'orders_stats', name: 'orders_stats', orderable: true },
             { data: 'created_at_formatted', name: 'created_at' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ],
