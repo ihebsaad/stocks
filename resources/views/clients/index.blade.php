@@ -179,7 +179,9 @@
                 <option value="0">0 commandes</option>
                 <option value="1">1 commande</option>
                 <option value="2+">2 ou plus</option>
+                <option value="3+">2 ou plus</option>
                 <option value="4+">4 ou plus</option>
+                <option value="5+">4 ou plus</option>
             </select>
         </div>
         <div class="col-md-3">
@@ -236,7 +238,7 @@ $(function() {
             { data: 'client_info', name: 'client_info', orderable: false },
             { data: 'phones', name: 'phones', orderable: false },
             { data: 'location', name: 'location', orderable: false },
-            { data: 'orders_stats', name: 'orders_count', orderable: true  },
+            { data: 'orders_stats', name: 'orders_stats', orderable: false  },
             { data: 'created_at_formatted', name: 'created_at' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ],

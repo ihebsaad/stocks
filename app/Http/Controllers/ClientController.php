@@ -203,11 +203,17 @@ class ClientController extends Controller
                             $query->has('orders');
                             break;
                         case '2+':
-                            $query->has('orders', '>=', 2);
+                            $query->has('orders', '>=', 2);                            
+                            break;                                                    
+                        case '3+':
+                            $query->has('orders', '>=', 3);
                             break;
                         case '4+':
                             $query->has('orders', '>=', 4);
-                            break;                            
+                            break;    
+                        case '5+':
+                            $query->has('orders', '>=', 5);
+                            break;                                                    
                     }
                 }
                 // Appliquer les filtres spécifiques
