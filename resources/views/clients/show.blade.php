@@ -232,7 +232,11 @@
         50% { opacity: 0.7; }
         100% { opacity: 1; }
     }
-
+    .promos{
+        padding: 20px 20px 20px 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
 </style>
 @endsection
 
