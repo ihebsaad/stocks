@@ -425,6 +425,75 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-8">
+            @if($client->promoCodes->count() > 0)
+                <div class="promo-codes-list">
+                    @foreach($client->promoCodes as $promo)
+                        <div class="promo-item mb-2 p-3 border rounded  bg-light">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <strong class="me-2">{{ $promo->code }}</strong>
+                                    </div>
+                                                        
+                                    <div class="text-muted mb-1">
+                                        @if($promo->type == 'percentage')
+                                                                <i class="fas fa-percentage"></i> Remise de {{ $promo->value }}%
+                                        @elseif($promo->type == 'fixed_amount')
+                                                                <i class="fas fa-money-bill"></i> Remise de {{ $promo->value }} TND
+                                        @elseif($promo->type == 'free_product')
+                                                                <i class="fas fa-gift"></i> Produit gratuit : {{ $promo->product->name ?? 'Produit non trouvé' }}
+                                        @endif
+                                    </div>
+                                                        
+                                    <div class="text-muted small">
+                                        <i class="fas fa-calendar"></i> 
+                                        Expire le : {{ $promo->expires_at ? $promo->expires_at->format('d/m/Y') : 'Jamais' }}
+                                    </div>
+                                                        
+                                    <div class="mt-2">
+                                        @if($promo->expires_at && $promo->expires_at->isPast())
+                                            <span class="badge bg-danger">
+                                                <i class="fas fa-times"></i> Expiré
+                                            </span>
+                                        @elseif($promo->is_used)
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-exclamation-triangle"></i> Utilisé
+                                            </span>
+                                        @else
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check"></i> Valide
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                                    
+                                <div class="ms-3">
+                                    @if($promo->id == $order->promo_code_id)
+      
+                                    @elseif(!$promo->is_used && (!$promo->expires_at || !$promo->expires_at->isPast()))
+
+                                    @else
+                                        <button type="button" class="btn btn-sm btn-secondary" disabled>
+                                            <i class="fas fa-ban"></i> Indisponible
+                                        </button>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="text-center py-4">
+                    <i class="fas fa-tags fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Aucun code promo disponible pour ce client</p>
+                </div>
+            @endif
+                                
+         </div>
+
+
     </div>
 </div>
 @endsection
