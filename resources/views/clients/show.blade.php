@@ -236,6 +236,8 @@
         padding: 20px 20px 20px 20px;
         background: #f8f9fa;
         border-radius: 10px;
+        margin-top: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 </style>
 @endsection
