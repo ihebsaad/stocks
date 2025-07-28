@@ -196,15 +196,18 @@ class ClientController extends Controller
                 }
                 if ($request->has('orders_filter') && !empty($request->orders_filter)) {
                     switch ($request->orders_filter) {
-                        case 'no_orders':
+                        case '0':
                             $query->doesntHave('orders');
                             break;
-                        case 'has_orders':
+                        case '1':
                             $query->has('orders');
                             break;
-                        case 'many_orders':
+                        case '2+':
                             $query->has('orders', '>=', 2);
                             break;
+                        case '4+':
+                            $query->has('orders', '>=', 4);
+                            break;                            
                     }
                 }
                 // Appliquer les filtres spécifiques
