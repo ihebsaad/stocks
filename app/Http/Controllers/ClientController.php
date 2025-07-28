@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -270,6 +270,13 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
+
+        $products = Product::with([
+            'variations' => function ($query) {
+                $query->with('attributeValues.attribute');
+            }
+        ])->get();
+
         // Charger les relations nécessaires
         $client->load(['orders' => function($query) {
             $query->with(['deliveryCompany', 'user'])->latest();
@@ -296,7 +303,8 @@ class ClientController extends Controller
             'avgOrderAmount',
             'lastOrderDate',
             'monthlyOrdersData',
-            'ordersByStatus'
+            'ordersByStatus',
+            'products'
         ));
     }
 
