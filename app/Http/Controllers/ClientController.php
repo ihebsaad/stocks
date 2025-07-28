@@ -107,6 +107,10 @@ class ClientController extends Controller
      */
     private function buildClientsDataTable($clients, Request $request)
     {
+        $clients->loadCount('orders')->load(['orders' => function($query) {
+            $query->orderBy('created_at', 'desc')->limit(1);
+        }]);
+
         return DataTables::of($clients)
             ->addColumn('client_info', function ($client) {
                 $first_name= mb_convert_encoding($client->first_name , 'UTF-8', 'UTF-8') ?? '' ;
@@ -141,9 +145,8 @@ class ClientController extends Controller
                 ';
             })
             ->addColumn('orders_stats', function ($client) {
-                $count = Order::where('client_id',$client->id)->count();
-                $lastOrder =Order::where('client_id',$client->id)->orderBy('created_at','desc')->first();
-                                
+                $count = $client->orders_count; // Utilise le count préchargé
+                $lastOrder = $client->orders->first(); // Utilise la relation préchargée                                
                 $return= '
                     <div class="order-stats">
                         <div class="order-count">' . $count . '</div>';
@@ -157,8 +160,7 @@ class ClientController extends Controller
                 return $client->created_at->format('d/m/Y H:i');
             })
             ->addColumn('orders_count', function ($client) {
-                $count = Order::where('client_id',$client->id)->count();
-                return $count; // Colonne cachée pour le tri
+                $client->orders_count;
             })
             ->addColumn('action', function ($client) {
                 $buttons = '';
