@@ -458,7 +458,7 @@
                     </table>
                 </div>
             </div>
-            <div class="card mb-2"  >
+            <div class="card mt-4 mb-2"  >
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
                 <h6 class="mb-0">Codes Promos</h6>
                     <button type="button" class="btn btn-success btn-sm"  id="add-promo-btn"  >
@@ -747,5 +747,109 @@ function initializeCurrentPromo() {
         }
     }
 }
+
+
+// Gestion de la création de code promo
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion du type de promo
+    const promoTypeSelect = document.getElementById('promo_type');
+    if (promoTypeSelect) {
+        promoTypeSelect.addEventListener('change', function() {
+            const valueContainer = document.getElementById('value_container');
+            const productContainer = document.getElementById('product_container');
+            const valueUnit = document.getElementById('value_unit');
+            const promoValue = document.getElementById('promo_value');
+            
+            if (this.value === 'free_product') {
+                valueContainer.style.display = 'none';
+                productContainer.style.display = 'block';
+                promoValue.required = false;
+                document.getElementById('promo_product').required = true;
+            } else {
+                valueContainer.style.display = 'block';
+                productContainer.style.display = 'none';
+                promoValue.required = true;
+                document.getElementById('promo_product').required = false;
+                
+                if (this.value === 'percentage') {
+                    valueUnit.textContent = '%';
+                    promoValue.max = 100;
+                } else {
+                    valueUnit.textContent = 'TND';
+                    promoValue.removeAttribute('max');
+                }
+            }
+        });
+    }
+    
+    // Générateur de code automatique
+    const generateCodeBtn = document.getElementById('generateCodeBtn');
+    if (generateCodeBtn) {
+        generateCodeBtn.addEventListener('click', function() {
+            const timestamp = Date.now().toString().slice(-6);
+            const randomCode = 'PROMO' + timestamp;
+            document.getElementById('promo_code').value = randomCode;
+        });
+    }
+    
+    // Gestion de la soumission du formulaire de création de code promo
+    const createPromoForm = document.getElementById('createPromoForm');
+    if (createPromoForm) {
+        createPromoForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            // Afficher un indicateur de chargement
+            const submitBtn = document.getElementById('add-code');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Création en cours...';
+            submitBtn.disabled = true;
+            
+            fetch('/promo-codes', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                }
+            })
+            .then(async response => {
+                const data = await response.json();
+                if (!response.ok) {
+                    if (response.status === 422) {
+                        let messages = '';
+                        for (const key in data.errors) {
+                            messages += data.errors[key].join('\n') + '\n';
+                        }
+                        alert('Erreurs de validation :\n' + messages);
+                    } else {
+                        alert('Erreur: ' + (data.message || 'Erreur inconnue'));
+                    }
+                    throw new Error('Erreur http ' + response.status);
+                }
+                return data;
+            })
+            .then(data => {
+                if (data.success) {
+                    // Fermer la modal
+                    $('#createPromoModal').modal('hide');
+                    // Recharger la page pour afficher le nouveau code
+                    location.reload();
+                } else {
+                    alert('Erreur lors de la création du code promo: ' + (data.message || 'Erreur inconnue'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                // Restaurer le bouton
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    }
+});
 </script>
 @endsection
