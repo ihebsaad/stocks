@@ -176,12 +176,11 @@
             <select id="orders-filter" class="form-control">
                 <option value="">Tous</option>
                 <!--<option value="0">Aucune commande</option>-->
-                <option value="0">0 commandes</option>
                 <option value="1">1 commande</option>
                 <option value="2+">2 ou plus</option>
-                <option value="3+">2 ou plus</option>
+                <option value="3+">3 ou plus</option>
                 <option value="4+">4 ou plus</option>
-                <option value="5+">4 ou plus</option>
+                <option value="5+">5 ou plus</option>
             </select>
         </div>
         <div class="col-md-3">
