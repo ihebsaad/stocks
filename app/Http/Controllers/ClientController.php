@@ -156,6 +156,10 @@ class ClientController extends Controller
             ->addColumn('created_at_formatted', function ($client) {
                 return $client->created_at->format('d/m/Y H:i');
             })
+            ->addColumn('orders_count', function ($client) {
+                $count = Order::where('client_id',$client->id)->count();
+                return $count; // Colonne cachée pour le tri
+            })
             ->addColumn('action', function ($client) {
                 $buttons = '';
                 $buttons .= '<a href="' . route('clients.show', $client->id) . '" class="btn btn-sm btn-info mr-1 mb-1" title="Voir"><i class="fas fa-eye"></i></a>';
