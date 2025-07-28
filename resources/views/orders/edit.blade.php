@@ -1037,7 +1037,7 @@ $(document).ready(function() {
     $('#add-promo-btn').click(function() {
         addPromo();
     });
-    
+     
     // Gestionnaire pour les boutons de suppression d'un produit (délégation d'événement)
     $('#products-container').on('click', '.remove-product-btn', function() {
         $(this).closest('.product-item').remove();

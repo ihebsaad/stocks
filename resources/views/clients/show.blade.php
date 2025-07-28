@@ -458,79 +458,153 @@
                     </table>
                 </div>
             </div>
+            <div class="card mb-2"  >
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">Codes Promos</h6>
+                    <button type="button" class="btn btn-success btn-sm"  id="add-promo-btn"  >
+                        <i class="fas fa-plus"></i> Créer
+                    </button>
+                </div>
+                <div class="card-body">
+ 
+                    @if($client->promoCodes->count() > 0)
+                        <div class="promo-codes-list">
+                            @foreach($client->promoCodes as $promo)
+                                <div class="promo-item mb-2 p-3 border rounded  bg-light">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex align-items-center mb-1">
+                                                <strong class="me-2">{{ $promo->code }}</strong>
+                                            </div>
+                                                                
+                                            <div class="text-muted mb-1">
+                                                @if($promo->type == 'percentage')
+                                                                        <i class="fas fa-percentage"></i> Remise de {{ $promo->value }}%
+                                                @elseif($promo->type == 'fixed_amount')
+                                                                        <i class="fas fa-money-bill"></i> Remise de {{ $promo->value }} TND
+                                                @elseif($promo->type == 'free_product')
+                                                                        <i class="fas fa-gift"></i> Produit gratuit : {{ $promo->product->name ?? 'Produit non trouvé' }}
+                                                @endif
+                                            </div>
+                                                                
+                                            <div class="text-muted small">
+                                                <i class="fas fa-calendar"></i> 
+                                                Expire le : {{ $promo->expires_at ? $promo->expires_at->format('d/m/Y') : 'Jamais' }}
+                                            </div>
+                                                                
+                                            <div class="mt-2">
+                                                @if($promo->expires_at && $promo->expires_at->isPast())
+                                                    <span class="badge bg-danger">
+                                                        <i class="fas fa-times"></i> Expiré
+                                                    </span>
+                                                @elseif($promo->is_used)
+                                                    <span class="badge bg-warning">
+                                                        <i class="fas fa-exclamation-triangle"></i> Utilisé
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-success">
+                                                        <i class="fas fa-check"></i> Valide
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
 
-            <div class="promos container">
-                <h3>Proms codes</h3>
-                @if($client->promoCodes->count() > 0)
-                    <div class="promo-codes-list">
-                        @foreach($client->promoCodes as $promo)
-                            <div class="promo-item mb-2 p-3 border rounded  bg-light">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex align-items-center mb-1">
-                                            <strong class="me-2">{{ $promo->code }}</strong>
-                                        </div>
-                                                            
-                                        <div class="text-muted mb-1">
-                                            @if($promo->type == 'percentage')
-                                                                    <i class="fas fa-percentage"></i> Remise de {{ $promo->value }}%
-                                            @elseif($promo->type == 'fixed_amount')
-                                                                    <i class="fas fa-money-bill"></i> Remise de {{ $promo->value }} TND
-                                            @elseif($promo->type == 'free_product')
-                                                                    <i class="fas fa-gift"></i> Produit gratuit : {{ $promo->product->name ?? 'Produit non trouvé' }}
-                                            @endif
-                                        </div>
-                                                            
-                                        <div class="text-muted small">
-                                            <i class="fas fa-calendar"></i> 
-                                            Expire le : {{ $promo->expires_at ? $promo->expires_at->format('d/m/Y') : 'Jamais' }}
-                                        </div>
-                                                            
-                                        <div class="mt-2">
-                                            @if($promo->expires_at && $promo->expires_at->isPast())
-                                                <span class="badge bg-danger">
-                                                    <i class="fas fa-times"></i> Expiré
-                                                </span>
-                                            @elseif($promo->is_used)
-                                                <span class="badge bg-warning">
-                                                    <i class="fas fa-exclamation-triangle"></i> Utilisé
-                                                </span>
-                                            @else
-                                                <span class="badge bg-success">
-                                                    <i class="fas fa-check"></i> Valide
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                                        
-                                    <div class="ms-3">
-                                        @if($promo->id == $order->promo_code_id)
-        
-                                        @elseif(!$promo->is_used && (!$promo->expires_at || !$promo->expires_at->isPast()))
-
-                                        @else
-                                            <button type="button" class="btn btn-sm btn-secondary" disabled>
-                                                <i class="fas fa-ban"></i> Indisponible
-                                            </button>
-                                        @endif
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="text-center py-4">
-                        <i class="fas fa-tags fa-3x text-muted mb-3"></i>
-                        <p class="text-muted">Aucun code promo disponible pour ce client</p>
-                    </div>
-                @endif
-                                    
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-center py-4">
+                            <i class="fas fa-tags fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Aucun code promo disponible pour ce client</p>
+                        </div>
+                    @endif
+                                        
+                </div>            
             </div>            
         </div>
 
 
 
 
+    </div>
+</div>
+
+
+
+<!-- Modal pour créer un code promo -->
+<div class="modal fade" id="createPromoModal" tabindex="-1" aria-labelledby="createPromoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="createPromoForm">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createPromoModalLabel">Créer un code promo</h5>
+                    <button type="button" class="btn btn-close" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="client_id" value="{{ $client->id ?? '' }}">
+                                            
+                    <div class="mb-3">
+                        <label for="promo_code" class="form-label">Code promo *</label>
+                        <input type="text" class="form-control" id="promo_code" name="code" required>
+                        <div class="form-text">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="generateCodeBtn">
+                                Générer automatiquement
+                            </button>
+                        </div>
+                    </div>
+                                            
+                    <div class="mb-3">
+                        <label for="promo_type" class="form-label">Type *</label>
+                        <select class="form-control" id="promo_type" name="type" required>
+                            <option value="">Sélectionner...</option>
+                            <option value="percentage">Pourcentage</option>
+                            <option value="fixed_amount">Montant fixe</option>
+                            <option value="free_product">Produit gratuit</option>
+                        </select>
+                    </div>
+                                            
+                    <div class="mb-3" id="value_container">
+                        <label for="promo_value" class="form-label">Valeur *</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="promo_value" name="value" step="0.01" min="0">
+                                <span class="input-group-text" id="value_unit">TND</span>
+                            </div>
+                    </div>
+                                            
+                    <div class="mb-3" id="product_container" style="display: none;">
+                        <label for="promo_product" class="form-label">Produit gratuit *</label>
+                        <select class="form-control" id="promo_product" name="product_id">
+                            <option value="">Sélectionner un produit...</option>
+                                @foreach($products as $product)
+                                    <option value="{{ $product->id }}">{{ $product->name }} ({{ $product->reference }})</option>
+                                @endforeach
+                        </select>
+                    </div>
+                                            
+                    <div class="mb-3">
+                        <label for="expires_at" class="form-label">Date d'expiration</label>
+                        <input type="date" class="form-control" id="expires_at" name="expires_at" 
+                            min="{{ date('Y-m-d') }}">
+                        <div class="form-text">Laisser vide pour aucune expiration</div>
+                    </div>
+                                            
+                    <input type="hidden" name="apply_immediately" value="0">
+                    <!--
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="apply_immediately" name="apply_immediately" value="1">
+                        <label class="form-check-label" for="apply_immediately">
+                            Appliquer immédiatement à cette commande
+                        </label>
+                    </div>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary"  id="add-code">Créer le code promo</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @endsection
@@ -595,5 +669,87 @@ $(function() {
         $(this).delay(index * 100).fadeIn();
     });
 });
+
+
+    $('#add-promo-btn').click(function() {
+        addPromo();
+    });
+
+
+function addPromo() {
+    // Ouvrir la modal pour ajouter un code promo
+    const promoModal = new bootstrap.Modal(document.getElementById('createPromoModal'));
+    promoModal.show();
+}
+        
+ 
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion du type de promo
+    document.getElementById('promo_type').addEventListener('change', function() {
+        const valueContainer = document.getElementById('value_container');
+        const productContainer = document.getElementById('product_container');
+        const valueUnit = document.getElementById('value_unit');
+        const promoValue = document.getElementById('promo_value');
+        
+        if (this.value === 'free_product') {
+            valueContainer.style.display = 'none';
+            productContainer.style.display = 'block';
+            promoValue.required = false;
+            document.getElementById('promo_product').required = true;
+        } else {
+            valueContainer.style.display = 'block';
+            productContainer.style.display = 'none';
+            promoValue.required = true;
+            document.getElementById('promo_product').required = false;
+            
+            if (this.value === 'percentage') {
+                valueUnit.textContent = '%';
+                promoValue.max = 100;
+            } else {
+                valueUnit.textContent = 'TND';
+                promoValue.removeAttribute('max');
+            }
+        }
+    });
+    
+    // Générateur de code automatique
+    document.getElementById('generateCodeBtn').addEventListener('click', function() {
+        const clientName = '{{ $order->client->first_name ?? "CLIENT" }}';
+        const timestamp = Date.now().toString().slice(-6);
+        const randomCode = clientName.substring(0, 3).toUpperCase() + timestamp;
+        document.getElementById('promo_code').value = randomCode;
+    });   
+    
+ 
+});
+
+ 
+function initializeCurrentPromo() {
+    const promoCodeId = $('#promo_code_id').val();
+    if (promoCodeId) {
+        const promoButton = $(`.apply-promo-btn[data-promo-id="${promoCodeId}"], .remove-promo-btn[data-promo-id="${promoCodeId}"]`);
+        if (promoButton.length > 0) {
+            currentPromoData = {
+                id: promoCodeId,
+                type: promoButton.data('promo-type'),
+                value: promoButton.data('promo-value'),
+                product_id: promoButton.data('promo-product-id')
+            };
+        } else {
+            // AJOUTER: Fallback pour récupérer depuis les champs hidden
+            const typeField = $('#promo_code_type').val();
+            const valueField = $('#promo_code_value').val();
+            
+            if (typeField) {
+                currentPromoData = {
+                    id: promoCodeId,
+                    type: typeField,
+                    value: parseFloat(valueField || 0),
+                    product_id: null
+                };
+            }
+        }
+    }
+}
 </script>
 @endsection
