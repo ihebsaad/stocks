@@ -461,6 +461,7 @@
             </div>
 
             <div class="promos ">
+                <h3>Proms codes</h3>
                 @if($client->promoCodes->count() > 0)
                     <div class="promo-codes-list">
                         @foreach($client->promoCodes as $promo)
