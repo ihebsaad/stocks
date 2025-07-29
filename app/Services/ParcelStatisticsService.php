@@ -22,6 +22,7 @@ class ParcelStatisticsService
             'dated' => ['Colis daté'],
             'wha' => ['Wha'],
             'other'=> ['Autre'],
+            'unknown'=> ['Inconnu'],
         ],
         3 => [
             'created' => ['Colis créé'], // Seuls ces deux sont regroupés
@@ -36,7 +37,7 @@ class ParcelStatisticsService
             'not_received' => ['Non recu'],
             'exchange_closed' => ['Echange clôturé'],
             'other'=> ['Autre'],
-
+            'unknown'=> ['Inconnu'],
         ]
     ];
 
@@ -62,6 +63,7 @@ class ParcelStatisticsService
         'not_received' => ['color' => '#6B7280', 'bg' => 'rgba(107, 114, 128, 0.1)', 'icon' => 'fas fa-question-circle'],
         'exchange_closed' => ['color' => '#7C3AED', 'bg' => 'rgba(124, 58, 237, 0.1)', 'icon' => 'fas fa-handshake'],
         'other' => ['color' => '#F59E0B', 'bg' => 'rgba(124, rgba(127, 206, 36, 0.1)','icon' =>'fas fa-circle-exclamation'],
+        'unknown' => ['color' => '#F59E0B', 'bg' => 'rgba(124, rgba(127, 206, 36, 0.1)','icon' =>'fas fa-circle-exclamation'],
         'wha' => ['color' => '#F59E0B', 'bg' => 'rgba(124, rgba(127, 206, 36, 0.1)','icon' =>'fas fa-exclamation']
     ];
 
@@ -186,7 +188,7 @@ class ParcelStatisticsService
             }
         }
         
-        return 'other';
+        return 'unknown';
     }
 
     /**
