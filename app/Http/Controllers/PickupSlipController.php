@@ -166,7 +166,8 @@ class PickupSlipController extends Controller
     {
         $pickupSlips = PickupSlip::with(['deliveryCompany', 'user'])
                                 ->withCount('parcels')
-                                ->select('pickup_slips.*');
+                                ->select('pickup_slips.*')
+                                ->orderBy('pickup_slips.id','desc');
 
         return DataTables::of($pickupSlips)
             ->addColumn('delivery_company', function ($pickupSlip) {
