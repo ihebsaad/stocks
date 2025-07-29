@@ -241,7 +241,7 @@ class SalesStatisticsService
             case 'daily':
                 return 'Y-m-d';
             case 'weekly':
-                return 'Y-W';
+                return 'W';
             case 'monthly':
                 return 'Y-m';
             case 'yearly':
