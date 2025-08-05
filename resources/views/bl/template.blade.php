@@ -339,81 +339,7 @@
         <!-- Header -->
         <table class="text-center">
             <tr>
-                <td>
-                    <img src="{{ asset('img/logo.png')}}" style="width:70px" /><br>
-                    <b>zahome.tn<b>
-                </td>
-                <td>
-                    <div class="document-title">
-                        <h1>Bon de Livraison {{ $parcel->id}}</h1>
-                        <div class="date-sys">Date : {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
-                    </div>
-                </td>
-                <td><!--
-                <div class="reference-barcode">
-                    <div class="reference-left">
-                        <div class="ref-value">{{ $parcel->reference }}</div>
-                    </div>
-                </div>-->
-                <div class="barcode-section" style="padding-right:50px">
-                    <div class="barcode-container barcode-right">
-                        <!-- Code-barres simple avec CSS -->
-                        <div class="simple-barcode">
-                            <div class="barcode-lines">
-                                @php
-                                    // Génération simple de barres basée sur la référence
-                                    echo $barcode;
-                                @endphp
- 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="barcode-text" style="padding-left:15px">{{ $parcel->reference }}</div>
-                </div>
-                </td>
-            </tr>
-        </table>
-
-        <!-- Expéditeur + Transporteur -->
-        <table  >
-            <tr>
-                <td style="width:40%">
-                    <div class="section-header">Expéditeur</div>
-                        <div class="section-content expediteur">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="info-line">
-                                            <span class="info-label">Société Z&A Home</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="info-line">
-                                            <span class="info-label">Adresse:</span>
-                                            <span class="info-value">Ksibet médiouni</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="info-line">
-                                            <span class="info-label">Tél:</span>
-                                            <span class="info-value">55 969 997</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="info-line">
-                                            <span class="info-label">MF:</span>
-                                            <span class="info-value">1768373/Z/P/M/000</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </td>
                 <td style="width:60%" >
-                    <div class="section-header">Transporteur</div>
                         <div class="section-content transporteur">
                             <table>
                                 <tr >
@@ -437,6 +363,74 @@
                                             <span class="info-label">Adresse:</span>
                                             <span class="info-value">{{$parcel->company->address}}</span>
                                         </div>                                      
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>                    
+                </td>
+                <td style="width:40%"><!--
+                <div class="reference-barcode">
+                    <div class="reference-left">
+                        <div class="ref-value">{{ $parcel->reference }}</div>
+                    </div>
+                </div>-->
+                <div class="document-title">
+                    <h1>Bon de Livraison {{ $parcel->id}}</h1>
+                    <div class="date-sys">Date : {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
+                </div>
+                <div class="barcode-section" style="padding-right:50px">
+                    <div class="barcode-container barcode-right">
+                        <!-- Code-barres simple avec CSS -->
+                        <div class="simple-barcode">
+                            <div class="barcode-lines">
+                                @php
+                                    // Génération simple de barres basée sur la référence
+                                    echo $barcode;
+                                @endphp
+ 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="barcode-text" style="padding-left:15px">{{ $parcel->reference }}</div>
+                </div>
+                </td>
+                            
+            </tr>
+
+        </table>
+
+        <!-- Expéditeur + Transporteur -->
+        <table  >
+            <tr>
+                <td style="width:100%">
+                    <div class="section-header">Expéditeur</div>
+                        <div class="section-content expediteur">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="info-line">
+                                            <span class="info-label"><img src="{{ asset('img/logo.png')}}" style="width:70px" /></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="info-line">
+                                            <span class="info-label">Adresse:</span>
+                                            <span class="info-value">Ksibet médiouni</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="info-line">
+                                            <span class="info-label">Tél:</span>
+                                            <span class="info-value">55 969 997</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="info-line">
+                                            <span class="info-label">MF:</span>
+                                            <span class="info-value">1768373/Z/P/M/000</span>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
