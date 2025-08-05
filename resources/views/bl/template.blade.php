@@ -347,9 +347,9 @@
                                         <div class="transporteur-section">
                                             @if($parcel->company->id==2)  <img src="{{ asset('img/droppex.png')}}" style="width:100px" />@endif
                                             @if($parcel->company->id==3)  <img src="{{ asset('img/coliexpress.png')}}" style="width:100px" />@endif
-                                            <span class="company-badge bg-{{ $parcel->company->id }}">
+                                            <!--<span class="company-badge bg-{{ $parcel->company->id }}">
                                                 {{ strtoupper($parcel->company->name) }}
-                                            </span>
+                                            </span>-->
                                         </div>
                                     </td>
                                     <td class="text-right">
