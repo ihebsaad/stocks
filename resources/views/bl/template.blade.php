@@ -414,22 +414,19 @@
                                     </td>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label">Adresse:</span>
-                                            <span class="info-value">Ksibet médiouni</span>
+                                            <span class="info-label">Ksibet mediouni:</span>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label">Tél:</span>
-                                            <span class="info-value">55 969 997</span>
+                                            <span class="info-label">55 969 997</span>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label">MF:</span>
-                                            <span class="info-value">1768373/Z/P/M/000</span>
+                                            <span class="info-label">1768373/Z/P/M/000</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -438,7 +435,7 @@
                     </div>
                 </td>
 
-                <td style="width:70%;height:100px;">
+                <td style="width:70%;">
                     <div class="client-section">
                         <div class="section-header" style="background-color: #3f5367">Client</div>
                         <table>
@@ -506,6 +503,7 @@
         <table class="items-table">
             <thead>
                 <tr>
+                    <th >REF</th>
                     <th class="designation">DESIGNATION</th>
                     <th>PU</th>
                     <th>QTE</th>
@@ -520,7 +518,8 @@
                     $total += $itemTotal;
                 @endphp
                 <tr>
-                    <td class="designation">{{ $item->product->reference }} - {{ $item->product->name }}</td>
+                    <td class="designation">{{ $item->product->reference }}</td>
+                    <td class="designation">{{ $item->product->reference }}</td>
                     <td>{{ number_format($item->unit_price, 2) }}</td>
                     <td>{{ $item->quantity }}</td>
                     <td class="amount">{{ number_format($itemTotal, 2) }} <span class="currency">TND</span></td>
