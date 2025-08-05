@@ -403,37 +403,39 @@
         <table  >
             <tr>
                 <td style="width:35%">
-                    <div class="section-header" style="background-color: #3f5367">Expéditeur</div>
-                        <div class="section-content expediteur-">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="info-line">
-                                            <span  style="color:black;font-size:12px">ZA HOME<!--<img src="{{ asset('img/logo.png')}}" style="width:50px" />--></span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="info-line">
-                                            <span class="info-label">Adresse:</span>
-                                            <span class="info-value">Ksibet médiouni</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="info-line">
-                                            <span class="info-label">Tél:</span>
-                                            <span class="info-value">55 969 997</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="info-line">
-                                            <span class="info-label">MF:</span>
-                                            <span class="info-value">1768373/Z/P/M/000</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
+                    <div class="client-section">
+                        <div class="section-header" style="background-color: #3f5367">Expéditeur</div>
+                            <div class="section-content expediteur-">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div class="info-line">
+                                                <span  style="color:black;font-size:12px">ZA HOME<!--<img src="{{ asset('img/logo.png')}}" style="width:50px" />--></span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="info-line">
+                                                <span class="info-label">Adresse:</span>
+                                                <span class="info-value">Ksibet médiouni</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="info-line">
+                                                <span class="info-label">Tél:</span>
+                                                <span class="info-value">55 969 997</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="info-line">
+                                                <span class="info-label">MF:</span>
+                                                <span class="info-value">1768373/Z/P/M/000</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </td>
