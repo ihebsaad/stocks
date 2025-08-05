@@ -345,13 +345,15 @@
                                 <tr >
                                     <td>                                        
                                         <div class="transporteur-section">
+                                            @if($parcel->company->id==2)  <img src="{{ asset('img/droppex.png')}}" style="width:100px" />@endif
+                                            @if($parcel->company->id==3)  <img src="{{ asset('img/coliexpress.png')}}" style="width:100px" />@endif
                                             <span class="company-badge bg-{{ $parcel->company->id }}">
                                                 {{ strtoupper($parcel->company->name) }}
                                             </span>
                                         </div>
                                     </td>
                                     <td class="text-right">
-                                        @if($parcel->company->id==3)  <img src="{{ asset('img/coliexpress.png')}}" style="width:50px" /><br><div class="info-line"><span  style="text-align:center;font-size:14px;color:#faa11f">Société TGM</span> @endif</div>
+                                        @if($parcel->company->id==3) <div class="info-line"><span  style="text-align:center;font-size:14px;color:#faa11f">Société TGM</span> @endif</div>
                                         <div class="info-line">                                            
                                             <span class="info-label">MF:</span>
                                             <span class="info-value">{{$parcel->company->mf}}</span>
