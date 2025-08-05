@@ -51,7 +51,7 @@
         .document-title {
             text-align: center;
             flex: 1;
-            margin: 0 10px;
+            margin: 0 30px;
         }
         
         .document-title h1 {
