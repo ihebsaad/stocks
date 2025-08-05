@@ -404,7 +404,7 @@
             <tr>
                 <td style="width:35%">
                     <div class="section-header" style="background-color: #3f5367">Expéditeur</div>
-                        <div class="section-content expediteur">
+                        <div class="section-content expediteur-">
                             <table>
                                 <tr>
                                     <td>
@@ -439,7 +439,7 @@
                 </td>
 
                 <td style="width:65%;">
-                    <div class="client-section-">
+                    <div class="client-section">
                         <div class="section-header" style="background-color: #3f5367">Client</div>
                         <table>
                             <tr>
