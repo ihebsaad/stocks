@@ -443,7 +443,7 @@
 
                 <td style="width:65%;">
                     <div class="client-section">
-                        <div class="section-header" style="background-color: #3f5367">Client</div>
+                        <div class="section-header" style="background-color: #3f5367">Destinataire</div>
                         <table>
                             <tr>
                                 <td>
@@ -490,6 +490,9 @@
                             <tr>
                                 <td colspan="5">
                                     <div class="info-line">
+                                        @if ($parcel->service && $parcel->service!='Livraison')  
+                                        <span class="badge bg-danger"><i class="fas fa-exchange-alt"></i> Échange</span> 
+                                        @endif
                                         <span class="info-label">Remarque:</span>
                                         <span class="info-value" style="color: #d03132;font-weight:bold">{{$parcel->remarque}}</span>
                                     </div>
