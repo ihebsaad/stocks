@@ -402,8 +402,8 @@
         <!-- Expéditeur + Transporteur -->
         <table  >
             <tr>
-                <td style="width:40%">
-                    <div class="section-header">Expéditeur</div>
+                <td style="width:30%">
+                    <div class="section-header" style="background-color: #3f5367">Expéditeur</div>
                         <div class="section-content expediteur">
                             <table>
                                 <tr>
@@ -438,7 +438,7 @@
                     </div>
                 </td>
 
-                <td style="width:60%">
+                <td style="width:70%;min-height: 45px;">
                     <div class="client-section">
                         <div class="section-header" style="background-color: #3f5367">Client</div>
                         <table>
