@@ -415,7 +415,7 @@
                                     <td>
                                         <div class="info-line">
                                             <span class="info-label">Adresse:</span>
-                                            <span class="info-value">Ksibetㅤmédiouni</span>
+                                            <span class="info-value">Ksibet médiouni</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -423,7 +423,7 @@
                                     <td>
                                         <div class="info-line">
                                             <span class="info-label">Tél:</span>
-                                            <span class="info-value">55ㅤ969ㅤ997</span>
+                                            <span class="info-value">55 969 997</span>
                                         </div>
                                     </td>
                                     <td>
@@ -446,7 +446,7 @@
                                 <td>
                                     <div class="info-line">
                                         <span class="info-label">Nom:</span>
-                                        <span class="info-value">{{ $parcel->nom_client }}</span>
+                                        <span class="info-value">{{ $parcel->nom_client }}</span><br>
                                     </div>
                                 </td>                  
                                 <td>
