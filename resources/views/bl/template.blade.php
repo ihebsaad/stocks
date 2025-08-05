@@ -415,7 +415,7 @@
                                     <td>
                                         <div class="info-line">
                                             <span class="info-label">Adresse:</span>
-                                            <span class="info-value">Ksibet médiouni</span>
+                                            <span class="info-value">Ksibetㅤmédiouni</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -423,7 +423,7 @@
                                     <td>
                                         <div class="info-line">
                                             <span class="info-label">Tél:</span>
-                                            <span class="info-value">55 969 997</span>
+                                            <span class="info-value">55ㅤ969ㅤ997</span>
                                         </div>
                                     </td>
                                     <td>
@@ -438,7 +438,7 @@
                     </div>
                 </td>
 
-                <td style="width:70%;min-height: 70px;">
+                <td style="width:70%;min-height: 100px;">
                     <div class="client-section">
                         <div class="section-header" style="background-color: #3f5367">Client</div>
                         <table>
