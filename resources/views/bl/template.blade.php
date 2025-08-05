@@ -360,8 +360,7 @@
                                              <br>
                                             <span class="info-label">Tél:</span>
                                             <span class="info-value">{{$parcel->company->phone}}</span>
-                                        </div><br>
-                                        <div class="info-line">
+
                                             <span class="info-label">Adresse:</span>
                                             <span class="info-value">{{$parcel->company->address}}</span>
                                         </div>                                      
