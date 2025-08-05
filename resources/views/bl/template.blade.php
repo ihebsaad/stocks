@@ -438,7 +438,7 @@
                     </div>
                 </td>
 
-                <td style="width:70%;height:100%;">
+                <td style="width:70%;height:100px;">
                     <div class="client-section">
                         <div class="section-header" style="background-color: #3f5367">Client</div>
                         <table>
