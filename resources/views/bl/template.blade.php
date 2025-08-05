@@ -379,7 +379,7 @@
                     <h1>Bon de Livraison {{ $parcel->id}}</h1>
                     <div class="date-sys">Date : {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
                 </div>
-                <div class="barcode-section" style="padding-right:50px">
+                <div class="barcode-section" style="">
                     <div class="barcode-container barcode-right">
                         <!-- Code-barres simple avec CSS -->
                         <div class="simple-barcode">
