@@ -409,7 +409,7 @@
                                 <tr>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label">ZA HOME<!--<img src="{{ asset('img/logo.png')}}" style="width:50px" />--></span>
+                                            <span class="info-label" style="color:black">ZA HOME<!--<img src="{{ asset('img/logo.png')}}" style="width:50px" />--></span>
                                         </div>
                                     </td>
                                     <td>
@@ -439,7 +439,7 @@
                 </td>
 
                 <td style="width:65%;">
-                    <div class="client-section">
+                    <div class="client-section-">
                         <div class="section-header" style="background-color: #3f5367">Client</div>
                         <table>
                             <tr>
