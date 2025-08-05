@@ -402,7 +402,7 @@
         <!-- Expéditeur + Transporteur -->
         <table  >
             <tr>
-                <td style="width:30%">
+                <td style="width:35%">
                     <div class="section-header" style="background-color: #3f5367">Expéditeur</div>
                         <div class="section-content expediteur">
                             <table>
@@ -438,7 +438,7 @@
                     </div>
                 </td>
 
-                <td style="width:70%;">
+                <td style="width:65%;">
                     <div class="client-section">
                         <div class="section-header" style="background-color: #3f5367">Client</div>
                         <table>
@@ -486,12 +486,10 @@
                             </tr>
                             <tr>
                                 <td colspan="5">
-                                    @if($parcel->remarque!='')
                                     <div class="info-line">
                                         <span class="info-label">Remarque:</span>
                                         <span class="info-value" style="color: #d03132;font-weight:bold">{{$parcel->remarque}}</span>
                                     </div>
-                                    @endif
                                 </td>
                             </tr>
                         </table>
