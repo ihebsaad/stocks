@@ -376,7 +376,7 @@
                     </div>
                 </div>-->
                 <div class="document-title">
-                    <h1 style="margin-left:-30px; @if($parcel->company->id==3) color:#267cbd @endif">Bon de Livraison {{ $parcel->id}}</h1>
+                    <h1 style="margin-left:-30px; @if($parcel->company->id==3) color:#267cbd @else color:#fa752a @endif;">Bon de Livraison {{ $parcel->id}}</h1>
                     <div class="date-sys">Date : {{ $parcel->created_at->format('d/m/Y H:i') }}</div>
                 </div>
                 <div class="barcode-section" style="padding-right:50px">
