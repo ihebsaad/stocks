@@ -414,19 +414,22 @@
                                     </td>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label">Ksibet mediouni:</span>
+                                            <span class="info-label">Adresse:</span>
+                                            <span class="info-value">Ksibet médiouni</span>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label">55 969 997</span>
+                                            <span class="info-label">Tél:</span>
+                                            <span class="info-value">55 969 997</span>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label">1768373/Z/P/M/000</span>
+                                            <span class="info-label">MF:</span>
+                                            <span class="info-value">1768373/Z/P/M/000</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -526,7 +529,7 @@
                 </tr>
                 @endforeach
                 <tr class="total-row">
-                    <td colspan="3" style="text-align: right;">Frais de livraison:</td>
+                    <td colspan="4" style="text-align: right;">Frais de livraison:</td>
                     <td class="amount">
                         @if ($parcel->order->free_delivery)
                             <span class="badge bg-success">Gratuite</span>
@@ -536,7 +539,7 @@
                         @endif                                                   
                 </tr>                
                 <tr class="total-row">
-                    <td colspan="3" style="text-align: right;"><b>COD:</b></td>
+                    <td colspan="4" style="text-align: right;"><b>COD:</b></td>
                     <td class="amount verybold">
                             {{ number_format($parcel->cod, 2) }}
                         <span class="currency">TND</span></td>
