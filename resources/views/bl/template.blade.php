@@ -409,7 +409,7 @@
                                 <tr>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label"><img src="{{ asset('img/logo.png')}}" style="width:50px" /></span>
+                                            <span class="info-label">ZA HOME<!--<img src="{{ asset('img/logo.png')}}" style="width:50px" />--></span>
                                         </div>
                                     </td>
                                     <td>
