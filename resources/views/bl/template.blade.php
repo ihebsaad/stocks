@@ -343,7 +343,7 @@
                         <div class="section-content transporteur">
                             <table>
                                 <tr >
-                                    <td>                                        
+                                    <td style="width:40%">                                        
                                         <div class="transporteur-section">
                                             @if($parcel->company->id==2)  <img src="{{ asset('img/droppex.png')}}" style="width:100px" />@endif
                                             @if($parcel->company->id==3)  <img src="{{ asset('img/coliexpress.png')}}" style="width:100px" />@endif
@@ -360,7 +360,7 @@
                                              <br>
                                             <span class="info-label">Tél:</span>
                                             <span class="info-value">{{$parcel->company->phone}}</span>
-                                        </div>
+                                        </div><br>
                                         <div class="info-line">
                                             <span class="info-label">Adresse:</span>
                                             <span class="info-value">{{$parcel->company->address}}</span>
