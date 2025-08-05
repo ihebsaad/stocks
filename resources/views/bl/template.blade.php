@@ -409,7 +409,7 @@
                                 <tr>
                                     <td>
                                         <div class="info-line">
-                                            <span class="info-label"><img src="{{ asset('img/logo.png')}}" style="width:70px" /></span>
+                                            <span class="info-label"><img src="{{ asset('img/logo.png')}}" style="width:50px" /></span>
                                         </div>
                                     </td>
                                     <td>
@@ -438,7 +438,7 @@
                     </div>
                 </td>
 
-                <td style="width:70%;min-height: 45px;">
+                <td style="width:70%;min-height: 70px;">
                     <div class="client-section">
                         <div class="section-header" style="background-color: #3f5367">Client</div>
                         <table>
