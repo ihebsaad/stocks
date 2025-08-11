@@ -525,7 +525,7 @@
                     $total += $itemTotal;
                 @endphp
                 <tr>
-                    <td class="">{{ $item->product->reference }}</td>
+                    <td class="">{{ $item->product->variation ?? $item->product->reference}} </td>
                     <td class="designation">{{ $item->product->name }}</td>
                     <td>{{ number_format($item->unit_price, 2) }}</td>
                     <td>{{ $item->quantity }}</td>
