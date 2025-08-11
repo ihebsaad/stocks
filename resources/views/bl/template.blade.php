@@ -526,7 +526,7 @@
                 @endphp
                 <tr>
                     <td class="">{{ $item->product->reference }}</td>
-                    <td class="designation">{{ $item->product->name }} - {{$item->product->variation->reference ?? ''}}</td>
+                    <td class="designation">{{ $item->product->name }} . {{$item->variation->reference ?? ''}}</td>
                     <td>{{ number_format($item->unit_price, 2) }}</td>
                     <td>{{ $item->quantity }}</td>
                     <td class="amount">{{ number_format($itemTotal, 2) }} <span class="currency">TND</span></td>
