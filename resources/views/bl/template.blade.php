@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BL -- {{ $parcel->reference }}</title>
+    <title>BL - {{ $parcel->reference }}</title>
     <style>
         * {
             margin: 0;
@@ -492,7 +492,7 @@
                             </tr>
                             <tr>
                                 <td colspan="5">
-                                    <div class="info-line" style="min-height: 32px;">
+                                    <div class="info-line" style="min-height: 34px;">
                                         @if ($parcel->service && $parcel->service!='Livraison')  
                                         <span style="color: #d03132;font-weight:bold;font-size:10px" class="info-value"> Échange </span> - 
                                         @endif
