@@ -2,8 +2,7 @@
 
 use I18N_Arabic;
 $Arabic = new I18N_Arabic('Glyphs');
-$shapedName = $Arabic->utf8Glyphs($parcel->recipient_name);
-
+ 
 @endphp
 
 <!DOCTYPE html>
@@ -460,7 +459,7 @@ $shapedName = $Arabic->utf8Glyphs($parcel->recipient_name);
                                 <td>
                                     <div class="info-line">
                                         <span class="info-label">Nom:</span>
-                                        <span class="info-value">{{ $parcel->nom_client }}</span><br>
+                                        <span class="info-value">{{  $Arabic->utf8Glyphs($parcel->nom_client) }}</span><br>
                                     </div>
                                 </td>                  
                                 <td>
