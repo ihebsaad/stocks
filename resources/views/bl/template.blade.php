@@ -489,13 +489,13 @@
                             </tr>
                             <tr>
                                 <td colspan="5">
-                                    <div class="info-line">
+                                    <div class="info-line" style="min-height: 30px;">
                                         @if ($parcel->service && $parcel->service!='Livraison')  
                                         <span style="color: #d03132;font-weight:bold;font-size:10px" class="info-value"> Échange </span> - 
                                         @endif
                                         <span class="info-label">Remarque:</span>
                                         <span class="info-value" style="color: #d03132;font-weight:bold">{{$parcel->remarque}}</span>
-                                    </div><br>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
