@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
         .info-value, .barcode-text, td {
-            unicode-bidi: plaintext;
+            unicode-bidi: embed;
             direction: inherit;
         }
         body {
@@ -337,18 +337,6 @@
         }
     </style>
 </head>
-@php
-function fixArabicText($text) {
-    // Si le texte contient de l'arabe
-    if (preg_match('/[\x{0600}-\x{06FF}]/u', $text)) {
-        // Utiliser la classe PHP-Arabic pour corriger RTL et liaison
-        // composer require khaled.alshamaa/ar-php
-        $arabic = new \ArPHP\I18N\Arabic();
-        return $arabic->utf8Glyphs($text);
-    }
-    return $text;
-}
-@endphp
 <body>
     <div class="container">
         <!-- Header -->
@@ -464,13 +452,13 @@ function fixArabicText($text) {
                                 <td>
                                     <div class="info-line">
                                         <span class="info-label">Nom:</span>
-                                        <span class="info-value">{{ fixArabicText($parcel->nom_client) }}</span><br>
+                                        <span class="info-value">{{ $parcel->nom_client }}</span><br>
                                     </div>
                                 </td>                  
                                 <td>
                                     <div class="info-line">
                                         <span class="info-label">Ville:</span>
-                                        <span class="info-value">{{ fixArabicText($parcel->ville_cl) }}</span>
+                                        <span class="info-value">{{ $parcel->ville_cl }}</span>
                                     </div>
                                 </td>
                                 <td>
@@ -498,7 +486,7 @@ function fixArabicText($text) {
                                 <td colspan="4">
                                     <div class="info-line">
                                         <span class="info-label">Adresse:</span>
-                                        <span class="info-value">{{ fixArabicText($parcel->adresse_l) }}</span>
+                                        <span class="info-value">{{ $parcel->adresse_l }}</span>
                                     </div>
                                 </td>
                             </tr>
