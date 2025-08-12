@@ -324,7 +324,7 @@ class ParcelController extends Controller
         ];
         
         $barcode = $this->generateBarcodeWithMilon($parcel->reference);
-
+/*
         // Générer le PDF
         $pdf = Pdf::loadView('bl.template', compact('parcel', 'expediteur','barcode'));
         
@@ -333,6 +333,20 @@ class ParcelController extends Controller
         
         // Retourner le PDF
         return $pdf->stream('BL-' . $parcel->reference . '.pdf');
+
+        */
+        
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'A5',
+            'mode' => 'utf-8',
+            'autoScriptToLang' => true,
+            'autoLangToFont' => true,
+            'autoArabic' => true,  // CETTE LIGNE RÉSOUT TOUT !
+        ]);
+
+        $html = view('bl.template', compact('parcel', 'expediteur', 'barcode'))->render();
+        $mpdf->WriteHTML($html);
+        return $mpdf->Output('BL-' . $parcel->reference . '.pdf', 'I');
     }
   
 
