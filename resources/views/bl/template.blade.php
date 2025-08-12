@@ -425,7 +425,7 @@
                                         <td>
                                             <div class="info-line">
                                                 <span class="info-label">Tél:</span>
-                                                <span class="info-value">55 969 997</span>
+                                                <span class="info-value">55 969 997</span>
                                             </div>
                                         </td>
                                         <td>
