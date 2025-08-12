@@ -1,6 +1,6 @@
 @php
 
-use I18N_Arabic;
+use \I18N_Arabic;
 $Arabic = new I18N_Arabic('Glyphs');
  
 @endphp
