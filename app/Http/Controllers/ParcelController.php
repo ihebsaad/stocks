@@ -335,8 +335,7 @@ class ParcelController extends Controller
         return $pdf->stream('BL-' . $parcel->reference . '.pdf');
 */
         $pdf = PDF::loadView('bl.template', compact('parcel', 'expediteur', 'barcode'))
-            ->setPaper('A5')
-            ->setOption('encoding', 'UTF-8'); 
+            ->setPaper('A5');
 
         return $pdf->inline('BL-' . $parcel->reference . '.pdf');
         
