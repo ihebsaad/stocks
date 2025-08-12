@@ -1,3 +1,11 @@
+@php
+
+use I18N_Arabic;
+$Arabic = new I18N_Arabic('Glyphs');
+$shapedName = $Arabic->utf8Glyphs($parcel->recipient_name);
+
+@endphp
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
