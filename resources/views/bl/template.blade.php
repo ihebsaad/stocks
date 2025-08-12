@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
         .info-value, .barcode-text, td {
-            unicode-bidi: embed;
+            unicode-bidi: plaintext;
             direction: inherit;
         }
         body {
@@ -492,7 +492,7 @@
                             </tr>
                             <tr>
                                 <td colspan="5">
-                                    <div class="info-line" style="min-height: 30px;">
+                                    <div class="info-line" style="min-height: 32px;">
                                         @if ($parcel->service && $parcel->service!='Livraison')  
                                         <span style="color: #d03132;font-weight:bold;font-size:10px" class="info-value"> Échange </span> - 
                                         @endif
