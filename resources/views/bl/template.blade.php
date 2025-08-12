@@ -355,7 +355,7 @@
                                     <td class="text-right">
                                         @if($parcel->company->id==3) <div class="info-line"><span  style="text-align:center;font-size:14px;color:#faa11f">Société TGM</span> @endif</div>
                                         <div class="info-line">                                            
-                                            <span class="info-label">MF:</span>
+                                            <span class="info-label">MF:</span><br>
                                             <span class="info-value">{{$parcel->company->mf}}</span>
                                              <br>
                                             <span class="info-label">Tél:</span>
