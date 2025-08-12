@@ -330,9 +330,7 @@ class ParcelController extends Controller
         
         // Configurer le PDF pour format ticket (A5)
         $pdf->setPaper('A5', 'portrait');
-        $pdf->getDomPDF()->getOptions()->setDefaultFont('DejaVu Sans');
-        $pdf->getDomPDF()->getOptions()->setIsRemoteEnabled(true);
-        $pdf->getDomPDF()->getOptions()->setChroot(public_path());
+        
         // Retourner le PDF
         return $pdf->stream('BL-' . $parcel->reference . '.pdf');
     }
