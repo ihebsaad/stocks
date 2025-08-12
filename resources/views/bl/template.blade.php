@@ -10,7 +10,10 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+        .info-value, .barcode-text, td {
+            unicode-bidi: embed;
+            direction: inherit;
+        }
         body {
             font-family: "DejaVu Sans", Arial, sans-serif;
             font-size: 10px;
