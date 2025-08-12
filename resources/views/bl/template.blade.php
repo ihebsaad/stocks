@@ -495,7 +495,7 @@
                                         @endif
                                         <span class="info-label">Remarque:</span>
                                         <span class="info-value" style="color: #d03132;font-weight:bold">{{$parcel->remarque}}</span>
-                                    </div>
+                                    </div><br>
                                 </td>
                             </tr>
                         </table>
