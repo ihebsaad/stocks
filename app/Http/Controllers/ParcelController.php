@@ -329,7 +329,7 @@ class ParcelController extends Controller
         $pdf = Pdf::loadView('bl.template', compact('parcel', 'expediteur','barcode'));
         
         // Configurer le PDF pour format ticket (A5)
-        $pdf->setPaper('A5', 'portrait');
+        $pdf->setPaper('A5', 'paysage');
         
         // Retourner le PDF
         return $pdf->stream('BL-' . $parcel->reference . '.pdf');
