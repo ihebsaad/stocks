@@ -332,7 +332,7 @@ class ParcelController extends Controller
         $pdf->setPaper('A5', 'paysage');
         
         // Retourner le PDF
-        return $pdf->stream('BL-' . $parcel->reference . '.pdf');
+        return $pdf->stream('Bon Livraison-' . $parcel->reference . '.pdf');
  
         
         /*
