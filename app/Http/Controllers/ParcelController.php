@@ -318,7 +318,7 @@ class ParcelController extends Controller
         // Données de l'expéditeur
         $expediteur = [
             'nom' => 'Z&A Home',
-            'adresse' => 'Ksibet médiouni',
+            'adresse' => 'Ksibet el médiouni',
             'telephone' => '55 969 997',
             'mf' => '1768373/Z/P/M/000'
         ];
