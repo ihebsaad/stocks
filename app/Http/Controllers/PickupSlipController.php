@@ -444,7 +444,7 @@ class PickupSlipController extends Controller
         $pdf = Pdf::loadView('pickup-slips.pdf', $data);
         
         // Définir les options du PDF
-        $pdf->setPaper('A4', 'portrait');
+        $pdf->setPaper('A4', 'paysage');
         
         // Nom du fichier
         $filename = 'bon_ramassage_' . $pickupSlip->reference . '_' . date('Y-m-d_H-i-s') . '.pdf';
