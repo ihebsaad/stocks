@@ -144,7 +144,8 @@ class OrderController extends Controller
                 }
                 if ($order->client) {
                     $product_name= $order->items->first()->product->name  ?? '';
-                    return '<div class="'.$class.'"><a href="' . route('clients.show', $order->client->id) . '" class="btn btn-sm  mr-1 mb-1" target="_blank" title="Voir" style="border:1px solid black">'.$order->client->full_name . '</a><br><small>' . $order->client->phone . '</small><br>'.$product_name.'</div>';
+                    $qty= $order->items->first()->quantity  ?? '';
+                    return '<div class="'.$class.'"><a href="' . route('clients.show', $order->client->id) . '" class="btn btn-sm  mr-1 mb-1" target="_blank" title="Voir" style="border:1px solid black">'.$order->client->full_name . '</a>  <small clas="ml-2">' . $order->client->phone . '</small><br>'.$product_name.' x '.$qty.'</div>';
                 }
                 return '<div class="'.$class.'"><span class="text-muted">Non défini</span></div>';
             })
