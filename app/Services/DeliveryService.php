@@ -87,7 +87,7 @@ class DeliveryService
     public function syncParcelStatuses()
     {
         
-        if (strtolower($this->company->name) === 'droppex') {
+        if (strtolower($this->company->name) === 'droppex' ||  strtolower($this->company->name) === 'coliexpress' ) {
             // 🎯 Droppex → pas de /list, on doit faire un get par colis
             $parcels = Parcel::where('delivery_company_id', $this->company->id)
                         ->whereNotNull('reference')
