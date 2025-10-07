@@ -88,13 +88,13 @@ class DeliveryService
     public function syncParcelStatuses()
     {
         
-        if ( strtolower($this->company->name) === 'coliexpress' ) {
+        if (strtolower($this->company->name) === 'droppex' ||  strtolower($this->company->name) === 'coliexpress' ) {
             $currentDate = now();
             
             // 🎯 Droppex → pas de /list, on doit faire un get par colis
             $parcels = Parcel::where('delivery_company_id', $this->company->id)
                         ->whereNotNull('reference')
-                        ->where('created_at', '>=', $currentDate->subDays( 6)) // derniers 2 semaines
+                        //->where('created_at', '>=', $currentDate->subDays( 6)) // derniers 2 semaines
                         //->where('dernier_etat', '!=', 'Payé')
                         ->get();
 
