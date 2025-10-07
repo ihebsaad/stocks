@@ -96,6 +96,8 @@ class DeliveryService
                         ->whereNotNull('reference')
                         //->where('created_at', '>=', $currentDate->subDays( 6)) // derniers 2 semaines
                         //->where('dernier_etat', '!=', 'Payé')
+                        ->orderBy('id','desc')
+                        ->limit(20)
                         ->get();
 
             foreach ($parcels as $parcel) {
