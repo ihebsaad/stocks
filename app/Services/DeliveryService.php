@@ -94,7 +94,7 @@ class DeliveryService
             // 🎯 Droppex → pas de /list, on doit faire un get par colis
             $parcels = Parcel::where('delivery_company_id', $this->company->id)
                         ->whereNotNull('reference')
-                        ->where('created_at', '>=', $currentDate->subDays(value: 6)) // derniers 2 semaines
+                        ->where('created_at', '>=', $currentDate->subDays( 6)) // derniers 2 semaines
                         //->where('dernier_etat', '!=', 'Payé')
                         ->get();
 
