@@ -146,16 +146,17 @@ class DeliveryService
                 $etat = $data['dernier_etat'] ?? null;
                 $date = $data['date_d_etat'] ?? null;
 
-                if (!$etat || !$date) continue;
+                //if (!$etat || !$date) continue;
+
+                $old = $parcel->dernier_etat;
+                $parcel->update([
+                    'dernier_etat' => $etat,
+                    'date_dernier_etat' => $date,
+                ]);
 
                 if ($parcel->dernier_etat !== $etat || $parcel->date_d_etat !== $date) {
-                    $old = $parcel->dernier_etat;
-                    $parcel->update([
-                        'dernier_etat' => $etat,
-                        'date_dernier_etat' => $date,
-                    ]);
 
-                    echo '    Colis réference : ' . $parcel->reference. 'mis à jour   \n' ;
+                    echo '    Colis réference : ' . $parcel->reference. 'mis à jour  ' ;
 
                     OrderStatusHistory::create([
                         'order_id'   => $parcel->order_id,
