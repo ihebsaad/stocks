@@ -165,6 +165,8 @@ class OrderController extends Controller
                     if ($order->free_delivery) {
                         $result .= ' <span class="badge bg-success">Gratuite</span>';
                     }
+                    if(isset($order->parcel) && $order->parcel->dernier_etat!='')
+                    $result.='<br><span class="text-muted">'.$order->parcel->dernier_etat.'</span></div>';
 
                     return $result;
                 }

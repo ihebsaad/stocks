@@ -88,7 +88,7 @@ class DeliveryService
     public function syncParcelStatuses()
     {
         
-        if (strtolower($this->company->name) === 'droppex' && (false) ) {
+        if (strtolower($this->company->name) === 'droppex' ) {
             //$currentDate = now();
             
             // 🎯 Droppex → pas de /list, on doit faire un get par colis
@@ -97,7 +97,7 @@ class DeliveryService
                         //->where('created_at', '>=', $currentDate->subDays( 6)) // derniers 2 semaines
                         //->where('dernier_etat', '!=', 'Payé')
                         ->orderBy('id','desc')
-                        ->limit(20)
+                        ->limit(30)
                         ->get();
 
             foreach ($parcels as $parcel) {
@@ -136,7 +136,7 @@ class DeliveryService
                         //->where('created_at', '>=', $currentDate->subDays( 6)) // derniers 2 semaines
                         //->where('dernier_etat', '!=', 'Payé')
                         ->orderBy('id','desc')
-                        ->limit(40)
+                        ->limit(30)
                         ->get();
 
             foreach ($parcels as $parcel) {
