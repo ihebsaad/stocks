@@ -88,7 +88,7 @@ class DeliveryService
     public function syncParcelStatuses()
     {
         
-        if (strtolower($this->company->name) === 'droppex'  ) {
+        if (strtolower($this->company->name) === 'droppex' && (false) ) {
             //$currentDate = now();
             
             // 🎯 Droppex → pas de /list, on doit faire un get par colis
