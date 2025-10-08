@@ -142,6 +142,7 @@ class DeliveryService
             foreach ($parcels as $parcel) {
                 $data = $this->getParcel($parcel->reference);
 
+                $this->info(' Colis réference : ' . $parcel->reference);
                 $etat = $data['dernier_etat'] ?? null;
                 $date = $data['date_d_etat'] ?? null;
 
@@ -153,6 +154,8 @@ class DeliveryService
                         'dernier_etat' => $etat,
                         'date_dernier_etat' => $date,
                     ]);
+
+                    $this->info(' Colis réference : ' . $parcel->reference. 'mis à jour ');
 
                     OrderStatusHistory::create([
                         'order_id'   => $parcel->order_id,
