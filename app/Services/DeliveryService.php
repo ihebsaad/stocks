@@ -88,8 +88,8 @@ class DeliveryService
     public function syncParcelStatuses()
     {
         
-        if (strtolower($this->company->name) === 'droppex' ||  strtolower($this->company->name) === 'coliexpress' ) {
-            $currentDate = now();
+        if (strtolower($this->company->name) === 'droppex'  ) {
+            //$currentDate = now();
             
             // 🎯 Droppex → pas de /list, on doit faire un get par colis
             $parcels = Parcel::where('delivery_company_id', $this->company->id)
@@ -128,6 +128,46 @@ class DeliveryService
             return;
         }
 
+        if(  strtolower($this->company->name) === 'coliexpress'){
+
+        // 🎯 coliexpress → pas de /list, on doit faire un get par colis
+            $parcels = Parcel::where('delivery_company_id', $this->company->id)
+                        ->whereNotNull('reference')
+                        //->where('created_at', '>=', $currentDate->subDays( 6)) // derniers 2 semaines
+                        //->where('dernier_etat', '!=', 'Payé')
+                        ->orderBy('id','desc')
+                        ->limit(40)
+                        ->get();
+
+            foreach ($parcels as $parcel) {
+                $data = $this->getParcel($parcel->reference);
+
+                $etat = $data['dernier_etat'] ?? null;
+                $date = $data['date_d_etat'] ?? null;
+
+                if (!$etat || !$date) continue;
+
+                if ($parcel->dernier_etat !== $etat || $parcel->date_d_etat !== $date) {
+                    $old = $parcel->dernier_etat;
+                    $parcel->update([
+                        'dernier_etat' => $etat,
+                        'date_dernier_etat' => $date,
+                    ]);
+
+                    OrderStatusHistory::create([
+                        'order_id'   => $parcel->order_id,
+                        'user_id'    => auth()->id() ?? null,
+                        'old_status' => $old,
+                        'new_status' => $etat,
+                        'comment'    => 'MàJ via API',
+                    ]);
+                }
+            }
+
+            return;
+
+        }
+/*
         // 🔁 Toutes les autres sociétés → API /list
         $response = $this->postRequest([
             'action' => 'list',
@@ -165,7 +205,7 @@ class DeliveryService
                 ]);
             }
         }
-            
+        */    
     }
 
 
