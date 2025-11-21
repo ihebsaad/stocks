@@ -407,7 +407,7 @@
                                 <div class="row">
                                     <div class="col-md-12 mb-1">
                                         <label for="status_comment">Commentaire sur le changement de statut</label>
-                                        <textarea name="status_comment" id="status_comment" class="form-control @error('status_comment') is-invalid @enderror" rows="2">{{ $order->status_comment }}</textarea>
+                                        <textarea name="status_comment" id="status_comment" class="form-control @error('status_comment') is-invalid @enderror" rows="2">{{ $order->status_comment }}..</textarea>
                                         @error('status_comment')
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
