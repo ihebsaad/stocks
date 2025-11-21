@@ -572,6 +572,7 @@ class OrderController extends Controller
                 'delivery_company_id' => $request->delivery_company_id,
                 'free_delivery' => $request->has('free_delivery'),
                 'status' => $request->status,
+                'status_comment' => $request->status_comment,
                 'notes' => $request->notes,
                 'subtotal' => $subtotal,
                 'discount' => $discount,
