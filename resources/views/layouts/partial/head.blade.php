@@ -70,6 +70,21 @@
         margin: 10px;
         border: 1px solid #dee2e6;
     }
+
+		.wrapper {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	}
+
+	.content-wrapper {
+	flex: 1;
+	padding-bottom: 3.5rem;
+	}
+
+	.main-footer {
+	margin-top: auto;
+	}
 	</style>
 
   	@yield('styles')
